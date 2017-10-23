@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.0;net462</TargetFrameworks>
   </PropertyGroup>
-  <PropertyGroup>
+  <PropertyGroup  Condition=" '$(TargetFramework)' == 'net462'">
     <OutputType>Library</OutputType>
   </PropertyGroup>    
 <PropertyGroup  Condition=" '$(TargetFramework)' == 'net462'">
