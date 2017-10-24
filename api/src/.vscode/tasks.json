@@ -7,8 +7,7 @@
         {
             "taskName": "build",
             "args": [
-                "${workspaceRoot}/BellRichM.Weather.Api.csproj",
-                "/property:TargetFrameworks=netcoreapp2.0"
+                "${workspaceRoot}/BellRichM.Weather.Web/BellRichM.Weather.Web.csproj"
             ],
             "isBuildCommand": true,
             "problemMatcher": "$msCompile"

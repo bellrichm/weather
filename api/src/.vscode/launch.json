@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceRoot}/bin/Debug/netcoreapp2.0/BellRichM.Weather.Api.dll",
+            "program": "${workspaceRoot}/BellRichM.Weather.Web/bin/Debug/netcoreapp2.0/BellRichM.Weather.Web.dll",
             "args": [],
-            "cwd": "${workspaceRoot}",
+            "cwd": "${workspaceRoot}/BellRichM.Weather.Web",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {
