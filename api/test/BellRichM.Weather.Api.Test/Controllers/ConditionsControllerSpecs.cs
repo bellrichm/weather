@@ -33,5 +33,11 @@ namespace BellRichM.Weather.Api.Test.Controllers
     		It should_throw_expected_exception = () =>    	
 				exception.ShouldBeOfExactType<NotImplementedException>();	
 		}
+
+		[Subject("Post Conditions")]
+		internal class when_adding_conditions
+		{
+			It should_do_something_cool;
+		}
 	}
 }

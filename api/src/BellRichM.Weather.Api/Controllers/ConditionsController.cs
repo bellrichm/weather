@@ -22,5 +22,10 @@ namespace BellRichM.Weather.Api.Controllers
             _logger.LogInformation("Get conditions route called");
             throw new NotImplementedException();
         }
+
+        public void Post()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
