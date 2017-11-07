@@ -16,5 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BellRichM.Weather.Api\BellRichM.Weather.Api.csproj" />
+    <ProjectReference Include="..\BellRichM.Identity.Api\BellRichM.Identity.Api.csproj" />
   </ItemGroup>
 </Project>

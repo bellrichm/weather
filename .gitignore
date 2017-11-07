@@ -5,3 +5,5 @@ bin
 logs
 
 coverage
+
+**/BellRichM.Weather.Web/Data
