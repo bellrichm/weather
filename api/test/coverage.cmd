@@ -9,6 +9,6 @@ dotnet build -f net462
 rem this runs mspec standalone, not needed because it is run in OpenCover
 rem %MSPEC% --html coverage\mspec --xml coverage\mspec\mspec.xml BellRichM.Weather.Api.Test\bin\Debug\net462\BellRichM.Weather.Api.Test.dll BellRichM.Identity.Api.Test\bin\Debug\net462\BellRichM.Identity.Api.Test.dll
 
-%OPENCOVER% -register:user -output:coverage\opencover\opencover.xml -filter:"+[BellRichM*]* -[*.Test]*" -target:%MSPEC% -targetargs:"--html coverage\mspec --xml coverage\mspec\mspec.xml BellRichM.Weather.Api.Test\bin\Debug\net462\BellRichM.Weather.Api.Test.dll BellRichM.Identity.Api.Test\bin\Debug\net462\BellRichM.Identity.Api.Test.dll"
+%OPENCOVER% -register:user -output:coverage\opencover\opencover.xml -filter:"+[BellRichM*]* -[*]*.Migrations.* -[*.Test]*" -excludebyattribute:BellRichM.Attribute.CodeCoverage.ExcludeFromCodeCoverageAttribute -target:%MSPEC% -targetargs:"--html coverage\mspec --xml coverage\mspec\mspec.xml BellRichM.Weather.Api.Test\bin\Debug\net462\BellRichM.Weather.Api.Test.dll BellRichM.Identity.Api.Test\bin\Debug\net462\BellRichM.Identity.Api.Test.dll"
 
 %REPORTGENERATOR% -reporttypes:Html;XmlSummary;Xml -reports:coverage\opencover\opencover.xml -targetdir:coverage\report -historydir:coverage\report\history
