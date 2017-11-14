@@ -15,6 +15,26 @@ using BellRichM.Identity.Api.Repositories;
 namespace BellRichM.Identity.Api.Test 
 {
     [Subject("Get Role")]
+    internal class when_role_does_not_exist : RoleRepositorySpecs
+    {
+        Establish context = () =>
+        {
+            roleManagerMock.Setup(x => x.FindByIdAsync(role.Id))
+                .ReturnsAsync((Role)null);
+        };
+
+        Because of = () =>
+        {
+            result  = roleReposity.GetById(role.Id);
+            roleResult = result.Result;
+        };
+
+        It should_return_correct_role = () =>
+        {
+            roleResult.ShouldBeNull();
+        };
+    }
+    
     internal class when_getting_role_without_claims : RoleRepositorySpecs
     {
         Because of = () =>
@@ -92,6 +112,11 @@ namespace BellRichM.Identity.Api.Test
             };
 
             Claims = new List<Claim>();
+
+            roleManagerMock.Setup(x => x.FindByIdAsync(role.Id))
+                .ReturnsAsync(role);
+            roleManagerMock.Setup(x => x.GetClaimsAsync(role))
+                .ReturnsAsync(Claims);
             
             roleReposity = new RoleRepository(loggerMock.Object, roleManagerMock.Object);            
         };

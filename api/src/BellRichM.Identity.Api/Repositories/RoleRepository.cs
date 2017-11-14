@@ -22,7 +22,30 @@ namespace BellRichM.Identity.Api.Repositories
 
         public async Task<Role> GetById(string Id)
         {
-            throw new NotImplementedException();
+            var role = await _roleManager.FindByIdAsync(Id);
+
+            if (role != null)
+            {
+                var roleClaims = await _roleManager.GetClaimsAsync(role);
+
+                var claimValues = new List<ClaimValue>();
+                if (roleClaims.Count > 0)
+                {
+                    foreach(Claim roleClaim in roleClaims)
+                    {
+                        claimValues.Add(new ClaimValue
+                            {
+                                Type = roleClaim.Type,
+                                Value = roleClaim.Value,
+                                ValueType = roleClaim.ValueType
+                            }
+                        );                
+                    }            
+                }
+                role.ClaimValues = claimValues;
+            }
+
+            return role;
         }        
     }
 }
