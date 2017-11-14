@@ -7,5 +7,8 @@ namespace BellRichM.Identity.Api.Data
     public class Role : IdentityRole
     {
         public string Description { get; set; }
+        
+        [NotMapped]
+        public IEnumerable<ClaimValue> ClaimValues {get; set;}      
     }
 }
