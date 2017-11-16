@@ -17,14 +17,10 @@ namespace BellRichM.Identity.Api.Test.Exceptions
         protected static CreateRoleException createRoleException;
         protected static Exception thrownException;
         Establish context = () =>
-        {
             createRoleException = new CreateRoleException("code");
-        };
 
         Because of = () =>
-        {
               thrownException = Catch.Exception(() => createRoleException.GetObjectData(null, new StreamingContext()));
-        };
 
     	It should_throw_expected_exception = () =>    	
 			thrownException.ShouldBeOfExactType<ArgumentNullException>();	
