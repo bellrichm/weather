@@ -4,7 +4,7 @@ using BellRichM.Identity.Api.Data;
 
 namespace BellRichM.Identity.Api.Data
 {
-    public class IdentityDbContext : IdentityDbContext<User, Role, string>
+    public class IdentityDbContext : IdentityDbContext<User, Role, string>, IIdentityDbContext
     {
 
         public IdentityDbContext(DbContextOptions<IdentityDbContext> options)

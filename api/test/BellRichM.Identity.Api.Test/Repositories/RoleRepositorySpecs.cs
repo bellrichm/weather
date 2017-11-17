@@ -91,6 +91,7 @@ namespace BellRichM.Identity.Api.Test
     {
         protected static Mock<ILogger<RoleRepository>> loggerMock;
         protected static Mock<RoleManager<Role>> roleManagerMock;
+        protected static Mock<IIdentityDbContext> identityDbContextMock;
         protected static Mock<IRoleStore<Role>> roleStoreMock;
                                             
         protected static Task<Role> result;
@@ -103,6 +104,7 @@ namespace BellRichM.Identity.Api.Test
             loggerMock = new Mock<ILogger<RoleRepository>>();
             roleStoreMock = new Mock<IRoleStore<Role>>();
             roleManagerMock = new Mock<RoleManager<Role>>(roleStoreMock.Object, null, null, null, null);
+            identityDbContextMock = new Mock<IIdentityDbContext>();
                 
             role = new Role
             {
@@ -118,7 +120,7 @@ namespace BellRichM.Identity.Api.Test
             roleManagerMock.Setup(x => x.GetClaimsAsync(role))
                 .ReturnsAsync(Claims);
             
-            roleReposity = new RoleRepository(loggerMock.Object, roleManagerMock.Object);            
+            roleReposity = new RoleRepository(loggerMock.Object, roleManagerMock.Object, identityDbContextMock.Object);            
         };
     }   
 }

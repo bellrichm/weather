@@ -14,9 +14,9 @@ namespace BellRichM.Identity.Api.Repositories
     {
         private readonly ILogger _logger;
         private readonly RoleManager<Role> _roleManager;
-        private readonly IdentityDbContext _context;
+        private readonly IIdentityDbContext _context;
 
-        public RoleRepository(ILogger<RoleRepository> logger, RoleManager<Role> roleManager, IdentityDbContext context)
+        public RoleRepository(ILogger<RoleRepository> logger, RoleManager<Role> roleManager, IIdentityDbContext context)
         {
             _logger = logger;
             _roleManager = roleManager;
