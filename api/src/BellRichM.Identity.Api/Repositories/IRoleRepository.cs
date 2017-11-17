@@ -5,8 +5,10 @@ namespace BellRichM.Identity.Api.Repositories
 {
     public interface IRoleRepository
     {
-        Task<Role> GetById(string Id);
+        Task<Role> GetById(string id);
 
-        Task <Role> Create(Role role);
+        Task<Role> Create(Role role);
+
+        Task Delete(string id);
     }
 }

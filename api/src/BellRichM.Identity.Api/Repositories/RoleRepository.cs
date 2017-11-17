@@ -83,5 +83,22 @@ namespace BellRichM.Identity.Api.Repositories
                 return await GetById(role.Id); // TODO: Move to private method
             }            
         }
+        
+        public async Task Delete(string id)
+        {
+            var role = await _roleManager.FindByIdAsync(id);
+            if (role == null)
+            {
+                // TODO: logging
+                throw new DeleteRoleException(DeleteRoleExceptionCode.RoleNotFound);
+            }
+                        
+            IdentityResult roleResult = _roleManager.DeleteAsync(role).Result;
+            if (!roleResult.Succeeded) 
+            {
+                // TODO: logging
+                throw new DeleteRoleException(DeleteRoleExceptionCode.DeleteRoleFailed);
+            }
+        }                      
     }
 }
