@@ -6,5 +6,7 @@ namespace BellRichM.Identity.Api.Repositories
     public interface IRoleRepository
     {
         Task<Role> GetById(string Id);
+
+        Task <Role> Create(Role role);
     }
 }
