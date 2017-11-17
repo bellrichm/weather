@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using BellRichM.Attribute.CodeCoverage;
 using BellRichM.Identity.Api.Data;
 
 namespace BellRichM.Identity.Api.Data
 {
+    [ExcludeFromCodeCoverage]   
     public class IdentityDbContext : IdentityDbContext<User, Role, string>, IIdentityDbContext
     {
 

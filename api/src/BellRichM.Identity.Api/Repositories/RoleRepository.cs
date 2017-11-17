@@ -60,6 +60,7 @@ namespace BellRichM.Identity.Api.Repositories
                 if (!roleResult.Succeeded) 
                 {
                     identitydbContextTransaction.Rollback();
+                    // TODO: logging
                     throw new CreateRoleException(CreateRoleExceptionCode.CreateRoleFailed);
                 }
                     
@@ -72,13 +73,14 @@ namespace BellRichM.Identity.Api.Repositories
                         if (!claimResult.Succeeded)        
                         {
                             identitydbContextTransaction.Rollback();
+                            // TODO: logging
                             throw new CreateRoleException(CreateRoleExceptionCode.AddClaimFailed); 
                         }
                     }
                 } 
                     
                 identitydbContextTransaction.Commit();              
-                return await GetById(role.Id); 
+                return await GetById(role.Id); // TODO: Move to private method
             }            
         }
     }

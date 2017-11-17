@@ -1,8 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using BellRichM.Attribute.CodeCoverage;
 
 namespace BellRichM.Identity.Api.Data
 {
+    [ExcludeFromCodeCoverage]   
     public class DbContextTransactionProxy : IDbContextTransactionProxy
     {
         private readonly IDbContextTransaction _transaction;
