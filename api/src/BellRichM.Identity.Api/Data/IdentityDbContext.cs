@@ -12,6 +12,10 @@ namespace BellRichM.Identity.Api.Data
         {
         }
 
+        public IDbContextTransactionProxy BeginTransaction()
+        {
+             return new DbContextTransactionProxy(this);
+        }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
