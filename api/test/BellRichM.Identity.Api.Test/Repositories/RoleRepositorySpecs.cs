@@ -18,7 +18,7 @@ using BellRichM.Identity.Api.Repositories;
 namespace BellRichM.Identity.Api.Test 
 {
     [Subject("Get Role")]
-    internal class when_role_does_not_exist : RoleRepositorySpecs
+    internal class when_role_id_does_not_exist : RoleRepositorySpecs
     {
         private static Role roleResult;
 
@@ -35,7 +35,7 @@ namespace BellRichM.Identity.Api.Test
             roleResult.ShouldBeNull();
     }
     
-    internal class when_getting_role_without_claims : RoleRepositorySpecs
+    internal class when_getting_role_by_id_without_claims : RoleRepositorySpecs
     {
         private static Role roleResult;
 
@@ -49,7 +49,7 @@ namespace BellRichM.Identity.Api.Test
             roleResult.ClaimValues.Should().BeEmpty();
     }
 
-    internal class when_getting_role_with_claims : RoleRepositorySpecs
+    internal class when_getting_role_by_id_with_claims : RoleRepositorySpecs
     {
         private static Role roleResult;
 
@@ -74,6 +74,63 @@ namespace BellRichM.Identity.Api.Test
         };
     }
 
+    internal class when_role_name_does_not_exist : RoleRepositorySpecs
+    {
+        private static Role roleResult;
+
+        Establish context = () =>
+        {
+            roleManagerMock.Setup(x => x.FindByNameAsync(role.Name))
+                .ReturnsAsync((Role)null);
+        };
+
+        Because of = () =>
+            roleResult  = roleReposity.GetByName(role.Id).Result;
+
+        It should_return_correct_role = () =>
+            roleResult.ShouldBeNull();
+    }
+    
+    internal class when_getting_role_by_name_without_claims : RoleRepositorySpecs
+    {
+        private static Role roleResult;
+
+        Because of = () =>
+            roleResult  = roleReposity.GetByName(role.Name).Result;
+
+        It should_return_correct_role = () =>
+            roleResult.ShouldBeEquivalentTo(role);
+
+        It should_have_no_claims = () =>
+            roleResult.ClaimValues.Should().BeEmpty();
+    }
+
+    internal class when_getting_role_by_name_with_claims : RoleRepositorySpecs
+    {
+        private static Role roleResult;
+
+        Establish context = () =>
+        {
+            claim = new Claim("type", "value", "description");
+            Claims.Add(claim);
+        };
+
+        Because of = () =>
+            roleResult  = roleReposity.GetByName(role.Name).Result;
+
+        It should_return_correct_role = () =>
+            roleResult.ShouldBeEquivalentTo(role);
+
+        It should_have_one_claim = () =>
+            roleResult.ClaimValues.Should().ContainSingle();
+
+        It should_have_correct_claim_values = () =>
+        {
+            roleResult.ClaimValues.ShouldAllBeEquivalentTo(claim);
+        };
+    }
+
+   
     [Subject("creating Role")]
     internal class when_error_creating_role : RoleRepositorySpecs
     {
@@ -320,6 +377,8 @@ namespace BellRichM.Identity.Api.Test
             Claims = new List<Claim>();
 
             roleManagerMock.Setup(x => x.FindByIdAsync(role.Id))
+                .ReturnsAsync(role);
+            roleManagerMock.Setup(x => x.FindByNameAsync(role.Name))
                 .ReturnsAsync(role);
             roleManagerMock.Setup(x => x.GetClaimsAsync(role))
                 .ReturnsAsync(Claims);

@@ -2,6 +2,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -29,28 +30,45 @@ namespace BellRichM.Identity.Api.Repositories
 
             if (role != null)
             {
-                var roleClaims = await _roleManager.GetClaimsAsync(role);
-
-                var claimValues = new List<ClaimValue>();
-                if (roleClaims.Count > 0)
-                {
-                    foreach(Claim roleClaim in roleClaims)
-                    {
-                        claimValues.Add(new ClaimValue
-                            {
-                                Type = roleClaim.Type,
-                                Value = roleClaim.Value,
-                                ValueType = roleClaim.ValueType
-                            }
-                        );                
-                    }            
-                }
-                role.ClaimValues = claimValues;
+                role.ClaimValues = await GetClaimValues(role);
             }
 
             return role;
         }
 
+        public async Task<Role> GetByName(string name)
+        {
+            var role = await _roleManager.FindByNameAsync(name);
+
+            if (role != null)
+            {
+                role.ClaimValues = await GetClaimValues(role);
+            }
+
+            return role;
+        }
+
+       private async Task<List<ClaimValue>> GetClaimValues(Role role)
+       {
+            var roleClaims = await _roleManager.GetClaimsAsync(role);
+
+            var claimValues = new List<ClaimValue>();
+            if (roleClaims.Count > 0)
+            {
+               foreach(Claim roleClaim in roleClaims)
+               {
+                    claimValues.Add(new ClaimValue
+                     {
+                        Type = roleClaim.Type,
+                        Value = roleClaim.Value,
+                        ValueType = roleClaim.ValueType
+                      });                
+                }            
+            }
+
+            return claimValues;           
+       }
+        
         public async Task<Role> Create(Role role)
         { 
             using (var identitydbContextTransaction = _context.BeginTransaction())
@@ -66,7 +84,7 @@ namespace BellRichM.Identity.Api.Repositories
                     
                 if (role.ClaimValues != null)
                 {
-                    foreach (var claimValue in role.ClaimValues)
+                    foreach (var claimValue in role.ClaimValues) 
                     {
                         var claim = new Claim(claimValue.Type, claimValue.Value);
                         var claimResult = await _roleManager.AddClaimAsync(role, claim);
