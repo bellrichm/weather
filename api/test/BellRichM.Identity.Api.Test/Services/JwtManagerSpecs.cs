@@ -5,6 +5,7 @@ using Moq;
 using IT = Moq.It;
 using It = Machine.Specifications.It;
 
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using BellRichM.Identity.Api.Configuration;
 using BellRichM.Identity.Api.Data;
 using BellRichM.Identity.Api.Services;
 using BellRichM.Identity.Api.Repositories;
@@ -109,6 +111,7 @@ namespace BellRichM.Identity.Api.Test.Services
         protected const string issuer = "issuer";
         protected const string audience = "audience";
         protected const string password = "P@ssw0rd";
+        protected static Mock<IJwtConfiguration> jwtConfigurationMock;
         protected static Mock<ILogger<JwtManager>> loggerMock;
         protected static Mock<IUserRepository> userRepositoryMock;
         protected static Mock<SignInManager<User>> signInManagerMock;
@@ -129,6 +132,7 @@ namespace BellRichM.Identity.Api.Test.Services
         {
             const string secretKey = "superdupersecretkey";
 
+            jwtConfigurationMock = new Mock<IJwtConfiguration>();
             loggerMock = new Mock<ILogger<JwtManager>>();
             userRepositoryMock = new Mock<IUserRepository>();
             userStoreMock = new Mock<IUserStore<User>>();
@@ -157,13 +161,18 @@ namespace BellRichM.Identity.Api.Test.Services
                         
             tokenValidationParameters = new TokenValidationParameters {
                 ValidateIssuer = true,
-                    ValidIssuer = issuer,
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = signingKey,
-                    ValidateLifetime = true,
-                    ValidateAudience = true,
-                    ValidAudience = audience
+                ValidIssuer = issuer,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = signingKey,
+                ValidateLifetime = true,
+                ValidateAudience = true,
+                ValidAudience = audience
             };
+
+            jwtConfigurationMock.SetupGet(x =>x.Audience).Returns(audience);
+            jwtConfigurationMock.SetupGet(x =>x.Issuer).Returns(issuer);            
+            jwtConfigurationMock.SetupGet(x =>x.ValidFor).Returns(TimeSpan.FromMinutes(5));            
+            jwtConfigurationMock.SetupGet(x =>x.SecretKey).Returns(secretKey);
 
             userRepositoryMock.Setup(x => x.GetById(user.Id))
                 .ReturnsAsync(user); 
@@ -173,7 +182,7 @@ namespace BellRichM.Identity.Api.Test.Services
             signInManagerMock.Setup(x => x.PasswordSignInAsync(user, password, true, false))
                 .ReturnsAsync(signInResult);                
 
-            jwtManager = new JwtManager(loggerMock.Object, userRepositoryMock.Object, signInManagerMock.Object);                            
+            jwtManager = new JwtManager(jwtConfigurationMock.Object, loggerMock.Object, userRepositoryMock.Object, signInManagerMock.Object);                            
         };
     }
 }

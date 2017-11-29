@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using BellRichM.Identity.Api.Data;
+using BellRichM.Identity.Api.Configuration;
 using BellRichM.Identity.Api.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -14,26 +15,17 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 namespace BellRichM.Identity.Api.Services {
-    public class JwtManager : IJwtManager {
-        // TODO: Move to config file
-        private const string issuer = "issuer";
-        private const string audience = "audience";
-        private const double validForMinutes = 5;
-        private TimeSpan validFor;
-        
-        // TODO: Manage this outside of code
-        private const string secretKey = "superdupersecretkey";
-
-        private SymmetricSecurityKey _signingKey;
+    public class JwtManager : IJwtManager {        
         private readonly ILogger _logger;
+        private readonly IJwtConfiguration _jwtConfiguration;
         private readonly IUserRepository _userRepository;
         private readonly SignInManager<User> _signInManager;
 
-        public JwtManager (ILogger<JwtManager> logger, IUserRepository userRepository, SignInManager<User> signInManager) {
+        public JwtManager (IJwtConfiguration jwtConfiguration, ILogger<JwtManager> logger, IUserRepository userRepository, SignInManager<User> signInManager) {
+            _jwtConfiguration = jwtConfiguration;
             _logger = logger;
             _userRepository = userRepository;
             _signInManager = signInManager;
-            _signingKey = new SymmetricSecurityKey (Encoding.ASCII.GetBytes (secretKey));
         }
 
         public async Task<string> GenerateToken (string userId, string passWord) {
@@ -51,14 +43,14 @@ namespace BellRichM.Identity.Api.Services {
 
             var now = DateTime.UtcNow;
             var claims = BuildClaims (user, now);
-            validFor = TimeSpan.FromMinutes(Convert.ToDouble(validForMinutes));
+            var signingKey = new SymmetricSecurityKey (Encoding.ASCII.GetBytes (_jwtConfiguration.SecretKey));
             var jwt = new JwtSecurityToken (
-                issuer: issuer,
-                audience: audience,
+                issuer: _jwtConfiguration.Issuer,
+                audience: _jwtConfiguration.Audience,
                 claims: claims,
                 notBefore: now,
-                expires: now.Add(validFor),
-                signingCredentials : new SigningCredentials (_signingKey, SecurityAlgorithms.HmacSha256)
+                expires: now.Add(_jwtConfiguration.ValidFor),
+                signingCredentials : new SigningCredentials (signingKey, SecurityAlgorithms.HmacSha256)
             );
 
             var encodedJwt = new JwtSecurityTokenHandler ().WriteToken (jwt);
