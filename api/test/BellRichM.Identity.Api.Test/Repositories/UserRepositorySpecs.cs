@@ -16,7 +16,56 @@ using BellRichM.Identity.Api.Repositories;
 namespace BellRichM.Identity.Api.Test.Repositories
 {
     [Subject("Get User")]
-    internal class when_user_does_not_exist : UserRepositorySpecs
+    internal class when_getting_user_by_name_and_does_not_exist : UserRepositorySpecs
+    {
+        private static User userResult;
+
+        Establish context = () =>
+            userManagerMock.Setup(x => x.FindByNameAsync(user.UserName))
+                .ReturnsAsync((User)null);
+
+        Because of = () =>
+            userResult  = userRepository.GetByName(user.UserName).Result;
+
+        It should_return_null_user= () =>
+            userResult.ShouldBeNull();        
+    }
+
+    internal class when_getting_user_by_name_without_roles : UserRepositorySpecs
+    {
+        private static User userResult;
+
+        Because of = () =>
+            userResult  = userRepository.GetByName(user.UserName).Result;
+
+        It should_return_correct_user = () =>
+            userResult.ShouldBeEquivalentTo(user);
+
+        It should_have_no_roles = () =>
+            userResult.Roles.Should().BeEmpty();
+    }
+
+    internal class when_getting_user_by_name_with_roles : UserRepositorySpecs
+    {
+        private static User userResult;
+
+        Establish context = () =>
+            roleNames.Add(roleName);
+
+        Because of = () =>
+            userResult  = userRepository.GetByName(user.UserName).Result;
+
+        It should_return_correct_role = () =>
+            userResult.ShouldBeEquivalentTo(user);
+
+        It should_have_one_claim = () =>
+            userResult.Roles.Should().ContainSingle();
+
+        It should_have_correct_claim_values = () =>
+            userResult.Roles.ShouldAllBeEquivalentTo(role);
+    }
+    
+    internal class when_getting_user_by_id_and_does_not_exist : UserRepositorySpecs
     {
         private static User userResult;
 
@@ -27,11 +76,11 @@ namespace BellRichM.Identity.Api.Test.Repositories
         Because of = () =>
             userResult  = userRepository.GetById(user.Id).Result;
 
-        It should_return_correct_role = () =>
+        It should_return_null_user= () =>
             userResult.ShouldBeNull();        
     }
 
-    internal class when_getting_user_without_roles : UserRepositorySpecs
+    internal class when_getting_user_by_id_without_roles : UserRepositorySpecs
     {
         private static User userResult;
 
@@ -45,7 +94,7 @@ namespace BellRichM.Identity.Api.Test.Repositories
             userResult.Roles.Should().BeEmpty();
     }
 
-    internal class when_getting_user_with_roles : UserRepositorySpecs
+    internal class when_getting_user_by_id_with_roles : UserRepositorySpecs
     {
         private static User userResult;
 
@@ -352,6 +401,8 @@ namespace BellRichM.Identity.Api.Test.Repositories
 
             userManagerMock.Setup(x => x.FindByIdAsync(user.Id))
                 .ReturnsAsync(user);
+            userManagerMock.Setup(x => x.FindByNameAsync(user.UserName))
+                .ReturnsAsync(user);                
             userManagerMock.Setup(x => x.GetRolesAsync(user))
                 .ReturnsAsync(roleNames);  
             roleRepositoryMock.Setup(x => x.GetByName(roleName))

@@ -28,8 +28,8 @@ namespace BellRichM.Identity.Api.Services {
             _signInManager = signInManager;
         }
 
-        public async Task<string> GenerateToken (string userId, string passWord) {
-            var user = await _userRepository.GetById (userId);
+        public async Task<string> GenerateToken (string userName, string passWord) {
+            var user = await _userRepository.GetByName (userName);
             if (user == null)
             {
                 return null;

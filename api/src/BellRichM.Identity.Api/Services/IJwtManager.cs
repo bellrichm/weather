@@ -4,6 +4,6 @@ namespace BellRichM.Identity.Api.Services
 {
     public interface IJwtManager
     {
-         Task<string> GenerateToken(string userId, string passWord);
+         Task<string> GenerateToken(string userName, string passWord);
     }
 }

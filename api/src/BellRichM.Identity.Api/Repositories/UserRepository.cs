@@ -28,16 +28,19 @@ namespace BellRichM.Identity.Api.Repositories
         {
             var user = await _userManager.FindByIdAsync(id);
             if (user != null)
-            {
-                var roleNames = await _userManager.GetRolesAsync(user);               
-                var roles = new List<Role>();
-                foreach (var roleName in roleNames)
-                {
-                    var role = await _roleRepository.GetByName(roleName);
-                    roles.Add(role);
-                }
-                    
-                user.Roles = roles;  
+            {     
+                user.Roles = await GetRoles(user);
+            }
+
+            return user;
+        }
+
+        public async Task<User> GetByName(string name)
+        {
+            var user = await _userManager.FindByNameAsync(name);
+            if (user != null)
+            {      
+                user.Roles = await GetRoles(user);  
             }
 
             return user;
@@ -97,6 +100,19 @@ namespace BellRichM.Identity.Api.Repositories
                 // TODO: logging
                throw new DeleteUserException(DeleteUserExceptionCode.DeleteUserFailed);
             }
-        }                      
+        }  
+
+        private async Task<IEnumerable<Role>> GetRoles(User user)    
+        {
+            var roleNames = await _userManager.GetRolesAsync(user);               
+            var roles = new List<Role>();
+            foreach (var roleName in roleNames)
+            {
+                var role = await _roleRepository.GetByName(roleName);
+                roles.Add(role);
+            }
+
+            return roles;            
+        }            
     }
 }

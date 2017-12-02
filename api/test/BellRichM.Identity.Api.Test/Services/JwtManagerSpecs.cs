@@ -24,11 +24,11 @@ namespace BellRichM.Identity.Api.Test.Services
     internal class when_user_does_not_exist : JwtManagerSpecs
     {
         Establish context = () => 
-            userRepositoryMock.Setup(x => x.GetById(user.Id))
+            userRepositoryMock.Setup(x => x.GetByName(user.UserName))
                 .ReturnsAsync((User)null); 
 
         Because of = ()  =>
-            jwt = jwtManager.GenerateToken(user.Id, password).Await();
+            jwt = jwtManager.GenerateToken(user.UserName, password).Await();
 
         It should_return_null_token = () =>
             jwt.ShouldBeNull();        
@@ -44,7 +44,7 @@ namespace BellRichM.Identity.Api.Test.Services
         };
 
         Because of = ()  =>
-            jwt = jwtManager.GenerateToken(user.Id, password).Await();        
+            jwt = jwtManager.GenerateToken(user.UserName, password).Await();        
 
         It should_return_null_token = () =>
             jwt.ShouldBeNull();        
@@ -56,7 +56,7 @@ namespace BellRichM.Identity.Api.Test.Services
 
         Because of = ()  =>
         {
-            jwt = jwtManager.GenerateToken(user.Id, password).Await();
+            jwt = jwtManager.GenerateToken(user.UserName, password).Await();
 
             var principal = new JwtSecurityTokenHandler ()
                 .ValidateToken (jwt, tokenValidationParameters, out var securityToken);
@@ -174,7 +174,7 @@ namespace BellRichM.Identity.Api.Test.Services
             jwtConfigurationMock.SetupGet(x =>x.ValidFor).Returns(TimeSpan.FromMinutes(5));            
             jwtConfigurationMock.SetupGet(x =>x.SecretKey).Returns(secretKey);
 
-            userRepositoryMock.Setup(x => x.GetById(user.Id))
+            userRepositoryMock.Setup(x => x.GetByName(user.UserName))
                 .ReturnsAsync(user); 
 
             signInResult = new SignInResult();

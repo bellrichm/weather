@@ -30,7 +30,7 @@ namespace BellRichM.Identity.Api.Extensions
                 .Configure(jwtConfiguration);
             
             jwtConfiguration.Validate();
-            services.AddSingleton(jwtConfiguration);
+            services.AddSingleton<IJwtConfiguration>(jwtConfiguration);
         }
     }
 }
