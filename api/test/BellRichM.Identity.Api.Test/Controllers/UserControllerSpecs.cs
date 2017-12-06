@@ -5,6 +5,8 @@ using Moq;
 using IT = Moq.It;
 using It = Machine.Specifications.It;
 
+using System.Reflection;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using AutoMapper;
@@ -146,6 +148,17 @@ namespace BellRichM.Identity.Api.Test.Controllers
         };
     }
 
+    internal class when_decorating_GetById_method: UserControllerSpecs
+    {
+        protected static MethodInfo methodInfo;
+
+        Because of = ()  =>  
+            methodInfo = typeof(UserController).GetMethod("GetById");
+
+        It should_have_CanViewUsers_policy = () =>
+            methodInfo.Should()
+                .BeDecoratedWith<AuthorizeAttribute>(a => a.Policy == "CanViewUsers");
+    }
     internal class UserControllerSpecs
     {
         protected static Mock<ILogger<UserController>> loggerMock;

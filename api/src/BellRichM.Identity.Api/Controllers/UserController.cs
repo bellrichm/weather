@@ -29,6 +29,7 @@ namespace BellRichM.Identity.Api.Controllers
             _jwtManager = jwtManager;
         }
 
+        [Authorize(Policy = "CanViewUsers")]
         [HttpGet("{id}")]   
         public async Task<IActionResult> GetById(string id)
         {

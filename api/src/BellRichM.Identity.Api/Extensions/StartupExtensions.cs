@@ -1,6 +1,8 @@
 using System;
+using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,7 +27,9 @@ namespace BellRichM.Identity.Api.Extensions
                 .AddDefaultTokenProviders();
 
             var jwtConfiguration = new JwtConfiguration();
-            jwtConfiguration.SecretKey = Configuration["Identity:SecretKey"];                
+            jwtConfiguration.SecretKey = Configuration["Identity:SecretKey"];
+            // TODO: put the signing key instead of the secret key into the configuration              
+                            
 
             var jwtConfigurationSection = Configuration.GetSection("Identity:JwtConfiguration");    
             new ConfigureFromConfigurationOptions<JwtConfiguration>(jwtConfigurationSection)
@@ -34,6 +38,31 @@ namespace BellRichM.Identity.Api.Extensions
             jwtConfiguration.Validate();
             services.AddSingleton<IJwtConfiguration>(jwtConfiguration);
             
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("CanViewUsers", policy => policy.RequireClaim(ClaimTypes.Role, "CanViewUsers"));
+            });
+                        
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options => 
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfiguration.SecretKey)),
+                    ValidateIssuer = true,
+                    ValidIssuer = jwtConfiguration.Issuer,
+                    ValidateAudience = true,
+                    ValidAudience = jwtConfiguration.Audience,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
+
             services.AddScoped<IJwtManager, JwtManager>();      
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();

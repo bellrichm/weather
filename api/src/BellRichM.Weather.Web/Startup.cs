@@ -45,6 +45,8 @@ namespace BellRichM.Weather.Api
 
             app.UseDefaultFiles()
                .UseStaticFiles();
+               
+            app.UseAuthentication();
 
             app.UseMvc();
         }
