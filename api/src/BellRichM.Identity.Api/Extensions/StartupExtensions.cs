@@ -8,6 +8,8 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using BellRichM.Identity.Api.Configuration;
 using BellRichM.Identity.Api.Data;
+using BellRichM.Identity.Api.Repositories;
+using BellRichM.Identity.Api.Services;
 
 namespace BellRichM.Identity.Api.Extensions
 {
@@ -31,6 +33,11 @@ namespace BellRichM.Identity.Api.Extensions
             
             jwtConfiguration.Validate();
             services.AddSingleton<IJwtConfiguration>(jwtConfiguration);
+            
+            services.AddScoped<IJwtManager, JwtManager>();      
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IIdentityDbContext, IdentityDbContext>();                                                                  
         }
     }
 }
