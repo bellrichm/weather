@@ -2,18 +2,16 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
-
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Serilog.sinks.Console" Version="3.1.0" />
     <PackageReference Include="Serilog.sinks.RollingFile" Version="3.3.0" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\BellRichM.Weather.Api\BellRichM.Weather.Api.csproj" />
     <ProjectReference Include="..\BellRichM.Identity.Api\BellRichM.Identity.Api.csproj" />

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using AutoMapper;
 using BellRichM.Identity.Api.Extensions;
 
 namespace BellRichM.Weather.Api
@@ -29,6 +30,7 @@ namespace BellRichM.Weather.Api
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper();
             services.AddIdentityServices(Configuration);
             services.AddMvc();
         }

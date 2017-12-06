@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
+using AutoMapper;
 using BellRichM.Identity.Api.Data;
 using BellRichM.Identity.Api.Models;
 using BellRichM.Identity.Api.Repositories;
@@ -15,14 +16,30 @@ namespace BellRichM.Identity.Api.Controllers
     public class UserController : Controller
     {
         private readonly ILogger _logger;
+        private readonly IMapper _mapper;
+
         private readonly IUserRepository _userRepository;
         private readonly IJwtManager _jwtManager;
 
-        public UserController(ILogger<UserController> logger, IUserRepository userRepository, IJwtManager jwtManager)
+        public UserController(ILogger<UserController> logger, IMapper mapper, IUserRepository userRepository, IJwtManager jwtManager)
         {
             _logger = logger;
+            _mapper = mapper;
             _userRepository = userRepository;
             _jwtManager = jwtManager;
+        }
+
+        [HttpGet("{id}")]   
+        public async Task<IActionResult> GetById(string id)
+        {
+            var newUser = await _userRepository.GetById(id);
+            if (newUser == null)
+            {
+                return NotFound();
+            }
+            
+            var userModel = _mapper.Map<UserModel>(newUser);
+            return Ok(userModel);
         }
 
         [HttpPost("/api/[controller]/[action]")]
