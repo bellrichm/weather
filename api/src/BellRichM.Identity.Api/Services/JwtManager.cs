@@ -35,7 +35,7 @@ namespace BellRichM.Identity.Api.Services {
                 return null;
             }
 
-            var result = await _signInManager.PasswordSignInAsync (user, passWord, true, false);
+            var result = await _signInManager.CheckPasswordSignInAsync (user, passWord,  false);
             if (!result.Succeeded)
             {
                 return null;

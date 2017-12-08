@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,7 +33,9 @@ namespace BellRichM.Weather.Api
         {
             services.AddAutoMapper();
             services.AddIdentityServices(Configuration);
-            services.AddMvc();
+            // needed for testserver to find controllers			
+            services.AddMvc()
+				.AddApplicationPart(Assembly.Load(new AssemblyName("BellRichM.Identity.Api")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
