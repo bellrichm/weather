@@ -39,7 +39,7 @@ namespace BellRichM.Identity.Api.Test.Services
         Establish context = () =>
         {            
             signInResult = SignInResult.Failed;    
-            signInManagerMock.Setup(x => x.PasswordSignInAsync(user, password, true, false))
+            signInManagerMock.Setup(x => x.CheckPasswordSignInAsync(user, password, false))
                 .ReturnsAsync(signInResult);        
         };
 
@@ -179,7 +179,7 @@ namespace BellRichM.Identity.Api.Test.Services
 
             signInResult = new SignInResult();
             signInResult = SignInResult.Success;    
-            signInManagerMock.Setup(x => x.PasswordSignInAsync(user, password, true, false))
+            signInManagerMock.Setup(x => x.CheckPasswordSignInAsync(user, password, false))
                 .ReturnsAsync(signInResult);                
 
             jwtManager = new JwtManager(jwtConfigurationMock.Object, loggerMock.Object, userRepositoryMock.Object, signInManagerMock.Object);                            
