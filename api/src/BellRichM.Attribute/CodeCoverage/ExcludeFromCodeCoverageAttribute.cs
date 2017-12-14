@@ -1,4 +1,9 @@
+using System;
+
 namespace BellRichM.Attribute.CodeCoverage
 {
-    public class ExcludeFromCodeCoverageAttribute : System.Attribute {}
-}    
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Constructor | AttributeTargets.Interface)]
+    public class ExcludeFromCodeCoverageAttribute : System.Attribute
+    {
+    }
+}

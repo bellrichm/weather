@@ -1,12 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.0;net462</TargetFrameworks>
+    <OutputType>Library</OutputType>    
+    <NoWarn>NU1603</NoWarn>
   </PropertyGroup>
-
-  <PropertyGroup>
-    <OutputType>Library</OutputType>
-  </PropertyGroup>   
-
+  
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="4.19.4" />
     <PackageReference Include="Machine.Specifications" Version="0.12.0" />
@@ -14,6 +12,9 @@
     <PackageReference Include="Machine.Specifications.Should" Version="0.11.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
     <PackageReference Include="Moq" Version="4.7.142" />
+    <PackageReference Include="StyleCop" Version="5.0.0">
+      <NoWarn>NU1701</NoWarn>
+    </PackageReference>    
   </ItemGroup>
 
   <ItemGroup>
