@@ -1,6 +1,6 @@
 namespace BellRichM.Identity.Api.Exceptions
 {
-    public class CreateUserExceptionCode
+    public static class CreateUserExceptionCode
     {
         public const string CreateUserFailed = "CreateUserFailed";
 

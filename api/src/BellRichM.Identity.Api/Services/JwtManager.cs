@@ -71,7 +71,7 @@ namespace BellRichM.Identity.Api.Services
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(DateTime.Now).ToString(), ClaimValueTypes.Integer64),
+                new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(now).ToString(), ClaimValueTypes.Integer64),
                 new Claim(options.ClaimsIdentity.UserIdClaimType, user.Id.ToString()),
                 new Claim(options.ClaimsIdentity.UserNameClaimType, user.UserName)
             };

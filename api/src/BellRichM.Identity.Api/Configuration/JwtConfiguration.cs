@@ -18,17 +18,17 @@ namespace BellRichM.Identity.Api.Configuration
         {
             if (string.IsNullOrEmpty(Issuer))
             {
-                throw new ArgumentNullException("Issuer");
+                throw new ArgumentNullException(nameof(Issuer));
             }
 
             if (string.IsNullOrEmpty(Audience))
             {
-                throw new ArgumentNullException("Audience");
+                throw new ArgumentNullException(nameof(Audience));
             }
 
             if (string.IsNullOrEmpty(SecretKey))
             {
-                throw new ArgumentNullException("SecretKey");
+                throw new ArgumentNullException(nameof(SecretKey));
             }
         }
     }
