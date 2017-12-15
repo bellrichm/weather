@@ -14,6 +14,7 @@ namespace BellRichM.Identity.Api.Configuration
 
         public string SecretKey { get; set; }
 
+        #pragma warning disable S3928
         public void Validate()
         {
             if (string.IsNullOrEmpty(Issuer))
@@ -31,5 +32,6 @@ namespace BellRichM.Identity.Api.Configuration
                 throw new ArgumentNullException(nameof(SecretKey));
             }
         }
+        #pragma warning restore S3928
     }
 }
