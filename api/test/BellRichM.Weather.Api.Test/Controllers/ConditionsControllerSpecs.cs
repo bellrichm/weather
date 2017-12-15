@@ -12,30 +12,30 @@ using BellRichM.Weather.Api.Controllers;
 
 namespace BellRichM.Weather.Api.Test.Controllers
 {
-	internal abstract class ConditionsControllerSpecs 
+	internal abstract class ConditionsControllerSpecs
 	{
 		[Subject("Get Conditions")]
-		internal class when_getting_current_condition
+		internal class When_getting_current_condition
 		{
 			static ConditionsController conditionsController;
-    		static Exception exception;
-    		protected static Mock<ILogger<ConditionsController>> loggerMock;
+			static Exception exception;
+			static Mock<ILogger<ConditionsController>> loggerMock;
 
-			Establish context = () => 
+			Establish context = () =>
 			{
 				loggerMock = new Mock<ILogger<ConditionsController>>();
 				conditionsController = new ConditionsController(loggerMock.Object);
 			};
-		
-    		Because of = () => 
+
+			Because of = () =>
 				exception = Catch.Exception(() => conditionsController.Get());
 
-    		It should_throw_expected_exception = () =>    	
-				exception.ShouldBeOfExactType<NotImplementedException>();	
+			It should_throw_expected_exception = () =>
+				exception.ShouldBeOfExactType<NotImplementedException>();
 		}
 
 		[Subject("Post Conditions")]
-		internal class when_adding_conditions
+		internal class When_adding_conditions
 		{
 			It should_do_something_cool;
 		}

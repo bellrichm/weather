@@ -1,76 +1,87 @@
+using BellRichM.Identity.Api.Exceptions;
 using FluentAssertions;
 using Machine.Specifications;
 using Moq;
+using System;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 using It = Machine.Specifications.It;
 
-using System;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Runtime.Serialization;
-using BellRichM.Identity.Api.Exceptions;
-
+#pragma warning disable SA1649 // File name should match first type name
 namespace BellRichM.Identity.Api.Test.Exceptions
 {
-    internal class when_info_argument_is_null
+  internal class When_info_argument_is_null
+  {
+    protected static RoleExceptionTestClass roleException;
+    protected static Exception thrownException;
+    Establish context = () =>
+      roleException = new RoleExceptionTestClass("code");
+
+    Because of = () =>
+      thrownException = Catch.Exception(() => roleException.GetObjectData(null, default(StreamingContext)));
+
+    It should_throw_expected_exception = () =>
+      thrownException.ShouldBeOfExactType<ArgumentNullException>();
+  }
+
+  internal class When_serializing_deserializing_RoleException
+  {
+    protected static RoleException originalException;
+    protected static RoleException deserializedException;
+    protected static MemoryStream serializedStream;
+    protected static BinaryFormatter formatter;
+    Establish context = () =>
     {
-        protected static RoleExceptionTestClass roleException;
-        protected static Exception thrownException;
-        Establish context = () =>
-            roleException = new RoleExceptionTestClass("code");
+      var innerEx = new Exception("foo");
+      originalException = new RoleExceptionTestClass("code", "message", innerEx);
+      serializedStream = new MemoryStream(new byte[4096]);
+      formatter = new BinaryFormatter();
+    };
 
-        Because of = () =>
-              thrownException = Catch.Exception(() => roleException.GetObjectData(null, new StreamingContext()));
+    Cleanup after = () =>
+      serializedStream.Dispose();
 
-    	It should_throw_expected_exception = () =>
-			thrownException.ShouldBeOfExactType<ArgumentNullException>();
-    }
-
-    internal class when_serializing_deserializing_RoleException
+    Because of = () =>
     {
-        protected static RoleException originalException;
-        protected static RoleException deserializedException;
-        protected static MemoryStream serializedStream;
-        protected static BinaryFormatter formatter;
-        Establish context = () =>
-        {
-            var innerEx = new Exception("foo");
-            originalException = new RoleExceptionTestClass("code", "message", innerEx);
-            serializedStream = new MemoryStream(new byte[4096]);
-            formatter = new BinaryFormatter();
-        };
+      formatter.Serialize(serializedStream, originalException);
+      serializedStream.Position = 0;
+      deserializedException = (RoleExceptionTestClass)formatter.Deserialize(serializedStream);
+    };
 
-        Cleanup after = () =>
+    It should_have_correct_Code = () =>
+      originalException.Code.ShouldEqual(deserializedException.Code);
 
-            serializedStream.Dispose();
+    It should_have_correct_Message = () =>
+      originalException.Message.ShouldEqual(deserializedException.Message);
 
-        Because of = () =>
-        {
-            formatter.Serialize(serializedStream, originalException);
-            serializedStream.Position = 0;
-            deserializedException = (RoleExceptionTestClass)formatter.Deserialize(serializedStream);
-        };
+    It should_have_correct_innerException_Message = () =>
+      originalException.InnerException.Message.ShouldEqual(deserializedException.InnerException.Message);
+  }
 
-        It should_have_correct_Code = () =>
-            originalException.Code.ShouldEqual(deserializedException.Code);
+  [Serializable]
+  internal class RoleExceptionTestClass : RoleException
+  {
+    public RoleExceptionTestClass(string code)
+      : base(code)
+      {
+      }
 
-        It should_have_correct_Message = () =>
-            originalException.Message.ShouldEqual(deserializedException.Message);
+    public RoleExceptionTestClass(string code, string message)
+      : base(code, message)
+      {
+      }
 
+    public RoleExceptionTestClass(string code, string message, Exception innerException)
+      : base(code, message, innerException)
+      {
+      }
 
-        It should_have_correct_innerException_Message = () =>
-            originalException.InnerException.Message.ShouldEqual(deserializedException.InnerException.Message);
-    }
-
-	[Serializable]
-	public class RoleExceptionTestClass : RoleException
-	{
-		public RoleExceptionTestClass(string code) : base(code) {}
-
-		public RoleExceptionTestClass(string code, string message) : base(code, message) {}
-
-		public RoleExceptionTestClass(string code, string message, Exception innerException) : base(code, message, innerException) {}
-
-		protected RoleExceptionTestClass(SerializationInfo info, StreamingContext context) : base(info, context) {}
-	}
+    protected RoleExceptionTestClass(SerializationInfo info, StreamingContext context)
+      : base(info, context)
+      {
+      }
+  }
 }
+#pragma warning restore SA1649 // File name should match first type name

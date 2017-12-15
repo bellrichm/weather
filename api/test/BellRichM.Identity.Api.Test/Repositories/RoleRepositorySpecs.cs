@@ -1,392 +1,388 @@
+using BellRichM.Identity.Api.Data;
+using BellRichM.Identity.Api.Exceptions;
+using BellRichM.Identity.Api.Repositories;
 using FluentAssertions;
 using Machine.Specifications;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using Moq;
-
-using IT = Moq.It;
-using It = Machine.Specifications.It;
-
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
-using BellRichM.Identity.Api.Data;
-using BellRichM.Identity.Api.Exceptions;
-using BellRichM.Identity.Api.Repositories;
+
+using IT = Moq.It;
+using It = Machine.Specifications.It;
 
 namespace BellRichM.Identity.Api.Test
 {
-    [Subject("Get Role")]
-    internal class when_role_id_does_not_exist : RoleRepositorySpecs
+  internal class RoleRepositorySpecs
+  {
+    protected static Mock<ILogger<RoleRepository>> loggerMock;
+    protected static Mock<RoleManager<Role>> roleManagerMock;
+    protected static Mock<IIdentityDbContext> identityDbContextMock;
+    protected static Mock<IRoleStore<Role>> roleStoreMock;
+    protected static Mock<IDbContextTransactionProxy> dbTransactionProxyMock;
+
+    protected static RoleRepository roleRepository;
+    protected static Role role;
+    protected static List<Claim> claims;
+    protected static Claim claim;
+
+    protected static List<ClaimValue> claimValues;
+    Establish context = () =>
     {
-        private static Role roleResult;
+      loggerMock = new Mock<ILogger<RoleRepository>>();
+      roleStoreMock = new Mock<IRoleStore<Role>>();
+      roleManagerMock = new Mock<RoleManager<Role>>(roleStoreMock.Object, null, null, null, null);
+      dbTransactionProxyMock = new Mock<IDbContextTransactionProxy>();
+      identityDbContextMock = new Mock<IIdentityDbContext>();
+      identityDbContextMock.Setup(x => x.BeginTransaction()).Returns(dbTransactionProxyMock.Object);
 
-        Establish context = () =>
-        {
-            roleManagerMock.Setup(x => x.FindByIdAsync(role.Id))
-                .ReturnsAsync((Role)null);
-        };
+      role = new Role
+      {
+        Id = "id",
+        Description = "description",
+        Name = "name"
+      };
 
-        Because of = () =>
-            roleResult  = roleRepository.GetById(role.Id).Result;
+      claimValues = new List<ClaimValue>();
+      claimValues.Add(new ClaimValue { Type = "type", Value = "value" });
 
-        It should_return_correct_role = () =>
-            roleResult.ShouldBeNull();
-    }
+      claims = new List<Claim>();
 
-    internal class when_getting_role_by_id_without_claims : RoleRepositorySpecs
+      roleManagerMock.Setup(x => x.FindByIdAsync(role.Id))
+        .ReturnsAsync(role);
+      roleManagerMock.Setup(x => x.FindByNameAsync(role.Name))
+        .ReturnsAsync(role);
+      roleManagerMock.Setup(x => x.GetClaimsAsync(role))
+        .ReturnsAsync(claims);
+
+      roleRepository = new RoleRepository(loggerMock.Object, roleManagerMock.Object, identityDbContextMock.Object);
+    };
+
+    Cleanup after = () =>
+      roleRepository.Dispose();
+  }
+
+  [Subject("Get Role")]
+  internal class When_role_id_does_not_exist : RoleRepositorySpecs
+  {
+    private static Role roleResult;
+
+    Establish context = () =>
     {
-        private static Role roleResult;
+      roleManagerMock.Setup(x => x.FindByIdAsync(role.Id))
+        .ReturnsAsync((Role)null);
+    };
 
-        Because of = () =>
-            roleResult  = roleRepository.GetById(role.Id).Result;
+    Because of = () =>
+      roleResult = roleRepository.GetById(role.Id).Result;
 
-        It should_return_correct_role = () =>
-            roleResult.ShouldBeEquivalentTo(role);
+    It should_return_correct_role = () =>
+      roleResult.ShouldBeNull();
+  }
 
-        It should_have_no_claims = () =>
-            roleResult.ClaimValues.Should().BeEmpty();
-    }
+  internal class When_getting_role_by_id_without_claims : RoleRepositorySpecs
+  {
+    private static Role roleResult;
 
-    internal class when_getting_role_by_id_with_claims : RoleRepositorySpecs
+    Because of = () =>
+      roleResult = roleRepository.GetById(role.Id).Result;
+
+    It should_return_correct_role = () =>
+      roleResult.ShouldBeEquivalentTo(role);
+
+    It should_have_no_claims = () =>
+      roleResult.ClaimValues.Should().BeEmpty();
+  }
+
+  internal class When_getting_role_by_id_with_claims : RoleRepositorySpecs
+  {
+    private static Role roleResult;
+
+    Establish context = () =>
     {
-        private static Role roleResult;
+      claim = new Claim("type", "value", "description");
+      claims.Add(claim);
+    };
 
-        Establish context = () =>
-        {
-            claim = new Claim("type", "value", "description");
-            Claims.Add(claim);
-        };
+    Because of = () =>
+      roleResult = roleRepository.GetById(role.Id).Result;
 
-        Because of = () =>
-            roleResult  = roleRepository.GetById(role.Id).Result;
+    It should_return_correct_role = () =>
+      roleResult.ShouldBeEquivalentTo(role);
 
-        It should_return_correct_role = () =>
-            roleResult.ShouldBeEquivalentTo(role);
+    It should_have_one_claim = () =>
+      roleResult.ClaimValues.Should().ContainSingle();
 
-        It should_have_one_claim = () =>
-            roleResult.ClaimValues.Should().ContainSingle();
-
-        It should_have_correct_claim_values = () =>
-        {
-            roleResult.ClaimValues.ShouldAllBeEquivalentTo(claim);
-        };
-    }
-
-    internal class when_role_name_does_not_exist : RoleRepositorySpecs
+    It should_have_correct_claim_values = () =>
     {
-        private static Role roleResult;
+      roleResult.ClaimValues.ShouldAllBeEquivalentTo(claim);
+    };
+  }
 
-        Establish context = () =>
-        {
-            roleManagerMock.Setup(x => x.FindByNameAsync(role.Name))
-                .ReturnsAsync((Role)null);
-        };
+  internal class When_role_name_does_not_exist : RoleRepositorySpecs
+  {
+    private static Role roleResult;
 
-        Because of = () =>
-            roleResult  = roleRepository.GetByName(role.Id).Result;
-
-        It should_return_correct_role = () =>
-            roleResult.ShouldBeNull();
-    }
-
-    internal class when_getting_role_by_name_without_claims : RoleRepositorySpecs
+    Establish context = () =>
     {
-        private static Role roleResult;
+      roleManagerMock.Setup(x => x.FindByNameAsync(role.Name))
+        .ReturnsAsync((Role)null);
+    };
 
-        Because of = () =>
-            roleResult  = roleRepository.GetByName(role.Name).Result;
+    Because of = () =>
+      roleResult = roleRepository.GetByName(role.Id).Result;
 
-        It should_return_correct_role = () =>
-            roleResult.ShouldBeEquivalentTo(role);
+    It should_return_correct_role = () =>
+      roleResult.ShouldBeNull();
+  }
 
-        It should_have_no_claims = () =>
-            roleResult.ClaimValues.Should().BeEmpty();
-    }
+  internal class When_getting_role_by_name_without_claims : RoleRepositorySpecs
+  {
+    private static Role roleResult;
 
-    internal class when_getting_role_by_name_with_claims : RoleRepositorySpecs
+    Because of = () =>
+      roleResult = roleRepository.GetByName(role.Name).Result;
+
+    It should_return_correct_role = () =>
+      roleResult.ShouldBeEquivalentTo(role);
+
+    It should_have_no_claims = () =>
+      roleResult.ClaimValues.Should().BeEmpty();
+  }
+
+  internal class When_getting_role_by_name_with_claims : RoleRepositorySpecs
+  {
+    private static Role roleResult;
+
+    Establish context = () =>
     {
-        private static Role roleResult;
+        claim = new Claim("type", "value", "description");
+        claims.Add(claim);
+    };
 
-        Establish context = () =>
-        {
-            claim = new Claim("type", "value", "description");
-            Claims.Add(claim);
-        };
+    Because of = () =>
+      roleResult = roleRepository.GetByName(role.Name).Result;
 
-        Because of = () =>
-            roleResult  = roleRepository.GetByName(role.Name).Result;
+    It should_return_correct_role = () =>
+      roleResult.ShouldBeEquivalentTo(role);
 
-        It should_return_correct_role = () =>
-            roleResult.ShouldBeEquivalentTo(role);
+    It should_have_one_claim = () =>
+      roleResult.ClaimValues.Should().ContainSingle();
 
-        It should_have_one_claim = () =>
-            roleResult.ClaimValues.Should().ContainSingle();
-
-        It should_have_correct_claim_values = () =>
-        {
-            roleResult.ClaimValues.ShouldAllBeEquivalentTo(claim);
-        };
-    }
-
-
-    [Subject("creating Role")]
-    internal class when_error_creating_role : RoleRepositorySpecs
+    It should_have_correct_claim_values = () =>
     {
-        private static Role roleResult;
-        private static Exception exception;
+      roleResult.ClaimValues.ShouldAllBeEquivalentTo(claim);
+    };
+  }
 
-        Establish context = () =>
-        {
-            var identityResult = new IdentityResult();
-            identityResult = IdentityResult.Failed();
-            roleManagerMock.Setup(x => x.CreateAsync(role))
-                .ReturnsAsync(identityResult);
-        };
+  [Subject("creating Role")]
+  internal class When_error_creating_role : RoleRepositorySpecs
+  {
+    private static Role roleResult;
+    private static Exception exception;
 
-        Because of = ()  =>
-            exception = Catch.Exception(() => roleResult = roleRepository.Create(role).Await());
-
-         It should_throw_correct_exception_type = () =>
-            exception.ShouldBeOfExactType<CreateRoleException>();
-
-         It should_have_correct_exception_code = () =>
-            ((CreateRoleException)exception).Code.ShouldEqual(CreateRoleExceptionCode.CreateRoleFailed);
-
-        It should_not_return_a_role = () =>
-            roleResult.ShouldBeNull();
-
-        It should_rollback_the_work = () =>
-            dbTransactionProxyMock.Verify(x => x.Rollback(), Times.Once);
-
-        It should_not_commit_the_work = () =>
-            dbTransactionProxyMock.Verify(x => x.Commit(), Times.Never);
-    }
-
-    internal class when_error_adding_claim : RoleRepositorySpecs
+    Establish context = () =>
     {
-        private static Role roleResult;
-        private static Exception exception;
+        var identityResult = new IdentityResult();
+        identityResult = IdentityResult.Failed();
+        roleManagerMock.Setup(x => x.CreateAsync(role))
+          .ReturnsAsync(identityResult);
+    };
 
-        Establish context = () =>
-        {
-            var identityResult = new IdentityResult();
-            identityResult = IdentityResult.Success;
-            roleManagerMock.Setup(x => x.CreateAsync(role))
-                .ReturnsAsync(identityResult);
+    Because of = () =>
+      exception = Catch.Exception(() => roleResult = roleRepository.Create(role).Await());
 
-            var claimResult = new IdentityResult();
-            claimResult = IdentityResult.Failed();
-            roleManagerMock
-                .Setup(x => x.AddClaimAsync(role, IT.IsAny<Claim>()))
-                .ReturnsAsync(claimResult);
+    It should_throw_correct_exception_type = () =>
+      exception.ShouldBeOfExactType<CreateRoleException>();
 
-            role.ClaimValues = claimValues;
-        };
+    It should_have_correct_exception_code = () =>
+      ((CreateRoleException)exception).Code.ShouldEqual(CreateRoleExceptionCode.CreateRoleFailed);
 
-        Because of = ()  =>
-            exception = Catch.Exception(() => roleResult = roleRepository.Create(role).Await());
+    It should_not_return_a_role = () =>
+      roleResult.ShouldBeNull();
 
-         It should_throw_correct_exception_type = () =>
-            exception.ShouldBeOfExactType<CreateRoleException>();
+    It should_rollback_the_work = () =>
+      dbTransactionProxyMock.Verify(x => x.Rollback(), Times.Once);
 
-         It should_have_correct_exception_code = () =>
-            ((CreateRoleException)exception).Code.ShouldEqual(CreateRoleExceptionCode.AddClaimFailed);
+    It should_not_commit_the_work = () =>
+      dbTransactionProxyMock.Verify(x => x.Commit(), Times.Never);
+  }
 
-        It should_not_return_a_role = () =>
-            roleResult.ShouldBeNull();
+  internal class When_error_adding_claim : RoleRepositorySpecs
+  {
+    private static Role roleResult;
+    private static Exception exception;
 
-        It should_rollback_the_work = () =>
-            dbTransactionProxyMock.Verify(x => x.Rollback(), Times.Once);
-
-        It should_not_commit_the_work = () =>
-            dbTransactionProxyMock.Verify(x => x.Commit(), Times.Never);
-    }
-    internal class when_creating_role_without_claims : RoleRepositorySpecs
+    Establish context = () =>
     {
-        private static Role roleResult;
-        private static Exception exception;
+        var identityResult = new IdentityResult();
+        identityResult = IdentityResult.Success;
+        roleManagerMock.Setup(x => x.CreateAsync(role))
+          .ReturnsAsync(identityResult);
 
-        Establish context = () =>
-        {
-            var identityResult = new IdentityResult();
-            identityResult = IdentityResult.Success;
-            roleManagerMock.Setup(x => x.CreateAsync(role))
-                .ReturnsAsync(identityResult);
+        var claimResult = new IdentityResult();
+        claimResult = IdentityResult.Failed();
+        roleManagerMock
+          .Setup(x => x.AddClaimAsync(role, IT.IsAny<Claim>()))
+          .ReturnsAsync(claimResult);
 
-        };
+        role.ClaimValues = claimValues;
+    };
 
-        Because of = ()  =>
-            exception = Catch.Exception(() => roleResult = roleRepository.Create(role).Await());
+    Because of = () =>
+      exception = Catch.Exception(() => roleResult = roleRepository.Create(role).Await());
 
-        It should_return_a_role = () =>
-            roleResult.ShouldNotBeNull();
+    It should_throw_correct_exception_type = () =>
+      exception.ShouldBeOfExactType<CreateRoleException>();
 
-        It should_not_rollback_the_work = () =>
-            dbTransactionProxyMock.Verify(x => x.Rollback(), Times.Never);
+    It should_have_correct_exception_code = () =>
+      ((CreateRoleException)exception).Code.ShouldEqual(CreateRoleExceptionCode.AddClaimFailed);
 
-        It should_commit_the_work = () =>
-            dbTransactionProxyMock.Verify(x => x.Commit(), Times.Once);
-    }
+    It should_not_return_a_role = () =>
+      roleResult.ShouldBeNull();
 
-    internal class when_creating_role_with_claims : RoleRepositorySpecs
+    It should_rollback_the_work = () =>
+      dbTransactionProxyMock.Verify(x => x.Rollback(), Times.Once);
+
+    It should_not_commit_the_work = () =>
+      dbTransactionProxyMock.Verify(x => x.Commit(), Times.Never);
+  }
+
+  internal class When_creating_role_without_claims : RoleRepositorySpecs
+  {
+    private static Role roleResult;
+    private static Exception exception;
+
+    Establish context = () =>
     {
-        private static Role roleResult;
-        private static Exception exception;
+      var identityResult = new IdentityResult();
+      identityResult = IdentityResult.Success;
+      roleManagerMock.Setup(x => x.CreateAsync(role))
+        .ReturnsAsync(identityResult);
+    };
 
-        Establish context = () =>
-        {
-            var identityResult = new IdentityResult();
-            identityResult = IdentityResult.Success;
-            roleManagerMock.Setup(x => x.CreateAsync(role))
-                .ReturnsAsync(identityResult);
+    Because of = () =>
+      exception = Catch.Exception(() => roleResult = roleRepository.Create(role).Await());
 
-            var claimResult = new IdentityResult();
-            claimResult = IdentityResult.Success;
-            roleManagerMock
-                .Setup(x => x.AddClaimAsync(role, IT.IsAny<Claim>()))
-                .ReturnsAsync(claimResult);
+    It should_return_a_role = () =>
+      roleResult.ShouldNotBeNull();
 
-            role.ClaimValues = claimValues;
-        };
+    It should_not_rollback_the_work = () =>
+      dbTransactionProxyMock.Verify(x => x.Rollback(), Times.Never);
 
-        Because of = ()  =>
-            exception = Catch.Exception(() => roleResult = roleRepository.Create(role).Await());
+    It should_commit_the_work = () =>
+      dbTransactionProxyMock.Verify(x => x.Commit(), Times.Once);
+  }
 
-        It should_return_a_role = () =>
-            roleResult.ShouldNotBeNull();
+  internal class When_creating_role_with_claims : RoleRepositorySpecs
+  {
+    private static Role roleResult;
+    private static Exception exception;
 
-        It should_add_the_claim = () =>
-            roleManagerMock.Verify(x => x.AddClaimAsync(
-                                            IT.IsAny<Role>(),
-                                            IT.Is<Claim>(c => c.Type == "type" && c.Value == "value")),
-                                        Times.Once);
-
-        It should_not_rollback_the_work = () =>
-            dbTransactionProxyMock.Verify(x => x.Rollback(), Times.Never);
-
-        It should_commit_the_work = () =>
-            dbTransactionProxyMock.Verify(x => x.Commit(), Times.Once);
-    }
-
-    [Subject("Delete Role")]
-    internal class when_deleting_role_succeeds  : RoleRepositorySpecs
+    Establish context = () =>
     {
-        private static Exception exception;
+      var identityResult = new IdentityResult();
+      identityResult = IdentityResult.Success;
+      roleManagerMock.Setup(x => x.CreateAsync(role))
+        .ReturnsAsync(identityResult);
 
-        Establish context = () =>
-        {
-            roleManagerMock.Setup(x => x.FindByIdAsync(role.Id))
-                .ReturnsAsync(role);
+      var claimResult = new IdentityResult();
+      claimResult = IdentityResult.Success;
+      roleManagerMock
+        .Setup(x => x.AddClaimAsync(role, IT.IsAny<Claim>()))
+        .ReturnsAsync(claimResult);
 
-            var identityResult = new IdentityResult();
-            identityResult = IdentityResult.Success;
-            roleManagerMock.Setup(x => x.DeleteAsync(role))
-                .ReturnsAsync(identityResult);
+      role.ClaimValues = claimValues;
+    };
 
-        };
+    Because of = () =>
+        exception = Catch.Exception(() => roleResult = roleRepository.Create(role).Await());
 
-        Because of = () =>
-            exception = Catch.Exception(() => roleRepository.Delete(role.Id).Await());
+    It should_return_a_role = () =>
+      roleResult.ShouldNotBeNull();
 
-         It should_not_throw_exception = () =>
-            exception.ShouldBeNull();
-    }
+    It should_add_the_claim = () =>
+      roleManagerMock.Verify(
+        x => x.AddClaimAsync(
+                IT.IsAny<Role>(),
+                IT.Is<Claim>(c => c.Type == "type" && c.Value == "value")),
+        Times.Once);
 
-    internal class when_deleting_role_fails  : RoleRepositorySpecs
+    It should_not_rollback_the_work = () =>
+        dbTransactionProxyMock.Verify(x => x.Rollback(), Times.Never);
+
+    It should_commit_the_work = () =>
+      dbTransactionProxyMock.Verify(x => x.Commit(), Times.Once);
+  }
+
+  [Subject("Delete Role")]
+  internal class When_deleting_role_succeeds : RoleRepositorySpecs
+  {
+    private static Exception exception;
+
+    Establish context = () =>
     {
-        private static Exception exception;
+      roleManagerMock.Setup(x => x.FindByIdAsync(role.Id))
+        .ReturnsAsync(role);
 
-        Establish context = () =>
-        {
-            roleManagerMock.Setup(x => x.FindByIdAsync(role.Id))
-                .ReturnsAsync(role);
+      var identityResult = new IdentityResult();
+      identityResult = IdentityResult.Success;
+      roleManagerMock.Setup(x => x.DeleteAsync(role))
+        .ReturnsAsync(identityResult);
+    };
 
-            var identityResult = new IdentityResult();
-            identityResult = IdentityResult.Failed();
-            roleManagerMock.Setup(x => x.DeleteAsync(role))
-                .ReturnsAsync(identityResult);
+    Because of = () =>
+        exception = Catch.Exception(() => roleRepository.Delete(role.Id).Await());
 
-        };
+    It should_not_throw_exception = () =>
+      exception.ShouldBeNull();
+  }
 
-        Because of = () =>
-            exception = Catch.Exception(() => roleRepository.Delete(role.Id).Await());
+  internal class When_deleting_role_fails : RoleRepositorySpecs
+  {
+      private static Exception exception;
 
-         It should_throw_correct_exception_type = () =>
-            exception.ShouldBeOfExactType<DeleteRoleException>();
+      Establish context = () =>
+      {
+          roleManagerMock.Setup(x => x.FindByIdAsync(role.Id))
+            .ReturnsAsync(role);
 
-         It should_have_correct_exception_code = () =>
-            ((DeleteRoleException)exception).Code.ShouldEqual(DeleteRoleExceptionCode.DeleteRoleFailed);
-    }
+          var identityResult = new IdentityResult();
+          identityResult = IdentityResult.Failed();
+          roleManagerMock.Setup(x => x.DeleteAsync(role))
+            .ReturnsAsync(identityResult);
+      };
 
-    internal class when_deleting_nonexistant_role : RoleRepositorySpecs
+      Because of = () =>
+        exception = Catch.Exception(() => roleRepository.Delete(role.Id).Await());
+
+      It should_throw_correct_exception_type = () =>
+        exception.ShouldBeOfExactType<DeleteRoleException>();
+
+      It should_have_correct_exception_code = () =>
+        ((DeleteRoleException)exception).Code.ShouldEqual(DeleteRoleExceptionCode.DeleteRoleFailed);
+  }
+
+  internal class When_deleting_nonexistant_role : RoleRepositorySpecs
+  {
+    private static Exception exception;
+
+    Establish context = () =>
     {
-        private static Exception exception;
+      roleManagerMock.Setup(x => x.FindByIdAsync(role.Id))
+        .ReturnsAsync((Role)null);
+    };
 
-        Establish context = () =>
-        {
-            roleManagerMock.Setup(x => x.FindByIdAsync(role.Id))
-                .ReturnsAsync((Role)null);
-        };
+    Because of = () =>
+      exception = Catch.Exception(() => roleRepository.Delete(role.Id).Await());
 
-        Because of = () =>
-            exception = Catch.Exception(() => roleRepository.Delete(role.Id).Await());
+    It should_throw_correct_exception_type = () =>
+      exception.ShouldBeOfExactType<DeleteRoleException>();
 
-         It should_throw_correct_exception_type = () =>
-            exception.ShouldBeOfExactType<DeleteRoleException>();
-
-         It should_have_correct_exception_code = () =>
-            ((DeleteRoleException)exception).Code.ShouldEqual(DeleteRoleExceptionCode.RoleNotFound);
-    }
-
-
-    internal class  RoleRepositorySpecs
-    {
-        protected static Mock<ILogger<RoleRepository>> loggerMock;
-        protected static Mock<RoleManager<Role>> roleManagerMock;
-        protected static Mock<IIdentityDbContext> identityDbContextMock;
-        protected static Mock<IRoleStore<Role>> roleStoreMock;
-        protected static Mock<IDbContextTransactionProxy> dbTransactionProxyMock;
-
-        protected static RoleRepository roleRepository;
-        protected static Role role;
-        protected static List<Claim> Claims;
-        protected static Claim claim;
-
-        protected static List<ClaimValue> claimValues;
-        Establish context = () =>
-        {
-            loggerMock = new Mock<ILogger<RoleRepository>>();
-            roleStoreMock = new Mock<IRoleStore<Role>>();
-            roleManagerMock = new Mock<RoleManager<Role>>(roleStoreMock.Object, null, null, null, null);
-            dbTransactionProxyMock = new Mock<IDbContextTransactionProxy>();
-            identityDbContextMock = new Mock<IIdentityDbContext>();
-            identityDbContextMock.Setup(x => x.BeginTransaction()).Returns(dbTransactionProxyMock.Object);
-
-            role = new Role
-            {
-                Id = "id",
-                Description = "description",
-                Name = "name"
-            };
-
-            claimValues = new List<ClaimValue>();
-            claimValues.Add(new ClaimValue{Type="type", Value="value"});
-
-            Claims = new List<Claim>();
-
-            roleManagerMock.Setup(x => x.FindByIdAsync(role.Id))
-                .ReturnsAsync(role);
-            roleManagerMock.Setup(x => x.FindByNameAsync(role.Name))
-                .ReturnsAsync(role);
-            roleManagerMock.Setup(x => x.GetClaimsAsync(role))
-                .ReturnsAsync(Claims);
-
-            roleRepository = new RoleRepository(loggerMock.Object, roleManagerMock.Object, identityDbContextMock.Object);
-        };
-
-        Cleanup after = () =>
-            roleRepository.Dispose();
-    }
+    It should_have_correct_exception_code = () =>
+      ((DeleteRoleException)exception).Code.ShouldEqual(DeleteRoleExceptionCode.RoleNotFound);
+  }
 }
