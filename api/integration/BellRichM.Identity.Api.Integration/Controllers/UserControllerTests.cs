@@ -1,99 +1,110 @@
+using BellRichM.Identity.Api.Data;
+using BellRichM.Identity.Api.Models;
 using FluentAssertions;
 using Machine.Specifications;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Logging;
 using Moq;
+using Newtonsoft.Json;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 using IT = Moq.It;
 using It = Machine.Specifications.It;
 
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using Newtonsoft.Json;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.Logging;
-using BellRichM.Identity.Api.Data;
-using BellRichM.Identity.Api.Models;
-
 namespace BellRichM.Identity.Api.Integration
 {
-    internal class when_request_has_no_authorization_header : UserControllerTests
+  internal class UserControllerTests
+  {
+    protected const string GetByIdRoute = "/api/user/";
+
+    Establish context = () =>
     {
-        private static HttpResponseMessage response;
-        
-        Because of = () => 
-            response = Client.GetAsync(getByIdRoute + TestUser.Id).Await();            
+      Client.DefaultRequestHeaders.Clear();
+    };
 
-        It should_return_unauthorized_response_code = () => 
-            response.StatusCode.Should().Equals(HttpStatusCode.Unauthorized);
+    public static Microsoft.Extensions.Logging.ILogger Logger { get; set; }
 
-        It should_return_no_content = () =>
-        {
-            var responseString = (string)response.Content.ReadAsStringAsync().Await();           
-            responseString.ShouldBeEmpty();
-        };
-    }
+    public static HttpClient Client { get; set; }
 
-    internal class when_not_authorized_to_get_user : UserControllerTests
+    public static string UserAdminJwt { get; set; }
+
+    public static string UserTestJwt { get; set; }
+
+    public static User TestUser { get; set; }
+  }
+
+  internal class When_request_has_no_authorization_header : UserControllerTests
+  {
+    private static HttpResponseMessage response;
+
+    Cleanup after = () =>
+      response.Dispose();
+
+    Because of = () =>
+      response = Client.GetAsync(GetByIdRoute + TestUser.Id).Await();
+
+    It should_return_unauthorized_response_code = () =>
+      response.StatusCode.Should().Equals(HttpStatusCode.Unauthorized);
+
+    It should_return_no_content = () =>
     {
-        private static HttpResponseMessage response;
+      var responseString = (string)response.Content.ReadAsStringAsync().Await();
+      responseString.ShouldBeEmpty();
+    };
+  }
 
+  internal class When_not_authorized_to_get_user : UserControllerTests
+  {
+    private static HttpResponseMessage response;
 
-        Establish context = () => 
-            Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UserTestJwt);            
+    Establish context = () =>
+      Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UserTestJwt);
 
-        Because of = () => 
-            response = Client.GetAsync(getByIdRoute + TestUser.Id).Await();            
+    Cleanup after = () =>
+      response.Dispose();
 
-        It should_return_unauthorized_response_code = () => 
-            response.StatusCode.Should().Equals(HttpStatusCode.Forbidden);
+    Because of = () =>
+      response = Client.GetAsync(GetByIdRoute + TestUser.Id).Await();
 
-        It should_return_no_content = () =>
-        {
-            var responseString = (string)response.Content.ReadAsStringAsync().Await();          
-            responseString.ShouldBeEmpty();
-        };        
-    }
+    It should_return_unauthorized_response_code = () =>
+      response.StatusCode.Should().Equals(HttpStatusCode.Forbidden);
 
-    internal class when_authorized_to_get_an_user : UserControllerTests
+    It should_return_no_content = () =>
     {
-        private static HttpResponseMessage response;
+      var responseString = (string)response.Content.ReadAsStringAsync().Await();
+      responseString.ShouldBeEmpty();
+    };
+  }
 
-        Establish context = () => 
-            Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UserAdminJwt);            
+  internal class When_authorized_to_get_an_user : UserControllerTests
+  {
+    private static HttpResponseMessage response;
 
-        Because of = () => 
-            response = Client.GetAsync(getByIdRoute + TestUser.Id).Await();            
+    Establish context = () =>
+      Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UserAdminJwt);
 
-        It should_return_unauthorized_response_code = () => 
-            response.StatusCode.Should().Equals(HttpStatusCode.OK);
+    Cleanup after = () =>
+      response.Dispose();
 
-        It should_have_content = () =>
-        {
-            var responseString = (string)response.Content.ReadAsStringAsync().Await();
-            responseString.ShouldNotBeEmpty();
-        };
+    Because of = () =>
+      response = Client.GetAsync(GetByIdRoute + TestUser.Id).Await();
 
-        It should_return_a_UserModel = () => 
-        {
-            var responseString = response.Content.ReadAsStringAsync().Await();
-            var user = JsonConvert.DeserializeObject<UserModel>(responseString);
-            user.ShouldNotBeNull();
-        };        
-    }
+    It should_return_unauthorized_response_code = () =>
+      response.StatusCode.Should().Equals(HttpStatusCode.OK);
 
-    public class UserControllerTests
+    It should_have_content = () =>
     {
-        public static HttpClient Client {get; set;}
-        public static string UserAdminJwt {get; set;}
-        public static string UserTestJwt {get; set;}
-        public static User TestUser{get; set;}
-        public static Microsoft.Extensions.Logging.ILogger Logger;	
+      var responseString = (string)response.Content.ReadAsStringAsync().Await();
+      responseString.ShouldNotBeEmpty();
+    };
 
-        protected const string getByIdRoute = "/api/user/";
-
-        Establish context = () =>
-        {
-           Client.DefaultRequestHeaders.Clear();
-        };
-    }    
+    It should_return_a_UserModel = () =>
+    {
+      var responseString = response.Content.ReadAsStringAsync().Await();
+      var user = JsonConvert.DeserializeObject<UserModel>(responseString);
+      user.ShouldNotBeNull();
+    };
+  }
 }

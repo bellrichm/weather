@@ -1,15 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.0</TargetFrameworks>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <OutputType>Library</OutputType>
-  </PropertyGroup>   
-
-  <PropertyGroup>
     <XXXXStartupObject>BellRichM.Identity.Api.Integration.TestProgram</XXXXStartupObject>
-  </PropertyGroup>   
+    <CodeAnalysisRuleSet>$(ProjectDir)..\StyleCop.Analyzers.ruleset</CodeAnalysisRuleSet>
+    <NoWarn>NU1603</NoWarn>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="4.19.4" />
@@ -17,8 +13,13 @@
     <PackageReference Include="Machine.Specifications.Runner.VisualStudio" Version="2.4.0" />
     <PackageReference Include="Machine.Specifications.Should" Version="0.11.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
-	  <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.0.0" />	
+	  <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.0.0" />
     <PackageReference Include="Moq" Version="4.7.142" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="1.1.0" />
+    <PackageReference Include="StyleCop" Version="5.0.0">
+      <NoWarn>NU1701</NoWarn>
+    </PackageReference>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
