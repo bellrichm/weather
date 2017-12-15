@@ -1,14 +1,13 @@
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 using BellRichM.Attribute.CodeCoverage;
 using BellRichM.Identity.Api.Data;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace BellRichM.Identity.Api.Data
 {
-    [ExcludeFromCodeCoverage]   
+    [ExcludeFromCodeCoverage]
     public class IdentityDbContext : IdentityDbContext<User, Role, string>, IIdentityDbContext
     {
-
         public IdentityDbContext(DbContextOptions<IdentityDbContext> options)
             : base(options)
         {
@@ -18,6 +17,7 @@ namespace BellRichM.Identity.Api.Data
         {
              return new DbContextTransactionProxy(this);
         }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

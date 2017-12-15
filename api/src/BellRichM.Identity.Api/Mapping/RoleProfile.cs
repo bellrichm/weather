@@ -6,7 +6,7 @@ namespace BellRichM.Identity.Api.Mapping
 {
     public class RoleProfile : Profile
     {
-        public RoleProfile ()
+        public RoleProfile()
         {
             CreateMap<Role, RoleModel>();
         }

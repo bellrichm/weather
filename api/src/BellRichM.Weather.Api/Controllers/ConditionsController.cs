@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 
 namespace BellRichM.Weather.Api.Controllers
 {
-
     [Route("api/[controller]")]
     public class ConditionsController
     {
@@ -14,8 +13,8 @@ namespace BellRichM.Weather.Api.Controllers
         public ConditionsController(ILogger<ConditionsController> logger)
         {
             _logger = logger;
-        }   
-        
+        }
+
         [HttpGet]
         public IEnumerable<string> Get()
         {

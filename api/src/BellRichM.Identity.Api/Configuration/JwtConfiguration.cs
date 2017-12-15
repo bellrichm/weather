@@ -7,26 +7,29 @@ namespace BellRichM.Identity.Api.Configuration
     public class JwtConfiguration : IJwtConfiguration
     {
         public string Issuer { get; set; }
+
         public string Audience { get; set; }
+
         public TimeSpan ValidFor { get; set; } = TimeSpan.FromMinutes(5);
-        public string SecretKey {get; set;}
+
+        public string SecretKey { get; set; }
 
         public void Validate()
         {
-            if (String.IsNullOrEmpty(Issuer))
+            if (string.IsNullOrEmpty(Issuer))
             {
                 throw new ArgumentNullException("Issuer");
             }
 
-            if (String.IsNullOrEmpty(Audience))
+            if (string.IsNullOrEmpty(Audience))
             {
                 throw new ArgumentNullException("Audience");
-            }    
+            }
 
-            if (String.IsNullOrEmpty(SecretKey))
+            if (string.IsNullOrEmpty(SecretKey))
             {
                 throw new ArgumentNullException("SecretKey");
-            }                                
-        }        
+            }
+        }
     }
 }

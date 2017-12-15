@@ -22,8 +22,8 @@ namespace BellRichM.Identity.Api.Test.Exceptions
         Because of = () =>
               thrownException = Catch.Exception(() => roleException.GetObjectData(null, new StreamingContext()));
 
-    	It should_throw_expected_exception = () =>    	
-			thrownException.ShouldBeOfExactType<ArgumentNullException>();	
+    	It should_throw_expected_exception = () =>
+			thrownException.ShouldBeOfExactType<ArgumentNullException>();
     }
 
     internal class when_serializing_deserializing_RoleException
@@ -40,11 +40,15 @@ namespace BellRichM.Identity.Api.Test.Exceptions
             formatter = new BinaryFormatter();
         };
 
+        Cleanup after = () =>
+
+            serializedStream.Dispose();
+
         Because of = () =>
         {
             formatter.Serialize(serializedStream, originalException);
             serializedStream.Position = 0;
-            deserializedException = (RoleExceptionTestClass)formatter.Deserialize(serializedStream); 
+            deserializedException = (RoleExceptionTestClass)formatter.Deserialize(serializedStream);
         };
 
         It should_have_correct_Code = () =>
@@ -52,7 +56,7 @@ namespace BellRichM.Identity.Api.Test.Exceptions
 
         It should_have_correct_Message = () =>
             originalException.Message.ShouldEqual(deserializedException.Message);
-        
+
 
         It should_have_correct_innerException_Message = () =>
             originalException.InnerException.Message.ShouldEqual(deserializedException.InnerException.Message);
@@ -68,5 +72,5 @@ namespace BellRichM.Identity.Api.Test.Exceptions
 		public RoleExceptionTestClass(string code, string message, Exception innerException) : base(code, message, innerException) {}
 
 		protected RoleExceptionTestClass(SerializationInfo info, StreamingContext context) : base(info, context) {}
-	}    
+	}
 }

@@ -28,7 +28,7 @@ namespace BellRichM.Identity.Api.Test.Repositories
             userResult  = userRepository.GetByName(user.UserName).Result;
 
         It should_return_null_user= () =>
-            userResult.ShouldBeNull();        
+            userResult.ShouldBeNull();
     }
 
     internal class when_getting_user_by_name_without_roles : UserRepositorySpecs
@@ -64,7 +64,7 @@ namespace BellRichM.Identity.Api.Test.Repositories
         It should_have_correct_claim_values = () =>
             userResult.Roles.ShouldAllBeEquivalentTo(role);
     }
-    
+
     internal class when_getting_user_by_id_and_does_not_exist : UserRepositorySpecs
     {
         private static User userResult;
@@ -77,7 +77,7 @@ namespace BellRichM.Identity.Api.Test.Repositories
             userResult  = userRepository.GetById(user.Id).Result;
 
         It should_return_null_user= () =>
-            userResult.ShouldBeNull();        
+            userResult.ShouldBeNull();
     }
 
     internal class when_getting_user_by_id_without_roles : UserRepositorySpecs
@@ -123,66 +123,66 @@ namespace BellRichM.Identity.Api.Test.Repositories
         Establish context = () =>
         {
             var identityResult = new IdentityResult();
-            identityResult = IdentityResult.Failed();    
+            identityResult = IdentityResult.Failed();
             userManagerMock.Setup(x => x.CreateAsync(user, "P@ssw0rd"))
                 .ReturnsAsync(identityResult);
         };
 
         Because of = ()  =>
             exception = Catch.Exception(() => userResult = userRepository.Create(user, "P@ssw0rd").Await());
- 
+
          It should_throw_correct_exception_type = () =>
-            exception.ShouldBeOfExactType<CreateUserException>();	
- 
+            exception.ShouldBeOfExactType<CreateUserException>();
+
          It should_have_correct_exception_code = () =>
             ((CreateUserException)exception).Code.ShouldEqual(CreateUserExceptionCode.CreateUserFailed);
-        
+
         It should_not_return_a_user = () =>
-            userResult.ShouldBeNull(); 
- 
+            userResult.ShouldBeNull();
+
         It should_rollback_the_work = () =>
             dbTransactionProxyMock.Verify(x => x.Rollback(), Times.Once);
 
         It should_not_commit_the_work = () =>
-            dbTransactionProxyMock.Verify(x => x.Commit(), Times.Never); 
+            dbTransactionProxyMock.Verify(x => x.Commit(), Times.Never);
     }
 
     internal class when_role_does_not_exist : UserRepositorySpecs
     {
         private static User userResult;
         private static Exception exception;
-        
+
         Establish context = () =>
         {
             var identityResult = new IdentityResult();
-            identityResult = IdentityResult.Success;    
+            identityResult = IdentityResult.Success;
             userManagerMock.Setup(x => x.CreateAsync(user, "P@ssw0rd"))
                 .ReturnsAsync(identityResult);
-            
+
             roles.Add(role);
 
             roleRepositoryMock.Setup(x => x.GetByName(roleName))
-                .ReturnsAsync((Role)null);      
+                .ReturnsAsync((Role)null);
         };
-        
+
         Because of = ()  =>
             exception = Catch.Exception(() => userResult = userRepository.Create(user, "P@ssw0rd").Await());
- 
+
          It should_throw_correct_exception_type = () =>
-            exception.ShouldBeOfExactType<CreateUserException>();	
- 
+            exception.ShouldBeOfExactType<CreateUserException>();
+
          It should_have_correct_exception_code = () =>
             ((CreateUserException)exception).Code.ShouldEqual(CreateUserExceptionCode.RoleNotFound);
-        
+
         It should_not_return_a_user = () =>
-            userResult.ShouldBeNull(); 
- 
+            userResult.ShouldBeNull();
+
         It should_rollback_the_work = () =>
             dbTransactionProxyMock.Verify(x => x.Rollback(), Times.Once);
 
         It should_not_commit_the_work = () =>
-            dbTransactionProxyMock.Verify(x => x.Commit(), Times.Never);             
-        
+            dbTransactionProxyMock.Verify(x => x.Commit(), Times.Never);
+
     }
 
     internal class when_error_adding_role : UserRepositorySpecs
@@ -193,36 +193,36 @@ namespace BellRichM.Identity.Api.Test.Repositories
         Establish context = () =>
         {
             var identityResult = new IdentityResult();
-            identityResult = IdentityResult.Success;    
+            identityResult = IdentityResult.Success;
             userManagerMock.Setup(x => x.CreateAsync(user, "P@ssw0rd"))
                 .ReturnsAsync(identityResult);
-            
-            var roleResult = new IdentityResult(); 
+
+            var roleResult = new IdentityResult();
             roleResult = IdentityResult.Failed();
             userManagerMock
                 .Setup(x => x.AddToRoleAsync(user, IT.IsAny<String>()))
                 .ReturnsAsync(roleResult);
-            
+
             roles.Add(role);
         };
 
         Because of = ()  =>
             exception = Catch.Exception(() => userResult = userRepository.Create(user, "P@ssw0rd").Await());
- 
+
          It should_throw_correct_exception_type = () =>
-            exception.ShouldBeOfExactType<CreateUserException>();	
- 
+            exception.ShouldBeOfExactType<CreateUserException>();
+
          It should_have_correct_exception_code = () =>
             ((CreateUserException)exception).Code.ShouldEqual(CreateUserExceptionCode.AddRoleFailed);
-        
+
         It should_not_return_a_user = () =>
-            userResult.ShouldBeNull(); 
- 
+            userResult.ShouldBeNull();
+
         It should_rollback_the_work = () =>
             dbTransactionProxyMock.Verify(x => x.Rollback(), Times.Once);
 
         It should_not_commit_the_work = () =>
-            dbTransactionProxyMock.Verify(x => x.Commit(), Times.Never); 
+            dbTransactionProxyMock.Verify(x => x.Commit(), Times.Never);
     }
 
     internal class when_creating_user_without_roles : UserRepositorySpecs
@@ -243,19 +243,19 @@ namespace BellRichM.Identity.Api.Test.Repositories
 
         It should_return_a_user = () =>
             userResult.ShouldNotBeNull();
- 
+
         It should_not_rollback_the_work = () =>
             dbTransactionProxyMock.Verify(x => x.Rollback(), Times.Never);
 
         It should_commit_the_work = () =>
-            dbTransactionProxyMock.Verify(x => x.Commit(), Times.Once); 
-    } 
+            dbTransactionProxyMock.Verify(x => x.Commit(), Times.Once);
+    }
 
     internal class when_creating_user_with_roles : UserRepositorySpecs
     {
         private static User userResult;
         private static Exception exception;
-       
+
         Establish context = () =>
         {
             var identityResult = new IdentityResult();
@@ -263,7 +263,7 @@ namespace BellRichM.Identity.Api.Test.Repositories
             userManagerMock.Setup(x => x.CreateAsync(user, "P@ssw0rd"))
                 .ReturnsAsync(identityResult);
 
-            var roleResult = new IdentityResult(); 
+            var roleResult = new IdentityResult();
             roleResult = IdentityResult.Success;
             userManagerMock
                 .Setup(x => x.AddToRoleAsync(user, roleName))
@@ -274,10 +274,10 @@ namespace BellRichM.Identity.Api.Test.Repositories
 
         Because of = ()  =>
             exception = Catch.Exception(() => userResult = userRepository.Create(user, "P@ssw0rd").Await());
-  
+
         It should_return_a_user = () =>
             userResult.ShouldNotBeNull();
- 
+
         It should_add_the_role = () =>
             userManagerMock.Verify(x => x.AddToRoleAsync(
                                             IT.Is<User>(u => u == user),
@@ -288,10 +288,10 @@ namespace BellRichM.Identity.Api.Test.Repositories
             dbTransactionProxyMock.Verify(x => x.Rollback(), Times.Never);
 
         It should_commit_the_work = () =>
-            dbTransactionProxyMock.Verify(x => x.Commit(), Times.Once); 
-    } 
+            dbTransactionProxyMock.Verify(x => x.Commit(), Times.Once);
+    }
 
-    [Subject("Delete User")] 
+    [Subject("Delete User")]
     internal class when_deleting_user_succeeds  : UserRepositorySpecs
     {
         private static Exception exception;
@@ -305,7 +305,7 @@ namespace BellRichM.Identity.Api.Test.Repositories
             identityResult = IdentityResult.Success;
             userManagerMock.Setup(x => x.DeleteAsync(user))
                 .ReturnsAsync(identityResult);
-                
+
         };
 
         Because of = () =>
@@ -314,7 +314,7 @@ namespace BellRichM.Identity.Api.Test.Repositories
          It should_not_throw_exception = () =>
             exception.ShouldBeNull();
     }
-    
+
     internal class when_deleting_user_fails  : UserRepositorySpecs
     {
         private static Exception exception;
@@ -328,15 +328,15 @@ namespace BellRichM.Identity.Api.Test.Repositories
             identityResult = IdentityResult.Failed();
             userManagerMock.Setup(x => x.DeleteAsync(user))
                 .ReturnsAsync(identityResult);
-                
+
         };
 
         Because of = () =>
             exception = Catch.Exception(() => userRepository.Delete(user.Id).Await());
 
          It should_throw_correct_exception_type = () =>
-            exception.ShouldBeOfExactType<DeleteUserException>();	
- 
+            exception.ShouldBeOfExactType<DeleteUserException>();
+
          It should_have_correct_exception_code = () =>
             ((DeleteUserException)exception).Code.ShouldEqual(DeleteUserExceptionCode.DeleteUserFailed);
     }
@@ -353,8 +353,8 @@ namespace BellRichM.Identity.Api.Test.Repositories
             exception = Catch.Exception(() => userRepository.Delete(user.Id).Await());
 
          It should_throw_correct_exception_type = () =>
-            exception.ShouldBeOfExactType<DeleteUserException>();	
- 
+            exception.ShouldBeOfExactType<DeleteUserException>();
+
          It should_have_correct_exception_code = () =>
             ((DeleteUserException)exception).Code.ShouldEqual(DeleteUserExceptionCode.UserNotFound);
     }
@@ -368,7 +368,7 @@ namespace BellRichM.Identity.Api.Test.Repositories
         protected static Mock<UserManager<User>> userManagerMock;
         protected static Mock<IIdentityDbContext> identityDbContextMock;
         protected static Mock<IDbContextTransactionProxy> dbTransactionProxyMock;
-        
+
         protected static UserRepository userRepository;
         protected static User user;
         protected static List<string> roleNames;
@@ -385,7 +385,7 @@ namespace BellRichM.Identity.Api.Test.Repositories
             userManagerMock = new Mock<UserManager<User>>(userStoreMock.Object, null, null, null, null, null, null, null, null);
             dbTransactionProxyMock = new Mock<IDbContextTransactionProxy>();
             identityDbContextMock = new Mock<IIdentityDbContext>();
-            identityDbContextMock.Setup(x => x.BeginTransaction()).Returns(dbTransactionProxyMock.Object);   
+            identityDbContextMock.Setup(x => x.BeginTransaction()).Returns(dbTransactionProxyMock.Object);
 
             roleNames = new List<string>();
 
@@ -402,13 +402,16 @@ namespace BellRichM.Identity.Api.Test.Repositories
             userManagerMock.Setup(x => x.FindByIdAsync(user.Id))
                 .ReturnsAsync(user);
             userManagerMock.Setup(x => x.FindByNameAsync(user.UserName))
-                .ReturnsAsync(user);                
+                .ReturnsAsync(user);
             userManagerMock.Setup(x => x.GetRolesAsync(user))
-                .ReturnsAsync(roleNames);  
+                .ReturnsAsync(roleNames);
             roleRepositoryMock.Setup(x => x.GetByName(roleName))
-                .ReturnsAsync(role);      
+                .ReturnsAsync(role);
 
-            userRepository = new UserRepository(loggerMock.Object, roleRepositoryMock.Object, userManagerMock.Object, identityDbContextMock.Object);                        
-        };                
+            userRepository = new UserRepository(loggerMock.Object, roleRepositoryMock.Object, userManagerMock.Object, identityDbContextMock.Object);
+        };
+
+        Cleanup after = () =>
+            userRepository.Dispose();
     }
 }

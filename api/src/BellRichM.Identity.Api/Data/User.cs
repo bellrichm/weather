@@ -1,18 +1,18 @@
+using BellRichM.Attribute.CodeCoverage;
+using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Identity;
-using BellRichM.Attribute.CodeCoverage;
 
 namespace BellRichM.Identity.Api.Data
 {
-    [ExcludeFromCodeCoverage]    
+    [ExcludeFromCodeCoverage]
     public class User : IdentityUser
     {
-        public string FirstName {get; set;}
-        
-        public string LastName {get; set;}
-            
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
         [NotMapped]
-        public IEnumerable<Role> Roles {get; set;}      
+        public IEnumerable<Role> Roles { get; set; }
     }
 }

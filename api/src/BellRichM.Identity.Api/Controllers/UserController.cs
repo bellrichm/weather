@@ -1,17 +1,16 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Logging;
 using AutoMapper;
 using BellRichM.Identity.Api.Data;
 using BellRichM.Identity.Api.Models;
 using BellRichM.Identity.Api.Repositories;
 using BellRichM.Identity.Api.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BellRichM.Identity.Api.Controllers
 {
-
     [Route("api/[controller]")]
     public class UserController : Controller
     {
@@ -30,7 +29,7 @@ namespace BellRichM.Identity.Api.Controllers
         }
 
         [Authorize(Policy = "CanViewUsers")]
-        [HttpGet("{id}")]   
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(string id)
         {
             var newUser = await _userRepository.GetById(id);
@@ -38,24 +37,24 @@ namespace BellRichM.Identity.Api.Controllers
             {
                 return NotFound();
             }
-            
+
             var userModel = _mapper.Map<UserModel>(newUser);
             return Ok(userModel);
         }
 
         [HttpPost("/api/[controller]/[action]")]
-        public async Task<IActionResult> Login([FromBody] UserLoginModel userLogin) 
+        public async Task<IActionResult> Login([FromBody] UserLoginModel userLogin)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            
+
             var jwt = await _jwtManager.GenerateToken(userLogin.UserName, userLogin.Password);
-            
-            if (jwt == null) 
+
+            if (jwt == null)
             {
-                ModelState.AddModelError("loginError", "Invalid user password combination.");            
+                ModelState.AddModelError("loginError", "Invalid user password combination.");
                 return BadRequest(ModelState);
             }
 
@@ -64,6 +63,6 @@ namespace BellRichM.Identity.Api.Controllers
                 JsonWebToken = jwt
             };
             return Ok(accessToken);
-        }                    
+        }
     }
 }

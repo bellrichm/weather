@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using BellRichM.Identity.Api.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using AutoMapper;
-using BellRichM.Identity.Api.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace BellRichM.Weather.Api
 {
@@ -33,9 +33,9 @@ namespace BellRichM.Weather.Api
         {
             services.AddAutoMapper();
             services.AddIdentityServices(Configuration);
-            // needed for testserver to find controllers			
-            services.AddMvc()
-				.AddApplicationPart(Assembly.Load(new AssemblyName("BellRichM.Identity.Api")));
+
+            // needed for testserver to find controllers
+            services.AddMvc().AddApplicationPart(Assembly.Load(new AssemblyName("BellRichM.Identity.Api")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,7 +48,7 @@ namespace BellRichM.Weather.Api
 
             app.UseDefaultFiles()
                .UseStaticFiles();
-               
+
             app.UseAuthentication();
 
             app.UseMvc();

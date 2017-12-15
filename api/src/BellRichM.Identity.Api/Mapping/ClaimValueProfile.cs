@@ -6,7 +6,7 @@ namespace BellRichM.Identity.Api.Mapping
 {
     public class ClaimValueProfile : Profile
     {
-        public ClaimValueProfile ()
+        public ClaimValueProfile()
         {
             CreateMap<ClaimValue, ClaimValueModel>();
         }

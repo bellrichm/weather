@@ -15,7 +15,7 @@ using BellRichM.Identity.Api.Data;
 using BellRichM.Identity.Api.Exceptions;
 using BellRichM.Identity.Api.Repositories;
 
-namespace BellRichM.Identity.Api.Test 
+namespace BellRichM.Identity.Api.Test
 {
     [Subject("Get Role")]
     internal class when_role_id_does_not_exist : RoleRepositorySpecs
@@ -29,18 +29,18 @@ namespace BellRichM.Identity.Api.Test
         };
 
         Because of = () =>
-            roleResult  = roleReposity.GetById(role.Id).Result;
+            roleResult  = roleRepository.GetById(role.Id).Result;
 
         It should_return_correct_role = () =>
             roleResult.ShouldBeNull();
     }
-    
+
     internal class when_getting_role_by_id_without_claims : RoleRepositorySpecs
     {
         private static Role roleResult;
 
         Because of = () =>
-            roleResult  = roleReposity.GetById(role.Id).Result;
+            roleResult  = roleRepository.GetById(role.Id).Result;
 
         It should_return_correct_role = () =>
             roleResult.ShouldBeEquivalentTo(role);
@@ -60,7 +60,7 @@ namespace BellRichM.Identity.Api.Test
         };
 
         Because of = () =>
-            roleResult  = roleReposity.GetById(role.Id).Result;
+            roleResult  = roleRepository.GetById(role.Id).Result;
 
         It should_return_correct_role = () =>
             roleResult.ShouldBeEquivalentTo(role);
@@ -85,18 +85,18 @@ namespace BellRichM.Identity.Api.Test
         };
 
         Because of = () =>
-            roleResult  = roleReposity.GetByName(role.Id).Result;
+            roleResult  = roleRepository.GetByName(role.Id).Result;
 
         It should_return_correct_role = () =>
             roleResult.ShouldBeNull();
     }
-    
+
     internal class when_getting_role_by_name_without_claims : RoleRepositorySpecs
     {
         private static Role roleResult;
 
         Because of = () =>
-            roleResult  = roleReposity.GetByName(role.Name).Result;
+            roleResult  = roleRepository.GetByName(role.Name).Result;
 
         It should_return_correct_role = () =>
             roleResult.ShouldBeEquivalentTo(role);
@@ -116,7 +116,7 @@ namespace BellRichM.Identity.Api.Test
         };
 
         Because of = () =>
-            roleResult  = roleReposity.GetByName(role.Name).Result;
+            roleResult  = roleRepository.GetByName(role.Name).Result;
 
         It should_return_correct_role = () =>
             roleResult.ShouldBeEquivalentTo(role);
@@ -130,7 +130,7 @@ namespace BellRichM.Identity.Api.Test
         };
     }
 
-   
+
     [Subject("creating Role")]
     internal class when_error_creating_role : RoleRepositorySpecs
     {
@@ -140,28 +140,28 @@ namespace BellRichM.Identity.Api.Test
         Establish context = () =>
         {
             var identityResult = new IdentityResult();
-            identityResult = IdentityResult.Failed();    
+            identityResult = IdentityResult.Failed();
             roleManagerMock.Setup(x => x.CreateAsync(role))
                 .ReturnsAsync(identityResult);
         };
 
         Because of = ()  =>
-            exception = Catch.Exception(() => roleResult = roleReposity.Create(role).Await());
- 
+            exception = Catch.Exception(() => roleResult = roleRepository.Create(role).Await());
+
          It should_throw_correct_exception_type = () =>
-            exception.ShouldBeOfExactType<CreateRoleException>();	
- 
+            exception.ShouldBeOfExactType<CreateRoleException>();
+
          It should_have_correct_exception_code = () =>
             ((CreateRoleException)exception).Code.ShouldEqual(CreateRoleExceptionCode.CreateRoleFailed);
-        
+
         It should_not_return_a_role = () =>
-            roleResult.ShouldBeNull(); 
- 
+            roleResult.ShouldBeNull();
+
         It should_rollback_the_work = () =>
             dbTransactionProxyMock.Verify(x => x.Rollback(), Times.Once);
 
         It should_not_commit_the_work = () =>
-            dbTransactionProxyMock.Verify(x => x.Commit(), Times.Never); 
+            dbTransactionProxyMock.Verify(x => x.Commit(), Times.Never);
     }
 
     internal class when_error_adding_claim : RoleRepositorySpecs
@@ -172,36 +172,36 @@ namespace BellRichM.Identity.Api.Test
         Establish context = () =>
         {
             var identityResult = new IdentityResult();
-            identityResult = IdentityResult.Success;    
+            identityResult = IdentityResult.Success;
             roleManagerMock.Setup(x => x.CreateAsync(role))
                 .ReturnsAsync(identityResult);
-            
-            var claimResult = new IdentityResult(); 
+
+            var claimResult = new IdentityResult();
             claimResult = IdentityResult.Failed();
             roleManagerMock
                 .Setup(x => x.AddClaimAsync(role, IT.IsAny<Claim>()))
                 .ReturnsAsync(claimResult);
 
-            role.ClaimValues = claimValues;                
+            role.ClaimValues = claimValues;
         };
 
         Because of = ()  =>
-            exception = Catch.Exception(() => roleResult = roleReposity.Create(role).Await());
- 
+            exception = Catch.Exception(() => roleResult = roleRepository.Create(role).Await());
+
          It should_throw_correct_exception_type = () =>
-            exception.ShouldBeOfExactType<CreateRoleException>();	
- 
+            exception.ShouldBeOfExactType<CreateRoleException>();
+
          It should_have_correct_exception_code = () =>
             ((CreateRoleException)exception).Code.ShouldEqual(CreateRoleExceptionCode.AddClaimFailed);
-        
+
         It should_not_return_a_role = () =>
-            roleResult.ShouldBeNull(); 
- 
+            roleResult.ShouldBeNull();
+
         It should_rollback_the_work = () =>
             dbTransactionProxyMock.Verify(x => x.Rollback(), Times.Once);
 
         It should_not_commit_the_work = () =>
-            dbTransactionProxyMock.Verify(x => x.Commit(), Times.Never); 
+            dbTransactionProxyMock.Verify(x => x.Commit(), Times.Never);
     }
     internal class when_creating_role_without_claims : RoleRepositorySpecs
     {
@@ -214,27 +214,27 @@ namespace BellRichM.Identity.Api.Test
             identityResult = IdentityResult.Success;
             roleManagerMock.Setup(x => x.CreateAsync(role))
                 .ReturnsAsync(identityResult);
-            
+
         };
 
         Because of = ()  =>
-            exception = Catch.Exception(() => roleResult = roleReposity.Create(role).Await());
+            exception = Catch.Exception(() => roleResult = roleRepository.Create(role).Await());
 
         It should_return_a_role = () =>
             roleResult.ShouldNotBeNull();
- 
+
         It should_not_rollback_the_work = () =>
             dbTransactionProxyMock.Verify(x => x.Rollback(), Times.Never);
 
         It should_commit_the_work = () =>
-            dbTransactionProxyMock.Verify(x => x.Commit(), Times.Once); 
-    } 
+            dbTransactionProxyMock.Verify(x => x.Commit(), Times.Once);
+    }
 
     internal class when_creating_role_with_claims : RoleRepositorySpecs
     {
         private static Role roleResult;
         private static Exception exception;
-       
+
         Establish context = () =>
         {
             var identityResult = new IdentityResult();
@@ -242,7 +242,7 @@ namespace BellRichM.Identity.Api.Test
             roleManagerMock.Setup(x => x.CreateAsync(role))
                 .ReturnsAsync(identityResult);
 
-            var claimResult = new IdentityResult(); 
+            var claimResult = new IdentityResult();
             claimResult = IdentityResult.Success;
             roleManagerMock
                 .Setup(x => x.AddClaimAsync(role, IT.IsAny<Claim>()))
@@ -252,14 +252,14 @@ namespace BellRichM.Identity.Api.Test
         };
 
         Because of = ()  =>
-            exception = Catch.Exception(() => roleResult = roleReposity.Create(role).Await());
-  
+            exception = Catch.Exception(() => roleResult = roleRepository.Create(role).Await());
+
         It should_return_a_role = () =>
             roleResult.ShouldNotBeNull();
- 
+
         It should_add_the_claim = () =>
             roleManagerMock.Verify(x => x.AddClaimAsync(
-                                            IT.IsAny<Role>(), 
+                                            IT.IsAny<Role>(),
                                             IT.Is<Claim>(c => c.Type == "type" && c.Value == "value")),
                                         Times.Once);
 
@@ -267,10 +267,10 @@ namespace BellRichM.Identity.Api.Test
             dbTransactionProxyMock.Verify(x => x.Rollback(), Times.Never);
 
         It should_commit_the_work = () =>
-            dbTransactionProxyMock.Verify(x => x.Commit(), Times.Once); 
-    } 
+            dbTransactionProxyMock.Verify(x => x.Commit(), Times.Once);
+    }
 
-    [Subject("Delete Role")] 
+    [Subject("Delete Role")]
     internal class when_deleting_role_succeeds  : RoleRepositorySpecs
     {
         private static Exception exception;
@@ -284,16 +284,16 @@ namespace BellRichM.Identity.Api.Test
             identityResult = IdentityResult.Success;
             roleManagerMock.Setup(x => x.DeleteAsync(role))
                 .ReturnsAsync(identityResult);
-                
+
         };
 
         Because of = () =>
-            exception = Catch.Exception(() => roleReposity.Delete(role.Id).Await());
+            exception = Catch.Exception(() => roleRepository.Delete(role.Id).Await());
 
          It should_not_throw_exception = () =>
             exception.ShouldBeNull();
     }
-    
+
     internal class when_deleting_role_fails  : RoleRepositorySpecs
     {
         private static Exception exception;
@@ -307,15 +307,15 @@ namespace BellRichM.Identity.Api.Test
             identityResult = IdentityResult.Failed();
             roleManagerMock.Setup(x => x.DeleteAsync(role))
                 .ReturnsAsync(identityResult);
-                
+
         };
 
         Because of = () =>
-            exception = Catch.Exception(() => roleReposity.Delete(role.Id).Await());
+            exception = Catch.Exception(() => roleRepository.Delete(role.Id).Await());
 
          It should_throw_correct_exception_type = () =>
-            exception.ShouldBeOfExactType<DeleteRoleException>();	
- 
+            exception.ShouldBeOfExactType<DeleteRoleException>();
+
          It should_have_correct_exception_code = () =>
             ((DeleteRoleException)exception).Code.ShouldEqual(DeleteRoleExceptionCode.DeleteRoleFailed);
     }
@@ -331,25 +331,25 @@ namespace BellRichM.Identity.Api.Test
         };
 
         Because of = () =>
-            exception = Catch.Exception(() => roleReposity.Delete(role.Id).Await());
+            exception = Catch.Exception(() => roleRepository.Delete(role.Id).Await());
 
          It should_throw_correct_exception_type = () =>
-            exception.ShouldBeOfExactType<DeleteRoleException>();	
- 
+            exception.ShouldBeOfExactType<DeleteRoleException>();
+
          It should_have_correct_exception_code = () =>
             ((DeleteRoleException)exception).Code.ShouldEqual(DeleteRoleExceptionCode.RoleNotFound);
     }
 
 
-    internal class  RoleRepositorySpecs 
+    internal class  RoleRepositorySpecs
     {
         protected static Mock<ILogger<RoleRepository>> loggerMock;
         protected static Mock<RoleManager<Role>> roleManagerMock;
         protected static Mock<IIdentityDbContext> identityDbContextMock;
         protected static Mock<IRoleStore<Role>> roleStoreMock;
         protected static Mock<IDbContextTransactionProxy> dbTransactionProxyMock;
-                                            
-        protected static RoleRepository roleReposity;
+
+        protected static RoleRepository roleRepository;
         protected static Role role;
         protected static List<Claim> Claims;
         protected static Claim claim;
@@ -362,15 +362,15 @@ namespace BellRichM.Identity.Api.Test
             roleManagerMock = new Mock<RoleManager<Role>>(roleStoreMock.Object, null, null, null, null);
             dbTransactionProxyMock = new Mock<IDbContextTransactionProxy>();
             identityDbContextMock = new Mock<IIdentityDbContext>();
-            identityDbContextMock.Setup(x => x.BeginTransaction()).Returns(dbTransactionProxyMock.Object);   
-                
+            identityDbContextMock.Setup(x => x.BeginTransaction()).Returns(dbTransactionProxyMock.Object);
+
             role = new Role
             {
                 Id = "id",
                 Description = "description",
                 Name = "name"
             };
-            
+
             claimValues = new List<ClaimValue>();
             claimValues.Add(new ClaimValue{Type="type", Value="value"});
 
@@ -383,7 +383,10 @@ namespace BellRichM.Identity.Api.Test
             roleManagerMock.Setup(x => x.GetClaimsAsync(role))
                 .ReturnsAsync(Claims);
 
-            roleReposity = new RoleRepository(loggerMock.Object, roleManagerMock.Object, identityDbContextMock.Object);            
+            roleRepository = new RoleRepository(loggerMock.Object, roleManagerMock.Object, identityDbContextMock.Object);
         };
-    }   
+
+        Cleanup after = () =>
+            roleRepository.Dispose();
+    }
 }

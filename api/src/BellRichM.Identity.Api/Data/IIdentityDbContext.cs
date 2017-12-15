@@ -4,7 +4,8 @@ namespace BellRichM.Identity.Api.Data
 {
     public interface IIdentityDbContext
     {
-        DatabaseFacade Database {get;}
+        DatabaseFacade Database { get; }
+
         IDbContextTransactionProxy BeginTransaction();
     }
 }

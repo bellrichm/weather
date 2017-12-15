@@ -4,6 +4,5 @@ namespace BellRichM.Identity.Api.Exceptions
     {
         public const string RoleNotFound = "RoleNotFound";
         public const string DeleteRoleFailed = "DeleteRoleFailed";
-
     }
 }

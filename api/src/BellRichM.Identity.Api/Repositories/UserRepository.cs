@@ -1,20 +1,21 @@
-using Microsoft.Extensions.Logging;
+using BellRichM.Identity.Api.Data;
+using BellRichM.Identity.Api.Exceptions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using BellRichM.Identity.Api.Data;
-using BellRichM.Identity.Api.Exceptions;
 
 namespace BellRichM.Identity.Api.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : IUserRepository, IDisposable
     {
         private readonly ILogger _logger;
         private readonly IRoleRepository _roleRepository;
         private readonly UserManager<User> _userManager;
         private readonly IIdentityDbContext _context;
+        private bool disposed = false;
 
         public UserRepository(ILogger<UserRepository> logger, IRoleRepository roleRepository, UserManager<User> userManager, IIdentityDbContext context)
         {
@@ -22,13 +23,13 @@ namespace BellRichM.Identity.Api.Repositories
             _roleRepository = roleRepository;
             _userManager = userManager;
             _context = context;
-        }           
+        }
 
         public async Task<User> GetById(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
             if (user != null)
-            {     
+            {
                 user.Roles = await GetRoles(user);
             }
 
@@ -39,72 +40,91 @@ namespace BellRichM.Identity.Api.Repositories
         {
             var user = await _userManager.FindByNameAsync(name);
             if (user != null)
-            {      
-                user.Roles = await GetRoles(user);  
+            {
+                user.Roles = await GetRoles(user);
             }
 
             return user;
         }
 
         public async Task<User> Create(User user, string password)
-        { 
+        {
             using (var identitydbContextTransaction = _context.BeginTransaction())
             {
                 IdentityResult userResult = await _userManager.CreateAsync(user, password);
-                if (!userResult.Succeeded) 
+                if (!userResult.Succeeded)
                 {
                     identitydbContextTransaction.Rollback();
+
                     // TODO: logging
                     throw new CreateUserException(CreateUserExceptionCode.CreateUserFailed);
                 }
-                    
+
                 if (user.Roles != null)
                 {
                     foreach (var userRole in user.Roles)
                     {
                         var role = await _roleRepository.GetByName(userRole.Name);
-                        if (role == null)        
+                        if (role == null)
                         {
-                            identitydbContextTransaction.Rollback();                    
+                            identitydbContextTransaction.Rollback();
+
                             // TODO: logging
-                            throw new CreateUserException(CreateUserExceptionCode.RoleNotFound);            
-                        }    
-        
+                            throw new CreateUserException(CreateUserExceptionCode.RoleNotFound);
+                        }
+
                         var roleResult = await _userManager.AddToRoleAsync(user, userRole.Name);
-                        if (!roleResult.Succeeded)        
+                        if (!roleResult.Succeeded)
                         {
-                            identitydbContextTransaction.Rollback();                                    
+                            identitydbContextTransaction.Rollback();
+
                             // TODO: logging
-                            throw new CreateUserException(CreateUserExceptionCode.AddRoleFailed); 
+                            throw new CreateUserException(CreateUserExceptionCode.AddRoleFailed);
                         }
                     }
-                } 
-                    
-                identitydbContextTransaction.Commit();              
+                }
+
+                identitydbContextTransaction.Commit();
                 return await GetById(user.Id); // TODO: Move to private method
-            }            
+            }
         }
-        
+
         public async Task Delete(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
-            {
-                // TODO: logging
+            { // TODO: logging
                 throw new DeleteUserException(DeleteUserExceptionCode.UserNotFound);
             }
-                        
+
             IdentityResult userResult = _userManager.DeleteAsync(user).Result;
-            if (!userResult.Succeeded) 
-            {
-                // TODO: logging
+            if (!userResult.Succeeded)
+            { // TODO: logging
                throw new DeleteUserException(DeleteUserExceptionCode.DeleteUserFailed);
             }
-        }  
+        }
 
-        private async Task<IEnumerable<Role>> GetRoles(User user)    
+        public void Dispose()
         {
-            var roleNames = await _userManager.GetRolesAsync(user);               
+            Dispose(true);
+        }
+
+        protected virtual void Dispose(bool disposing)
+         {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    _userManager.Dispose();
+                }
+
+                disposed = true;
+            }
+        }
+
+        private async Task<IEnumerable<Role>> GetRoles(User user)
+        {
+            var roleNames = await _userManager.GetRolesAsync(user);
             var roles = new List<Role>();
             foreach (var roleName in roleNames)
             {
@@ -112,7 +132,7 @@ namespace BellRichM.Identity.Api.Repositories
                 roles.Add(role);
             }
 
-            return roles;            
-        }            
+            return roles;
+        }
     }
 }

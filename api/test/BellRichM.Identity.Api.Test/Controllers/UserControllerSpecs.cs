@@ -205,6 +205,9 @@ namespace BellRichM.Identity.Api.Test.Controllers
             mapperMock.Setup(x => x.Map<UserModel>(user)).Returns(userModel);
 
             userController = new UserController(loggerMock.Object, mapperMock.Object, userRepositoryMock.Object, jwtManagerMock.Object);            
-        };      
+        };
+
+        Cleanup after = () =>
+            userController.Dispose();  
     }
 }

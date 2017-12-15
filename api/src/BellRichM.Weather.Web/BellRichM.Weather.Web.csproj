@@ -2,6 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <CodeAnalysisRuleSet>$(ProjectDir)..\StyleCop.Analyzers.ruleset</CodeAnalysisRuleSet>
     <NoWarn>NU1603</NoWarn>
   </PropertyGroup>
   <ItemGroup>
@@ -10,16 +11,18 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="1.1.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Serilog.sinks.Console" Version="3.1.0" />
     <PackageReference Include="Serilog.sinks.RollingFile" Version="3.3.0" />
     <PackageReference Include="StyleCop" Version="5.0.0">
       <NoWarn>NU1701</NoWarn>
-    </PackageReference>    
+    </PackageReference>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
-  </ItemGroup>  
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BellRichM.Weather.Api\BellRichM.Weather.Api.csproj" />
     <ProjectReference Include="..\BellRichM.Identity.Api\BellRichM.Identity.Api.csproj" />
