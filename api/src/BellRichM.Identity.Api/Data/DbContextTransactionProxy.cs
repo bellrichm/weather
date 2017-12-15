@@ -1,6 +1,7 @@
 using BellRichM.Attribute.CodeCoverage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using System;
 
 namespace BellRichM.Identity.Api.Data
 {
@@ -8,6 +9,7 @@ namespace BellRichM.Identity.Api.Data
     public class DbContextTransactionProxy : IDbContextTransactionProxy
     {
         private readonly IDbContextTransaction _transaction;
+        private bool disposed = false;
 
         public DbContextTransactionProxy(DbContext context)
         {
@@ -26,7 +28,21 @@ namespace BellRichM.Identity.Api.Data
 
         public void Dispose()
         {
-            _transaction.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+         {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    _transaction.Dispose();
+                }
+
+                disposed = true;
+            }
         }
     }
 }
