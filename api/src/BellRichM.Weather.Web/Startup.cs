@@ -15,13 +15,15 @@ namespace BellRichM.Weather.Web
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env) : this(env, null)
+        public Startup(IHostingEnvironment env)
+            : this(env, null)
         {
         }
 
         public Startup(IHostingEnvironment env, string dir)
         {
-            if (dir == null) {
+            if (dir == null)
+            {
                 dir = env.ContentRootPath;
             }
 

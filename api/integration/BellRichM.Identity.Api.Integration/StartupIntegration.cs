@@ -17,6 +17,7 @@ namespace BellRichM.Identity.Api.Integration
     public class StartupIntegration
     {
         private Startup startup;
+
         public StartupIntegration(IHostingEnvironment env)
         {
             startup = new Startup(env, AppContext.BaseDirectory + "../../../data");
