@@ -11,14 +11,22 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace BellRichM.Weather.Api
+namespace BellRichM.Weather.Web
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IHostingEnvironment env) : this(env, null)
         {
+        }
+
+        public Startup(IHostingEnvironment env, string dir)
+        {
+            if (dir == null) {
+                dir = env.ContentRootPath;
+            }
+
             var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
+                .SetBasePath(dir)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();

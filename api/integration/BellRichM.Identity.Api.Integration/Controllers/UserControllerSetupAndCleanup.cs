@@ -60,7 +60,7 @@ namespace BellRichM.Identity.Api.Integration.Controllers
             UserControllerTests.TestUser = _testUser;
             UserControllerTests.UserTestJwt = GenerateJwt(_testUser.UserName, testUserPw);
 
-            var server = new TestServer(new WebHostBuilder().UseStartup<Startup>());
+            var server = new TestServer(new WebHostBuilder().UseStartup<StartupIntegration>());
             UserControllerTests.Client = server.CreateClient();
         }
 
@@ -77,13 +77,13 @@ namespace BellRichM.Identity.Api.Integration.Controllers
                 .MinimumLevel.Verbose()
                 .Filter.ByExcluding(Matching.FromSource‌​("Microsoft"))
                 .WriteTo.Console()
-                .WriteTo.RollingFile("logs/testLog-{Date}.txt", fileSizeLimitBytes: 10485760, retainedFileCountLimit: 7) // 10 MB file size
+                .WriteTo.RollingFile("logsTest/testLog-{Date}.txt", fileSizeLimitBytes: 10485760, retainedFileCountLimit: 7) // 10 MB file size
                 .CreateLogger();
             var loggerFactory = new LoggerFactory().AddSerilog();
             UserControllerTests.Logger = loggerFactory.CreateLogger<UserControllerTests>();
 
             var builder = new ConfigurationBuilder()
-                .SetBasePath(AppContext.BaseDirectory)
+                .SetBasePath(AppContext.BaseDirectory + "../../../data")
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
                 .AddEnvironmentVariables();
             var configuration = builder.Build();

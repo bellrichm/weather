@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Serilog;
 
-namespace BellRichM.Weather.Api
+namespace BellRichM.Weather.Web
 {
     public static class Program
     {
