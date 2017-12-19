@@ -26,6 +26,9 @@
       name: ${ARTIFACT_NAME}
       type: WebDeployPackage
 
+  before_deploy:
+    - cmd: appveyor/before_deploy.cmd
+
   deploy:
     - provider: WebDeploy
       server: https://bellrichm-weather.scm.azurewebsites.net:443/msdeploy.axd?site=bellrichm-weather
