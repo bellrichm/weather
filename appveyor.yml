@@ -1,52 +1,45 @@
-version: 1.0.{build}
-branches:
-  only:
-  - ${BRANCH_NAME}
-environment:
-  COVERALLS_REPO_TOKEN: ${COVERALLS_REPO_TOKEN}
-  SONARQUBE_REPO_TOKEN: ${SONARQUBE_REPO_TOKEN}
-  AZURE_PW: ${AZURE_PW}
-  ARTIFACT_NAME: ${ARTIFACT_NAME}
-  BRANCH_NAME: ${BRANCH_NAME}
-  DEPLOY: ${DEPLOY}
-build_script:
-- cmd: >-
-    choco install "msbuild-sonarqube-runner" -y
+-
+  branches:
+    only:
+      - master
 
+  version: 1.0.{build}
 
-    dotnet build api\test\BellRichM.Weather.Test.sln -f net462
+  environment:
+    COVERALLS_REPO_TOKEN: ${COVERALLS_REPO_TOKEN}
+    SONARQUBE_REPO_TOKEN: ${SONARQUBE_REPO_TOKEN}
+    AZURE_PW: ${AZURE_PW}
+    ARTIFACT_NAME: ${ARTIFACT_NAME}
+    BRANCH_NAME: ${BRANCH_NAME}
+    DEPLOY: ${DEPLOY}
 
+  install:
+    - cmd: appveyor/install.cmd
 
-    sonarqube.scanner.msbuild.exe begin /k:"weather" /o:"bellrichm" /v:%APPVEYOR_BUILD_VERSION% /d:sonar.branch.name=%BRANCH_NAME% /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login=%SONARQUBE_REPO_TOKEN%  /d:sonar.exclusions="**/Migrations/*, **/obj/**/*"  /d:sonar.cs.opencover.reportsPaths="opencover.xml"
+  build_script:
+    - cmd: appveyor/build.cmd
 
+  test_script: appveyor/test.cmd
 
-    dotnet publish api\src\BellRichM.Weather.sln --output %appveyor_build_folder%\dist -f netcoreapp2.0 -r win10-x64
-test_script:
-- cmd: >-
-    api\test\coverage.cmd
+  artifacts:
+    - path: dist
+      name: ${ARTIFACT_NAME}
+      type: WebDeployPackage
 
+  deploy:
+    - provider: WebDeploy
+      server: https://bellrichm-weather.scm.azurewebsites.net:443/msdeploy.axd?site=bellrichm-weather
+      website: bellrichm-weather
+      username: $bellrichm-weather
+      password:
+        secure: 9XB+JI35ertTWfWmF/0oVQ==
+      artifact: ${ARTIFACT_NAME}
+      aspnet_core: true
+      remove_files: true
+      app_offline: true
+      skip_dirs: '\\logs;\\Data'
+      on:
+        DEPLOY: YES
 
-    sonarqube.scanner.msbuild.exe end /d:sonar.login=%SONARQUBE_REPO_TOKEN%
-
-
-    dotnet test api/integration/BellRichM.Identity.Api.Integration/BellRichM.Identity.Api.Integration.csproj
-artifacts:
-- path: dist
-  name: ${ARTIFACT_NAME}
-  type: WebDeployPackage
-deploy:
-- provider: WebDeploy
-  server: https://bellrichm-weather.scm.azurewebsites.net:443/msdeploy.axd?site=bellrichm-weather
-  website: bellrichm-weather
-  username: $bellrichm-weather
-  password:
-    secure: 9XB+JI35ertTWfWmF/0oVQ==
-  artifact: ${ARTIFACT_NAME}
-  aspnet_core: true
-  remove_files: true
-  app_offline: true
-  skip_dirs: '\\logs;\\Data'
-  on:
-    DEPLOY: YES
-after_deploy:
-- cmd: dotnet test api/smoke/BellRichM.Identity.Api.Smoke/BellRichM.Identity.Api.Smoke.csproj
+  after_deploy:
+    - cmd: appveyor/after_deploy.cmd
