@@ -1,5 +1,5 @@
 echo "******************************** Test ********************************"
-api\test\coverage.cmd
+call api\test\coverage.cmd
 
 sonarqube.scanner.msbuild.exe end ^
   /d:sonar.login=%SONARQUBE_REPO_TOKEN%
