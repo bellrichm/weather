@@ -7,12 +7,21 @@ set DEPLOY=YES
 set APPVEYOR_BUILD_VERSION=local
 set APPVEYOR_BUILD_FOLDER=C:\RMBData\VSCode\weather\master
 
-set buildpath=C:\Program Files\7-Zip;C:\RMBData\sonar-scanner-msbuild;C:\Program Files (x86)\IIS\Microsoft Web Deploy V3;
+set buildpath=C:\Program Files\7-Zip;C:\RMBData\sonar-scanner-msbuild;
 set path=%path%;%buildpath%
 
 call localtools\init.cmd
 
 call appveyor\init.cmd
+
+dotnet clean api\test\BellRichM.Weather.Test.sln
+dotnet clean api\src\BellRichM.Weather.sln
+dotnet clean api/integration/BellRichM.Identity.Api.Integration/BellRichM.Identity.Api.Integration.csproj
+dotnet clean api/smoke/BellRichM.Identity.Api.Smoke/BellRichM.Identity.Api.Smoke.csproj 
+rmdir %APPVEYOR_BUILD_FOLDER%\dist /s /q
+del %APPVEYOR_BUILD_FOLDER%\%ARTIFACT_NAME%.zip 
+
+call appveyor\before_build.cmd
 
 call appveyor\build.cmd
 

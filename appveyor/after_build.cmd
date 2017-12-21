@@ -1,1 +1,1 @@
-7z a %APPVEYOR_BUILD_FOLDER%\%ARTIFACT_NAME%.zip  %APPVEYOR_BUILD_FOLDER%\dist\*
+echo "******************************** After Build ********************************"

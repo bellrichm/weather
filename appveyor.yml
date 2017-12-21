@@ -25,17 +25,20 @@
     - cmd: appveyor/init.cmd
     - cmd: appveyor/install.cmd
 
+  before_build:
+    - cmd: appveyor/before_build.cmd
+
   build_script:
     - cmd: appveyor/build.cmd
 
   after_build:
     - cmd: appveyor/after_build.cmd
-    - appveyor PushArtifact %ARTIFACT_NAME%.zip -DeploymentName %ARTIFACT_NAME% -type WebDeployPackage
 
   test_script: appveyor/test.cmd
 
   before_deploy:
     - cmd: appveyor/before_deploy.cmd
+    - appveyor PushArtifact %ARTIFACT_NAME%.zip -DeploymentName %ARTIFACT_NAME% -type WebDeployPackage
 
   deploy_script:
     - cmd: appveyor/deploy.cmd
