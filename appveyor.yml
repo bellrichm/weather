@@ -22,35 +22,23 @@
       set APPVEYOR_SKIP_FINALIZE_ON_EXIT=true & appveyor exit)
 
   install:
+    - cmd: appveyor/init.cmd
     - cmd: appveyor/install.cmd
 
   build_script:
     - cmd: appveyor/build.cmd
 
-  test_script: appveyor/test.cmd
+  after_build:
+    - cmd: appveyor/after_build.cmd
+    - appveyor PushArtifact %ARTIFACT_NAME%.zip -DeploymentName %ARTIFACT_NAME% -type WebDeployPackage
 
-  artifacts:
-    - path: dist
-      name: ${ARTIFACT_NAME}
-      type: WebDeployPackage
+  test_script: appveyor/test.cmd
 
   before_deploy:
     - cmd: appveyor/before_deploy.cmd
 
-  deploy:
-    - provider: WebDeploy
-      server: https://bellrichm-weather.scm.azurewebsites.net:443/msdeploy.axd?site=bellrichm-weather
-      website: bellrichm-weather
-      username: $bellrichm-weather
-      password:
-        secure: 9XB+JI35ertTWfWmF/0oVQ==
-      artifact: ${ARTIFACT_NAME}
-      aspnet_core: true
-      remove_files: true
-      app_offline: true
-      skip_dirs: '\\logs;\\Data'
-      on:
-        DEPLOY: YES
+  deploy_script:
+    - cmd: appveyor/deploy.cmd
 
   after_deploy:
     - cmd: appveyor/after_deploy.cmd
