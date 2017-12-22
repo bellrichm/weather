@@ -1,5 +1,6 @@
 echo "******************************** Before Deploy ********************************"
 
+rem TODO: add --no-build when it is supported again
 dotnet publish api\src\BellRichM.Weather.Web\BellRichM.Weather.Web.csproj ^
   --output %APPVEYOR_BUILD_FOLDER%\dist ^
   --no-restore ^

@@ -1,9 +1,4 @@
 echo "******************************** Build ********************************"
-
-dotnet build api\test\BellRichM.Weather.Test.sln ^
-  --no-restore ^
-  -f net462
-
 sonarqube.scanner.msbuild.exe begin ^
   /k:"weather" ^
   /o:"bellrichm" ^
@@ -15,5 +10,19 @@ sonarqube.scanner.msbuild.exe begin ^
   /d:sonar.cs.opencover.reportsPaths="opencover.xml"
 
 dotnet build api\src\BellRichM.Weather.sln ^
+  --no-restore
+
+dotnet build api\test\BellRichM.Weather.Test.sln ^
   --no-restore ^
-  -f netcoreapp2.0
+  --no-dependencies ^
+  -f net462
+
+dotnet build api/integration/BellRichM.Identity.Api.Integration/BellRichM.Identity.Api.Integration.csproj ^
+  --no-restore ^
+  --no-dependencies
+  
+  
+dotnet build api/smoke/BellRichM.Identity.Api.Smoke/BellRichM.Identity.Api.Smoke.csproj ^
+  --no-restore ^
+  --no-dependencies
+  
