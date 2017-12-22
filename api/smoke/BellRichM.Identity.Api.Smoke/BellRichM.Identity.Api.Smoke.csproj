@@ -4,7 +4,7 @@
     <OutputType>Library</OutputType>
     <XXXXStartupObject>BellRichM.Identity.Api.Integration.TestProgram</XXXXStartupObject>
     <CodeAnalysisRuleSet>$(ProjectDir)..\StyleCop.Analyzers.ruleset</CodeAnalysisRuleSet>
-    <NoWarn>NU1603</NoWarn>
+    <NoWarn>NU1603;S101;S1144;S2223;S2933</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

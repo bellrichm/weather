@@ -61,7 +61,10 @@ namespace BellRichM.Identity.Api.Test.Exceptions
   }
 
   [Serializable]
+  #pragma warning disable S3376 // Class name should end with exception
+
   internal class RoleExceptionTestClass : RoleException
+  #pragma warning restore S3376 // Class name should end with exception
   {
     public RoleExceptionTestClass(string code)
       : base(code)

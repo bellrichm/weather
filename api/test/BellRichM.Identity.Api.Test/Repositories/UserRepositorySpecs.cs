@@ -176,10 +176,8 @@ namespace BellRichM.Identity.Api.Test.Repositories
 
     Establish context = () =>
     {
-      var identityResult = new IdentityResult();
-      identityResult = IdentityResult.Failed();
       userManagerMock.Setup(x => x.CreateAsync(user, "P@ssw0rd"))
-        .ReturnsAsync(identityResult);
+        .ReturnsAsync(IdentityResult.Failed());
     };
 
     Because of = () =>
@@ -208,10 +206,8 @@ namespace BellRichM.Identity.Api.Test.Repositories
 
     Establish context = () =>
     {
-      var identityResult = new IdentityResult();
-      identityResult = IdentityResult.Success;
       userManagerMock.Setup(x => x.CreateAsync(user, "P@ssw0rd"))
-        .ReturnsAsync(identityResult);
+        .ReturnsAsync(IdentityResult.Success);
 
       roles.Add(role);
 
@@ -245,16 +241,12 @@ namespace BellRichM.Identity.Api.Test.Repositories
 
     Establish context = () =>
     {
-      var identityResult = new IdentityResult();
-      identityResult = IdentityResult.Success;
       userManagerMock.Setup(x => x.CreateAsync(user, "P@ssw0rd"))
-        .ReturnsAsync(identityResult);
+        .ReturnsAsync(IdentityResult.Success);
 
-      var roleResult = new IdentityResult();
-      roleResult = IdentityResult.Failed();
       userManagerMock
         .Setup(x => x.AddToRoleAsync(user, IT.IsAny<string>()))
-        .ReturnsAsync(roleResult);
+        .ReturnsAsync(IdentityResult.Failed());
 
       roles.Add(role);
     };
@@ -285,10 +277,8 @@ namespace BellRichM.Identity.Api.Test.Repositories
 
     Establish context = () =>
     {
-      var identityResult = new IdentityResult();
-      identityResult = IdentityResult.Success;
       userManagerMock.Setup(x => x.CreateAsync(user, "P@ssw0rd"))
-        .ReturnsAsync(identityResult);
+        .ReturnsAsync(IdentityResult.Success);
     };
 
     Because of = () =>
@@ -311,16 +301,12 @@ namespace BellRichM.Identity.Api.Test.Repositories
 
     Establish context = () =>
     {
-      var identityResult = new IdentityResult();
-      identityResult = IdentityResult.Success;
       userManagerMock.Setup(x => x.CreateAsync(user, "P@ssw0rd"))
-        .ReturnsAsync(identityResult);
+        .ReturnsAsync(IdentityResult.Success);
 
-      var roleResult = new IdentityResult();
-      roleResult = IdentityResult.Success;
       userManagerMock
         .Setup(x => x.AddToRoleAsync(user, roleName))
-        .ReturnsAsync(roleResult);
+        .ReturnsAsync(IdentityResult.Success);
 
       roles.Add(role);
     };
@@ -355,10 +341,8 @@ namespace BellRichM.Identity.Api.Test.Repositories
       userManagerMock.Setup(x => x.FindByIdAsync(user.Id))
         .ReturnsAsync(user);
 
-      var identityResult = new IdentityResult();
-      identityResult = IdentityResult.Success;
       userManagerMock.Setup(x => x.DeleteAsync(user))
-        .ReturnsAsync(identityResult);
+        .ReturnsAsync(IdentityResult.Success);
     };
 
     Because of = () =>
@@ -377,10 +361,8 @@ namespace BellRichM.Identity.Api.Test.Repositories
       userManagerMock.Setup(x => x.FindByIdAsync(user.Id))
         .ReturnsAsync(user);
 
-      var identityResult = new IdentityResult();
-      identityResult = IdentityResult.Failed();
       userManagerMock.Setup(x => x.DeleteAsync(user))
-        .ReturnsAsync(identityResult);
+        .ReturnsAsync(IdentityResult.Failed());
     };
 
     Because of = () =>

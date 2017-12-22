@@ -3,7 +3,7 @@
     <TargetFrameworks>netcoreapp2.0;net462</TargetFrameworks>
     <OutputType>Library</OutputType>
     <CodeAnalysisRuleSet>$(ProjectDir)..\StyleCop.Analyzers.ruleset</CodeAnalysisRuleSet>
-    <NoWarn>NU1603</NoWarn>
+    <NoWarn>NU1603;S101;S1144;S2223;S2933</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

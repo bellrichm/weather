@@ -46,7 +46,7 @@ namespace BellRichM.Identity.Api.Integration
       response = Client.GetAsync(GetByIdRoute + TestUser.Id).Await();
 
     It should_return_unauthorized_response_code = () =>
-      response.StatusCode.Should().Equals(HttpStatusCode.Unauthorized);
+      response.StatusCode.ShouldEqual(HttpStatusCode.Unauthorized);
 
     It should_return_no_content = () =>
     {
@@ -69,7 +69,7 @@ namespace BellRichM.Identity.Api.Integration
       response = Client.GetAsync(GetByIdRoute + TestUser.Id).Await();
 
     It should_return_unauthorized_response_code = () =>
-      response.StatusCode.Should().Equals(HttpStatusCode.Forbidden);
+      response.StatusCode.ShouldEqual(HttpStatusCode.Forbidden);
 
     It should_return_no_content = () =>
     {
@@ -92,7 +92,7 @@ namespace BellRichM.Identity.Api.Integration
       response = Client.GetAsync(GetByIdRoute + TestUser.Id).Await();
 
     It should_return_unauthorized_response_code = () =>
-      response.StatusCode.Should().Equals(HttpStatusCode.OK);
+      response.StatusCode.ShouldEqual(HttpStatusCode.OK);
 
     It should_have_content = () =>
     {

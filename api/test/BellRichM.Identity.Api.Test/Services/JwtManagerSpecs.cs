@@ -138,7 +138,7 @@ namespace BellRichM.Identity.Api.Test.Services
     {
         jwt = jwtManager.GenerateToken(user.UserName, Password).Await();
 
-        var principal = new JwtSecurityTokenHandler()
+        new JwtSecurityTokenHandler()
             .ValidateToken(jwt, tokenValidationParameters, out var securityToken);
         jwtSecurityToken = (JwtSecurityToken)securityToken;
     };

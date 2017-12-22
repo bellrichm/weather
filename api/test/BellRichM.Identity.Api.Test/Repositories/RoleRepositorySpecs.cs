@@ -186,10 +186,8 @@ namespace BellRichM.Identity.Api.Test
 
     Establish context = () =>
     {
-        var identityResult = new IdentityResult();
-        identityResult = IdentityResult.Failed();
         roleManagerMock.Setup(x => x.CreateAsync(role))
-          .ReturnsAsync(identityResult);
+          .ReturnsAsync(IdentityResult.Failed());
     };
 
     Because of = () =>
@@ -218,16 +216,12 @@ namespace BellRichM.Identity.Api.Test
 
     Establish context = () =>
     {
-        var identityResult = new IdentityResult();
-        identityResult = IdentityResult.Success;
         roleManagerMock.Setup(x => x.CreateAsync(role))
-          .ReturnsAsync(identityResult);
+          .ReturnsAsync(IdentityResult.Success);
 
-        var claimResult = new IdentityResult();
-        claimResult = IdentityResult.Failed();
         roleManagerMock
           .Setup(x => x.AddClaimAsync(role, IT.IsAny<Claim>()))
-          .ReturnsAsync(claimResult);
+          .ReturnsAsync(IdentityResult.Failed());
 
         role.ClaimValues = claimValues;
     };
@@ -258,10 +252,8 @@ namespace BellRichM.Identity.Api.Test
 
     Establish context = () =>
     {
-      var identityResult = new IdentityResult();
-      identityResult = IdentityResult.Success;
       roleManagerMock.Setup(x => x.CreateAsync(role))
-        .ReturnsAsync(identityResult);
+        .ReturnsAsync(IdentityResult.Success);
     };
 
     Because of = () =>
@@ -284,16 +276,12 @@ namespace BellRichM.Identity.Api.Test
 
     Establish context = () =>
     {
-      var identityResult = new IdentityResult();
-      identityResult = IdentityResult.Success;
       roleManagerMock.Setup(x => x.CreateAsync(role))
-        .ReturnsAsync(identityResult);
+        .ReturnsAsync(IdentityResult.Success);
 
-      var claimResult = new IdentityResult();
-      claimResult = IdentityResult.Success;
       roleManagerMock
         .Setup(x => x.AddClaimAsync(role, IT.IsAny<Claim>()))
-        .ReturnsAsync(claimResult);
+        .ReturnsAsync(IdentityResult.Success);
 
       role.ClaimValues = claimValues;
     };
@@ -328,10 +316,8 @@ namespace BellRichM.Identity.Api.Test
       roleManagerMock.Setup(x => x.FindByIdAsync(role.Id))
         .ReturnsAsync(role);
 
-      var identityResult = new IdentityResult();
-      identityResult = IdentityResult.Success;
       roleManagerMock.Setup(x => x.DeleteAsync(role))
-        .ReturnsAsync(identityResult);
+        .ReturnsAsync(IdentityResult.Success);
     };
 
     Because of = () =>
@@ -350,10 +336,8 @@ namespace BellRichM.Identity.Api.Test
           roleManagerMock.Setup(x => x.FindByIdAsync(role.Id))
             .ReturnsAsync(role);
 
-          var identityResult = new IdentityResult();
-          identityResult = IdentityResult.Failed();
           roleManagerMock.Setup(x => x.DeleteAsync(role))
-            .ReturnsAsync(identityResult);
+            .ReturnsAsync(IdentityResult.Failed());
       };
 
       Because of = () =>

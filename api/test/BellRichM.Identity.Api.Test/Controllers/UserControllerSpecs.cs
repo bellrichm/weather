@@ -143,7 +143,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
 
     internal class When_id_and_password_is_correct : UserControllerSpecs
     {
-      protected static ObjectResult result;
+      private static ObjectResult result;
 
       Because of = () =>
         result = (ObjectResult)userController.Login(userLogin).Await();
@@ -160,13 +160,13 @@ namespace BellRichM.Identity.Api.Test.Controllers
       It should_return_the_jwt_value = () =>
       {
         var accessToken = (AccessTokenModel)result.Value;
-        accessToken.JsonWebToken.Should().Equals("jwt");
+        accessToken.JsonWebToken.ShouldEqual("jwt");
       };
     }
 
     internal class When_user_is_found : UserControllerSpecs
     {
-      protected static ObjectResult result;
+      private static ObjectResult result;
 
       Because of = () =>
         result = (ObjectResult)userController.GetById(userModel.Id).Await();
@@ -183,13 +183,13 @@ namespace BellRichM.Identity.Api.Test.Controllers
       It should_return_the_usermodel = () =>
       {
         var user = (UserModel)result.Value;
-        user.Should().Equals(userModel);
+        user.ShouldBeEquivalentTo(userModel);
       };
     }
 
     internal class When_user_is_not_found : UserControllerSpecs
     {
-      protected static NotFoundResult result;
+      private static NotFoundResult result;
 
       Because of = () =>
         result = (NotFoundResult)userController.GetById(string.Empty).Await();
@@ -202,7 +202,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
 
     internal class When_decorating_GetById_method : UserControllerSpecs
     {
-      protected static MethodInfo methodInfo;
+      private static MethodInfo methodInfo;
 
       Because of = () =>
         methodInfo = typeof(UserController).GetMethod("GetById");

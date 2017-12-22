@@ -14,29 +14,15 @@ namespace BellRichM.Identity.Api.Smoke
 {
   public class UserControllerSmoke
   {
-    protected static HttpClient client;
+    public static HttpClient Client {get; set;}
 
     Establish context = () =>
     {
-      client.DefaultRequestHeaders.Accept.Clear();
-      client.DefaultRequestHeaders.Accept.Add(
+      Client.DefaultRequestHeaders.Accept.Clear();
+      Client.DefaultRequestHeaders.Accept.Add(
           new MediaTypeWithQualityHeaderValue("application/json"));
     };
   }
-
-  public class SetupTeardown : UserControllerSmoke, IAssemblyContext
-  {
-    public void OnAssemblyStart()
-    {
-      client = new HttpClient();
-      client.BaseAddress = new Uri("http://bellrichm-weather.azurewebsites.net");
-    }
-
-    public void OnAssemblyComplete()
-    {
-      client.Dispose();
-    }
-}
 
   internal class When_retrieving_default_page : UserControllerSmoke
   {
@@ -46,7 +32,7 @@ namespace BellRichM.Identity.Api.Smoke
       response.Dispose();
 
     Because of = () =>
-      response = client.GetAsync(string.Empty).Await();
+      response = Client.GetAsync(string.Empty).Await();
 
     It should_return_success_code = () =>
       response.StatusCode.ShouldEqual(HttpStatusCode.OK);
@@ -68,7 +54,9 @@ namespace BellRichM.Identity.Api.Smoke
       var userLogin = new UserLoginModel
       {
         UserName = "InvalidUser",
+        #pragma warning disable S2068
         Password = "InvalidPassword"
+        #pragma warning restore S2068
       };
 
       var jsonObject = JsonConvert.SerializeObject(userLogin);
@@ -82,7 +70,7 @@ namespace BellRichM.Identity.Api.Smoke
     };
 
     Because of = () =>
-      response = client.PostAsync("api/user/login", postContent).Await();
+      response = Client.PostAsync("api/user/login", postContent).Await();
 
     It should_return_bad_request_response_code = () =>
       response.StatusCode.ShouldEqual(HttpStatusCode.BadRequest);
