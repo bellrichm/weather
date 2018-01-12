@@ -4,6 +4,7 @@ using BellRichM.Identity.Api.Repositories;
 using FluentAssertions;
 using Machine.Specifications;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
@@ -21,7 +22,7 @@ namespace BellRichM.Identity.Api.Test.Repositories
     protected static Mock<IUserStore<User>> userStoreMock;
     protected static Mock<UserManager<User>> userManagerMock;
     protected static Mock<IIdentityDbContext> identityDbContextMock;
-    protected static Mock<IDbContextTransactionProxy> dbTransactionProxyMock;
+    protected static Mock<IDbContextTransaction> dbTransactionMock;
 
     protected static UserRepository userRepository;
     protected static User user;
@@ -37,9 +38,9 @@ namespace BellRichM.Identity.Api.Test.Repositories
       roleRepositoryMock = new Mock<IRoleRepository>();
       userStoreMock = new Mock<IUserStore<User>>();
       userManagerMock = new Mock<UserManager<User>>(userStoreMock.Object, null, null, null, null, null, null, null, null);
-      dbTransactionProxyMock = new Mock<IDbContextTransactionProxy>();
+      dbTransactionMock = new Mock<IDbContextTransaction>();
       identityDbContextMock = new Mock<IIdentityDbContext>();
-      identityDbContextMock.Setup(x => x.BeginTransaction()).Returns(dbTransactionProxyMock.Object);
+      identityDbContextMock.Setup(x => x.BeginTransaction()).Returns(dbTransactionMock.Object);
 
       roleNames = new List<string>();
 
@@ -193,10 +194,10 @@ namespace BellRichM.Identity.Api.Test.Repositories
       userResult.ShouldBeNull();
 
     It should_rollback_the_work = () =>
-      dbTransactionProxyMock.Verify(x => x.Rollback(), Times.Once);
+      dbTransactionMock.Verify(x => x.Rollback(), Times.Once);
 
     It should_not_commit_the_work = () =>
-      dbTransactionProxyMock.Verify(x => x.Commit(), Times.Never);
+      dbTransactionMock.Verify(x => x.Commit(), Times.Never);
   }
 
   internal class When_role_does_not_exist : UserRepositorySpecs
@@ -228,10 +229,10 @@ namespace BellRichM.Identity.Api.Test.Repositories
       userResult.ShouldBeNull();
 
     It should_rollback_the_work = () =>
-      dbTransactionProxyMock.Verify(x => x.Rollback(), Times.Once);
+      dbTransactionMock.Verify(x => x.Rollback(), Times.Once);
 
     It should_not_commit_the_work = () =>
-      dbTransactionProxyMock.Verify(x => x.Commit(), Times.Never);
+      dbTransactionMock.Verify(x => x.Commit(), Times.Never);
   }
 
   internal class When_error_adding_role : UserRepositorySpecs
@@ -264,10 +265,10 @@ namespace BellRichM.Identity.Api.Test.Repositories
       userResult.ShouldBeNull();
 
     It should_rollback_the_work = () =>
-      dbTransactionProxyMock.Verify(x => x.Rollback(), Times.Once);
+      dbTransactionMock.Verify(x => x.Rollback(), Times.Once);
 
     It should_not_commit_the_work = () =>
-      dbTransactionProxyMock.Verify(x => x.Commit(), Times.Never);
+      dbTransactionMock.Verify(x => x.Commit(), Times.Never);
   }
 
   internal class When_creating_user_without_roles : UserRepositorySpecs
@@ -288,10 +289,10 @@ namespace BellRichM.Identity.Api.Test.Repositories
       userResult.ShouldNotBeNull();
 
     It should_not_rollback_the_work = () =>
-      dbTransactionProxyMock.Verify(x => x.Rollback(), Times.Never);
+      dbTransactionMock.Verify(x => x.Rollback(), Times.Never);
 
     It should_commit_the_work = () =>
-      dbTransactionProxyMock.Verify(x => x.Commit(), Times.Once);
+      dbTransactionMock.Verify(x => x.Commit(), Times.Once);
   }
 
   internal class When_creating_user_with_roles : UserRepositorySpecs
@@ -325,10 +326,10 @@ namespace BellRichM.Identity.Api.Test.Repositories
               Times.Once);
 
     It should_not_rollback_the_work = () =>
-      dbTransactionProxyMock.Verify(x => x.Rollback(), Times.Never);
+      dbTransactionMock.Verify(x => x.Rollback(), Times.Never);
 
     It should_commit_the_work = () =>
-      dbTransactionProxyMock.Verify(x => x.Commit(), Times.Once);
+      dbTransactionMock.Verify(x => x.Commit(), Times.Once);
   }
 
   [Subject("Delete User")]

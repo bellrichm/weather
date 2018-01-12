@@ -2,6 +2,7 @@ using BellRichM.Attribute.CodeCoverage;
 using BellRichM.Identity.Api.Data;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace BellRichM.Identity.Api.Data
 {
@@ -13,9 +14,9 @@ namespace BellRichM.Identity.Api.Data
         {
         }
 
-        public IDbContextTransactionProxy BeginTransaction()
+        public IDbContextTransaction BeginTransaction()
         {
-             return new DbContextTransactionProxy(this);
+             return Database.BeginTransaction();
         }
     }
 }
