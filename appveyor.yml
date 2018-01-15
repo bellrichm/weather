@@ -65,7 +65,7 @@
 
         if ($error -ne '')
         {
-          # $host.SetShouldExit(1) # TODO: temporarily ignore error
+          $host.SetShouldExit(1) # TODO: temporarily ignore error
         }
 
         # set APPVEYOR_SKIP_FINALIZE_ON_EXIT=true & appveyor exit)
