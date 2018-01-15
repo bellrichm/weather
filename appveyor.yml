@@ -22,26 +22,56 @@
       set APPVEYOR_SKIP_FINALIZE_ON_EXIT=true & appveyor exit)
 
   install:
-    - cmd: appveyor/init.cmd
-    - cmd: appveyor/install.cmd
+    - ps: appveyor/init.ps1
+    - ps: appveyor/install.ps1
 
   before_build:
-    - cmd: appveyor/before_build.cmd
+    - ps: appveyor/before_build.ps1
 
   build_script:
-    - cmd: appveyor/build.cmd
+    - ps: appveyor/build.ps1
 
   after_build:
-    - cmd: appveyor/after_build.cmd
+    - ps: appveyor/after_build.ps1
 
-  test_script: appveyor/test.cmd
+  test_script:
+    - ps: appveyor/test.ps1
 
   before_deploy:
-    - cmd: appveyor/before_deploy.cmd
-    - appveyor PushArtifact %ARTIFACT_NAME%.zip -DeploymentName %ARTIFACT_NAME% -type WebDeployPackage
+    - ps: appveyor/before_deploy.ps1
+    - ps: >-
+        if ($env:BUILD_ARTIFACT -eq "NO")
+        {
+          return
+        }
+
+        $cmd = "Push-AppveyorArtifact $env:ARTIFACT_NAME.zip -DeploymentName $env:ARTIFACT_NAME -type WebDeployPackage"
+
+        $cmd = $cmd
+
+        Write-Host "Running: $cmd"
+
+        Invoke-Expression $cmd -ErrorVariable $errvar
+
+        Write-Host "error $error"
+
+        Write-Host "err $err"
+
+        Write-Host "errvar $errvar"
+
+        Write-Host "last rc $LastExitCode"
+
+        Write-Host "count $error.Count"
+
+        if ($error -ne '')
+        {
+          # $host.SetShouldExit(1) # TODO: temporarily ignore error
+        }
+
+        # set APPVEYOR_SKIP_FINALIZE_ON_EXIT=true & appveyor exit)
 
   deploy_script:
-    - cmd: appveyor/deploy.cmd
+    - ps: appveyor/deploy.ps1
 
   after_deploy:
-    - cmd: appveyor/after_deploy.cmd
+    - ps: appveyor/after_deploy.ps1
