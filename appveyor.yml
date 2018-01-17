@@ -18,7 +18,7 @@
   init:
     - ps: >-
         Write-Host "******************************** Init ********************************";
-        If ($env:APPVEYOR_REPO_BRANCH -eq $env:BRANCH_NAME)
+        If ($env:APPVEYOR_REPO_BRANCH -ne $env:BRANCH_NAME)
         {
           $env:APPVEYOR_SKIP_FINALIZE_ON_EXIT = true;
           Exit-AppVeyorBuild
