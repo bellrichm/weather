@@ -8,6 +8,7 @@ try
 }
 catch
 {
+    $error.clear()
     $env:BUILD_PLATFORM = "Other"
 }
 

@@ -8,10 +8,23 @@ Function RunCmd {
     if ($LastExitCode -ne 0)
     {
       Write-Host "Error running: $cmd"
+      if ([string]::IsNullOrEmpty($LastExitCode))
+      {
+        exit 1
+      }
+
       exit $LastExitCode
+    }
+
+    if ( -Not [string]::IsNullOrEmpty($error))
+    {
+      Write-Host "Error running: $cmd"
+      Write-Host "$error"
+      exit 1
     }
   }
 }
+
 
 "******************************** " + $MyInvocation.InvocationName + " ********************************"
 
@@ -26,11 +39,6 @@ $cmd = $cmd + '--output $env:APPVEYOR_BUILD_FOLDER/dist '
 $cmd = $cmd + '--no-restore '
 $cmd = $cmd + '-f netcoreapp2.0 '
 RunCmd $cmd
-
-#dotnet clean api/test/BellRichM.Weather.Test.sln
-#dotnet clean api/src/BellRichM.Weather.sln
-#dotnet clean api/integration/BellRichM.Identity.Api.Integration/BellRichM.Identity.Api.Integration.csproj
-## dotnet clean api/smoke/BellRichM.Identity.Api.Smoke/BellRichM.Identity.Api.Smoke.csproj
 
 if ($env:BUILD_PLATFORM -eq "Windows")
 {
@@ -47,3 +55,11 @@ if ($env:BUILD_PLATFORM -eq "Unix")
   RunCmd $cmd
   Pop-Location
 }
+
+if ($env:UPLOAD_ARTIFACT -eq "NO")
+{
+  return
+}
+
+$cmd = "Push-AppveyorArtifact $env:ARTIFACT_NAME.zip -XDeploymentName $env:ARTIFACT_NAME -type WebDeployPackage"
+RunCmd $cmd

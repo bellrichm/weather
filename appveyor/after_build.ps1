@@ -17,11 +17,12 @@ Function RunCmd {
       exit $LastExitCode
     }
 
-    #if ( -Not [string]::IsNullOrEmpty($error))
-    #{
-      #Write-Host "Error running: $cmd"
-      #exit 1
-    #}
+    if ( -Not [string]::IsNullOrEmpty($error))
+    {
+      Write-Host "Error running: $cmd"
+      Write-Host $error
+      exit 1
+    }
   }
 }
 

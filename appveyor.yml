@@ -16,10 +16,13 @@
   # cannot be a script, because this is before the pull of the code
   # just trying to short circuit a build if not for expected branch
   init:
-    - echo "******************************** Init ********************************"
-    - rem set
-    - IF NOT "%APPVEYOR_REPO_BRANCH%"=="%BRANCH_NAME%" (
-      set APPVEYOR_SKIP_FINALIZE_ON_EXIT=true & appveyor exit)
+    - ps: appveyor/before_deploy.ps1
+        Write-Host "******************************** Init ********************************"
+        If ($env:APPVEYOR_REPO_BRANCH -eq $env:BRANCH_NAME)
+        {
+          $env:APPVEYOR_SKIP_FINALIZE_ON_EXIT = true;
+          Exit-AppVeyorBuild
+        }
 
   install:
     - ps: appveyor/init.ps1
@@ -39,36 +42,6 @@
 
   before_deploy:
     - ps: appveyor/before_deploy.ps1
-    - ps: >-
-        if ($env:BUILD_ARTIFACT -eq "NO")
-        {
-          return
-        }
-
-        $cmd = "Push-AppveyorArtifact $env:ARTIFACT_NAME.zip -DeploymentName $env:ARTIFACT_NAME -type WebDeployPackage"
-
-        $cmd = $cmd
-
-        Write-Host "Running: $cmd"
-
-        Invoke-Expression $cmd -ErrorVariable $errvar
-
-        Write-Host "error $error"
-
-        Write-Host "err $err"
-
-        Write-Host "errvar $errvar"
-
-        Write-Host "last rc $LastExitCode"
-
-        Write-Host "count $error.Count"
-
-        if ($error -ne '')
-        {
-          $host.SetShouldExit(1) # TODO: temporarily ignore error
-        }
-
-        # set APPVEYOR_SKIP_FINALIZE_ON_EXIT=true & appveyor exit)
 
   deploy_script:
     - ps: appveyor/deploy.ps1

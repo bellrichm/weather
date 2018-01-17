@@ -26,7 +26,7 @@ if ($env:BUILD_PLATFORM -eq "Windows")
 else
 {
     $unitTestFramework = '-f netcoreapp2.0 '
-    $unitTestBuild = '-f netcoreapp2.0 '
+    $buildFramework = '-f netcoreapp2.0 '
 }
 
 if ($env:BUILD_PLATFORM-eq "Windows" `
@@ -49,10 +49,10 @@ if ($env:BUILD_PLATFORM-eq "Windows" `
 
 $defBuildParams = '--no-restore --no-dependencies '
 
-$cmd = "dotnet build api\src\BellRichM.Weather.sln --no-restore $unitTestBuild"
+$cmd = "dotnet build api\src\BellRichM.Weather.sln --no-restore $buildFramework"
 RunCmd $cmd
 
-$cmd = "dotnet build api\test\BellRichM.Weather.Test.sln $defBuildParams "
+$cmd = "dotnet build api\test\BellRichM.Weather.Test.sln $defBuildParams $unitTestFramework"
 RunCmd $cmd
 
 $cmd = "dotnet build api/integration/BellRichM.Identity.Api.Integration/BellRichM.Identity.Api.Integration.csproj $defBuildParams "

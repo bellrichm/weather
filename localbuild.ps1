@@ -24,9 +24,10 @@ Invoke-Expression -Command ./localtools/init.ps1
 $env:BUILDPATH = "C:\Program Files\7-Zip;C:\RMBData\sonar-scanner-msbuild;"
 $env:PATH = $env:PATH + $env:BUILDPATH
 
-$preClean = "NO"
+$preClean = "YES"
 if ($preClean -ne "NO")
 {
+  Write-Host "******************************** PreCleaning ********************************"
   dotnet clean api/test/BellRichM.Weather.Test.sln
   dotnet clean api/src/BellRichM.Weather.sln
   dotnet clean api/integration/BellRichM.Identity.Api.Integration/BellRichM.Identity.Api.Integration.csproj
@@ -38,15 +39,17 @@ if ($preClean -ne "NO")
 $env:ARTIFACT_NAME = "weather-branch"
 $env:BRANCH_NAME = "buildexperiments"
 
-$env:RESTORE = "NO"
-$env:BUILD = "NO"
+$env:RESTORE = "YES"
+$env:BUILD = "YES"
 $env:UNIT_TEST = "YES"
+$env:INTEGRATION_TEST = "YES"
+$env:BUILD_ARTIFACT = "YES"
+# Unless testing the process, these should usually be set to NO
 $env:UPLOAD_COVERALLS = "NO"
 $env:UPLOAD_SONARQUBE = 'NO'
-$env:INTEGRATION_TEST = "NO"
-$env:SMOKE_TEST = "NO"
-$env:BUILD_ARTIFACT = "NO"
+$env:UPLOAD_ARTIFACT = 'NO'
 $env:DEPLOY = "NO"
+$env:SMOKE_TEST = "NO"
 
 RunCmd " ./appveyor/init.ps1"
 

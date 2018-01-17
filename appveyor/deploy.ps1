@@ -17,11 +17,12 @@ Function RunCmd {
       exit $LastExitCode
     }
 
-    #if ( -Not [string]::IsNullOrEmpty($error))
-    #{
-    #  # Write-Host "Error running: $cmd"
-    #  exit 1
-    #}
+    if ( -Not [string]::IsNullOrEmpty($error))
+    {
+      Write-Host "Error running: $cmd"
+      Write-Host $error
+      exit 1
+    }
   }
 }
 
@@ -46,7 +47,7 @@ if ($env:BUILD_PLATFORM -eq "Windows")
   $parms = $parms + 'computerName=$env:AZURE_SERVER,'
   $parms = $parms + 'UserName=$env:AZURE_USER,'
   $parms = $parms + 'Password=$env:AZURE_PW,'
-  $parms = $parms + 'AuthType=Basic' 
+  $parms = $parms + 'AuthType=Basic'
 
   $cmd = "& `" C:\Program Files (x86)\IIS\Microsoft Web Deploy V3\msdeploy.exe`" $parms"
   RunCmd $cmd
