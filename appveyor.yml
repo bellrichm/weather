@@ -16,7 +16,7 @@
   # cannot be a script, because this is before the pull of the code
   # just trying to short circuit a build if not for expected branch
   init:
-    - ps: appveyor/before_deploy.ps1
+    - ps: >-
         Write-Host "******************************** Init ********************************"
         If ($env:APPVEYOR_REPO_BRANCH -eq $env:BRANCH_NAME)
         {
