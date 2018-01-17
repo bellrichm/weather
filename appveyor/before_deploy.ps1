@@ -61,5 +61,5 @@ if ($env:UPLOAD_ARTIFACT -eq "NO")
   return
 }
 
-$cmd = "Push-AppveyorArtifact $env:ARTIFACT_NAME.zip -XDeploymentName $env:ARTIFACT_NAME -type WebDeployPackage"
+$cmd = "Push-AppveyorArtifact $env:ARTIFACT_NAME.zip -DeploymentName $env:ARTIFACT_NAME -type WebDeployPackage"
 RunCmd $cmd

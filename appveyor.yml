@@ -17,7 +17,7 @@
   # just trying to short circuit a build if not for expected branch
   init:
     - ps: >-
-        Write-Host "******************************** Init ********************************"
+        Write-Host "******************************** Init ********************************";
         If ($env:APPVEYOR_REPO_BRANCH -eq $env:BRANCH_NAME)
         {
           $env:APPVEYOR_SKIP_FINALIZE_ON_EXIT = true;
