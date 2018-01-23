@@ -14,14 +14,14 @@ namespace BellRichM.Identity.Api.Smoke
 {
   public class UserControllerSmoke
   {
-    public static HttpClient Client {get; set;}
-
     Establish context = () =>
     {
       Client.DefaultRequestHeaders.Accept.Clear();
       Client.DefaultRequestHeaders.Accept.Add(
           new MediaTypeWithQualityHeaderValue("application/json"));
     };
+
+    public static HttpClient Client { get; set; }
   }
 
   internal class When_retrieving_default_page : UserControllerSmoke
