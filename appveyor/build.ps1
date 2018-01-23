@@ -8,7 +8,19 @@ Function RunCmd {
     if ($LastExitCode -ne 0)
     {
       Write-Host "Error running: $cmd"
+      if ([string]::IsNullOrEmpty($LastExitCode))
+      {
+        exit 1
+      }
+
       exit $LastExitCode
+    }
+
+    if ( -Not [string]::IsNullOrEmpty($error))
+    {
+      Write-Host "Error running: $cmd"
+      Write-Host $error
+      exit 1
     }
   }
 }

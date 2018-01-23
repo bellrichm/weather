@@ -15,6 +15,7 @@ Function RunCmd {
 
 "******************************** " + $MyInvocation.InvocationName + " ********************************"
 # TODO: check return codes of build steps
+$error.Clear()
 
 $env:APPVEYOR_BUILD_VERSION = "local"
 $env:APPVEYOR_BUILD_FOLDER =  Split-Path $MyInvocation.MyCommand.Path
@@ -25,6 +26,8 @@ $env:BUILDPATH = "C:\Program Files\7-Zip;C:\RMBData\sonar-scanner-msbuild;"
 $env:PATH = $env:PATH + $env:BUILDPATH
 
 $preClean = "YES"
+$postClean = "YES" 
+
 if ($preClean -ne "NO")
 {
   Write-Host "******************************** PreCleaning ********************************"
@@ -46,8 +49,8 @@ $env:INTEGRATION_TEST = "YES"
 $env:BUILD_ARTIFACT = "YES"
 # Unless testing the process, these should usually be set to NO
 $env:UPLOAD_COVERALLS = "NO"
-$env:UPLOAD_SONARQUBE = 'NO'
-$env:UPLOAD_ARTIFACT = 'NO'
+$env:UPLOAD_SONARQUBE = "NO"
+$env:UPLOAD_ARTIFACT = "NO"
 $env:DEPLOY = "NO"
 $env:SMOKE_TEST = "NO"
 
@@ -66,3 +69,9 @@ RunCmd "./appveyor/before_deploy.ps1"
 RunCmd "./appveyor/deploy.ps1"
 
 RunCmd "./appveyor/after_deploy.ps1"
+
+if ($postClean -ne "NO")
+{
+  RunCmd "git checkout api/integration/BellRichM.Identity.Api.Integration/data/Identity.db"
+  RunCmd "rm $env:APPVEYOR_BUILD_FOLDER/$env:ARTIFACT_NAME.zip"
+}  
