@@ -1,8 +1,18 @@
 namespace BellRichM.Identity.Api.Exceptions
 {
-    public static class CreateRoleExceptionCode
-    {
-        public const string CreateRoleFailed = "CreateRoleFailed";
-        public const string AddClaimFailed = "AddClaimFailed";
-    }
+  /// <summary>
+  /// Exception codes when creating the role fails.
+  /// </summary>
+  public static class CreateRoleExceptionCode
+  {
+    /// <summary>
+    /// The create role failed.
+    /// </summary>
+    public const string CreateRoleFailed = "CreateRoleFailed";
+
+    /// <summary>
+    /// The add claim failed.
+    /// </summary>
+    public const string AddClaimFailed = "AddClaimFailed";
+  }
 }

@@ -11,6 +11,10 @@ using System.Threading.Tasks;
 
 namespace BellRichM.Identity.Api.Controllers
 {
+    /// <summary>
+    /// The user controller.
+    /// </summary>
+    /// <seealso cref="Controller" />
     [Route("api/[controller]")]
     public class UserController : Controller
     {
@@ -20,6 +24,13 @@ namespace BellRichM.Identity.Api.Controllers
         private readonly IUserRepository _userRepository;
         private readonly IJwtManager _jwtManager;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserController"/> class.
+        /// </summary>
+        /// <param name="logger">The <see cref="ILogger{UserController}"/>.</param>
+        /// <param name="mapper">The <see cref="IMapper"/>.</param>
+        /// <param name="userRepository">The <see cref="IUserRepository"/>.</param>
+        /// <param name="jwtManager">The <see cref="IJwtManager"/>.</param>
         public UserController(ILogger<UserController> logger, IMapper mapper, IUserRepository userRepository, IJwtManager jwtManager)
         {
             _logger = logger;
@@ -28,6 +39,11 @@ namespace BellRichM.Identity.Api.Controllers
             _jwtManager = jwtManager;
         }
 
+        /// <summary>
+        /// Gets the user by id.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>The <see cref="Task{IActionResult}"/>containing the <see cref="UserModel"/>.</returns>
         [Authorize(Policy = "CanViewUsers")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(string id)
@@ -42,6 +58,11 @@ namespace BellRichM.Identity.Api.Controllers
             return Ok(userModel);
         }
 
+        /// <summary>
+        /// Generates the JWT for the <paramref name="userLogin"/>
+        /// </summary>
+        /// <param name="userLogin">The<see cref="UserLoginModel"/>.</param>
+        /// <returns>The <see cref="Task{IActionResult}"/> containing the JWT.</returns>
         [HttpPost("/api/[controller]/[action]")]
         public async Task<IActionResult> Login([FromBody] UserLoginModel userLogin)
         {

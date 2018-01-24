@@ -1,8 +1,18 @@
 namespace BellRichM.Identity.Api.Exceptions
 {
-    public static class DeleteRoleExceptionCode
-    {
-        public const string RoleNotFound = "RoleNotFound";
-        public const string DeleteRoleFailed = "DeleteRoleFailed";
-    }
+  /// <summary>
+  /// Exception codes when deleting the role fails.
+  /// </summary>
+  public static class DeleteRoleExceptionCode
+  {
+    /// <summary>
+    /// The role not found.
+    /// </summary>
+    public const string RoleNotFound = "RoleNotFound";
+
+    /// <summary>
+    /// The delete role failed
+    /// </summary>
+    public const string DeleteRoleFailed = "DeleteRoleFailed";
+  }
 }

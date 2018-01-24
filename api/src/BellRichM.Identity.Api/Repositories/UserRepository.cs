@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace BellRichM.Identity.Api.Repositories
 {
+    /// <inheritdoc/>
     public class UserRepository : IUserRepository, IDisposable
     {
         private readonly ILogger _logger;
@@ -17,6 +18,13 @@ namespace BellRichM.Identity.Api.Repositories
         private readonly IIdentityDbContext _context;
         private bool disposed = false;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserRepository"/> class.
+        /// </summary>
+        /// <param name="logger">The <see cref="ILogger{UserRepository}"/>.</param>
+        /// <param name="roleRepository">The <see cref="IRoleRepository"/>.</param>
+        /// <param name="userManager">The <see cref="UserManager{User}"/>.</param>
+        /// <param name="context">The <see cref="IIdentityDbContext"/>.</param>
         public UserRepository(ILogger<UserRepository> logger, IRoleRepository roleRepository, UserManager<User> userManager, IIdentityDbContext context)
         {
             _logger = logger;
@@ -25,6 +33,7 @@ namespace BellRichM.Identity.Api.Repositories
             _context = context;
         }
 
+        /// <inheritdoc/>
         public async Task<User> GetById(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
@@ -36,6 +45,7 @@ namespace BellRichM.Identity.Api.Repositories
             return user;
         }
 
+        /// <inheritdoc/>=
         public async Task<User> GetByName(string name)
         {
             var user = await _userManager.FindByNameAsync(name);
@@ -47,6 +57,17 @@ namespace BellRichM.Identity.Api.Repositories
             return user;
         }
 
+        /// <summary>
+        /// Creates the specified <paramref name="user"/> with a <paramref name="password"/>.
+        /// </summary>
+        /// <param name="user">The <see cref="User"/>.</param>
+        /// <param name="password">The password for the user.</param>
+        /// <returns>The <see cref="Task{User}"/>.</returns>
+        /// <exception cref="CreateUserException">
+        /// Thrown with <see cref="CreateUserExceptionCode.RoleNotFound"/> when the user has a role that does not exist.
+        /// Thrown with <see cref="CreateUserExceptionCode.AddRoleFailed"/> when unable to add a role to the user.
+        /// Thrown with <see cref="CreateUserExceptionCode.CreateUserFailed"/> when unable to create the user.
+        /// </exception>
         public async Task<User> Create(User user, string password)
         {
             using (var identitydbContextTransaction = _context.BeginTransaction())
@@ -89,6 +110,15 @@ namespace BellRichM.Identity.Api.Repositories
             }
         }
 
+        /// <summary>
+        /// Deletes the user with the <paramref name="id"/>.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>The <see cref="Task"/>.</returns>
+        /// <exception cref="DeleteUserException">
+        /// Thrown with <see cref="DeleteUserExceptionCode.UserNotFound"/> when the user does not exist.
+        /// Thrown with <see cref="DeleteUserExceptionCode.DeleteUserFailed"/> when unable to delete the user.
+        /// </exception>
         public async Task Delete(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
@@ -104,12 +134,17 @@ namespace BellRichM.Identity.Api.Repositories
             }
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
          {
             if (!disposed)

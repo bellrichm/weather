@@ -18,6 +18,10 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace BellRichM.Identity.Api.Services
 {
+    /// <summary>
+    /// Manages the Json Web Token (JWT)
+    /// </summary>
+    /// <seealso cref="BellRichM.Identity.Api.Services.IJwtManager" />
     public class JwtManager : IJwtManager
     {
         private readonly ILogger _logger;
@@ -25,6 +29,13 @@ namespace BellRichM.Identity.Api.Services
         private readonly IUserRepository _userRepository;
         private readonly SignInManager<User> _signInManager;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JwtManager"/> class.
+        /// </summary>
+        /// <param name="jwtConfiguration">The <see cref="IJwtConfiguration"/>.</param>
+        /// <param name="logger">The <see cref="ILogger{JwtManager}"/>.</param>
+        /// <param name="userRepository">The <see cref="IUserRepository"/>.</param>
+        /// <param name="signInManager">The <see cref="SignInManager{TUser}"/>.</param>
         public JwtManager(IJwtConfiguration jwtConfiguration, ILogger<JwtManager> logger, IUserRepository userRepository, SignInManager<User> signInManager)
         {
             _jwtConfiguration = jwtConfiguration;
@@ -33,7 +44,8 @@ namespace BellRichM.Identity.Api.Services
             _signInManager = signInManager;
         }
 
-        public async Task<string> GenerateToken(string userName, string passWord)
+        /// <inheritdoc/>
+        public async Task<string> GenerateToken(string userName, string password)
         {
             var user = await _userRepository.GetByName(userName);
             if (user == null)
@@ -41,7 +53,7 @@ namespace BellRichM.Identity.Api.Services
                 return null;
             }
 
-            var result = await _signInManager.CheckPasswordSignInAsync(user, passWord,  false);
+            var result = await _signInManager.CheckPasswordSignInAsync(user, password,  false);
             if (!result.Succeeded)
             {
                 return null;

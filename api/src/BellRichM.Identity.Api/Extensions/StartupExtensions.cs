@@ -15,8 +15,16 @@ using System.Text;
 
 namespace BellRichM.Identity.Api.Extensions
 {
+    /// <summary>
+    /// Startup extenstion methods
+    /// </summary>
     public static class StartupExtensions
     {
+        /// <summary>
+        /// Adds the services needed for Identity API
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/>.</param>
+        /// <param name="configuration">The <see cref="IConfigurationRoot"/>.</param>
         public static void AddIdentityServices(this IServiceCollection services, IConfigurationRoot configuration)
         {
             services.AddDbContext<IdentityDbContext>(options =>

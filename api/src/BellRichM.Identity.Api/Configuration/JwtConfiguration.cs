@@ -4,16 +4,22 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace BellRichM.Identity.Api.Configuration
 {
+    /// <inheritdoc/>
     public class JwtConfiguration : IJwtConfiguration
     {
+        /// <inheritdoc/>
         public string Issuer { get; set; }
 
+        /// <inheritdoc/>
         public string Audience { get; set; }
 
+        /// <inheritdoc/>
         public TimeSpan ValidFor { get; set; } = TimeSpan.FromMinutes(5);
 
+        /// <inheritdoc/>
         public string SecretKey { get; set; }
 
+        /// <inheritdoc/>
         #pragma warning disable S3928
         public void Validate()
         {

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace BellRichM.Identity.Api.Repositories
 {
+    /// <inheritdoc/>
     public class RoleRepository : IRoleRepository, IDisposable
     {
         private readonly ILogger _logger;
@@ -17,6 +18,12 @@ namespace BellRichM.Identity.Api.Repositories
         private readonly IIdentityDbContext _context;
         private bool disposed = false;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RoleRepository"/> class.
+        /// </summary>
+        /// <param name="logger">The <see cref="ILogger{RoleRepository}"/>.</param>
+        /// <param name="roleManager">The <see cref="RoleManager{Role}"/>.</param>
+        /// <param name="context">The <see cref="IIdentityDbContext"/>.</param>
         public RoleRepository(ILogger<RoleRepository> logger, RoleManager<Role> roleManager, IIdentityDbContext context)
         {
             _logger = logger;
@@ -24,6 +31,7 @@ namespace BellRichM.Identity.Api.Repositories
             _context = context;
         }
 
+        /// <inheritdoc/>
         public async Task<Role> GetById(string id)
         {
             var role = await _roleManager.FindByIdAsync(id);
@@ -36,6 +44,7 @@ namespace BellRichM.Identity.Api.Repositories
             return role;
         }
 
+        /// <inheritdoc/>
         public async Task<Role> GetByName(string name)
         {
             var role = await _roleManager.FindByNameAsync(name);
@@ -48,6 +57,15 @@ namespace BellRichM.Identity.Api.Repositories
             return role;
         }
 
+        /// <summary>
+        /// Creates the specified <paramref name="role"/>.
+        /// </summary>
+        /// <param name="role">The <see cref="Role"/>.</param>
+        /// <returns>The <see cref="Task{Role}"/>.</returns>
+        /// <exception cref="CreateRoleException">
+        /// Thrown with <see cref="CreateRoleExceptionCode.AddClaimFailed"/> when unable to add a claim to the role.
+        /// Thrown with <see cref="CreateRoleExceptionCode.CreateRoleFailed"/> when unable to create the role.
+        /// </exception>
         public async Task<Role> Create(Role role)
         {
             using (var identitydbContextTransaction = _context.BeginTransaction())
@@ -83,6 +101,15 @@ namespace BellRichM.Identity.Api.Repositories
             }
         }
 
+        /// <summary>
+        /// Deletes the role with the <paramref name="id"/>.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>The <see cref="Task"/>.</returns>
+        /// <exception cref="DeleteRoleException">
+        /// Thrown with <see cref="DeleteRoleExceptionCode.RoleNotFound"/> when the role does not exist.
+        /// Thrown with <see cref="DeleteRoleExceptionCode.DeleteRoleFailed"/> when unable to delete the role.
+        /// </exception>
         public async Task Delete(string id)
         {
             var role = await _roleManager.FindByIdAsync(id);
@@ -98,12 +125,17 @@ namespace BellRichM.Identity.Api.Repositories
             }
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
          {
             if (!disposed)
