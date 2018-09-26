@@ -55,7 +55,7 @@ if ($env:BUILD_PLATFORM-eq "Windows" `
   $parms = $parms + '/d:sonar.exclusions="**/Migrations/*, **/obj/**/*, **/*Specs.*"  '
   $parms = $parms + '/d:sonar.cs.opencover.reportsPaths="opencover.xml" '
 
-  $cmd = "sonarqube.scanner.msbuild.exe $parms"
+  $cmd = "SonarScanner.MSBuild.exe $parms"
   RunCmd $cmd
 }
 

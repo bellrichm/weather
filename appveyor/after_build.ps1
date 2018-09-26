@@ -60,7 +60,7 @@ if ($env:BUILD_PLATFORM-eq "Windows")
   if ($env:UPLOAD_SONARQUBE -ne 'NO')
   {
     $parms = '/d:sonar.login=$env:SONARQUBE_REPO_TOKEN'
-    $cmd = "sonarqube.scanner.msbuild.exe end $parms"
+    $cmd = "SonarScanner.MSBuild.exe end $parms"
     RunCmd $cmd
   }
 }
