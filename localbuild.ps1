@@ -26,15 +26,15 @@ $env:BUILDPATH = "C:\Program Files\7-Zip;C:\RMBData\sonar-scanner-msbuild;"
 $env:PATH = $env:PATH + $env:BUILDPATH
 
 $preClean = "YES"
-$postClean = "YES" 
+$postClean = "YES"
 
 if ($preClean -ne "NO")
 {
   Write-Host "******************************** PreCleaning ********************************"
-  dotnet clean api/test/BellRichM.Weather.Test.sln
-  dotnet clean api/src/BellRichM.Weather.sln
-  dotnet clean api/integration/BellRichM.Identity.Api.Integration/BellRichM.Identity.Api.Integration.csproj
-  dotnet clean api/smoke/BellRichM.Identity.Api.Smoke/BellRichM.Identity.Api.Smoke.csproj
+  dotnet clean -v m api/test/BellRichM.Weather.Test.sln
+  dotnet clean -v m api/src/BellRichM.Weather.sln
+  dotnet clean -v m api/integration/BellRichM.Identity.Api.Integration/BellRichM.Identity.Api.Integration.csproj
+  dotnet clean -v m api/smoke/BellRichM.Identity.Api.Smoke/BellRichM.Identity.Api.Smoke.csproj
   Remove-Item $env:APPVEYOR_BUILD_FOLDER/dist -Force -Recurse -ErrorAction Ignore
   Remove-Item $env:APPVEYOR_BUILD_FOLDER/$env:ARTIFACT_NAME.zip -ErrorAction Ignore
 }
@@ -74,4 +74,4 @@ if ($postClean -ne "NO")
 {
   RunCmd "git checkout api/integration/BellRichM.Identity.Api.Integration/data/Identity.db"
   RunCmd "rm $env:APPVEYOR_BUILD_FOLDER/$env:ARTIFACT_NAME.zip"
-}  
+}

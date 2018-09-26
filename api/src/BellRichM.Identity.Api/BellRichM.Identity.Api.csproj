@@ -30,10 +30,6 @@
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
-    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\BellRichM.Attribute\BellRichM.Attribute.csproj" />
   </ItemGroup>
 </Project>

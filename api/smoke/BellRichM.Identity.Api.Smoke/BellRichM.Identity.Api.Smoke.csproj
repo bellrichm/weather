@@ -22,6 +22,5 @@
 
   <ItemGroup>
     <DotNetCliToolReference Include="Machine.Specifications.Runner.Console" Version="0.9.3" />
-    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
   </ItemGroup>
 </Project>
