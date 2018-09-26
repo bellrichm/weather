@@ -21,7 +21,7 @@ namespace BellRichM.Identity.Api.Exceptions
     /// </summary>
     /// <param name="code">The code that provides additional detail.</param>
     [ExcludeFromCodeCoverage]
-    public RoleException(string code)
+    protected RoleException(string code)
             : base()
     {
       _code = code;
@@ -33,7 +33,7 @@ namespace BellRichM.Identity.Api.Exceptions
     /// <param name="code">The code that provides additional detail.</param>
     /// <param name="message">The message describing the exception.</param>
     [ExcludeFromCodeCoverage]
-    public RoleException(string code, string message)
+    protected RoleException(string code, string message)
             : base(message)
     {
       _code = code;
@@ -46,7 +46,7 @@ namespace BellRichM.Identity.Api.Exceptions
     /// <param name="message">The message describing the exception.</param>
     /// <param name="innerException">The inner exception.</param>
     [ExcludeFromCodeCoverage]
-    public RoleException(string code, string message, Exception innerException)
+    protected RoleException(string code, string message, Exception innerException)
             : base(message, innerException)
     {
       _code = code;

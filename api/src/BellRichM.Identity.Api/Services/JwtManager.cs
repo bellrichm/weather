@@ -10,8 +10,6 @@ using BellRichM.Identity.Api.Configuration;
 using BellRichM.Identity.Api.Data;
 using BellRichM.Identity.Api.Repositories;
 
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;

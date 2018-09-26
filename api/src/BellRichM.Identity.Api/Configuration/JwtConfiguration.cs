@@ -1,6 +1,5 @@
 using System;
 using System.Text;
-using Microsoft.IdentityModel.Tokens;
 
 namespace BellRichM.Identity.Api.Configuration
 {
