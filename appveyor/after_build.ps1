@@ -63,6 +63,17 @@ if ($env:BUILD_PLATFORM-eq "Windows")
     $cmd = "SonarScanner.MSBuild.exe end $parms"
     RunCmd $cmd
   }
+  
+  if ($env:COVERAGE_REPORT -eq 'YES')
+  {
+    $parms = ''
+    $parms = $parms + '"-reporttypes:Html;XmlSummary;Xml" '
+  	$parms = $parms + '"-reports:opencover.xml" '
+	  $parms = $parms + '"-targetdir:coverage\report" '
+	  $parms = $parms + '"-historydir:coverage\report\history" '
+	  $cmd = "ReportGenerator.exe $parms"
+	  RunCmd $cmd
+  }
 }
 
 if ($env:BUILD_PLATFORM -eq "Unix" `

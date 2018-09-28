@@ -22,7 +22,9 @@ $env:APPVEYOR_BUILD_FOLDER =  Split-Path $MyInvocation.MyCommand.Path
 
 Invoke-Expression -Command ./localtools/init.ps1
 
-$env:BUILDPATH = "C:\Program Files\7-Zip;C:\RMBData\sonar-scanner-msbuild;"
+$env:COVERAGE_REPORT = "YES"
+
+$env:BUILDPATH = "C:\Program Files\7-Zip;C:\RMBData\sonar-scanner-msbuild;$env:HOMEPATH\.nuget\packages\ReportGenerator\3.0.2\tools;"
 $env:PATH = $env:PATH + $env:BUILDPATH
 
 $preClean = "YES"
