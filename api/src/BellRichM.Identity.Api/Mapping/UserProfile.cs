@@ -15,17 +15,17 @@ namespace BellRichM.Identity.Api.Mapping
         /// </summary>
         public UserProfile()
         {
-          CreateMap<User, UserModel>();
-          CreateMap<UserCreateModel, User>()
-            .ForMember(dest => dest.NormalizedUserName, dest => dest.Ignore())
-            .ForMember(dest => dest.NormalizedEmail, dest => dest.Ignore())
-            .ForMember(dest => dest.EmailConfirmed, dest => dest.Ignore())
-            .ForMember(dest => dest.PasswordHash, dest => dest.Ignore())
-            .ForMember(dest => dest.SecurityStamp, dest => dest.Ignore())
-            .ForMember(dest => dest.ConcurrencyStamp, dest => dest.Ignore())
-            .ForMember(dest => dest.PhoneNumberConfirmed, dest => dest.Ignore())
-            .ForMember(dest => dest.LockoutEnd, dest => dest.Ignore())
-            .ForMember(dest => dest.AccessFailedCount, dest => dest.Ignore())
+            CreateMap<User, UserModel>();
+            CreateMap<UserCreateModel, User>()
+                .ForMember(dest => dest.NormalizedUserName, dest => dest.Ignore())
+                .ForMember(dest => dest.NormalizedEmail, dest => dest.Ignore())
+                .ForMember(dest => dest.EmailConfirmed, dest => dest.Ignore())
+                .ForMember(dest => dest.PasswordHash, dest => dest.Ignore())
+                .ForMember(dest => dest.SecurityStamp, dest => dest.Ignore())
+                .ForMember(dest => dest.ConcurrencyStamp, dest => dest.Ignore())
+                .ForMember(dest => dest.PhoneNumberConfirmed, dest => dest.Ignore())
+                .ForMember(dest => dest.LockoutEnd, dest => dest.Ignore())
+                .ForMember(dest => dest.AccessFailedCount, dest => dest.Ignore())
                .ForMember(src => src.Id, opt => opt.Ignore());
         }
     }
