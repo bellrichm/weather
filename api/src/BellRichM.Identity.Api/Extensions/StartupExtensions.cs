@@ -49,6 +49,8 @@ namespace BellRichM.Identity.Api.Extensions
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("CanViewUsers", policy => policy.RequireClaim(ClaimTypes.Role, "CanViewUsers"));
+                options.AddPolicy("CanCreateUsers", policy => policy.RequireClaim(ClaimTypes.Role, "CanCreateUsers"));
+                options.AddPolicy("CanDeleteUsers", policy => policy.RequireClaim(ClaimTypes.Role, "CanDeleteUsers"));
             });
 
             services.AddAuthentication(options =>

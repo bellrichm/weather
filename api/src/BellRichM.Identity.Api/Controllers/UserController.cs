@@ -1,5 +1,6 @@
 using AutoMapper;
 using BellRichM.Identity.Api.Data;
+using BellRichM.Identity.Api.Exceptions;
 using BellRichM.Identity.Api.Models;
 using BellRichM.Identity.Api.Repositories;
 using BellRichM.Identity.Api.Services;
@@ -56,6 +57,56 @@ namespace BellRichM.Identity.Api.Controllers
 
             var userModel = _mapper.Map<UserModel>(newUser);
             return Ok(userModel);
+        }
+
+        /// <summary>
+        /// Creates the specified user create.
+        /// </summary>
+        /// <param name="userCreate">The user to create.</param>
+        /// <returns>The <see cref="Task{IActionResult}"/>containing the <see cref="UserModel"/>.</returns>
+        [Authorize(Policy = "CanCreateUsers")]
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] UserCreateModel userCreate)
+        {
+            User newUser;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = _mapper.Map<User>(userCreate);
+            try
+            {
+                newUser = await _userRepository.Create(user, userCreate.Password);
+                var userModel = _mapper.Map<UserModel>(newUser);
+                return Ok(userModel);
+            }
+            catch (CreateUserException ex)
+            {
+                ModelState.AddModelError(ex.Code, ex.Message);
+                return BadRequest(ModelState);
+            }
+        }
+
+        /// <summary>
+        /// Deletes the user by id.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>A <see cref="Task{IActionResult}"/>.</returns>
+        [Authorize(Policy = "CanDeleteUsers")]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            try
+            {
+                await _userRepository.Delete(id);
+                return NoContent();
+            }
+            catch (DeleteUserException ex)
+            {
+                ModelState.AddModelError(ex.Code, ex.Message);
+                return BadRequest(ModelState);
+            }
         }
 
         /// <summary>

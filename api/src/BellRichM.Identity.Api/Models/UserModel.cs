@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using BellRichM.Attribute.CodeCoverage;
 
 namespace BellRichM.Identity.Api.Models
@@ -15,6 +16,8 @@ namespace BellRichM.Identity.Api.Models
         /// <value>
         /// The name of the user.
         /// </value>
+        [Required]
+        [RegularExpression(@"^[a-zA-Z0-9]*$", ErrorMessage="UserName must be alphanumeric")]
         public string UserName { get; set; }
 
         /// <summary>
@@ -47,6 +50,7 @@ namespace BellRichM.Identity.Api.Models
         /// <value>
         /// The email.
         /// </value>
+        [EmailAddress]
         public string Email { get; set; }
 
         /// <summary>
@@ -55,6 +59,7 @@ namespace BellRichM.Identity.Api.Models
         /// <value>
         /// The phone number.
         /// </value>
+        [Phone]
         public string PhoneNumber { get; set; }
 
         /// <summary>
