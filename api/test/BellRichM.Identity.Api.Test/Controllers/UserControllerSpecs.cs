@@ -121,8 +121,8 @@ namespace BellRichM.Identity.Api.Test.Controllers
 
         It should_return_correct_error_message = () =>
         {
-          var error = (SerializableError)result.Value;
-          ((string[])error[ErrorCode]).Should().Equal(ErrorMessage);
+            var error = (SerializableError)result.Value;
+            ((string[])error[ErrorCode]).Should().Equal(ErrorMessage);
         };
     }
 
@@ -156,8 +156,8 @@ namespace BellRichM.Identity.Api.Test.Controllers
 
         It should_return_correct_error_message = () =>
         {
-          var error = (SerializableError)result.Value;
-          ((string[])error["loginError"]).Should().Equal("Invalid user password combination.");
+            var error = (SerializableError)result.Value;
+            ((string[])error["loginError"]).Should().Equal("Invalid user password combination.");
         };
     }
 
@@ -264,8 +264,8 @@ namespace BellRichM.Identity.Api.Test.Controllers
 
         It should_return_correct_error_message = () =>
         {
-          var error = (SerializableError)result.Value;
-          ((string[])error[ErrorCode]).Should().Equal(ErrorMessage);
+            var error = (SerializableError)result.Value;
+            ((string[])error[ErrorCode]).Should().Equal(ErrorMessage);
         };
     }
 
@@ -299,8 +299,8 @@ namespace BellRichM.Identity.Api.Test.Controllers
 
         It should_return_correct_error_message = () =>
         {
-          var error = (SerializableError)result.Value;
-          ((string[])error[createUserException.Code]).Should().Equal(createUserException.Message);
+            var error = (SerializableError)result.Value;
+            ((string[])error[createUserException.Code]).Should().Equal(createUserException.Message);
         };
     }
 
@@ -375,8 +375,8 @@ namespace BellRichM.Identity.Api.Test.Controllers
 
         It should_return_correct_error_message = () =>
         {
-          var error = (SerializableError)result.Value;
-          ((string[])error[deleteUserException.Code]).Should().Equal(deleteUserException.Message);
+            var error = (SerializableError)result.Value;
+            ((string[])error[deleteUserException.Code]).Should().Equal(deleteUserException.Message);
         };
     }
 
