@@ -1,3 +1,6 @@
+using System;
+using System.Security.Claims;
+using System.Text;
 using BellRichM.Identity.Api.Configuration;
 using BellRichM.Identity.Api.Data;
 using BellRichM.Identity.Api.Repositories;
@@ -9,9 +12,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Security.Claims;
-using System.Text;
 
 namespace BellRichM.Identity.Api.Extensions
 {
@@ -51,6 +51,9 @@ namespace BellRichM.Identity.Api.Extensions
                 options.AddPolicy("CanViewUsers", policy => policy.RequireClaim(ClaimTypes.Role, "CanViewUsers"));
                 options.AddPolicy("CanCreateUsers", policy => policy.RequireClaim(ClaimTypes.Role, "CanCreateUsers"));
                 options.AddPolicy("CanDeleteUsers", policy => policy.RequireClaim(ClaimTypes.Role, "CanDeleteUsers"));
+                options.AddPolicy("CanViewRoles", policy => policy.RequireClaim(ClaimTypes.Role, "CanViewRoles"));
+                options.AddPolicy("CanCreateRoles", policy => policy.RequireClaim(ClaimTypes.Role, "CanCreateRoles"));
+                options.AddPolicy("CanDeleteRoles", policy => policy.RequireClaim(ClaimTypes.Role, "CanDeleteRoles"));
             });
 
             services.AddAuthentication(options =>
