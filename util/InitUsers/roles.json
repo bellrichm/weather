@@ -1,0 +1,48 @@
+[
+{
+    "Name": "UserAdmin",
+    "Description": "Administer the users",
+    "ClaimValues":
+    [
+        {
+           "Type": "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+           "Value": "CanUpdateUsers"
+        },
+        {
+           "Type": "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+           "Value": "CanViewUsers"
+        },
+        {
+           "Type": "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+           "Value": "CanCreateUsers"
+        },
+        {
+           "Type": "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+           "Value": "CanDeleteUsers"
+        }        
+    ]
+},
+{
+    "Name": "RoleAdmin",
+    "Description": "Administer the roles",
+    "ClaimValues":
+    [
+        {
+           "Type": "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+           "Value": "CanUpdateRoles"
+        },
+        {
+           "Type": "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+           "Value": "CanViewRoles"
+        },
+        {
+           "Type": "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+           "Value": "CanCreateRoles"
+        },
+        {
+           "Type": "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+           "Value": "CanDeleteRoles"
+        }        
+    ]
+}
+]

@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <CodeAnalysisRuleSet>$(ProjectDir)..\StyleCop.Analyzers.ruleset</CodeAnalysisRuleSet>
+    <NoWarn>NU1603</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="1.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="StyleCop" Version="5.0.0">
+      <NoWarn>NU1701</NoWarn>
+    </PackageReference>
+    <PackageReference Include="Serilog.AspNetCore" Version="2.0.0" />
+    <PackageReference Include="Serilog.sinks.Console" Version="3.1.0" />
+    
+
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\api\src\BellRichM.Identity.Api\BellRichM.Identity.Api.csproj" />
+  </ItemGroup>
+</Project>

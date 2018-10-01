@@ -1,0 +1,21 @@
+[
+{
+    "password": "$password",
+    "user":
+    {
+        "userName": "$admin",
+        "email": "email@dot.com",
+        "phoneNumber": 1,
+        "Roles":
+        [
+            {
+                "Name": "UserAdmin"
+            },
+            {
+                "Name": "RoleAdmin"
+            }     
+        ]               
+    }
+}
+]
+
