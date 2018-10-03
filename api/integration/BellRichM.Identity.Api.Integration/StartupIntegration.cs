@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +19,9 @@ namespace BellRichM.Identity.Api.Integration
     {
         private Startup startup;
 
-        public StartupIntegration(IHostingEnvironment env)
+        public StartupIntegration(IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            startup = new Startup(env, AppContext.BaseDirectory + "../../../data");
+            startup = new Startup(env, loggerFactory, AppContext.BaseDirectory + "../../../data");
         }
 
         public IConfigurationRoot Configuration { get; }

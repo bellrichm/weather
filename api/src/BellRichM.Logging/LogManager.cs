@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using Serilog.Context;
 using Serilog.Events;
 using Serilog.Filters;
 using Serilog.Formatting.Compact;
@@ -62,7 +63,10 @@ namespace BellRichM.Logging
                         fileSizeLimitBytes: 10485760,
                         outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} {Type} {RequestId}] {Message}{NewLine}"))
                 .CreateLogger();
-            Log.Information("*** Starting env {env} loggingLevelSwitches: {@loggingLevelSwitches} loggingFilterSwitches: {@loggingFilterSwitches}", currentEnv, loggingLevelSwitches, loggingFilterSwitches);
+            using (LogContext.PushProperty("Type", "INFORMATION"))
+            {
+                Log.Information("*** Starting env {env} loggingLevelSwitches: {@loggingLevelSwitches} loggingFilterSwitches: {@loggingFilterSwitches}", currentEnv, loggingLevelSwitches, loggingFilterSwitches);
+            }
         }
     }
 }

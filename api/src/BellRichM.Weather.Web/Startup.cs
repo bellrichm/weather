@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,8 +23,9 @@ namespace BellRichM.Weather.Web
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// </summary>
         /// <param name="env">The <see cref="IHostingEnvironment"/>.</param>
-        public Startup(IHostingEnvironment env)
-            : this(env, null)
+        /// <param name="loggerFactory">The <see cref="ILoggerFactory"/>.</param>
+        public Startup(IHostingEnvironment env, ILoggerFactory loggerFactory)
+            : this(env, loggerFactory, null)
         {
         }
 
@@ -31,9 +33,12 @@ namespace BellRichM.Weather.Web
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// </summary>
         /// <param name="env">The <see cref="IHostingEnvironment"/>.</param>
+        /// <param name="loggerFactory">The <see cref="ILoggerFactory"/>.</param>
         /// <param name="dir">The content root path.</param>
-        public Startup(IHostingEnvironment env, string dir)
+        public Startup(IHostingEnvironment env, ILoggerFactory loggerFactory, string dir)
         {
+            var logger = loggerFactory.CreateLogger<Startup>();
+
             if (dir == null)
             {
                 dir = env.ContentRootPath;
@@ -45,6 +50,9 @@ namespace BellRichM.Weather.Web
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+
+            logger.LogDiagnosticInformation("Environment: {@env}", env);
+            logger.LogDiagnosticInformation("Configuration: {@Configuration}", Configuration);
         }
 
         /// <summary>
