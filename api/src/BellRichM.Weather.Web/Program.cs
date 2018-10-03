@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+using BellRichM.Logging;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Serilog;
 
 namespace BellRichM.Weather.Web
@@ -22,10 +16,8 @@ namespace BellRichM.Weather.Web
         /// <param name="args">The startup parameters.</param>
         public static void Main(string[] args)
         {
-            Log.Logger = new LoggerConfiguration()
-                .WriteTo.Console()
-                .WriteTo.RollingFile("logs/logTrace-{Date}.txt", fileSizeLimitBytes: 10485760, retainedFileCountLimit: 7) // 10 MB file size
-                .CreateLogger();
+            var logManager = new LogManager();
+            logManager.Create("logs");
 
             BuildWebHost(args).Run();
         }

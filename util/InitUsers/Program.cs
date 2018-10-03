@@ -5,6 +5,7 @@ using BellRichM.Identity.Api.Data;
 using BellRichM.Identity.Api.Exceptions;
 using BellRichM.Identity.Api.Extensions;
 using BellRichM.Identity.Api.Repositories;
+using BellRichM.Logging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -50,11 +51,9 @@ namespace InitUsers
 
         private static IServiceProvider Configure()
         {
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Verbose()
-                .Filter.ByExcluding(Matching.FromSource‌​("Microsoft"))
-                .WriteTo.Console()
-                .CreateLogger();
+            var logManager = new LogManager();
+            logManager.Create("logs");
+
             var loggerFactory = new LoggerFactory().AddSerilog();
 
             var builder = new ConfigurationBuilder()
@@ -65,7 +64,6 @@ namespace InitUsers
 
             var services = new ServiceCollection();
             services.AddSingleton(loggerFactory);
-            services.AddLogging();
             services.AddIdentityServices(configuration);
             return services.BuildServiceProvider();
         }

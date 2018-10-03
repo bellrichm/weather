@@ -1,23 +1,16 @@
+using System;
+using System.Collections.Generic;
 using BellRichM.Identity.Api.Data;
 using BellRichM.Identity.Api.Extensions;
-using BellRichM.Identity.Api.Models;
 using BellRichM.Identity.Api.Repositories;
 using BellRichM.Identity.Api.Services;
-using BellRichM.Weather.Api;
+using BellRichM.Logging;
 using Machine.Specifications;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Serilog;
-using Serilog.Filters;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
 
 namespace BellRichM.Identity.Api.Integration.Controllers
 {
@@ -60,7 +53,10 @@ namespace BellRichM.Identity.Api.Integration.Controllers
             UserControllerTests.TestUser = _testUser;
             UserControllerTests.UserTestJwt = GenerateJwt(_testUser.UserName, testUserPw);
 
-            var server = new TestServer(new WebHostBuilder().UseStartup<StartupIntegration>());
+            var logManager = new LogManager();
+            logManager.Create("../../../logs");
+
+            var server = new TestServer(new WebHostBuilder().UseStartup<StartupIntegration>().UseSerilog());
             UserControllerTests.Client = server.CreateClient();
         }
 
@@ -73,15 +69,6 @@ namespace BellRichM.Identity.Api.Integration.Controllers
 
         private void Configure()
         {
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Verbose()
-                .Filter.ByExcluding(Matching.FromSource‌​("Microsoft"))
-                .WriteTo.Console()
-                .WriteTo.RollingFile("logsTest/testLog-{Date}.txt", fileSizeLimitBytes: 10485760, retainedFileCountLimit: 7) // 10 MB file size
-                .CreateLogger();
-            var loggerFactory = new LoggerFactory().AddSerilog();
-            UserControllerTests.Logger = loggerFactory.CreateLogger<UserControllerTests>();
-
             var builder = new ConfigurationBuilder()
                 .SetBasePath(AppContext.BaseDirectory + "../../../data")
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
@@ -89,8 +76,6 @@ namespace BellRichM.Identity.Api.Integration.Controllers
             var configuration = builder.Build();
 
             var services = new ServiceCollection();
-            services.AddSingleton(loggerFactory);
-            services.AddLogging();
             services.AddIdentityServices(configuration);
             _serviceProvider = services.BuildServiceProvider();
         }
@@ -101,23 +86,23 @@ namespace BellRichM.Identity.Api.Integration.Controllers
             {
                 new ClaimValue
                 {
-                  Type = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
-                  Value = "CanUpdateUsers"
+                    Type = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+                    Value = "CanUpdateUsers"
                 },
                 new ClaimValue
                 {
-                  Type = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
-                  Value = "CanViewUsers"
+                    Type = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+                    Value = "CanViewUsers"
                 },
                 new ClaimValue
                 {
-                  Type = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
-                  Value = "CanCreateUsers"
+                    Type = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+                    Value = "CanCreateUsers"
                 },
                 new ClaimValue
                 {
-                  Type = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
-                  Value = "CanDeleteUsers"
+                    Type = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+                    Value = "CanDeleteUsers"
                 }
             };
 
