@@ -3,6 +3,7 @@ using System.IO;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Filters;
+using Serilog.Formatting.Compact;
 
 namespace BellRichM.Logging
 {
@@ -21,10 +22,27 @@ namespace BellRichM.Logging
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Verbose()
                 .Filter.ByExcluding(Matching.FromSource‌​("Microsoft"))
-                .Enrich.FromLogContext() // ToDo get this to work
-                .WriteTo.Console()
-                .Filter.ByExcluding(Matching.WithProperty<string>("Type", p => p.Equals("EVENT")))
-                .WriteTo.RollingFile(logFile, fileSizeLimitBytes: 10485760, retainedFileCountLimit: 7) // 10 MB file size
+                .Enrich.FromLogContext()
+                .WriteTo.Logger(l => l
+                    .Filter.ByIncludingOnly(Matching.WithProperty<string>("Type", p => p.Equals("EVENT")))
+                    .WriteTo.RollingFile(
+                        new CompactJsonFormatter(),
+                        Path.Combine(logDir, "events-{Date}.log.json"),
+                        fileSizeLimitBytes: 10485760,
+                        retainedFileCountLimit: 7))
+                .WriteTo.Logger(l => l
+                    .Filter.ByExcluding(Matching.WithProperty<string>("Type", p => p.Equals("EVENT")))
+                    .WriteTo.RollingFile(
+                        new CompactJsonFormatter(),
+                        Path.Combine(logDir, "diagnostics-{Date}.log.json"),
+                        fileSizeLimitBytes: 10485760,
+                        retainedFileCountLimit: 7))
+                .WriteTo.Logger(l => l
+                    .Filter.ByExcluding(Matching.WithProperty<string>("Type", p => p.Equals("EVENT")))
+                    .WriteTo.File(
+                        Path.Combine(logDir, "debug.log"),
+                        fileSizeLimitBytes: 10485760,
+                        outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} {Type} {RequestId}] {Message}{NewLine}"))
                 .CreateLogger();
         }
     }
