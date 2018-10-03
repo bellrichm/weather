@@ -1,3 +1,5 @@
+using BellRichM.Logging;
+
 namespace Microsoft.AspNetCore.Builder
 {
     /// <summary>
