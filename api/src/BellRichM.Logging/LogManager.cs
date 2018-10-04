@@ -15,11 +15,15 @@ namespace BellRichM.Logging
     /// </summary>
     public class LogManager
     {
+        private string _environment;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="LogManager"/> class.
         /// </summary>
-        public LogManager()
+        /// <param name="environment">The runtime environment.</param>
+        public LogManager(string environment)
         {
+            _environment = environment;
             LoggingLevelSwitches = new LoggingLevelSwitches();
             LoggingFilterSwitches = new LoggingFilterSwitches();
         }
@@ -46,14 +50,11 @@ namespace BellRichM.Logging
         /// <param name="logDir">Relative path to the log directory.</param>
         public void Create(string logDir)
         {
-            var currentEnv = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-
-            // ToDo: if (currentEnv == "Development")
+            if (_environment == "Development")
             {
                 LoggingLevelSwitches.DefaultLoggingLevelSwitch.MinimumLevel = LogEventLevel.Debug;
-
-                // ToDo: loggingLevelSwitches.MicrosoftLoggingLevelSwitch.MinimumLevel = LogEventLevel.Information;
-                // ToDo: loggingLevelSwitches.SystemLoggingLevelSwitch.MinimumLevel = LogEventLevel.Information;
+                LoggingLevelSwitches.MicrosoftLoggingLevelSwitch.MinimumLevel = LogEventLevel.Information;
+                LoggingLevelSwitches.SystemLoggingLevelSwitch.MinimumLevel = LogEventLevel.Information;
                 LoggingLevelSwitches.ConsoleSinkLevelSwitch.MinimumLevel = LogEventLevel.Verbose;
                 LoggingFilterSwitches.ConsoleSinkFilterSwitch.Expression = "true";
             }
@@ -89,7 +90,7 @@ namespace BellRichM.Logging
                 .CreateLogger();
             using (LogContext.PushProperty("Type", "INFORMATION"))
             {
-                Log.Information("*** Starting env {env} loggingLevelSwitches: {@loggingLevelSwitches} loggingFilterSwitches: {@loggingFilterSwitches}", currentEnv, LoggingLevelSwitches, LoggingFilterSwitches);
+                Log.Information("*** Starting env {env} loggingLevelSwitches: {@loggingLevelSwitches} loggingFilterSwitches: {@loggingFilterSwitches}", _environment, LoggingLevelSwitches, LoggingFilterSwitches);
             }
         }
     }

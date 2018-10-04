@@ -20,7 +20,8 @@ namespace BellRichM.Weather.Web
         /// <returns>Returns 0 on success and 1 on failure</returns>
         public static int Main(string[] args)
         {
-            var logManager = new LogManager();
+            var currentEnv = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            var logManager = new LogManager(currentEnv);
             logManager.Create("logs");
             try
             {

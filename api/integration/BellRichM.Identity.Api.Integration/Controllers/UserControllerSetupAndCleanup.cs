@@ -53,7 +53,7 @@ namespace BellRichM.Identity.Api.Integration.Controllers
             UserControllerTests.TestUser = _testUser;
             UserControllerTests.UserTestJwt = GenerateJwt(_testUser.UserName, testUserPw);
 
-            var logManager = new LogManager();
+            var logManager = new LogManager("Development");
             logManager.Create("../../../logs");
 
             var server = new TestServer(new WebHostBuilder().UseStartup<StartupIntegration>().UseSerilog());

@@ -51,7 +51,7 @@ namespace InitUsers
 
         private static IServiceProvider Configure()
         {
-            var logManager = new LogManager();
+            var logManager = new LogManager("Development");
             logManager.Create("logs");
 
             var loggerFactory = new LoggerFactory().AddSerilog();
