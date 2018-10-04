@@ -15,7 +15,7 @@ namespace BellRichM.Logging
     /// </summary>
     public class LogManager
     {
-        private string _environment;
+        private readonly string _environment;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LogManager"/> class.
@@ -59,7 +59,6 @@ namespace BellRichM.Logging
                 LoggingFilterSwitches.ConsoleSinkFilterSwitch.Expression = "true";
             }
 
-            var logFile = Path.Combine(logDir, "logTrace-{Date}.txt");
             Log.Logger = new LoggerConfiguration()
                 .Destructure.UsingAttributes()
                 .MinimumLevel.ControlledBy(LoggingLevelSwitches.DefaultLoggingLevelSwitch)
