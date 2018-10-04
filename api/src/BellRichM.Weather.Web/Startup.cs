@@ -83,7 +83,7 @@ namespace BellRichM.Weather.Web
         /// <param name="env">The <see cref="IHostingEnvironment"/>.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseExceptionHandlerMiddleware(); // TODO: Rename
+            app.UseExceptionLoggingMiddleware();
 
             app.UseDefaultFiles()
                .UseStaticFiles();

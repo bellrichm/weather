@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Serilog.Context;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace BellRichM.Logging
@@ -10,20 +13,20 @@ namespace BellRichM.Logging
   /// <summary>
   /// The logging and exception handling middleware
   /// </summary>
-  public class ExceptionHandlerMiddleware
+  public class ExceptionLoggingMiddleware
   {
     private readonly RequestDelegate next;
     private readonly ILogger _logger;
 
       /// <summary>
-      /// Initializes a new instance of the <see cref="ExceptionHandlerMiddleware"/> class.
+      /// Initializes a new instance of the <see cref="ExceptionLoggingMiddleware"/> class.
       /// </summary>
       /// <param name="next">The next <see cref="RequestDelegate"/>in the middleware pipeline.</param>
       /// <param name="loggerFactory">The <see cref="ILoggerFactory"/>.</param>
-    public ExceptionHandlerMiddleware(RequestDelegate next, ILoggerFactory loggerFactory)
+    public ExceptionLoggingMiddleware(RequestDelegate next, ILoggerFactory loggerFactory)
     {
       this.next = next;
-      _logger = loggerFactory.CreateLogger<ExceptionHandlerMiddleware>();
+      _logger = loggerFactory.CreateLogger<ExceptionLoggingMiddleware>();
     }
 
       /// <summary>
@@ -70,17 +73,26 @@ namespace BellRichM.Logging
           authTokenData = authData.Item2
         };
 
-        // TODO: do something here
-        // context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        httpContext.Response.StatusCode = 500;
-        httpContext.Response.ContentType = "text/html"; // json object?
+        var errorResponse = new ErrorResponseModel
+        {
+          CorrelationId = httpContext.TraceIdentifier,
+          Errors = new List<ErrorResponseModel.Error>
+          {
+            new ErrorResponseModel.Error() { Text = "Severe error. Please contact support." }
+          }
+        };
+
+        string jsonResponse = JsonConvert.SerializeObject(errorResponse, Formatting.Indented);
+
+        httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+        httpContext.Response.ContentType = "application/json";
 
         using (LogContext.PushProperty("authData", authorization))
         {
           _logger.LogEvent((int)EventIds.EndRequest, MessageTemplate, httpContext.Request.Method, httpContext.Request.Path, httpContext.Response?.StatusCode, sw.Elapsed.TotalMilliseconds);
           _logger.LogDiagnosticError("Unhandled exception {RequestHeaders}\n {exception}", httpContext.Request.Headers, ex);
 
-          await httpContext.Response.WriteAsync("error").ConfigureAwait(false); // TODO: any response body needed?
+          await httpContext.Response.WriteAsync(jsonResponse).ConfigureAwait(false);
         }
       }
     }
