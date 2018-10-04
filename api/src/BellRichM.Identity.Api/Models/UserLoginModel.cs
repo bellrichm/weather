@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using BellRichM.Attribute.CodeCoverage;
+using Destructurama.Attributed;
 
 namespace BellRichM.Identity.Api.Models
 {
@@ -25,6 +26,7 @@ namespace BellRichM.Identity.Api.Models
         /// The password.
         /// </value>
         [Required]
+        [NotLogged]
         public string Password { get; set; }
     }
 }

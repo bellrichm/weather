@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using Destructurama;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Context;
@@ -59,6 +60,7 @@ namespace BellRichM.Logging
 
             var logFile = Path.Combine(logDir, "logTrace-{Date}.txt");
             Log.Logger = new LoggerConfiguration()
+                .Destructure.UsingAttributes()
                 .MinimumLevel.ControlledBy(LoggingLevelSwitches.DefaultLoggingLevelSwitch)
                 .MinimumLevel.Override("Microsoft", LoggingLevelSwitches.MicrosoftLoggingLevelSwitch)
                 .MinimumLevel.Override("System", LoggingLevelSwitches.SystemLoggingLevelSwitch)
