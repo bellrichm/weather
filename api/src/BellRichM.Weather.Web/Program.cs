@@ -26,7 +26,7 @@ namespace BellRichM.Weather.Web
             var currentEnv = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             var logManager = new LogManager(currentEnv);
             logManager.Create("logs");
-            var configurationManager = new ConfigurationManager(currentEnv, Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "../../.."));
+            var configurationManager = new ConfigurationManager(currentEnv, System.AppDomain.CurrentDomain.BaseDirectory);
             var configuration = configurationManager.Create();
             try
             {
