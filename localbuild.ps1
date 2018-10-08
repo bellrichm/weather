@@ -74,6 +74,6 @@ RunCmd "./appveyor/after_deploy.ps1"
 
 if ($postClean -ne "NO")
 {
-  RunCmd "git checkout api/integration/BellRichM.Identity.Api.Integration/data/Identity.db"
+  RunCmd "git checkout api/integration/BellRichM.Identity.Api.Integration/Data/Identity.db"
   RunCmd "rm $env:APPVEYOR_BUILD_FOLDER/$env:ARTIFACT_NAME.zip"
 }
