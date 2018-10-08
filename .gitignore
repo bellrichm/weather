@@ -4,6 +4,7 @@ bin
 dist
 
 logs
+logsTest
 
 coverage
 

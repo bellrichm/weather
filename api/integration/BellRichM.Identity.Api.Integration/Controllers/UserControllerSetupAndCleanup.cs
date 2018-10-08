@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using BellRichM.Configuration;
 using BellRichM.Identity.Api.Data;
 using BellRichM.Identity.Api.Extensions;
 using BellRichM.Identity.Api.Repositories;
@@ -10,6 +12,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Serilog;
 
 namespace BellRichM.Identity.Api.Integration.Controllers
@@ -56,7 +59,14 @@ namespace BellRichM.Identity.Api.Integration.Controllers
             var logManager = new LogManager("Development");
             logManager.Create("../../../logs");
 
-            var server = new TestServer(new WebHostBuilder().UseStartup<StartupIntegration>().UseSerilog());
+            var configurationManager = new ConfigurationManager("Development", Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "../../.."));
+            var configuration = configurationManager.Create();
+
+            var server = new TestServer(
+                new WebHostBuilder()
+                .UseStartup<StartupIntegration>()
+                .UseConfiguration(configuration)
+                .UseSerilog());
             UserControllerTests.Client = server.CreateClient();
         }
 
@@ -70,13 +80,21 @@ namespace BellRichM.Identity.Api.Integration.Controllers
         private void Configure()
         {
             var builder = new ConfigurationBuilder()
-                .SetBasePath(AppContext.BaseDirectory + "../../../data")
+                .SetBasePath(AppContext.BaseDirectory + "../../..")
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
                 .AddEnvironmentVariables();
             var configuration = builder.Build();
 
             var services = new ServiceCollection();
             services.AddIdentityServices(configuration);
+
+            var logger = new LoggerConfiguration()
+                .MinimumLevel.Verbose()
+                .WriteTo.RollingFile("../../../logsTest/testLog-{Date}.txt", fileSizeLimitBytes: 10485760, retainedFileCountLimit: 7) // 10 MB file size
+                .CreateLogger();
+            var loggerFactory = new LoggerFactory().AddSerilog();
+            services.AddLogging(l => l.AddSerilog(logger));
+
             _serviceProvider = services.BuildServiceProvider();
         }
 

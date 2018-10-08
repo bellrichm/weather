@@ -25,7 +25,7 @@ namespace BellRichM.Identity.Api.Extensions
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/>.</param>
         /// <param name="configuration">The <see cref="IConfigurationRoot"/>.</param>
-        public static void AddIdentityServices(this IServiceCollection services, IConfigurationRoot configuration)
+        public static void AddIdentityServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<IdentityDbContext>(options =>
                 options.UseSqlite(configuration.GetConnectionString("(identityDb)")));

@@ -19,9 +19,9 @@ namespace BellRichM.Identity.Api.Integration
     {
         private Startup startup;
 
-        public StartupIntegration(IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public StartupIntegration(IHostingEnvironment env, IConfiguration configuration, ILoggerFactory loggerFactory)
         {
-            startup = new Startup(env, loggerFactory, AppContext.BaseDirectory + "../../../data");
+            startup = new Startup(env, configuration, loggerFactory);
         }
 
         public IConfigurationRoot Configuration { get; }

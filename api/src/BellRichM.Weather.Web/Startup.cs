@@ -23,33 +23,13 @@ namespace BellRichM.Weather.Web
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// </summary>
         /// <param name="env">The <see cref="IHostingEnvironment"/>.</param>
+        /// <param name="configuration">The <see cref="IConfiguration"/>.</param>
         /// <param name="loggerFactory">The <see cref="ILoggerFactory"/>.</param>
-        public Startup(IHostingEnvironment env, ILoggerFactory loggerFactory)
-            : this(env, loggerFactory, null)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Startup"/> class.
-        /// </summary>
-        /// <param name="env">The <see cref="IHostingEnvironment"/>.</param>
-        /// <param name="loggerFactory">The <see cref="ILoggerFactory"/>.</param>
-        /// <param name="dir">The content root path.</param>
-        public Startup(IHostingEnvironment env, ILoggerFactory loggerFactory, string dir)
+        public Startup(IHostingEnvironment env, IConfiguration configuration, ILoggerFactory loggerFactory)
         {
             var logger = loggerFactory.CreateLogger<Startup>();
 
-            if (dir == null)
-            {
-                dir = env.ContentRootPath;
-            }
-
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(dir)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
-            Configuration = builder.Build();
+            Configuration = configuration;
 
             logger.LogDiagnosticInformation("Environment: {@env}", env);
             logger.LogDiagnosticInformation("Configuration: {@Configuration}", Configuration);
@@ -61,7 +41,7 @@ namespace BellRichM.Weather.Web
         /// <value>
         /// The <see cref="IConfigurationRoot"/>.
         /// </value>
-        public IConfigurationRoot Configuration { get; }
+        public IConfiguration Configuration { get; }
 
         /// <summary>
         /// Called by the runtime to add services to the container.

@@ -1,7 +1,10 @@
 using System;
+using System.IO;
+using BellRichM.Configuration;
 using BellRichM.Logging;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Context;
@@ -23,9 +26,11 @@ namespace BellRichM.Weather.Web
             var currentEnv = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             var logManager = new LogManager(currentEnv);
             logManager.Create("logs");
+            var configurationManager = new ConfigurationManager(currentEnv, Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "../../.."));
+            var configuration = configurationManager.Create();
             try
             {
-                BuildWebHost(args, logManager).Run();
+                BuildWebHost(args, logManager, configuration).Run();
                 return 0;
             }
             catch (Exception ex)
@@ -48,11 +53,13 @@ namespace BellRichM.Weather.Web
         /// </summary>
         /// <param name="args">The startup paramenters.</param>
         /// <param name="logManager">The <see cref="LogManager"/>.</param>
+        /// <param name="configuration">The <see cref="IConfiguration"/>.</param>
         /// <returns>
         /// The <see cref="IWebHost" />
         /// </returns>
-        public static IWebHost BuildWebHost(string[] args, LogManager logManager) =>
+        public static IWebHost BuildWebHost(string[] args, LogManager logManager, IConfiguration configuration) =>
             WebHost.CreateDefaultBuilder(args)
+            .UseConfiguration(configuration)
             .UseStartup<Startup>()
             .UseSerilog()
             .ConfigureServices(s => s.AddSingleton<LoggingLevelSwitches>(logManager.LoggingLevelSwitches))
