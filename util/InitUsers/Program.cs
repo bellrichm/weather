@@ -64,7 +64,7 @@ namespace InitUsers
 
             var services = new ServiceCollection();
             services.AddSingleton(loggerFactory);
-            services.AddIdentityServices(configuration);
+            services.AddIdentityServices(configuration, loggerFactory.CreateLogger<Program>());
             return services.BuildServiceProvider();
         }
 
