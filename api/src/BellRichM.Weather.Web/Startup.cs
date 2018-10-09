@@ -19,7 +19,7 @@ namespace BellRichM.Weather.Web
     /// </summary>
     public class Startup
     {
-        private ILogger _logger;
+        private readonly ILogger _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.
@@ -34,6 +34,8 @@ namespace BellRichM.Weather.Web
             Configuration = configuration;
 
             _logger.LogDiagnosticInformation("Environment: {@env}", env);
+            _logger.LogDiagnosticInformation("Configuration Environment: {@configurationEnvironment}", Configuration.GetValue<string>("Environment"));
+            _logger.LogDiagnosticInformation("Configuration BasePath: {@configurationBasePath}", Configuration.GetValue<string>("BasePath"));
             var identityConnectionString = Configuration.GetSection("ConnectionStrings:(identityDb)");
             _logger.LogDiagnosticInformation("Configuration: {@identityConnectionString}", identityConnectionString);
         }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 
@@ -34,6 +35,9 @@ namespace BellRichM.Configuration
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{_environment}.json", optional: true)
                 .AddEnvironmentVariables()
+                .AddInMemoryCollection(
+                    new Dictionary<string, string>
+                        { { "BasePath", _basePath }, { "Environment", _environment } })
                 .Build();
 
             return configuration;
