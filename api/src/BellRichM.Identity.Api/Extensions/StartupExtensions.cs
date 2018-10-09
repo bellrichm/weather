@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -25,7 +26,8 @@ namespace BellRichM.Identity.Api.Extensions
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/>.</param>
         /// <param name="configuration">The <see cref="IConfigurationRoot"/>.</param>
-        public static void AddIdentityServices(this IServiceCollection services, IConfiguration configuration)
+        /// <param name="logger">The <see cref="ILogger"/>.</param>
+        public static void AddIdentityServices(this IServiceCollection services, IConfiguration configuration, ILogger logger)
         {
             services.AddDbContext<IdentityDbContext>(options =>
                 options.UseSqlite(configuration.GetConnectionString("(identityDb)")));
@@ -42,6 +44,8 @@ namespace BellRichM.Identity.Api.Extensions
             var jwtConfigurationSection = configuration.GetSection("Identity:JwtConfiguration");
             new ConfigureFromConfigurationOptions<JwtConfiguration>(jwtConfigurationSection)
                 .Configure(jwtConfiguration);
+
+            logger.LogDiagnosticInformation("Configuration: {@jwtConfiguration}", @jwtConfiguration);
 
             jwtConfiguration.Validate();
             services.AddSingleton<IJwtConfiguration>(jwtConfiguration);

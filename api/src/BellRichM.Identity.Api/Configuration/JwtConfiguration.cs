@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using Destructurama.Attributed;
 
 namespace BellRichM.Identity.Api.Configuration
 {
@@ -16,6 +17,7 @@ namespace BellRichM.Identity.Api.Configuration
         public TimeSpan ValidFor { get; set; } = TimeSpan.FromMinutes(5);
 
         /// <inheritdoc/>
+        [NotLogged]
         public string SecretKey { get; set; }
 
         /// <inheritdoc/>

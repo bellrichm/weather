@@ -19,6 +19,8 @@ namespace BellRichM.Weather.Web
     /// </summary>
     public class Startup
     {
+        private ILogger _logger;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// </summary>
@@ -27,12 +29,13 @@ namespace BellRichM.Weather.Web
         /// <param name="loggerFactory">The <see cref="ILoggerFactory"/>.</param>
         public Startup(IHostingEnvironment env, IConfiguration configuration, ILoggerFactory loggerFactory)
         {
-            var logger = loggerFactory.CreateLogger<Startup>();
+            _logger = loggerFactory.CreateLogger<Startup>();
 
             Configuration = configuration;
 
-            logger.LogDiagnosticInformation("Environment: {@env}", env);
-            logger.LogDiagnosticInformation("Configuration: {@Configuration}", Configuration);
+            _logger.LogDiagnosticInformation("Environment: {@env}", env);
+            var identityConnectionString = Configuration.GetSection("ConnectionStrings:(identityDb)");
+            _logger.LogDiagnosticInformation("Configuration: {@identityConnectionString}", identityConnectionString);
         }
 
         /// <summary>
@@ -50,7 +53,7 @@ namespace BellRichM.Weather.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper();
-            services.AddIdentityServices(Configuration);
+            services.AddIdentityServices(Configuration, _logger);
 
             // needed for testserver to find controllers
             services.AddMvc().AddApplicationPart(Assembly.Load(new AssemblyName("BellRichM.Identity.Api")));

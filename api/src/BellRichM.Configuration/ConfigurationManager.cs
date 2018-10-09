@@ -36,31 +36,6 @@ namespace BellRichM.Configuration
                 .AddEnvironmentVariables()
                 .Build();
 
-            IConfigurationSection output;
-
-            output = configuration.GetSection("Identity:JwtConfiguration");
-            Console.WriteLine(output.Key);
-            Console.WriteLine(output.Path);
-            Console.WriteLine(output.Value);
-
-            output = configuration.GetSection("Identity");
-            Console.WriteLine(output.Key);
-            Console.WriteLine(output.Path);
-            Console.WriteLine(output.Value);
-
-            output = configuration.GetSection("ConnectionStrings:(identityDb)");
-            Console.WriteLine(output.Key);
-            Console.WriteLine(output.Path);
-            Console.WriteLine(output.Value);
-
-            var test = configuration.GetValue<string>("(IdentityDb)");
-            Console.WriteLine(test);
-
-            output = configuration.GetSection("Identity:JwtConfiguration:ValidFor");
-            Console.WriteLine(output.Key);
-            Console.WriteLine(output.Path);
-            Console.WriteLine(output.Value);
-
             return configuration;
         }
     }

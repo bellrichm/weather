@@ -85,14 +85,15 @@ namespace BellRichM.Identity.Api.Integration.Controllers
                 .AddEnvironmentVariables();
             var configuration = builder.Build();
 
-            var services = new ServiceCollection();
-            services.AddIdentityServices(configuration);
-
             var logger = new LoggerConfiguration()
                 .MinimumLevel.Verbose()
                 .WriteTo.RollingFile("../../../logsTest/testLog-{Date}.txt", fileSizeLimitBytes: 10485760, retainedFileCountLimit: 7) // 10 MB file size
                 .CreateLogger();
             var loggerFactory = new LoggerFactory().AddSerilog();
+
+            var services = new ServiceCollection();
+            services.AddIdentityServices(configuration, loggerFactory.CreateLogger<UserControllerSetupAndCleanup>());
+
             services.AddLogging(l => l.AddSerilog(logger));
 
             _serviceProvider = services.BuildServiceProvider();
