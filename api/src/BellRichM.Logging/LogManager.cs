@@ -1,7 +1,9 @@
 using System;
 using System.IO;
 using Destructurama;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Serilog;
 using Serilog.Context;
 using Serilog.Events;
@@ -15,15 +17,19 @@ namespace BellRichM.Logging
     /// </summary>
     public class LogManager
     {
-        private readonly string _environment;
+        private readonly LoggingConfiguration _loggingConfiguration;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LogManager"/> class.
         /// </summary>
-        /// <param name="environment">The runtime environment.</param>
-        public LogManager(string environment)
+        /// <param name="configuration">The runtime configuration.</param>
+        public LogManager(IConfiguration configuration)
         {
-            _environment = environment;
+            var a = configuration.GetSection("Logging");
+            _loggingConfiguration = new LoggingConfiguration();
+            new ConfigureFromConfigurationOptions<LoggingConfiguration>(a)
+                .Configure(_loggingConfiguration);
+
             LoggingLevelSwitches = new LoggingLevelSwitches();
             LoggingFilterSwitches = new LoggingFilterSwitches();
         }
@@ -47,17 +53,13 @@ namespace BellRichM.Logging
         /// <summary>
         /// Creates the <see cref="LoggerConfiguration" /> and sets the globally shared <see cref="Serilog.Log.Logger" />
         /// </summary>
-        /// <param name="logDir">Relative path to the log directory.</param>
-        public void Create(string logDir)
+        public void Create()
         {
-            if (_environment == "Development")
-            {
-                LoggingLevelSwitches.DefaultLoggingLevelSwitch.MinimumLevel = LogEventLevel.Debug;
-                LoggingLevelSwitches.MicrosoftLoggingLevelSwitch.MinimumLevel = LogEventLevel.Information;
-                LoggingLevelSwitches.SystemLoggingLevelSwitch.MinimumLevel = LogEventLevel.Information;
-                LoggingLevelSwitches.ConsoleSinkLevelSwitch.MinimumLevel = LogEventLevel.Verbose;
-                LoggingFilterSwitches.ConsoleSinkFilterSwitch.Expression = "true";
-            }
+            LoggingLevelSwitches.DefaultLoggingLevelSwitch.MinimumLevel = (LogEventLevel)Enum.Parse(typeof(LogEventLevel), _loggingConfiguration.LevelSwitches.Default.Level, true);
+            LoggingLevelSwitches.MicrosoftLoggingLevelSwitch.MinimumLevel = (LogEventLevel)Enum.Parse(typeof(LogEventLevel), _loggingConfiguration.LevelSwitches.Microsoft.Level, true);
+            LoggingLevelSwitches.SystemLoggingLevelSwitch.MinimumLevel = (LogEventLevel)Enum.Parse(typeof(LogEventLevel), _loggingConfiguration.LevelSwitches.System.Level, true);
+            LoggingLevelSwitches.ConsoleSinkLevelSwitch.MinimumLevel = (LogEventLevel)Enum.Parse(typeof(LogEventLevel), _loggingConfiguration.LevelSwitches.ConsoleSink.Level, true);
+            LoggingFilterSwitches.ConsoleSinkFilterSwitch.Expression = _loggingConfiguration.FilterSwitches.ConsoleSink.Expression;
 
             Log.Logger = new LoggerConfiguration()
                 .Destructure.UsingAttributes()
@@ -69,27 +71,27 @@ namespace BellRichM.Logging
                     .Filter.ByIncludingOnly(Matching.WithProperty<string>("Type", p => p.Equals("EVENT")))
                     .WriteTo.RollingFile(
                         new CompactJsonFormatter(),
-                        Path.Combine(logDir, "events-{Date}.log.json"),
-                        fileSizeLimitBytes: 10485760,
-                        retainedFileCountLimit: 7))
+                        Path.Combine(_loggingConfiguration.Sinks.EventLog.LogPath, _loggingConfiguration.Sinks.EventLog.LogName),
+                        fileSizeLimitBytes: _loggingConfiguration.Sinks.EventLog.LogSize,
+                        retainedFileCountLimit: _loggingConfiguration.Sinks.EventLog.LogRetention))
                 .WriteTo.Logger(l => l
                     .Filter.ByExcluding(Matching.WithProperty<string>("Type", p => p.Equals("EVENT")))
                     .WriteTo.RollingFile(
                         new CompactJsonFormatter(),
-                        Path.Combine(logDir, "diagnostics-{Date}.log.json"),
-                        fileSizeLimitBytes: 10485760,
-                        retainedFileCountLimit: 7))
+                        Path.Combine(_loggingConfiguration.Sinks.DiagnosticLog.LogPath, _loggingConfiguration.Sinks.DiagnosticLog.LogName),
+                        fileSizeLimitBytes: _loggingConfiguration.Sinks.DiagnosticLog.LogSize,
+                        retainedFileCountLimit: _loggingConfiguration.Sinks.DiagnosticLog.LogRetention))
                 .WriteTo.Logger(l => l
                     .Filter.ControlledBy(LoggingFilterSwitches.ConsoleSinkFilterSwitch)
                     .Filter.ByExcluding(Matching.WithProperty<string>("Type", p => p.Equals("EVENT")))
                     .WriteTo.File(
-                        Path.Combine(logDir, "debug.log"),
-                        fileSizeLimitBytes: 10485760,
-                        outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} {Type} {RequestId}] {Message}{NewLine}"))
+                        Path.Combine(_loggingConfiguration.Sinks.DebugLog.LogPath, _loggingConfiguration.Sinks.DebugLog.LogName),
+                        fileSizeLimitBytes: _loggingConfiguration.Sinks.DebugLog.LogSize,
+                        outputTemplate: _loggingConfiguration.Sinks.DebugLog.OutputTemplate))
                 .CreateLogger();
             using (LogContext.PushProperty("Type", "INFORMATION"))
             {
-                Log.Information("*** Starting env {env} loggingLevelSwitches: {@loggingLevelSwitches} loggingFilterSwitches: {@loggingFilterSwitches}", _environment, LoggingLevelSwitches, LoggingFilterSwitches);
+                Log.Information("*** Starting loggingConfiguration {@loggingConfiguration}", _loggingConfiguration);
             }
         }
     }

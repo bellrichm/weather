@@ -56,11 +56,11 @@ namespace BellRichM.Identity.Api.Integration.Controllers
             UserControllerTests.TestUser = _testUser;
             UserControllerTests.UserTestJwt = GenerateJwt(_testUser.UserName, testUserPw);
 
-            var logManager = new LogManager("Development");
-            logManager.Create("../../../logs");
-
             var configurationManager = new ConfigurationManager("Development", Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "../../.."));
             var configuration = configurationManager.Create();
+
+            var logManager = new LogManager(configuration);
+            logManager.Create();
 
             var server = new TestServer(
                 new WebHostBuilder()

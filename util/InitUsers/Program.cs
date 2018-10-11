@@ -51,9 +51,6 @@ namespace InitUsers
 
         private static IServiceProvider Configure()
         {
-            var logManager = new LogManager("Development");
-            logManager.Create("logs");
-
             var loggerFactory = new LoggerFactory().AddSerilog();
 
             var builder = new ConfigurationBuilder()
@@ -61,6 +58,9 @@ namespace InitUsers
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
                 .AddEnvironmentVariables();
             var configuration = builder.Build();
+
+            var logManager = new LogManager(configuration);
+            logManager.Create();
 
             var services = new ServiceCollection();
             services.AddSingleton(loggerFactory);

@@ -24,10 +24,11 @@ namespace BellRichM.Weather.Web
         public static int Main(string[] args)
         {
             var currentEnv = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            var logManager = new LogManager(currentEnv);
-            logManager.Create("logs");
             var configurationManager = new ConfigurationManager(currentEnv, System.AppDomain.CurrentDomain.BaseDirectory);
             var configuration = configurationManager.Create();
+            var logManager = new LogManager(configuration);
+            logManager.Create();
+
             try
             {
                 BuildWebHost(args, logManager, configuration).Run();

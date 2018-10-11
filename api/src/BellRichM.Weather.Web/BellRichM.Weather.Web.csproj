@@ -7,7 +7,7 @@
     <NoWarn>NU1603</NoWarn>
   </PropertyGroup>
     <ItemGroup>
-      <Content Update="appsettings.json">
+      <Content Update="appsettings*.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
    </ItemGroup>
