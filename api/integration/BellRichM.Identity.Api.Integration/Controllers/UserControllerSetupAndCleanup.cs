@@ -56,7 +56,7 @@ namespace BellRichM.Identity.Api.Integration.Controllers
             UserControllerTests.TestUser = _testUser;
             UserControllerTests.UserTestJwt = GenerateJwt(_testUser.UserName, testUserPw);
 
-            var configurationManager = new ConfigurationManager("Development", Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "../../.."));
+            var configurationManager = new ConfigurationManager("Development", System.AppDomain.CurrentDomain.BaseDirectory);
             var configuration = configurationManager.Create();
 
             var logManager = new LogManager(configuration);
@@ -81,7 +81,7 @@ namespace BellRichM.Identity.Api.Integration.Controllers
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(AppContext.BaseDirectory + "../../..")
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
+                .AddJsonFile("appsettings.Setup.json", optional: false, reloadOnChange: false)
                 .AddEnvironmentVariables();
             var configuration = builder.Build();
 
