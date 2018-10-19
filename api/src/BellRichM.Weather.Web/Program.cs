@@ -27,7 +27,7 @@ namespace BellRichM.Weather.Web
             var configurationManager = new ConfigurationManager(currentEnv, System.AppDomain.CurrentDomain.BaseDirectory);
             var configuration = configurationManager.Create();
             var logManager = new LogManager(configuration);
-            logManager.Create();
+            Log.Logger = logManager.Create();
 
             try
             {

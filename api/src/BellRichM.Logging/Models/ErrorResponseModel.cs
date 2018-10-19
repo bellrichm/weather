@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using BellRichM.Attribute.CodeCoverage;
 
 namespace BellRichM.Logging
 {
     /// <summary>
     /// The reponse when the request has an error.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class ErrorResponseModel
     {
         /// <summary>

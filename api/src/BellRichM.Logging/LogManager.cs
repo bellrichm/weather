@@ -5,8 +5,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Serilog;
 using Serilog.Context;
+using Serilog.Core;
 using Serilog.Events;
 using Serilog.Filters;
+using Serilog.Filters.Expressions;
 using Serilog.Formatting.Compact;
 
 namespace BellRichM.Logging
@@ -30,7 +32,13 @@ namespace BellRichM.Logging
                 .Configure(_loggingConfiguration);
 
             LoggingLevelSwitches = new LoggingLevelSwitches();
+            LoggingLevelSwitches.DefaultLoggingLevelSwitch = new LoggingLevelSwitch((LogEventLevel)Enum.Parse(typeof(LogEventLevel), _loggingConfiguration.LevelSwitches.Default.Level, true));
+            LoggingLevelSwitches.MicrosoftLoggingLevelSwitch = new LoggingLevelSwitch((LogEventLevel)Enum.Parse(typeof(LogEventLevel), _loggingConfiguration.LevelSwitches.Microsoft.Level, true));
+            LoggingLevelSwitches.SystemLoggingLevelSwitch = new LoggingLevelSwitch((LogEventLevel)Enum.Parse(typeof(LogEventLevel), _loggingConfiguration.LevelSwitches.System.Level, true));
+            LoggingLevelSwitches.ConsoleSinkLevelSwitch = new LoggingLevelSwitch((LogEventLevel)Enum.Parse(typeof(LogEventLevel), _loggingConfiguration.LevelSwitches.ConsoleSink.Level, true));
+
             LoggingFilterSwitches = new LoggingFilterSwitches();
+            LoggingFilterSwitches.ConsoleSinkFilterSwitch = new LoggingFilterSwitch(_loggingConfiguration.FilterSwitches.ConsoleSink.Expression);
         }
 
         /// <summary>
@@ -50,17 +58,12 @@ namespace BellRichM.Logging
         public LoggingFilterSwitches LoggingFilterSwitches { get; set; }
 
         /// <summary>
-        /// Creates the <see cref="LoggerConfiguration" /> and sets the globally shared <see cref="Serilog.Log.Logger" />
+        /// Creates the <see cref="LoggerConfiguration" />
         /// </summary>
-        public void Create()
+        /// <returns>The configured <see cref="Logger" /></returns>
+        public Logger Create()
         {
-            LoggingLevelSwitches.DefaultLoggingLevelSwitch.MinimumLevel = (LogEventLevel)Enum.Parse(typeof(LogEventLevel), _loggingConfiguration.LevelSwitches.Default.Level, true);
-            LoggingLevelSwitches.MicrosoftLoggingLevelSwitch.MinimumLevel = (LogEventLevel)Enum.Parse(typeof(LogEventLevel), _loggingConfiguration.LevelSwitches.Microsoft.Level, true);
-            LoggingLevelSwitches.SystemLoggingLevelSwitch.MinimumLevel = (LogEventLevel)Enum.Parse(typeof(LogEventLevel), _loggingConfiguration.LevelSwitches.System.Level, true);
-            LoggingLevelSwitches.ConsoleSinkLevelSwitch.MinimumLevel = (LogEventLevel)Enum.Parse(typeof(LogEventLevel), _loggingConfiguration.LevelSwitches.ConsoleSink.Level, true);
-            LoggingFilterSwitches.ConsoleSinkFilterSwitch.Expression = _loggingConfiguration.FilterSwitches.ConsoleSink.Expression;
-
-            Log.Logger = new LoggerConfiguration()
+            var logger = new LoggerConfiguration()
                 .Destructure.UsingAttributes()
                 .MinimumLevel.ControlledBy(LoggingLevelSwitches.DefaultLoggingLevelSwitch)
                 .MinimumLevel.Override("Microsoft", LoggingLevelSwitches.MicrosoftLoggingLevelSwitch)
@@ -92,6 +95,8 @@ namespace BellRichM.Logging
             {
                 Log.Information("*** Starting loggingConfiguration {@loggingConfiguration}", _loggingConfiguration);
             }
+
+            return logger;
         }
     }
 }

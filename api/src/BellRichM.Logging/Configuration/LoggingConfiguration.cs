@@ -1,8 +1,11 @@
+using BellRichM.Attribute.CodeCoverage;
+
 namespace BellRichM.Logging
 {
     /// <summary>
     /// The logging configuration.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class LoggingConfiguration
     {
         /// <summary>

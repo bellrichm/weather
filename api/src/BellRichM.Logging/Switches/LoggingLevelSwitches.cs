@@ -1,3 +1,4 @@
+using BellRichM.Attribute.CodeCoverage;
 using Serilog.Core;
 using Serilog.Events;
 
@@ -6,19 +7,9 @@ namespace BellRichM.Logging
     /// <summary>
     /// The logging level switches.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class LoggingLevelSwitches
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LoggingLevelSwitches"/> class.
-        /// </summary>
-        public LoggingLevelSwitches()
-      {
-        DefaultLoggingLevelSwitch = new LoggingLevelSwitch(LogEventLevel.Information);
-        MicrosoftLoggingLevelSwitch = new LoggingLevelSwitch(LogEventLevel.Warning);
-        SystemLoggingLevelSwitch = new LoggingLevelSwitch(LogEventLevel.Warning);
-        ConsoleSinkLevelSwitch = new LoggingLevelSwitch(LogEventLevel.Fatal);
-      }
-
         /// <summary>
         /// Gets or sets <see cref="LoggingLevelSwitch"/>that dynamically controls the default logging level.
         /// </summary>
