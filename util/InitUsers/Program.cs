@@ -8,7 +8,6 @@ using BellRichM.Identity.Api.Repositories;
 using BellRichM.Logging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Serilog;
 using Serilog.Filters;
@@ -51,8 +50,6 @@ namespace InitUsers
 
         private static IServiceProvider Configure()
         {
-            var loggerFactory = new LoggerFactory().AddSerilog();
-
             var builder = new ConfigurationBuilder()
                 .SetBasePath(AppContext.BaseDirectory + "../../..")
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
@@ -61,10 +58,12 @@ namespace InitUsers
 
             var logManager = new LogManager(configuration);
             logManager.Create();
+            var loggerAdapter = new LoggerAdapter<LogManager>();
 
             var services = new ServiceCollection();
-            services.AddSingleton(loggerFactory);
-            services.AddIdentityServices(configuration, loggerFactory.CreateLogger<Program>());
+            services.AddSingleton(Log.Logger);
+            services.AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
+            services.AddIdentityServices(configuration, loggerAdapter);
             return services.BuildServiceProvider();
         }
 

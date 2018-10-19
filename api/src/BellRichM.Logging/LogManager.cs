@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using Destructurama;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Serilog;
 using Serilog.Context;

@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Serilog.Context;
 using System;
@@ -16,17 +15,17 @@ namespace BellRichM.Logging
   public class ExceptionLoggingMiddleware
   {
     private readonly RequestDelegate next;
-    private readonly ILogger _logger;
+    private readonly ILoggerAdapter<ExceptionLoggingMiddleware> _logger;
 
       /// <summary>
       /// Initializes a new instance of the <see cref="ExceptionLoggingMiddleware"/> class.
       /// </summary>
       /// <param name="next">The next <see cref="RequestDelegate"/>in the middleware pipeline.</param>
-      /// <param name="loggerFactory">The <see cref="ILoggerFactory"/>.</param>
-    public ExceptionLoggingMiddleware(RequestDelegate next, ILoggerFactory loggerFactory)
+      /// <param name="logger">The <see cref="ILoggerAdapter{T}"/>.</param>
+    public ExceptionLoggingMiddleware(RequestDelegate next, ILoggerAdapter<ExceptionLoggingMiddleware> logger)
     {
       this.next = next;
-      _logger = loggerFactory.CreateLogger<ExceptionLoggingMiddleware>();
+      _logger = logger;
     }
 
       /// <summary>

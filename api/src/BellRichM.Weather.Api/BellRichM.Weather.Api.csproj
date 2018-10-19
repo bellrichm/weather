@@ -22,4 +22,7 @@
     </PackageReference>
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004" PrivateAssets="All" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BellRichM.Logging\BellRichM.Logging.csproj" />
+  </ItemGroup>  
 </Project>

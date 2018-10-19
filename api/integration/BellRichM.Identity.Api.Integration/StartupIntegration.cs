@@ -1,12 +1,12 @@
-﻿using AutoMapper;
+using AutoMapper;
 using BellRichM.Identity.Api.Extensions;
+using BellRichM.Logging;
 using BellRichM.Weather.Web;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,9 +19,9 @@ namespace BellRichM.Identity.Api.Integration
     {
         private Startup startup;
 
-        public StartupIntegration(IHostingEnvironment env, IConfiguration configuration, ILoggerFactory loggerFactory)
+        public StartupIntegration(IHostingEnvironment env, IConfiguration configuration, ILoggerAdapter<LogManager> logger)
         {
-            startup = new Startup(env, configuration, loggerFactory);
+            startup = new Startup(env, configuration, logger);
         }
 
         public IConfigurationRoot Configuration { get; }

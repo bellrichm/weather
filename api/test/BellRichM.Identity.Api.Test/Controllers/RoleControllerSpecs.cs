@@ -5,11 +5,11 @@ using BellRichM.Identity.Api.Data;
 using BellRichM.Identity.Api.Exceptions;
 using BellRichM.Identity.Api.Models;
 using BellRichM.Identity.Api.Repositories;
+using BellRichM.Logging;
 using FluentAssertions;
 using Machine.Specifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Moq;
 
 using IT = Moq.It;
@@ -30,7 +30,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
 
         protected static RoleController roleController;
 
-        protected static Mock<ILogger<RoleController>> loggerMock;
+        protected static Mock<ILoggerAdapter<RoleController>> loggerMock;
         protected static Mock<IMapper> mapperMock;
         protected static Mock<IRoleRepository> roleRepositoryMock;
 
@@ -39,7 +39,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
 
         Establish context = () =>
         {
-            loggerMock = new Mock<ILogger<RoleController>>();
+            loggerMock = new Mock<ILoggerAdapter<RoleController>>();
             mapperMock = new Mock<IMapper>();
             roleRepositoryMock = new Mock<IRoleRepository>();
 

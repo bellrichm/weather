@@ -4,9 +4,9 @@ using BellRichM.Identity.Api.Exceptions;
 using BellRichM.Identity.Api.Models;
 using BellRichM.Identity.Api.Repositories;
 using BellRichM.Identity.Api.Services;
+using BellRichM.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -19,7 +19,7 @@ namespace BellRichM.Identity.Api.Controllers
     [Route("api/[controller]")]
     public class UserController : Controller
     {
-        private readonly ILogger _logger;
+        private readonly ILoggerAdapter<UserController> _logger;
         private readonly IMapper _mapper;
 
         private readonly IUserRepository _userRepository;
@@ -28,11 +28,11 @@ namespace BellRichM.Identity.Api.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="UserController"/> class.
         /// </summary>
-        /// <param name="logger">The <see cref="ILogger{UserController}"/>.</param>
+        /// <param name="logger">The <see cref="ILoggerAdapter{T}"/>.</param>
         /// <param name="mapper">The <see cref="IMapper"/>.</param>
         /// <param name="userRepository">The <see cref="IUserRepository"/>.</param>
         /// <param name="jwtManager">The <see cref="IJwtManager"/>.</param>
-        public UserController(ILogger<UserController> logger, IMapper mapper, IUserRepository userRepository, IJwtManager jwtManager)
+        public UserController(ILoggerAdapter<UserController> logger, IMapper mapper, IUserRepository userRepository, IJwtManager jwtManager)
         {
             _logger = logger;
             _mapper = mapper;

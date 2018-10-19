@@ -3,7 +3,6 @@ using BellRichM.Identity.Api.Models;
 using FluentAssertions;
 using Machine.Specifications;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.Logging;
 using Moq;
 using Newtonsoft.Json;
 using System.Net;
@@ -23,8 +22,6 @@ namespace BellRichM.Identity.Api.Integration
     {
       Client.DefaultRequestHeaders.Clear();
     };
-
-    public static Microsoft.Extensions.Logging.ILogger Logger { get; set; }
 
     public static HttpClient Client { get; set; }
 

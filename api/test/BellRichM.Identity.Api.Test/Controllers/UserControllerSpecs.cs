@@ -6,11 +6,11 @@ using BellRichM.Identity.Api.Exceptions;
 using BellRichM.Identity.Api.Models;
 using BellRichM.Identity.Api.Repositories;
 using BellRichM.Identity.Api.Services;
+using BellRichM.Logging;
 using FluentAssertions;
 using Machine.Specifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Moq;
 
 using IT = Moq.It;
@@ -23,7 +23,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
         protected const string Jwt = "jwt";
         protected const string UserName = "userName";
         protected const string Password = "P@ssw0rd";
-        protected static Mock<ILogger<UserController>> loggerMock;
+        protected static Mock<ILoggerAdapter<UserController>> loggerMock;
         protected static Mock<IMapper> mapperMock;
         protected static Mock<IUserRepository> userRepositoryMock;
         protected static Mock<IJwtManager> jwtManagerMock;
@@ -37,7 +37,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
 
         Establish context = () =>
         {
-            loggerMock = new Mock<ILogger<UserController>>();
+            loggerMock = new Mock<ILoggerAdapter<UserController>>();
             mapperMock = new Mock<IMapper>();
             userRepositoryMock = new Mock<IUserRepository>();
             jwtManagerMock = new Mock<IJwtManager>();

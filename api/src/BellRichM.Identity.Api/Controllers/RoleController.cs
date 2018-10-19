@@ -4,9 +4,9 @@ using BellRichM.Identity.Api.Data;
 using BellRichM.Identity.Api.Exceptions;
 using BellRichM.Identity.Api.Models;
 using BellRichM.Identity.Api.Repositories;
+using BellRichM.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace BellRichM.Identity.Api.Controllers
 {
@@ -17,17 +17,17 @@ namespace BellRichM.Identity.Api.Controllers
     [Route("api/[controller]")]
     public class RoleController : Controller
     {
-        private readonly ILogger _logger;
+        private readonly ILoggerAdapter<RoleController> _logger;
         private readonly IMapper _mapper;
         private readonly IRoleRepository _roleRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RoleController"/> class.
         /// </summary>
-        /// <param name="logger">The <see cref="ILogger{RoleController}"/>.</param>
+        /// <param name="logger">The <see cref="ILoggerAdapter{T}"/>.</param>
         /// <param name="mapper">The <see cref="IMapper"/>.</param>
         /// <param name="roleRepository">The <see cref="IRoleRepository"/>.</param>
-        public RoleController(ILogger<RoleController> logger, IMapper mapper, IRoleRepository roleRepository)
+        public RoleController(ILoggerAdapter<RoleController> logger, IMapper mapper, IRoleRepository roleRepository)
         {
             _logger = logger;
             _mapper = mapper;

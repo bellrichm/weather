@@ -5,12 +5,12 @@ using BellRichM.Identity.Api.Configuration;
 using BellRichM.Identity.Api.Data;
 using BellRichM.Identity.Api.Repositories;
 using BellRichM.Identity.Api.Services;
+using BellRichM.Logging;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -26,8 +26,8 @@ namespace BellRichM.Identity.Api.Extensions
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/>.</param>
         /// <param name="configuration">The <see cref="IConfigurationRoot"/>.</param>
-        /// <param name="logger">The <see cref="ILogger"/>.</param>
-        public static void AddIdentityServices(this IServiceCollection services, IConfiguration configuration, ILogger logger)
+        /// <param name="logger">The <see cref="ILoggerAdapter{T}"/>.</param>
+        public static void AddIdentityServices(this IServiceCollection services, IConfiguration configuration, ILoggerAdapter<BellRichM.Logging.LogManager> logger) // ToDO: find a type
         {
             services.AddDbContext<IdentityDbContext>(options =>
                 options.UseSqlite(configuration.GetConnectionString("(identityDb)")));

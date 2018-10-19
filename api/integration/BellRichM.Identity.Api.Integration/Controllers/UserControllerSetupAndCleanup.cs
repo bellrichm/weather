@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Serilog;
 
 namespace BellRichM.Identity.Api.Integration.Controllers
@@ -65,6 +64,7 @@ namespace BellRichM.Identity.Api.Integration.Controllers
             var server = new TestServer(
                 new WebHostBuilder()
                 .UseStartup<StartupIntegration>()
+                .ConfigureServices(s => s.AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>)))
                 .UseConfiguration(configuration)
                 .UseSerilog());
             UserControllerTests.Client = server.CreateClient();
@@ -89,12 +89,12 @@ namespace BellRichM.Identity.Api.Integration.Controllers
                 .MinimumLevel.Verbose()
                 .WriteTo.RollingFile("../../../logsTest/testLog-{Date}.txt", fileSizeLimitBytes: 10485760, retainedFileCountLimit: 7) // 10 MB file size
                 .CreateLogger();
-            var loggerFactory = new LoggerFactory().AddSerilog();
+
+            var loggerAdapter = new LoggerAdapter<LogManager>();
 
             var services = new ServiceCollection();
-            services.AddIdentityServices(configuration, loggerFactory.CreateLogger<UserControllerSetupAndCleanup>());
-
-            services.AddLogging(l => l.AddSerilog(logger));
+            services.AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
+            services.AddIdentityServices(configuration, loggerAdapter);
 
             _serviceProvider = services.BuildServiceProvider();
         }

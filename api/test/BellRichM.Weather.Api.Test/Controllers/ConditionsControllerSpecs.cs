@@ -1,7 +1,7 @@
+using BellRichM.Logging;
 using BellRichM.Weather.Api.Controllers;
 using FluentAssertions;
 using Machine.Specifications;
-using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 
@@ -17,11 +17,11 @@ namespace BellRichM.Weather.Api.Test.Controllers
     {
       static ConditionsController conditionsController;
       static Exception exception;
-      static Mock<ILogger<ConditionsController>> loggerMock;
+      static Mock<ILoggerAdapter<ConditionsController>> loggerMock;
 
       Establish context = () =>
       {
-        loggerMock = new Mock<ILogger<ConditionsController>>();
+        loggerMock = new Mock<ILoggerAdapter<ConditionsController>>();
         conditionsController = new ConditionsController(loggerMock.Object);
       };
 

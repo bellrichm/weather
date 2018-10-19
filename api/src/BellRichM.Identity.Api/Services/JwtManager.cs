@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 using BellRichM.Identity.Api.Configuration;
 using BellRichM.Identity.Api.Data;
 using BellRichM.Identity.Api.Repositories;
+using BellRichM.Logging;
 
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 namespace BellRichM.Identity.Api.Services
@@ -22,7 +22,7 @@ namespace BellRichM.Identity.Api.Services
     /// <seealso cref="BellRichM.Identity.Api.Services.IJwtManager" />
     public class JwtManager : IJwtManager
     {
-        private readonly ILogger _logger;
+        private readonly ILoggerAdapter<JwtManager> _logger;
         private readonly IJwtConfiguration _jwtConfiguration;
         private readonly IUserRepository _userRepository;
         private readonly SignInManager<User> _signInManager;
@@ -31,10 +31,10 @@ namespace BellRichM.Identity.Api.Services
         /// Initializes a new instance of the <see cref="JwtManager"/> class.
         /// </summary>
         /// <param name="jwtConfiguration">The <see cref="IJwtConfiguration"/>.</param>
-        /// <param name="logger">The <see cref="ILogger{JwtManager}"/>.</param>
+        /// <param name="logger">The <see cref="ILoggerAdapter{T}"/>.</param>
         /// <param name="userRepository">The <see cref="IUserRepository"/>.</param>
         /// <param name="signInManager">The <see cref="SignInManager{TUser}"/>.</param>
-        public JwtManager(IJwtConfiguration jwtConfiguration, ILogger<JwtManager> logger, IUserRepository userRepository, SignInManager<User> signInManager)
+        public JwtManager(IJwtConfiguration jwtConfiguration, ILoggerAdapter<JwtManager> logger, IUserRepository userRepository, SignInManager<User> signInManager)
         {
             _jwtConfiguration = jwtConfiguration;
             _logger = logger;

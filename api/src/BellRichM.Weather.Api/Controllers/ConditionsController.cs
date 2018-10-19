@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using BellRichM.Logging;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace BellRichM.Weather.Api.Controllers
 {
@@ -12,13 +12,13 @@ namespace BellRichM.Weather.Api.Controllers
     [Route("api/[controller]")]
     public class ConditionsController : Controller
     {
-        private readonly ILogger _logger;
+        private readonly ILoggerAdapter<ConditionsController> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConditionsController"/> class.
         /// </summary>
-        /// <param name="logger">The <see cref="ILogger{ConditionsController}"/>.</param>
-        public ConditionsController(ILogger<ConditionsController> logger)
+        /// <param name="logger">The <see cref="ILoggerAdapter{T}"/>.</param>
+        public ConditionsController(ILoggerAdapter<ConditionsController> logger)
         {
             _logger = logger;
         }
@@ -32,7 +32,7 @@ namespace BellRichM.Weather.Api.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            _logger.LogInformation("Get conditions route called");
+            _logger.LogDiagnosticInformation("Get conditions route called");
             throw new NotImplementedException();
         }
 

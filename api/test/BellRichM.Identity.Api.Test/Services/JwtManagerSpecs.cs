@@ -2,11 +2,11 @@ using BellRichM.Identity.Api.Configuration;
 using BellRichM.Identity.Api.Data;
 using BellRichM.Identity.Api.Repositories;
 using BellRichM.Identity.Api.Services;
+using BellRichM.Logging;
 using FluentAssertions;
 using Machine.Specifications;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Moq;
 using System;
@@ -26,7 +26,7 @@ namespace BellRichM.Identity.Api.Test.Services
     protected const string Audience = "audience";
     protected const string Password = "P@ssw0rd";
     protected static Mock<IJwtConfiguration> jwtConfigurationMock;
-    protected static Mock<ILogger<JwtManager>> loggerMock;
+    protected static Mock<ILoggerAdapter<JwtManager>> loggerMock;
     protected static Mock<IUserRepository> userRepositoryMock;
     protected static Mock<SignInManager<User>> signInManagerMock;
     protected static Mock<UserManager<User>> userManagerMock;
@@ -47,7 +47,7 @@ namespace BellRichM.Identity.Api.Test.Services
         const string secretKey = "superdupersecretkey";
 
         jwtConfigurationMock = new Mock<IJwtConfiguration>();
-        loggerMock = new Mock<ILogger<JwtManager>>();
+        loggerMock = new Mock<ILoggerAdapter<JwtManager>>();
         userRepositoryMock = new Mock<IUserRepository>();
         userStoreMock = new Mock<IUserStore<User>>();
         userManagerMock = new Mock<UserManager<User>>(userStoreMock.Object, null, null, null, null, null, null, null, null);

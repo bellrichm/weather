@@ -63,6 +63,7 @@ namespace BellRichM.Weather.Web
             .UseConfiguration(configuration)
             .UseStartup<Startup>()
             .UseSerilog()
+            .ConfigureServices(s => s.AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>)))
             .ConfigureServices(s => s.AddSingleton<LoggingLevelSwitches>(logManager.LoggingLevelSwitches))
             .ConfigureServices(s => s.AddSingleton<LoggingFilterSwitches>(logManager.LoggingFilterSwitches))
             .Build();

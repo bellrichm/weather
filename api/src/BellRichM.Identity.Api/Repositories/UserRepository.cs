@@ -1,7 +1,7 @@
 using BellRichM.Identity.Api.Data;
 using BellRichM.Identity.Api.Exceptions;
+using BellRichM.Logging;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -12,7 +12,7 @@ namespace BellRichM.Identity.Api.Repositories
     /// <inheritdoc/>
     public class UserRepository : IUserRepository, IDisposable
     {
-        private readonly ILogger _logger;
+        private readonly ILoggerAdapter<UserRepository> _logger;
         private readonly IRoleRepository _roleRepository;
         private readonly UserManager<User> _userManager;
         private readonly IIdentityDbContext _context;
@@ -21,11 +21,11 @@ namespace BellRichM.Identity.Api.Repositories
         /// <summary>
         /// Initializes a new instance of the <see cref="UserRepository"/> class.
         /// </summary>
-        /// <param name="logger">The <see cref="ILogger{UserRepository}"/>.</param>
+        /// <param name="logger">The <see cref="ILoggerAdapter{T}"/>.</param>
         /// <param name="roleRepository">The <see cref="IRoleRepository"/>.</param>
         /// <param name="userManager">The <see cref="UserManager{User}"/>.</param>
         /// <param name="context">The <see cref="IIdentityDbContext"/>.</param>
-        public UserRepository(ILogger<UserRepository> logger, IRoleRepository roleRepository, UserManager<User> userManager, IIdentityDbContext context)
+        public UserRepository(ILoggerAdapter<UserRepository> logger, IRoleRepository roleRepository, UserManager<User> userManager, IIdentityDbContext context)
         {
             _logger = logger;
             _roleRepository = roleRepository;
