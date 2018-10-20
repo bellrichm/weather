@@ -26,9 +26,9 @@ namespace BellRichM.Logging
         /// <param name="configuration">The runtime configuration.</param>
         public LogManager(IConfiguration configuration)
         {
-            var a = configuration.GetSection("Logging");
+            var loggingSection = configuration.GetSection("Logging");
             _loggingConfiguration = new LoggingConfiguration();
-            new ConfigureFromConfigurationOptions<LoggingConfiguration>(a)
+            new ConfigureFromConfigurationOptions<LoggingConfiguration>(loggingSection)
                 .Configure(_loggingConfiguration);
 
             LoggingLevelSwitches = new LoggingLevelSwitches();

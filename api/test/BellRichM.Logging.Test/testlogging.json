@@ -1,0 +1,38 @@
+{
+    "Logging": {
+      "LevelSwitches": {
+        "Default":
+          {"Level": "Information"},
+        "Microsoft":
+          {"Level": "Warning"},
+        "System":
+          {"Level": "Warning"},
+        "ConsoleSink":
+          {"Level": "Fatal"}
+    },
+    "FilterSwitches": {
+      "ConsoleSink" : 
+        {"Expression": "false"}
+      },
+    "Sinks": {
+      "EventLog": {
+        "LogPath": "logs",
+        "LogName": "events-{Date}.log.json",
+        "LogSize": 10485760,
+        "LogRetention": 7
+        },
+        "DiagnosticLog": {
+          "LogPath": "logs",
+          "LogName": "diagnostics-{Date}.log.json",
+          "LogSize": 10485760,
+          "LogRetention": 7
+        },
+        "DebugLog": {
+          "LogPath": "logs",
+          "LogName": "debug.log",
+          "LogSize": 10485760,
+          "OutputTemplate": "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} {Type} {RequestId}] {Message}{NewLine}"
+        }
+      }
+    }
+}
