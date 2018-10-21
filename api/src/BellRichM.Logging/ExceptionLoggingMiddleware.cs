@@ -77,7 +77,11 @@ namespace BellRichM.Logging
           CorrelationId = httpContext.TraceIdentifier,
           Errors = new List<ErrorResponseModel.Error>
           {
-            new ErrorResponseModel.Error() { Text = "Severe error. Please contact support." }
+            new ErrorResponseModel.Error()
+            {
+              Text = "Severe error. Please contact support.",
+              Code = 99
+            }
           }
         };
 
