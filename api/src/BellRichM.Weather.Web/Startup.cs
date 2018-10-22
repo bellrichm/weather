@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using BellRichM.Identity.Api.Extensions;
-using BellRichM.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using Serilog.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,25 +20,23 @@ namespace BellRichM.Weather.Web
     /// </summary>
     public class Startup
     {
-        private readonly ILoggerAdapter<BellRichM.Logging.LogManager> _logger;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// </summary>
         /// <param name="env">The <see cref="IHostingEnvironment"/>.</param>
         /// <param name="configuration">The <see cref="IConfiguration"/>.</param>
-        /// <param name="logger">The <see cref="ILoggerAdapter{T}"/>.</param>
-        public Startup(IHostingEnvironment env, IConfiguration configuration, ILoggerAdapter<BellRichM.Logging.LogManager> logger)
+        public Startup(IHostingEnvironment env, IConfiguration configuration)
         {
-            _logger = logger;
-
             Configuration = configuration;
-
-            _logger.LogDiagnosticInformation("Environment: {@env}", env);
-            _logger.LogDiagnosticInformation("Configuration Environment: {@configurationEnvironment}", Configuration.GetValue<string>("Environment"));
-            _logger.LogDiagnosticInformation("Configuration BasePath: {@configurationBasePath}", Configuration.GetValue<string>("BasePath"));
             var identityConnectionString = Configuration.GetSection("ConnectionStrings:(identityDb)");
-            _logger.LogDiagnosticInformation("Configuration: {@identityConnectionString}", identityConnectionString);
+
+            using (LogContext.PushProperty("Type", "INFORMATION"))
+            {
+                Log.Information("*** Starting: {@env}", env);
+                Log.Information("*** Starting: configurationEnvironment {configurationEnvironment}", Configuration.GetValue<string>("Environment"));
+                Log.Information("*** Starting: configurationBasePath {configurationBasePath}", Configuration.GetValue<string>("BasePath"));
+                Log.Information("*** Starting: {@identityConnectionString}", identityConnectionString);
+            }
         }
 
         /// <summary>
@@ -56,7 +54,7 @@ namespace BellRichM.Weather.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper();
-            services.AddIdentityServices(Configuration, _logger);
+            services.AddIdentityServices(Configuration);
 
             // needed for testserver to find controllers
             services.AddMvc().AddApplicationPart(Assembly.Load(new AssemblyName("BellRichM.Identity.Api")));

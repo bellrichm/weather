@@ -93,7 +93,7 @@ namespace BellRichM.Logging
                 .CreateLogger();
             using (LogContext.PushProperty("Type", "INFORMATION"))
             {
-                Log.Information("*** Starting loggingConfiguration {@loggingConfiguration}", _loggingConfiguration);
+                logger.Information("*** Starting: {@loggingConfiguration}", _loggingConfiguration);
             }
 
             return logger;

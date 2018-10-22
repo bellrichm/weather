@@ -59,15 +59,20 @@ namespace BellRichM.Identity.Api.Integration.Controllers
             var configuration = configurationManager.Create();
 
             var logManager = new LogManager(configuration);
-            logManager.Create();
+            var logger = logManager.Create();
+            var saveSeriloLogger = Log.Logger;
+            Log.Logger = logger;
 
             var server = new TestServer(
                 new WebHostBuilder()
                 .UseStartup<StartupIntegration>()
+                .ConfigureServices(s => s.AddSingleton(Log.Logger))
                 .ConfigureServices(s => s.AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>)))
                 .UseConfiguration(configuration)
                 .UseSerilog());
             UserControllerTests.Client = server.CreateClient();
+
+            Log.Logger = saveSeriloLogger;
         }
 
         public void OnAssemblyComplete()
@@ -89,12 +94,11 @@ namespace BellRichM.Identity.Api.Integration.Controllers
                 .MinimumLevel.Verbose()
                 .WriteTo.RollingFile("../../../logsTest/testLog-{Date}.txt", fileSizeLimitBytes: 10485760, retainedFileCountLimit: 7) // 10 MB file size
                 .CreateLogger();
-
-            var loggerAdapter = new LoggerAdapter<LogManager>();
+            Log.Logger = logger;
 
             var services = new ServiceCollection();
             services.AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
-            services.AddIdentityServices(configuration, loggerAdapter);
+            services.AddIdentityServices(configuration);
 
             _serviceProvider = services.BuildServiceProvider();
         }

@@ -14,3 +14,6 @@ localtools
 
 **/BellRichM.Weather.Web/Data
 packages-microsoft-prod.deb
+util/InitUsers/Identity.db
+mspec.xml
+opencover.xml

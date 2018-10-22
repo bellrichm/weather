@@ -58,7 +58,7 @@ namespace BellRichM.ConfigurationManager.Test
       private static string debugLogPath = "logs";
       private static string debugLogName = "debug.log";
       private static string debugLogSize = "10485760";
-      private static string debugOutputTemplate = "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} {Type} {RequestId}] {Message}{NewLine}";
+      private static string debugOutputTemplate = "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} {Type} {RequestId} {SourceContext}] {Message}{NewLine}";
 
       It should_have_a_logging_subsection = () =>
       {

@@ -5,7 +5,6 @@ using BellRichM.Identity.Api.Configuration;
 using BellRichM.Identity.Api.Data;
 using BellRichM.Identity.Api.Repositories;
 using BellRichM.Identity.Api.Services;
-using BellRichM.Logging;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +12,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
+using Serilog.Context;
 
 namespace BellRichM.Identity.Api.Extensions
 {
@@ -26,8 +27,7 @@ namespace BellRichM.Identity.Api.Extensions
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/>.</param>
         /// <param name="configuration">The <see cref="IConfigurationRoot"/>.</param>
-        /// <param name="logger">The <see cref="ILoggerAdapter{T}"/>.</param>
-        public static void AddIdentityServices(this IServiceCollection services, IConfiguration configuration, ILoggerAdapter<BellRichM.Logging.LogManager> logger) // ToDO: find a type
+        public static void AddIdentityServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<IdentityDbContext>(options =>
                 options.UseSqlite(configuration.GetConnectionString("(identityDb)")));
@@ -45,7 +45,10 @@ namespace BellRichM.Identity.Api.Extensions
             new ConfigureFromConfigurationOptions<JwtConfiguration>(jwtConfigurationSection)
                 .Configure(jwtConfiguration);
 
-            logger.LogDiagnosticInformation("Configuration: {@jwtConfiguration}", @jwtConfiguration);
+            using (LogContext.PushProperty("Type", "INFORMATION"))
+            {
+                Log.Information("*** Starting: {@jwtConfiguration}", jwtConfiguration);
+            }
 
             jwtConfiguration.Validate();
             services.AddSingleton<IJwtConfiguration>(jwtConfiguration);
