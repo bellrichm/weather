@@ -46,18 +46,22 @@ namespace BellRichM.ConfigurationManager.Test
       protected static string consoleSinkFilterSwitchExpression;
 
       private static string eventLogPath = "logs";
-      private static string eventLogName = "events-{Date}.log.json";
+      private static string eventLogName = "events.log.json";
       private static string eventLogSize = "10485760";
       private static string eventLogRetention = "7";
+      private static string eventLogInterval = "Day";
 
       private static string diagnosticLogPath = "logs";
-      private static string diagnosticLogName = "diagnostics-{Date}.log.json";
+      private static string diagnosticLogName = "diagnostics.log.json";
       private static string diagnosticLogSize = "10485760";
       private static string diagnosticLogRetention = "7";
+      private static string diagnosticLogInterval = "Day";
 
       private static string debugLogPath = "logs";
       private static string debugLogName = "debug.log";
-      private static string debugLogSize = "10485760";
+      private static string debugLogSize = "10240";
+      private static string debugLogRetention = "7";
+      private static string debugLogInterval = "Hour";
       private static string debugOutputTemplate = "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} {Type} {RequestId} {SourceContext}] {Message}{NewLine}";
 
       It should_have_a_logging_subsection = () =>
@@ -130,29 +134,36 @@ namespace BellRichM.ConfigurationManager.Test
       {
         var eventLogConfiguration = configuration.GetSection("Logging:Sinks:EventLog");
         eventLogConfiguration.ShouldNotBeNull();
+        eventLogConfiguration.GetChildren().Count().ShouldEqual(5);
         eventLogConfiguration["LogPath"].ShouldEqual(eventLogPath);
         eventLogConfiguration["LogName"].ShouldEqual(eventLogName);
         eventLogConfiguration["LogSize"].ShouldEqual(eventLogSize);
         eventLogConfiguration["LogRetention"].ShouldEqual(eventLogRetention);
+        eventLogConfiguration["RollingInterval"].ShouldEqual(eventLogInterval);
       };
 
       It should_have_correctly_configured_diagnosticLog = () =>
       {
         var diagnosticLogConfiguration = configuration.GetSection("Logging:Sinks:DiagnosticLog");
         diagnosticLogConfiguration.ShouldNotBeNull();
+        diagnosticLogConfiguration.GetChildren().Count().ShouldEqual(5);
         diagnosticLogConfiguration["LogPath"].ShouldEqual(diagnosticLogPath);
         diagnosticLogConfiguration["LogName"].ShouldEqual(diagnosticLogName);
         diagnosticLogConfiguration["LogSize"].ShouldEqual(diagnosticLogSize);
         diagnosticLogConfiguration["LogRetention"].ShouldEqual(diagnosticLogRetention);
+        diagnosticLogConfiguration["RollingInterval"].ShouldEqual(diagnosticLogInterval);
       };
 
       It should_have_correctly_configured_debugLog = () =>
       {
         var debugLogConfiguration = configuration.GetSection("Logging:Sinks:DebugLog");
         debugLogConfiguration.ShouldNotBeNull();
+        debugLogConfiguration.GetChildren().Count().ShouldEqual(6);
         debugLogConfiguration["LogPath"].ShouldEqual(debugLogPath);
         debugLogConfiguration["LogName"].ShouldEqual(debugLogName);
         debugLogConfiguration["LogSize"].ShouldEqual(debugLogSize);
+        debugLogConfiguration["LogRetention"].ShouldEqual(debugLogRetention);
+        debugLogConfiguration["RollingInterval"].ShouldEqual(debugLogInterval);
         debugLogConfiguration["OutputTemplate"].ShouldEqual(debugOutputTemplate);
       };
   }

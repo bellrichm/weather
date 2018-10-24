@@ -32,10 +32,10 @@ namespace BellRichM.Logging
                 .Configure(_loggingConfiguration);
 
             LoggingLevelSwitches = new LoggingLevelSwitches();
-            LoggingLevelSwitches.DefaultLoggingLevelSwitch = new LoggingLevelSwitch((LogEventLevel)Enum.Parse(typeof(LogEventLevel), _loggingConfiguration.LevelSwitches.Default.Level, true));
-            LoggingLevelSwitches.MicrosoftLoggingLevelSwitch = new LoggingLevelSwitch((LogEventLevel)Enum.Parse(typeof(LogEventLevel), _loggingConfiguration.LevelSwitches.Microsoft.Level, true));
-            LoggingLevelSwitches.SystemLoggingLevelSwitch = new LoggingLevelSwitch((LogEventLevel)Enum.Parse(typeof(LogEventLevel), _loggingConfiguration.LevelSwitches.System.Level, true));
-            LoggingLevelSwitches.ConsoleSinkLevelSwitch = new LoggingLevelSwitch((LogEventLevel)Enum.Parse(typeof(LogEventLevel), _loggingConfiguration.LevelSwitches.ConsoleSink.Level, true));
+            LoggingLevelSwitches.DefaultLoggingLevelSwitch = new LoggingLevelSwitch(_loggingConfiguration.LevelSwitches.Default.Level);
+            LoggingLevelSwitches.MicrosoftLoggingLevelSwitch = new LoggingLevelSwitch(_loggingConfiguration.LevelSwitches.Microsoft.Level);
+            LoggingLevelSwitches.SystemLoggingLevelSwitch = new LoggingLevelSwitch(_loggingConfiguration.LevelSwitches.System.Level);
+            LoggingLevelSwitches.ConsoleSinkLevelSwitch = new LoggingLevelSwitch(_loggingConfiguration.LevelSwitches.ConsoleSink.Level);
 
             LoggingFilterSwitches = new LoggingFilterSwitches();
             LoggingFilterSwitches.ConsoleSinkFilterSwitch = new LoggingFilterSwitch(_loggingConfiguration.FilterSwitches.ConsoleSink.Expression);
@@ -71,16 +71,20 @@ namespace BellRichM.Logging
                 .Enrich.FromLogContext()
                 .WriteTo.Logger(l => l
                     .Filter.ByIncludingOnly(Matching.WithProperty<string>("Type", p => p.Equals("EVENT")))
-                    .WriteTo.RollingFile(
+                    .WriteTo.File(
                         new CompactJsonFormatter(),
                         Path.Combine(_loggingConfiguration.Sinks.EventLog.LogPath, _loggingConfiguration.Sinks.EventLog.LogName),
+                        rollOnFileSizeLimit: true,
+                        rollingInterval: _loggingConfiguration.Sinks.EventLog.RollingInterval,
                         fileSizeLimitBytes: _loggingConfiguration.Sinks.EventLog.LogSize,
                         retainedFileCountLimit: _loggingConfiguration.Sinks.EventLog.LogRetention))
                 .WriteTo.Logger(l => l
                     .Filter.ByExcluding(Matching.WithProperty<string>("Type", p => p.Equals("EVENT")))
-                    .WriteTo.RollingFile(
+                    .WriteTo.File(
                         new CompactJsonFormatter(),
                         Path.Combine(_loggingConfiguration.Sinks.DiagnosticLog.LogPath, _loggingConfiguration.Sinks.DiagnosticLog.LogName),
+                        rollOnFileSizeLimit: true,
+                        rollingInterval: _loggingConfiguration.Sinks.DiagnosticLog.RollingInterval,
                         fileSizeLimitBytes: _loggingConfiguration.Sinks.DiagnosticLog.LogSize,
                         retainedFileCountLimit: _loggingConfiguration.Sinks.DiagnosticLog.LogRetention))
                 .WriteTo.Logger(l => l
@@ -88,7 +92,10 @@ namespace BellRichM.Logging
                     .Filter.ByExcluding(Matching.WithProperty<string>("Type", p => p.Equals("EVENT")))
                     .WriteTo.File(
                         Path.Combine(_loggingConfiguration.Sinks.DebugLog.LogPath, _loggingConfiguration.Sinks.DebugLog.LogName),
+                        rollOnFileSizeLimit: true,
+                        rollingInterval: _loggingConfiguration.Sinks.DebugLog.RollingInterval,
                         fileSizeLimitBytes: _loggingConfiguration.Sinks.DebugLog.LogSize,
+                        retainedFileCountLimit: _loggingConfiguration.Sinks.DebugLog.LogRetention,
                         outputTemplate: _loggingConfiguration.Sinks.DebugLog.OutputTemplate))
                 .CreateLogger();
             using (LogContext.PushProperty("Type", "INFORMATION"))

@@ -1,4 +1,6 @@
 using BellRichM.Attribute.CodeCoverage;
+using Serilog;
+using Serilog.Events;
 
 namespace BellRichM.Logging
 {
@@ -49,7 +51,7 @@ namespace BellRichM.Logging
             /// Gets or sets the microsoft.
             /// </summary>
             /// <value>
-            /// The microsoft level switch.
+            /// The microsoft <see cref="LevelSwitch"/> class.
             /// </value>
             public LevelSwitch Microsoft { get; set; }
 
@@ -57,7 +59,7 @@ namespace BellRichM.Logging
             /// Gets or sets the system.
             /// </summary>
             /// <value>
-            /// The system level switch.
+            /// The system <see cref="LevelSwitch"/> class.
             /// </value>
             public LevelSwitch System { get; set; }
 
@@ -65,7 +67,7 @@ namespace BellRichM.Logging
             /// Gets or sets the console sink.
             /// </summary>
             /// <value>
-            /// The console sink level switch.
+            /// The console sink <see cref="LevelSwitch"/> class.
             /// </value>
             public LevelSwitch ConsoleSink { get; set; }
 
@@ -78,9 +80,9 @@ namespace BellRichM.Logging
                 /// Gets or sets the level.
                 /// </summary>
                 /// <value>
-                /// The log level.
+                /// The <see cref="LogEventLevel"/> class.
                 /// </value>
-                public string Level { get; set; }
+                public LogEventLevel Level { get; set; }
             }
         }
 
@@ -177,6 +179,14 @@ namespace BellRichM.Logging
                 /// The length of time to keep the log.
                 /// </value>
                 public int LogRetention { get; set; }
+
+                /// <summary>
+                /// Gets or sets the log rolling interval.
+                /// </summary>
+                /// <value>
+                /// The <see cref="RollingInterval"/> class..
+                /// </value>
+                public RollingInterval RollingInterval { get; set; }
 
                 /// <summary>
                 /// Gets or sets the output template.

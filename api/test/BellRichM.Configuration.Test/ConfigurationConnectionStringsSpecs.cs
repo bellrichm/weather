@@ -18,6 +18,7 @@ namespace BellRichM.ConfigurationConnectionStrings.Test
         protected static string environment;
 
         protected static string validFor;
+        protected static string identityDB;
 
         Because of = () => { };
 
@@ -36,7 +37,7 @@ namespace BellRichM.ConfigurationConnectionStrings.Test
     {
         protected static IConfiguration configuration;
 
-        private static string identityDB = "DataSource=Data/Identity.db";
+        protected static string identityDB = "DataSource=Data/Identity.db";
 
         It should_have_a_ConnectionStringssubsection = () =>
         {
@@ -61,6 +62,7 @@ namespace BellRichM.ConfigurationConnectionStrings.Test
     Establish context = () =>
     {
         environment = "Production";
+        identityDB = "DataSource=Data/Identity.db";
 
         Setup();
     };
@@ -75,6 +77,7 @@ namespace BellRichM.ConfigurationConnectionStrings.Test
     Establish context = () =>
     {
         environment = "Development";
+        identityDB = "DataSource=Data/Development/Identity.db";
 
         Setup();
     };

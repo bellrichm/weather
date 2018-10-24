@@ -44,19 +44,19 @@ namespace BellRichM.Logging.Test
             .ShouldEqual(loggingConfiguration.FilterSwitches.ConsoleSink.Expression);
 
         It should_set_the_default_level_switch = () =>
-          logManager.LoggingLevelSwitches.DefaultLoggingLevelSwitch.MinimumLevel.ToString()
+          logManager.LoggingLevelSwitches.DefaultLoggingLevelSwitch.MinimumLevel
             .ShouldEqual(loggingConfiguration.LevelSwitches.Default.Level);
 
         It should_set_the_microsoft_level_switch = () =>
-          logManager.LoggingLevelSwitches.MicrosoftLoggingLevelSwitch.MinimumLevel.ToString()
+          logManager.LoggingLevelSwitches.MicrosoftLoggingLevelSwitch.MinimumLevel
             .ShouldEqual(loggingConfiguration.LevelSwitches.Microsoft.Level);
 
         It should_set_the_system_level_switch = () =>
-          logManager.LoggingLevelSwitches.SystemLoggingLevelSwitch.MinimumLevel.ToString()
+          logManager.LoggingLevelSwitches.SystemLoggingLevelSwitch.MinimumLevel
             .ShouldEqual(loggingConfiguration.LevelSwitches.System.Level);
 
         It should_set_the_console_sink_level_switch = () =>
-          logManager.LoggingLevelSwitches.ConsoleSinkLevelSwitch.MinimumLevel.ToString()
+          logManager.LoggingLevelSwitches.ConsoleSinkLevelSwitch.MinimumLevel
             .ShouldEqual(loggingConfiguration.LevelSwitches.ConsoleSink.Level);
     }
 
