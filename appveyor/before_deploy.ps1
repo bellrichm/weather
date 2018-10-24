@@ -33,7 +33,6 @@ if ($env:BUILD_ARTIFACT -eq "NO")
   return
 }
 
-# TODO: add --no-build when it is supported again
 $cmd = 'dotnet publish api/src/BellRichM.Weather.Web/BellRichM.Weather.Web.csproj '
 $cmd = $cmd + '--output $env:APPVEYOR_BUILD_FOLDER/dist '
 $cmd = $cmd + '--no-restore '

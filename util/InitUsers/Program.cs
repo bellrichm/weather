@@ -57,13 +57,11 @@ namespace InitUsers
             var configuration = builder.Build();
 
             var logManager = new LogManager(configuration);
-            logManager.Create();
-            var loggerAdapter = new LoggerAdapter<LogManager>();
+            Log.Logger = logManager.Create();
 
             var services = new ServiceCollection();
-            services.AddSingleton(Log.Logger);
             services.AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
-            services.AddIdentityServices(configuration, loggerAdapter);
+            services.AddIdentityServices(configuration);
             return services.BuildServiceProvider();
         }
 

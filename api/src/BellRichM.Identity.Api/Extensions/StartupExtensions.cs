@@ -38,7 +38,6 @@ namespace BellRichM.Identity.Api.Extensions
 
             var jwtConfiguration = new JwtConfiguration();
 
-            // TODO: put the signing key instead of the secret key into the configuration
             jwtConfiguration.SecretKey = configuration["Identity:SecretKey"];
 
             var jwtConfigurationSection = configuration.GetSection("Identity:JwtConfiguration");

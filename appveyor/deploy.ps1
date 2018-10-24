@@ -1,4 +1,3 @@
-# TODO: cannot log cmd because shows secret key
 Function RunCmd {
   Param ($cmd = $cmd)
   Process{
@@ -52,5 +51,3 @@ if ($env:BUILD_PLATFORM -eq "Windows")
   $cmd = "& `" C:\Program Files (x86)\IIS\Microsoft Web Deploy V3\msdeploy.exe`" $parms"
   RunCmd $cmd
 }
-
-# TODO: use zip deploy on linux

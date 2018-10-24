@@ -14,7 +14,6 @@ Function RunCmd {
 }
 
 "******************************** " + $MyInvocation.InvocationName + " ********************************"
-# TODO: check return codes of build steps
 $error.Clear()
 
 $env:APPVEYOR_BUILD_VERSION = "local"

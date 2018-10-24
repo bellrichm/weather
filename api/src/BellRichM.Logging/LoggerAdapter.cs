@@ -17,8 +17,6 @@ namespace BellRichM.Logging
             _logger = Log.ForContext<T>();
         }
 
-        // TODO: - a better way to concatenate the arrays?
-
         /// <inheritdoc/>
         public void LogDiagnosticTrace(string message, params object[] arguments)
         {
