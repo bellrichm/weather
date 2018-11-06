@@ -93,7 +93,7 @@ namespace BellRichM.Identity.Api.Integration.Controllers
             var logger = new LoggerConfiguration()
                 .MinimumLevel.Verbose()
                 .WriteTo.File(
-                    "../../../logsTest/testLog-{Date}.txt",
+                    "../../../logsTest/testLog.txt",
                     rollOnFileSizeLimit: true,
                     rollingInterval: RollingInterval.Day,
                     fileSizeLimitBytes: 10240,
