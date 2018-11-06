@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BellRichM.Helpers.Test", "BellRichM.Helpers.Test\BellRichM.Helpers.Test.csproj", "{6D1AE4D6-2245-4B10-86B9-B2903B276C1A}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BellRichM.Weather.Api.Test", "BellRichM.Weather.Api.Test\BellRichM.Weather.Api.Test.csproj", "{3869C165-D702-4DA0-8959-B0CFA718B683}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BellRichM.Identity.Api.Test", "BellRichM.Identity.Api.Test\BellRichM.Identity.Api.Test.csproj", "{DE80E34C-A9D1-423B-90DF-3FA295E731EA}"
@@ -72,5 +74,17 @@ Global
 		{C9CA70DD-8C60-4C89-AD2B-A1B51D07CB54}.Release|x64.Build.0 = Release|x64
 		{C9CA70DD-8C60-4C89-AD2B-A1B51D07CB54}.Release|x86.ActiveCfg = Release|x86
 		{C9CA70DD-8C60-4C89-AD2B-A1B51D07CB54}.Release|x86.Build.0 = Release|x86
+		{6D1AE4D6-2245-4B10-86B9-B2903B276C1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D1AE4D6-2245-4B10-86B9-B2903B276C1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D1AE4D6-2245-4B10-86B9-B2903B276C1A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6D1AE4D6-2245-4B10-86B9-B2903B276C1A}.Debug|x64.Build.0 = Debug|Any CPU
+		{6D1AE4D6-2245-4B10-86B9-B2903B276C1A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6D1AE4D6-2245-4B10-86B9-B2903B276C1A}.Debug|x86.Build.0 = Debug|Any CPU
+		{6D1AE4D6-2245-4B10-86B9-B2903B276C1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D1AE4D6-2245-4B10-86B9-B2903B276C1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D1AE4D6-2245-4B10-86B9-B2903B276C1A}.Release|x64.ActiveCfg = Release|Any CPU
+		{6D1AE4D6-2245-4B10-86B9-B2903B276C1A}.Release|x64.Build.0 = Release|Any CPU
+		{6D1AE4D6-2245-4B10-86B9-B2903B276C1A}.Release|x86.ActiveCfg = Release|Any CPU
+		{6D1AE4D6-2245-4B10-86B9-B2903B276C1A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

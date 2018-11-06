@@ -19,6 +19,14 @@ namespace BellRichM.Logging.Test
 {
     internal class ExceptionLoggingMiddlewareSpecs
     {
+        protected static int traceTimes;
+        protected static int debugTimes;
+        protected static int informationTimes;
+        protected static int warningTimes;
+        protected static int criticalTimes;
+        protected static int errorTimes;
+        protected static int eventTimes;
+
         protected static ExceptionLoggingMiddleware exceptionLoggingMiddleware;
         protected static Mock<ILoggerAdapter<ExceptionLoggingMiddleware>> loggerMock;
         protected static DefaultHttpContext httpContext;
@@ -47,6 +55,14 @@ namespace BellRichM.Logging.Test
     {
         Establish context = () =>
         {
+            traceTimes = 0;
+            debugTimes = 0;
+            informationTimes = 1;
+            warningTimes = 0;
+            criticalTimes = 0;
+            errorTimes = 1;
+            eventTimes = 1;
+
             Task ExceptionRequestDelegate(HttpContext innerHttpContext)
             {
               throw new Exception();
@@ -59,35 +75,18 @@ namespace BellRichM.Logging.Test
         Because of = () =>
           exceptionLoggingMiddleware.Invoke(httpContext).Await();
 
-        It should_log_correct_trace_messages = () =>
-            loggerMock.Verify(x => x.LogDiagnosticTrace(IT.IsAny<string>(), IT.IsAny<object[]>()), Times.Never);
-
-        It should_log_correct_debug_messages = () =>
-            loggerMock.Verify(x => x.LogDiagnosticDebug(IT.IsAny<string>(), IT.IsAny<object[]>()), Times.Never);
+ #pragma warning disable 169
+        Behaves_like<LoggingBehaviors<ExceptionLoggingMiddleware>> correct_logging;
+ #pragma warning restore 169
 
         It should_log_correct_information_messages = () =>
-        {
-            loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), IT.IsAny<object[]>()), Times.Exactly(1));
             loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), httpContext.Request.Protocol, httpContext.Request.Host, httpContext.Connection.RemoteIpAddress.ToString()), Times.Exactly(1));
-        };
-
-        It should_log_correct_warning_messages = () =>
-            loggerMock.Verify(x => x.LogDiagnosticWarning(IT.IsAny<string>(), IT.IsAny<object[]>()), Times.Never);
-
-        It should_log_correct_critical_messages = () =>
-            loggerMock.Verify(x => x.LogDiagnosticCritical(IT.IsAny<string>(), IT.IsAny<object[]>()), Times.Never);
 
         It should_log_correct_error_messages = () =>
-        {
-            loggerMock.Verify(x => x.LogDiagnosticError(IT.IsAny<string>(), IT.IsAny<object[]>()), Times.Once);
             loggerMock.Verify(x => x.LogDiagnosticError(IT.IsAny<string>(), IT.IsAny<IHeaderDictionary>(), IT.IsAny<Exception>()), Times.Once);
-        };
 
         It should_log_correct_events = () =>
-        {
-            loggerMock.Verify(x => x.LogEvent(IT.IsAny<int>(), IT.IsAny<string>(), IT.IsAny<object[]>()), Times.Once);
             loggerMock.Verify(x => x.LogEvent((int)EventIds.EndRequest, IT.IsAny<string>(), httpContext.Request.Method, httpContext.Request.Path, 500, IT.IsAny<double>()), Times.Once);
-        };
 
         It should_add_identifer_header = () =>
             httpContext.Response.Headers["X-Request-Id"].ToString().ShouldEqual(httpContext.TraceIdentifier);
@@ -111,6 +110,14 @@ namespace BellRichM.Logging.Test
     {
         Establish context = () =>
         {
+            traceTimes = 0;
+            debugTimes = 1;
+            informationTimes = 1;
+            warningTimes = 0;
+            criticalTimes = 0;
+            errorTimes = 0;
+            eventTimes = 1;
+
             Task SuccessRequestDelegate(HttpContext innerHttpContext)
             {
               return Task.FromResult(0);
@@ -123,35 +130,18 @@ namespace BellRichM.Logging.Test
         Because of = () =>
           exceptionLoggingMiddleware.Invoke(httpContext).Await();
 
-        It should_log_correct_trace_messages = () =>
-            loggerMock.Verify(x => x.LogDiagnosticTrace(IT.IsAny<string>(), IT.IsAny<object[]>()), Times.Never);
+ #pragma warning disable 169
+        Behaves_like<LoggingBehaviors<ExceptionLoggingMiddleware>> correct_logging;
+ #pragma warning restore 169
 
         It should_log_correct_debug_messages = () =>
-        {
-            loggerMock.Verify(x => x.LogDiagnosticDebug(IT.IsAny<string>(), IT.IsAny<object[]>()), Times.Once);
             loggerMock.Verify(x => x.LogDiagnosticDebug(IT.IsAny<string>(), IT.IsAny<IHeaderDictionary>()), Times.Once);
-        };
 
         It should_log_correct_information_messages = () =>
-        {
-            loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), IT.IsAny<object[]>()), Times.Exactly(1));
             loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), httpContext.Request.Protocol, httpContext.Request.Host, httpContext.Connection.RemoteIpAddress.ToString()), Times.Exactly(1));
-        };
-
-        It should_log_correct_warning_messages = () =>
-            loggerMock.Verify(x => x.LogDiagnosticWarning(IT.IsAny<string>(), IT.IsAny<object[]>()), Times.Never);
-
-        It should_log_correct_critical_messages = () =>
-            loggerMock.Verify(x => x.LogDiagnosticCritical(IT.IsAny<string>(), IT.IsAny<object[]>()), Times.Never);
-
-        It should_log_correct_error_messages = () =>
-            loggerMock.Verify(x => x.LogDiagnosticError(IT.IsAny<string>(), IT.IsAny<object[]>()), Times.Never);
 
         It should_log_correct_events = () =>
-        {
-            loggerMock.Verify(x => x.LogEvent(IT.IsAny<int>(), IT.IsAny<string>(), IT.IsAny<object[]>()), Times.Once);
             loggerMock.Verify(x => x.LogEvent((int)EventIds.EndRequest, IT.IsAny<string>(), httpContext.Request.Method, httpContext.Request.Path, IT.IsAny<int>(), IT.IsAny<double>()), Times.Once);
-        };
 
         It should_add_identifer_header = () =>
             httpContext.Response.Headers["X-Request-Id"].ToString().ShouldEqual(httpContext.TraceIdentifier);
