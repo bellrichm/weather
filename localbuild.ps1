@@ -32,10 +32,10 @@ $postClean = "YES"
 if ($preClean -ne "NO")
 {
   Write-Host "******************************** PreCleaning ********************************"
-  dotnet clean -v m api/test/BellRichM.Weather.Test.sln
-  dotnet clean -v m api/src/BellRichM.Weather.sln
-  dotnet clean -v m api/integration/BellRichM.Identity.Api.Integration/BellRichM.Identity.Api.Integration.csproj
-  dotnet clean -v m api/smoke/BellRichM.Identity.Api.Smoke/BellRichM.Identity.Api.Smoke.csproj
+  RunCmd "dotnet clean -v m api/test/BellRichM.Weather.Test.sln"
+  RunCmd "dotnet clean -v m api/src/BellRichM.Weather.sln"
+  RunCmd "dotnet clean -v m api/integration/BellRichM.Identity.Api.Integration/BellRichM.Identity.Api.Integration.csproj"
+  RunCmd "dotnet clean -v m api/smoke/BellRichM.Identity.Api.Smoke/BellRichM.Identity.Api.Smoke.csproj"
   Remove-Item $env:APPVEYOR_BUILD_FOLDER/dist -Force -Recurse -ErrorAction Ignore
   Remove-Item $env:APPVEYOR_BUILD_FOLDER/$env:ARTIFACT_NAME.zip -ErrorAction Ignore
 }
