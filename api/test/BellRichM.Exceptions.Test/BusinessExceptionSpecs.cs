@@ -10,7 +10,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using It = Machine.Specifications.It;
 
 #pragma warning disable SA1649 // File name should match first type name
-namespace BellRichM.Api.Exceptions.Test
+namespace BellRichM.Exceptions.Test
 {
   internal class When_info_argument_is_null
   {
