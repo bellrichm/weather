@@ -40,9 +40,9 @@ if ($env:BUILD_PLATFORM-eq "Windows")
   $TESTDIR = "api\test\"
   $TESTDLLS = ""
   
-  $TESTDLLS = $TESTDLLS + $TESTDIR + "BellRichM.Api.Test\bin\Debug\net462\BellRichM.Logging.Api.dll "
+  $TESTDLLS = $TESTDLLS + $TESTDIR + "BellRichM.Api.Test\bin\Debug\net462\BellRichM.Api.Test.dll "
   $TESTDLLS = $TESTDLLS + $TESTDIR + "BellRichM.Configuration.Test\bin\Debug\net462\BellRichM.Configuration.Test.dll "
-  $TESTDLLS = $TESTDLLS + $TESTDIR + "BellRichM.Exceptions.Test\bin\Debug\net462\BellRichM.Configuration.Test.dll "
+  $TESTDLLS = $TESTDLLS + $TESTDIR + "BellRichM.Exceptions.Test\bin\Debug\net462\BellRichM.Exceptions.Test.dll "
   $TESTDLLS = $TESTDLLS + $TESTDIR + "BellRichM.Identity.Api.Test\bin\Debug\net462\BellRichM.Identity.Api.Test.dll "  
   $TESTDLLS = $TESTDLLS + $TESTDIR + "BellRichM.Logging.Test\bin\Debug\net462\BellRichM.Logging.Test.dll "  
   $TESTDLLS = $TESTDLLS + $TESTDIR + "BellRichM.Weather.Api.Test\bin\Debug\net462\BellRichM.Weather.Api.Test.dll "

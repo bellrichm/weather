@@ -1,4 +1,10 @@
 -
+  cache:
+    - C:\ProgramData\chocolatey\bin
+    - C:\ProgramData\chocolatey\lib
+    - '%LocalAppData%\NuGet\Cache'    # NuGet < v3
+    - '%LocalAppData%\NuGet\v3-cache' # NuGet v3
+  
   branches:
     only:
       - master
