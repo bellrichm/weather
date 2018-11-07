@@ -2,7 +2,6 @@
   cache:
     - C:\ProgramData\chocolatey\bin
     - C:\ProgramData\chocolatey\lib
-    - '%userprofile%\.nuget\packages'
   
   branches:
     only:
