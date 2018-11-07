@@ -78,7 +78,7 @@ namespace BellRichM.Api.Middleware
         {
           CorrelationId = httpContext.TraceIdentifier,
           Text = "Severe error. Please contact support.",
-          Code = "99"
+          Code = "SevereError"
         };
 
         string jsonResponse = JsonConvert.SerializeObject(errorResponse, Formatting.Indented);
