@@ -1,3 +1,3 @@
 "******************************** " + $MyInvocation.InvocationName + " ********************************"
 
-choco install "msbuild-sonarqube-runner" -y
+choco upgrade "msbuild-sonarqube-runner" -y
