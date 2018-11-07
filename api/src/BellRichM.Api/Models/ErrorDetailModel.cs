@@ -1,8 +1,12 @@
+using BellRichM.Attribute.CodeCoverage;
+
 namespace BellRichM.Api.Models
 {
     /// <summary>
     /// Exception detail.
     /// </summary>
+    [ExcludeFromCodeCoverage]
+
     public class ErrorDetailModel
     {
         /// <summary>
