@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BellRichM.Configuration.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BellRichM.Logging.Test", "BellRichM.Logging.Test\BellRichM.Logging.Test.csproj", "{C9CA70DD-8C60-4C89-AD2B-A1B51D07CB54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BellRichM.Exception.Tests", "BellRichM.Exceptions.Test\BellRichM.Exception.Tests.csproj", "{A95461AB-5126-483D-9FFD-95B804A82559}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BellRichM.Exceptions.Tests", "BellRichM.Exceptions.Test\BellRichM.Exceptions.Tests.csproj", "{A95461AB-5126-483D-9FFD-95B804A82559}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BellRichM.Api.Test", "BellRichM.Api.Test\BellRichM.Api.Test.csproj", "{20E63FED-15C5-4F1E-AB3D-453112027C46}"
 EndProject
