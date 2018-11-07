@@ -1,4 +1,4 @@
-using BellRichM.Identity.Api.Exceptions;
+using BellRichM.Exceptions;
 using FluentAssertions;
 using Machine.Specifications;
 using Moq;
@@ -10,7 +10,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using It = Machine.Specifications.It;
 
 #pragma warning disable SA1649 // File name should match first type name
-namespace BellRichM.Identity.Api.Test.Exceptions
+namespace BellRichM.Api.Exceptions.Test
 {
   internal class When_info_argument_is_null
   {

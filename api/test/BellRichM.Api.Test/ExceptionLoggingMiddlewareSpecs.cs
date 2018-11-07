@@ -1,3 +1,5 @@
+using BellRichM.Api.Middleware;
+using BellRichM.Api.Models;
 using BellRichM.Logging;
 using FluentAssertions;
 using Machine.Specifications;
@@ -15,7 +17,7 @@ using System.Threading.Tasks;
 using IT = Moq.It;
 using It = Machine.Specifications.It;
 
-namespace BellRichM.Logging.Test
+namespace BellRichM.Api.Middleware.Test
 {
     internal class ExceptionLoggingMiddlewareSpecs
     {
@@ -33,7 +35,7 @@ namespace BellRichM.Logging.Test
         protected static RequestDelegate requestDelegate;
 
         protected static string errorText = "Severe error. Please contact support.";
-        protected static int errorCode = 99;
+        protected static string errorCode = "99";
 
         Establish context = () =>
         {
@@ -99,10 +101,9 @@ namespace BellRichM.Logging.Test
             var errorResponse = JsonConvert.DeserializeObject<ErrorResponseModel>(responseString);
 
             errorResponse.CorrelationId.ShouldEqual(httpContext.TraceIdentifier);
-            errorResponse.Errors.Count().ShouldEqual(1);
-            var error = errorResponse.Errors.First();
-            error.Code.ShouldEqual(errorCode);
-            error.Text.ShouldEqual(errorText);
+            errorResponse.ErrorDetails.ShouldBeNull();
+            errorResponse.Code.ShouldEqual(errorCode);
+            errorResponse.Text.ShouldEqual(errorText);
         };
     }
 

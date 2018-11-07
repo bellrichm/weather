@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using BellRichM.Api.Controllers;
 using BellRichM.Logging;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,7 +11,7 @@ namespace BellRichM.Weather.Api.Controllers
     /// </summary>
     /// <seealso cref="Controller" />
     [Route("api/[controller]")]
-    public class ConditionsController : Controller
+    public class ConditionsController : ApiController
     {
         private readonly ILoggerAdapter<ConditionsController> _logger;
 

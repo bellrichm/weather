@@ -32,5 +32,6 @@
   <ItemGroup>
     <ProjectReference Include="..\BellRichM.Attribute\BellRichM.Attribute.csproj" />
     <ProjectReference Include="..\BellRichM.Logging\BellRichM.Logging.csproj" />
+    <ProjectReference Include="..\BellRichM.Api\BellRichM.Api.csproj" />
   </ItemGroup>
 </Project>

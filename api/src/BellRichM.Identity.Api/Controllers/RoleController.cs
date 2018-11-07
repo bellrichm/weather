@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using AutoMapper;
+using BellRichM.Api.Controllers;
 using BellRichM.Identity.Api.Data;
 using BellRichM.Identity.Api.Exceptions;
 using BellRichM.Identity.Api.Models;
@@ -15,7 +16,7 @@ namespace BellRichM.Identity.Api.Controllers
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Route("api/[controller]")]
-    public class RoleController : Controller
+    public class RoleController : ApiController
     {
         private readonly ILoggerAdapter<RoleController> _logger;
         private readonly IMapper _mapper;

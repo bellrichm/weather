@@ -1,4 +1,5 @@
 using AutoMapper;
+using BellRichM.Api.Controllers;
 using BellRichM.Identity.Api.Data;
 using BellRichM.Identity.Api.Exceptions;
 using BellRichM.Identity.Api.Models;
@@ -17,7 +18,7 @@ namespace BellRichM.Identity.Api.Controllers
     /// </summary>
     /// <seealso cref="Controller" />
     [Route("api/[controller]")]
-    public class UserController : Controller
+    public class UserController : ApiController
     {
         private readonly ILoggerAdapter<UserController> _logger;
         private readonly IMapper _mapper;

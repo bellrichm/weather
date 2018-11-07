@@ -1,4 +1,4 @@
-using BellRichM.Logging;
+using BellRichM.Api.Middleware;
 
 namespace Microsoft.AspNetCore.Builder
 {

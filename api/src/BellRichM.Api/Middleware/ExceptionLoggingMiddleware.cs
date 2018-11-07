@@ -1,3 +1,5 @@
+using BellRichM.Api.Models;
+using BellRichM.Logging;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Serilog.Context;
@@ -7,7 +9,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace BellRichM.Logging
+namespace BellRichM.Api.Middleware
 {
   /// <summary>
   /// The logging and exception handling middleware
@@ -75,14 +77,8 @@ namespace BellRichM.Logging
         var errorResponse = new ErrorResponseModel
         {
           CorrelationId = httpContext.TraceIdentifier,
-          Errors = new List<ErrorResponseModel.Error>
-          {
-            new ErrorResponseModel.Error()
-            {
-              Text = "Severe error. Please contact support.",
-              Code = 99
-            }
-          }
+          Text = "Severe error. Please contact support.",
+          Code = "99"
         };
 
         string jsonResponse = JsonConvert.SerializeObject(errorResponse, Formatting.Indented);
