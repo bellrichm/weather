@@ -1,5 +1,6 @@
 -
   cache:
+    - '%TEMP%\chocolately'            # cache chocalatey download
     - C:\ProgramData\chocolatey\bin
     - C:\ProgramData\chocolatey\lib
     - '%LocalAppData%\NuGet\Cache'    # NuGet < v3
