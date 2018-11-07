@@ -14,13 +14,13 @@ namespace BellRichM.Api.Exceptions.Test
 {
   internal class When_info_argument_is_null
   {
-    protected static RoleExceptionTestClass roleException;
+    protected static RoleExceptionTestClass businessException;
     protected static Exception thrownException;
     Establish context = () =>
-      roleException = new RoleExceptionTestClass("code");
+      businessException = new RoleExceptionTestClass("code");
 
     Because of = () =>
-      thrownException = Catch.Exception(() => roleException.GetObjectData(null, default(StreamingContext)));
+      thrownException = Catch.Exception(() => businessException.GetObjectData(null, default(StreamingContext)));
 
     It should_throw_expected_exception = () =>
       thrownException.ShouldBeOfExactType<ArgumentNullException>();
@@ -28,8 +28,8 @@ namespace BellRichM.Api.Exceptions.Test
 
   internal class When_serializing_deserializing_RoleException
   {
-    protected static RoleException originalException;
-    protected static RoleException deserializedException;
+    protected static BusinessException originalException;
+    protected static BusinessException deserializedException;
     protected static MemoryStream serializedStream;
     protected static BinaryFormatter formatter;
     Establish context = () =>
@@ -63,7 +63,7 @@ namespace BellRichM.Api.Exceptions.Test
   [Serializable]
   #pragma warning disable S3376 // Class name should end with exception
 
-  internal class RoleExceptionTestClass : RoleException
+  internal class RoleExceptionTestClass : BusinessException
   #pragma warning restore S3376 // Class name should end with exception
   {
     public RoleExceptionTestClass(string code)

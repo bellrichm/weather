@@ -11,7 +11,7 @@ namespace BellRichM.Exceptions
   /// </summary>
   /// <seealso cref="System.Exception" />
   [Serializable]
-  public abstract class RoleException : Exception
+  public abstract class BusinessException : Exception
   {
     #pragma warning disable CA2235 // TODO: Investigate, seems to be a false positive
     [NonSerialized]
@@ -21,11 +21,11 @@ namespace BellRichM.Exceptions
     #pragma warning restore CA2235
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="RoleException"/> class.
+    /// Initializes a new instance of the <see cref="BusinessException"/> class.
     /// </summary>
     /// <param name="code">The code that provides additional detail.</param>
     [ExcludeFromCodeCoverage]
-    protected RoleException(string code)
+    protected BusinessException(string code)
             : base()
     {
       _code = code;
@@ -33,12 +33,12 @@ namespace BellRichM.Exceptions
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="RoleException"/> class.
+    /// Initializes a new instance of the <see cref="BusinessException"/> class.
     /// </summary>
     /// <param name="code">The code that provides additional detail.</param>
     /// <param name="message">The message describing the exception.</param>
     [ExcludeFromCodeCoverage]
-    protected RoleException(string code, string message)
+    protected BusinessException(string code, string message)
             : base(message)
     {
       _code = code;
@@ -46,13 +46,13 @@ namespace BellRichM.Exceptions
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="RoleException"/> class.
+    /// Initializes a new instance of the <see cref="BusinessException"/> class.
     /// </summary>
     /// <param name="code">The code that provides additional detail.</param>
     /// <param name="message">The message describing the exception.</param>
     /// <param name="innerException">The inner exception.</param>
     [ExcludeFromCodeCoverage]
-    protected RoleException(string code, string message, Exception innerException)
+    protected BusinessException(string code, string message, Exception innerException)
             : base(message, innerException)
     {
       _code = code;
@@ -60,12 +60,12 @@ namespace BellRichM.Exceptions
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="RoleException"/> class.
+    /// Initializes a new instance of the <see cref="BusinessException"/> class.
     /// </summary>
     /// <param name="code">The code that provides additional detail.</param>
     /// <param name="errorDetails">Additional details about the exception.</param>
     [ExcludeFromCodeCoverage]
-    protected RoleException(string code, IEnumerable<ExceptionDetail> errorDetails)
+    protected BusinessException(string code, IEnumerable<ExceptionDetail> errorDetails)
             : base()
     {
       _code = code;
@@ -73,13 +73,13 @@ namespace BellRichM.Exceptions
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="RoleException"/> class.
+    /// Initializes a new instance of the <see cref="BusinessException"/> class.
     /// </summary>
     /// <param name="code">The code that provides additional detail.</param>
     /// <param name="errorDetails">Additional details about the exception.</param>
     /// <param name="message">The message describing the exception.</param>
     [ExcludeFromCodeCoverage]
-    protected RoleException(string code, IEnumerable<ExceptionDetail> errorDetails, string message)
+    protected BusinessException(string code, IEnumerable<ExceptionDetail> errorDetails, string message)
             : base(message)
     {
       _code = code;
@@ -87,14 +87,14 @@ namespace BellRichM.Exceptions
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="RoleException"/> class.
+    /// Initializes a new instance of the <see cref="BusinessException"/> class.
     /// </summary>
     /// <param name="code">The code that provides additional detail.</param>
     /// <param name="errorDetails">Additional details about the exception.</param>
     /// <param name="message">The message describing the exception.</param>
     /// <param name="innerException">The inner exception.</param>
     [ExcludeFromCodeCoverage]
-    protected RoleException(string code, IEnumerable<ExceptionDetail> errorDetails, string message, Exception innerException)
+    protected BusinessException(string code, IEnumerable<ExceptionDetail> errorDetails, string message, Exception innerException)
             : base(message, innerException)
     {
       _code = code;
@@ -102,11 +102,11 @@ namespace BellRichM.Exceptions
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="RoleException"/> class.
+    /// Initializes a new instance of the <see cref="BusinessException"/> class.
     /// </summary>
     /// <param name="info">The <see cref="SerializationInfo"></see> that holds the serialized object data about the exception being thrown.</param>
     /// <param name="context">The <see cref="StreamingContext"></see> that contains contextual information about the source or destination.</param>
-    protected RoleException(SerializationInfo info, StreamingContext context)
+    protected BusinessException(SerializationInfo info, StreamingContext context)
         : base(info, context)
     {
       _code = info.GetString("Code");

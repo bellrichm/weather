@@ -1,16 +1,17 @@
 using System;
 using System.Runtime.Serialization;
 using BellRichM.Attribute.CodeCoverage;
+using BellRichM.Exceptions;
 
 namespace BellRichM.Identity.Api.Exceptions
 {
   /// <summary>
   /// The exception thrown when unable to create a role.
   /// </summary>
-  /// <seealso cref="RoleException" />
+  /// <seealso cref="BusinessException" />
   [Serializable]
   [ExcludeFromCodeCoverage]
-  public class CreateRoleException : RoleException
+  public class CreateRoleException : BusinessException
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="CreateRoleException"/> class.

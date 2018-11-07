@@ -1,16 +1,17 @@
 using System;
 using System.Runtime.Serialization;
 using BellRichM.Attribute.CodeCoverage;
+using BellRichM.Exceptions;
 
 namespace BellRichM.Identity.Api.Exceptions
 {
   /// <summary>
   /// The exception thrown when unable to delete a role.
   /// </summary>
-  /// <seealso cref="RoleException" />
+  /// <seealso cref="BusinessException" />
   [Serializable]
   [ExcludeFromCodeCoverage]
-  public class DeleteRoleException : RoleException
+  public class DeleteRoleException : BusinessException
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="DeleteRoleException"/> class.

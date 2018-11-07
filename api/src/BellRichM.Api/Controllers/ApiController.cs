@@ -40,10 +40,10 @@ namespace BellRichM.Api.Controllers
             return errrorResponseModel;
         }
 
-        private ErrorResponseModel CreateModel(RoleException roleException)
+        private ErrorResponseModel CreateModel(BusinessException businessException)
         {
             var errorDetails = new List<ErrorDetailModel>();
-            foreach (var errorDetail in roleException.ErrorDetails)
+            foreach (var errorDetail in businessException.ErrorDetails)
             {
                 errorDetails.Add(
                     new ErrorDetailModel
