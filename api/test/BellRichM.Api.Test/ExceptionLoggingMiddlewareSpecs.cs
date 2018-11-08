@@ -35,7 +35,7 @@ namespace BellRichM.Api.Middleware.Test
         protected static RequestDelegate requestDelegate;
 
         protected static string errorText = "Severe error. Please contact support.";
-        protected static string errorCode = "99";
+        protected static string errorCode = "SevereError";
 
         Establish context = () =>
         {
