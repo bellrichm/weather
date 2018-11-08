@@ -12,7 +12,11 @@ namespace BellRichM.Api.Controllers
     /// </summary>
     public abstract class ApiController : Controller
     {
-        private ErrorResponseModel CreateModel(ModelStateDictionary modelStateDictionary)
+        /// <summary>
+        /// Creates a <see cref="ErrorResponseModel"/> from a <see cref="ModelStateDictionary"/>
+        /// </summary>
+        /// <returns>The <see cref="ErrorResponseModel"/>.</returns>
+        protected ErrorResponseModel CreateModel()
         {
             var errorDetails = new List<ErrorDetailModel>();
             foreach (KeyValuePair<string, ModelStateEntry> modelStateEntry in ModelState)
@@ -32,15 +36,20 @@ namespace BellRichM.Api.Controllers
             var errrorResponseModel = new ErrorResponseModel
             {
                 CorrelationId = HttpContext.TraceIdentifier,
-                /* Code = string.Empty, */
-                Text = string.Empty,
+                Code = "InvalidInput",
+                Text = "Invalid input",
                 ErrorDetails = errorDetails
             };
 
             return errrorResponseModel;
         }
 
-        private ErrorResponseModel CreateModel(BusinessException businessException)
+        /// <summary>
+        /// Creates a <see cref="ErrorResponseModel"/> from a <see cref="BusinessException"/>
+        /// </summary>
+        /// <param name="businessException">The <see cref="BusinessException"/>.</param>
+        /// <returns>The <see cref="ErrorResponseModel"/>.</returns>
+        protected ErrorResponseModel CreateModel(BusinessException businessException)
         {
             var errorDetails = new List<ErrorDetailModel>();
             foreach (var errorDetail in businessException.ErrorDetails)
@@ -56,8 +65,8 @@ namespace BellRichM.Api.Controllers
             var errrorResponseModel = new ErrorResponseModel
             {
                 CorrelationId = HttpContext.TraceIdentifier,
-                /* Code = string.Empty, */
-                Text = string.Empty,
+                Code = businessException.Code,
+                Text = businessException.Message,
                 ErrorDetails = errorDetails
             };
 
