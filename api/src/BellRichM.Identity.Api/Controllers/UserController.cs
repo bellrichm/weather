@@ -72,7 +72,8 @@ namespace BellRichM.Identity.Api.Controllers
             User newUser;
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                var errorResponseModel = CreateModel();
+                return BadRequest(errorResponseModel);
             }
 
             var user = _mapper.Map<User>(userCreate);
@@ -120,7 +121,8 @@ namespace BellRichM.Identity.Api.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                var errorResponseModel = CreateModel();
+                return BadRequest(errorResponseModel);
             }
 
             var jwt = await _jwtManager.GenerateToken(userLogin.UserName, userLogin.Password);
@@ -128,7 +130,8 @@ namespace BellRichM.Identity.Api.Controllers
             if (jwt == null)
             {
                 ModelState.AddModelError("loginError", "Invalid user password combination.");
-                return BadRequest(ModelState);
+                var errorResponseModel = CreateModel();
+                return BadRequest(errorResponseModel);
             }
 
             var accessToken = new AccessTokenModel

@@ -145,20 +145,8 @@ namespace BellRichM.Identity.Api.Test.Controllers
         It should_return_correct_status_code = () =>
             result.StatusCode.ShouldEqual(400);
 
-        It should_return_a_SerializableError = () =>
-            result.Value.Should().BeOfType<SerializableError>();
-
-        It should_return_correct_error_code = () =>
-        {
-            var error = (SerializableError)result.Value;
-            error.Should().ContainKey(ErrorCode);
-        };
-
-        It should_return_correct_error_message = () =>
-        {
-            var error = (SerializableError)result.Value;
-            ((string[])error[ErrorCode]).Should().Equal(ErrorMessage);
-        };
+        It should_return_a_ErrorResponseModel = () =>
+            result.Value.Should().BeOfType<ErrorResponseModel>();
     }
 
     internal class When_creating_role_fails : RoleControllerSpecs

@@ -65,7 +65,8 @@ namespace BellRichM.Identity.Api.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                var errorResponseModel = CreateModel();
+                return BadRequest(errorResponseModel);
             }
 
             var role = _mapper.Map<Role>(roleCreate);
