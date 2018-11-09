@@ -1,5 +1,6 @@
 using System.Reflection;
 using AutoMapper;
+using BellRichM.Api.Models;
 using BellRichM.Identity.Api.Controllers;
 using BellRichM.Identity.Api.Data;
 using BellRichM.Identity.Api.Exceptions;
@@ -10,6 +11,7 @@ using BellRichM.Logging;
 using FluentAssertions;
 using Machine.Specifications;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
@@ -83,6 +85,8 @@ namespace BellRichM.Identity.Api.Test.Controllers
             mapperMock.Setup(x => x.Map<UserModel>(user)).Returns(userModel);
 
             userController = new UserController(loggerMock.Object, mapperMock.Object, userRepositoryMock.Object, jwtManagerMock.Object);
+            userController.ControllerContext.HttpContext = new DefaultHttpContext();
+            userController.ControllerContext.HttpContext.TraceIdentifier = "traceIdentifier";
         };
 
         Cleanup after = () =>
@@ -288,20 +292,8 @@ namespace BellRichM.Identity.Api.Test.Controllers
         It should_return_correct_status_code = () =>
             result.StatusCode.ShouldEqual(400);
 
-        It should_return_a_SerializableError = () =>
-            result.Value.Should().BeOfType<SerializableError>();
-
-        It should_return_correct_error_code = () =>
-        {
-            var error = (SerializableError)result.Value;
-            error.Should().ContainKey(createUserException.Code);
-        };
-
-        It should_return_correct_error_message = () =>
-        {
-            var error = (SerializableError)result.Value;
-            ((string[])error[createUserException.Code]).Should().Equal(createUserException.Message);
-        };
+        It should_return_a_ErrorResponseModel = () =>
+            result.Value.Should().BeOfType<ErrorResponseModel>();
     }
 
     internal class When_creating_user_succeeds : UserControllerSpecs
@@ -364,20 +356,8 @@ namespace BellRichM.Identity.Api.Test.Controllers
         It should_return_correct_status_code = () =>
             result.StatusCode.ShouldEqual(400);
 
-        It should_return_a_SerializableError = () =>
-            result.Value.Should().BeOfType<SerializableError>();
-
-        It should_return_correct_error_code = () =>
-        {
-            var error = (SerializableError)result.Value;
-            error.Should().ContainKey(deleteUserException.Code);
-        };
-
-        It should_return_correct_error_message = () =>
-        {
-            var error = (SerializableError)result.Value;
-            ((string[])error[deleteUserException.Code]).Should().Equal(deleteUserException.Message);
-        };
+        It should_return_a_ErrorResponseModel = () =>
+            result.Value.Should().BeOfType<ErrorResponseModel>();
     }
 
     internal class When_deleting_user_succeeds : UserControllerSpecs

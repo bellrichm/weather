@@ -77,8 +77,8 @@ namespace BellRichM.Identity.Api.Controllers
             }
             catch (CreateRoleException ex)
             {
-                ModelState.AddModelError(ex.Code, ex.Message);
-                return BadRequest(ModelState);
+                var errorResponseModel = CreateModel(ex);
+                return BadRequest(errorResponseModel);
             }
         }
 
@@ -98,8 +98,8 @@ namespace BellRichM.Identity.Api.Controllers
             }
             catch (DeleteRoleException ex)
             {
-                ModelState.AddModelError(ex.Code, ex.Message);
-                return BadRequest(ModelState);
+                var errorResponseModel = CreateModel(ex);
+                return BadRequest(errorResponseModel);
             }
         }
     }

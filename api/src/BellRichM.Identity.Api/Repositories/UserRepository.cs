@@ -1,3 +1,4 @@
+using BellRichM.Exceptions;
 using BellRichM.Identity.Api.Data;
 using BellRichM.Identity.Api.Exceptions;
 using BellRichM.Logging;
@@ -77,8 +78,10 @@ namespace BellRichM.Identity.Api.Repositories
                 {
                     identitydbContextTransaction.Rollback();
 
+                    var exceptionDetails = GetErrors(userResult);
+
                     // TODO: logging
-                    throw new CreateUserException(CreateUserExceptionCode.CreateUserFailed);
+                    throw new CreateUserException(CreateUserExceptionCode.CreateUserFailed, exceptionDetails);
                 }
 
                 if (user.Roles != null)
@@ -99,8 +102,10 @@ namespace BellRichM.Identity.Api.Repositories
                         {
                             identitydbContextTransaction.Rollback();
 
+                            var exceptionDetails = GetErrors(roleResult);
+
                             // TODO: logging
-                            throw new CreateUserException(CreateUserExceptionCode.AddRoleFailed);
+                            throw new CreateUserException(CreateUserExceptionCode.AddRoleFailed, exceptionDetails);
                         }
                     }
                 }
@@ -129,8 +134,11 @@ namespace BellRichM.Identity.Api.Repositories
 
             IdentityResult userResult = _userManager.DeleteAsync(user).Result;
             if (!userResult.Succeeded)
-            { // TODO: logging
-               throw new DeleteUserException(DeleteUserExceptionCode.DeleteUserFailed);
+            {
+                var exceptionDetails = GetErrors(userResult);
+
+                // TODO: logging
+                throw new DeleteUserException(DeleteUserExceptionCode.DeleteUserFailed, exceptionDetails);
             }
         }
 
@@ -169,6 +177,22 @@ namespace BellRichM.Identity.Api.Repositories
             }
 
             return roles;
+        }
+
+        private List<ExceptionDetail> GetErrors(IdentityResult identityResult)
+        {
+            var exceptionDetails = new List<ExceptionDetail>();
+            foreach (var error in identityResult.Errors)
+            {
+                exceptionDetails.Add(
+                    new ExceptionDetail
+                    {
+                         Code = error.Code,
+                         Text = error.Description
+                     });
+             }
+
+            return exceptionDetails;
         }
     }
 }

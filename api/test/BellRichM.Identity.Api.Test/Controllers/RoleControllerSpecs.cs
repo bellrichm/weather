@@ -1,5 +1,6 @@
 using System.Reflection;
 using AutoMapper;
+using BellRichM.Api.Models;
 using BellRichM.Identity.Api.Controllers;
 using BellRichM.Identity.Api.Data;
 using BellRichM.Identity.Api.Exceptions;
@@ -9,6 +10,7 @@ using BellRichM.Logging;
 using FluentAssertions;
 using Machine.Specifications;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
@@ -70,6 +72,8 @@ namespace BellRichM.Identity.Api.Test.Controllers
             roleRepositoryMock.Setup(x => x.Delete(RoleIdNotFound)).Throws(deleteRoleException);
 
             roleController = new RoleController(loggerMock.Object, mapperMock.Object, roleRepositoryMock.Object);
+            roleController.ControllerContext.HttpContext = new DefaultHttpContext();
+            roleController.ControllerContext.HttpContext.TraceIdentifier = "traceIdentifier";
         };
 
         Cleanup after = () =>
@@ -173,20 +177,8 @@ namespace BellRichM.Identity.Api.Test.Controllers
         It should_return_correct_status_code = () =>
             result.StatusCode.ShouldEqual(400);
 
-        It should_return_a_SerializableError = () =>
-            result.Value.Should().BeOfType<SerializableError>();
-
-        It should_return_correct_error_code = () =>
-        {
-            var error = (SerializableError)result.Value;
-            error.Should().ContainKey(createRoleException.Code);
-        };
-
-        It should_return_correct_error_message = () =>
-        {
-            var error = (SerializableError)result.Value;
-            ((string[])error[createRoleException.Code]).Should().Equal(createRoleException.Message);
-        };
+        It should_return_a_ErrorResponseModel = () =>
+            result.Value.Should().BeOfType<ErrorResponseModel>();
     }
 
     internal class When_creating_role_succeeds : RoleControllerSpecs
@@ -242,20 +234,8 @@ namespace BellRichM.Identity.Api.Test.Controllers
         It should_return_correct_status_code = () =>
             result.StatusCode.ShouldEqual(400);
 
-        It should_return_a_SerializableError = () =>
-            result.Value.Should().BeOfType<SerializableError>();
-
-        It should_return_correct_error_code = () =>
-        {
-            var error = (SerializableError)result.Value;
-            error.Should().ContainKey(deleteRoleException.Code);
-        };
-
-        It should_return_correct_error_message = () =>
-        {
-            var error = (SerializableError)result.Value;
-            ((string[])error[deleteRoleException.Code]).Should().Equal(deleteRoleException.Message);
-        };
+        It should_return_a_ErrorResponseModel = () =>
+            result.Value.Should().BeOfType<ErrorResponseModel>();
     }
 
     internal class When_deleting_role_succeeds : RoleControllerSpecs
