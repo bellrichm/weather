@@ -57,7 +57,7 @@ namespace BellRichM.Logging.Test
             { "\"WARNING\"", 2 },
             { "\"CRITICAL\"", 2 },
             { "\"ERROR\"", 2 },
-            { "\"EVENT\"", 3 }
+            { "\"EVENT\"", 4 }
         };
 
         It should_have_correct_message = () =>
@@ -98,15 +98,11 @@ namespace BellRichM.Logging.Test
         };
 
         It should_have_one_log_event = () =>
-        {
             logEvents.Count().ShouldEqual(1);
-        };
 
         It should_have_correct_property = () =>
-        {
             logEvents.First()
                 .Properties["Type"].ToString().ShouldEqual<string>("\"TRACE\"");
-        };
 
 #pragma warning disable 169
         Behaves_like<LogEventBehaviors> a_event_log;
@@ -125,15 +121,11 @@ namespace BellRichM.Logging.Test
         };
 
         It should_have_one_log_event = () =>
-        {
             logEvents.Count().ShouldEqual(1);
-        };
 
         It should_have_correct_property = () =>
-        {
             logEvents.First()
                 .Properties["Type"].ToString().ShouldEqual<string>("\"DEBUG\"");
-        };
 
 #pragma warning disable 169
         Behaves_like<LogEventBehaviors> a_event_log;
@@ -153,15 +145,11 @@ namespace BellRichM.Logging.Test
         };
 
         It should_have_one_log_event = () =>
-        {
             logEvents.Count().ShouldEqual(1);
-        };
 
         It should_have_correct_property = () =>
-        {
             logEvents.First()
                 .Properties["Type"].ToString().ShouldEqual<string>("\"INFORMATION\"");
-        };
 
 #pragma warning disable 169
         Behaves_like<LogEventBehaviors> a_event_log;
@@ -181,15 +169,11 @@ namespace BellRichM.Logging.Test
         };
 
         It should_have_one_log_event = () =>
-        {
             logEvents.Count().ShouldEqual(1);
-        };
 
         It should_have_correct_property = () =>
-        {
             logEvents.First()
                 .Properties["Type"].ToString().ShouldEqual<string>("\"WARNING\"");
-        };
 
 #pragma warning disable 169
         Behaves_like<LogEventBehaviors> a_event_log;
@@ -208,15 +192,11 @@ namespace BellRichM.Logging.Test
         };
 
         It should_have_one_log_event = () =>
-        {
             logEvents.Count().ShouldEqual(1);
-        };
 
         It should_have_correct_property = () =>
-        {
             logEvents.First()
                 .Properties["Type"].ToString().ShouldEqual<string>("\"CRITICAL\"");
-        };
 
 #pragma warning disable 169
         Behaves_like<LogEventBehaviors> a_event_log;
@@ -235,9 +215,7 @@ namespace BellRichM.Logging.Test
         };
 
         It should_have_one_log_event = () =>
-        {
             logEvents.Count().ShouldEqual(1);
-        };
 
         It should_have_correct_property = () =>
         {
@@ -252,39 +230,43 @@ namespace BellRichM.Logging.Test
 
     public class When_logging_event_message : LoggingAdapterSpecs
     {
-        private static int eventId = 99;
-
         Because of = () =>
         {
             using (var testCorrelatorContext = TestCorrelator.CreateContext())
             {
-                loggerAdapter.LogEvent(eventId, message, parameters);
+                loggerAdapter.LogEvent(EventIds.EndRequest, message, parameters);
                 logEvents = TestCorrelator.GetLogEventsFromContextGuid(testCorrelatorContext.Guid);
             }
         };
 
         It should_have_two_log_event = () =>
-        {
             logEvents.Count().ShouldEqual(2);
-        };
 
         It should_have_one_event_type_property = () =>
-        {
             logEvents.Where(logEvent => logEvent.Properties["Type"].ToString() == "\"EVENT\"")
                 .Count().ShouldEqual(1);
-        };
 
         It should_have_correct_id = () =>
         {
-            logEvents.Where(logEvent => logEvent.Properties["Type"].ToString() == "\"EVENT\"").First()
-                .Properties["Id"].ToString().ShouldEqual<string>(eventId.ToString());
+            var id = logEvents.Where(logEvent => logEvent.Properties["Type"].ToString() == "\"EVENT\"")
+                .First()
+                .Properties["Id"]
+                .ToString();
+            id.ShouldEqual(EventIds.EndRequest.ToString("D"));
+        };
+
+        It should_have_correct_event = () =>
+        {
+            var eventName = logEvents.Where(logEvent => logEvent.Properties["Type"].ToString() == "\"EVENT\"")
+                .First()
+                .Properties["Event"]
+                .ToString();
+            eventName.ShouldEqual(EventIds.EndRequest.ToString());
         };
 
         It should_have_one_information_type_property = () =>
-        {
             logEvents.Where(logEvent => logEvent.Properties["Type"].ToString() == "\"INFORMATION\"")
                 .Count().ShouldEqual(1);
-        };
 
 #pragma warning disable 169
         Behaves_like<LogEventBehaviors> a_event_log;

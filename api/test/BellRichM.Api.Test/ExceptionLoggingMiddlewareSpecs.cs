@@ -21,11 +21,8 @@ namespace BellRichM.Api.Middleware.Test
 {
     internal class ExceptionLoggingMiddlewareSpecs
     {
-        protected static int traceTimes;
         protected static int debugTimes;
         protected static int informationTimes;
-        protected static int warningTimes;
-        protected static int criticalTimes;
         protected static int errorTimes;
         protected static int eventTimes;
 
@@ -39,6 +36,11 @@ namespace BellRichM.Api.Middleware.Test
 
         Establish context = () =>
         {
+            debugTimes = 0;
+            informationTimes = 0;
+            errorTimes = 0;
+            eventTimes = 0;
+
             loggerMock = new Mock<ILoggerAdapter<ExceptionLoggingMiddleware>>();
 
             httpContext = new DefaultHttpContext();
@@ -57,11 +59,7 @@ namespace BellRichM.Api.Middleware.Test
     {
         Establish context = () =>
         {
-            traceTimes = 0;
-            debugTimes = 0;
             informationTimes = 1;
-            warningTimes = 0;
-            criticalTimes = 0;
             errorTimes = 1;
             eventTimes = 1;
 
@@ -111,12 +109,8 @@ namespace BellRichM.Api.Middleware.Test
     {
         Establish context = () =>
         {
-            traceTimes = 0;
             debugTimes = 1;
             informationTimes = 1;
-            warningTimes = 0;
-            criticalTimes = 0;
-            errorTimes = 0;
             eventTimes = 1;
 
             Task SuccessRequestDelegate(HttpContext innerHttpContext)

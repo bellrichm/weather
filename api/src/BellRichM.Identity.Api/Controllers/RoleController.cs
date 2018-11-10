@@ -44,6 +44,7 @@ namespace BellRichM.Identity.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(string id)
         {
+            _logger.LogEvent(EventIds.RoleController_GetById, "{@id}", id);
             var newRole = await _roleRepository.GetById(id);
             if (newRole == null)
             {
@@ -63,8 +64,10 @@ namespace BellRichM.Identity.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] RoleModel roleCreate)
         {
+            _logger.LogEvent(EventIds.RoleController_Create, "{@roleCreate}", roleCreate);
             if (!ModelState.IsValid)
             {
+                _logger.LogDiagnosticInformation("{@ModelState}", ModelState);
                 var errorResponseModel = CreateModel();
                 return BadRequest(errorResponseModel);
             }
@@ -78,6 +81,7 @@ namespace BellRichM.Identity.Api.Controllers
             }
             catch (CreateRoleException ex)
             {
+                _logger.LogDiagnosticInformation("{@ex}", ex);
                 var errorResponseModel = CreateModel(ex);
                 return BadRequest(errorResponseModel);
             }
@@ -92,6 +96,7 @@ namespace BellRichM.Identity.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
+            _logger.LogEvent(EventIds.RoleController_Delete, "{@id}", id);
             try
             {
                 await _roleRepository.Delete(id);
@@ -99,6 +104,7 @@ namespace BellRichM.Identity.Api.Controllers
             }
             catch (DeleteRoleException ex)
             {
+                _logger.LogDiagnosticInformation("{@ex}", ex);
                 var errorResponseModel = CreateModel(ex);
                 return BadRequest(errorResponseModel);
             }

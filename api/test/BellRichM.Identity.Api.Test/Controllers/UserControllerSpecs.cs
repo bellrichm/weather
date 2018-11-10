@@ -13,6 +13,7 @@ using Machine.Specifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Moq;
 
 using IT = Moq.It;
@@ -25,6 +26,10 @@ namespace BellRichM.Identity.Api.Test.Controllers
         protected const string Jwt = "jwt";
         protected const string UserName = "userName";
         protected const string Password = "P@ssw0rd";
+        protected static int debugTimes;
+        protected static int informationTimes;
+        protected static int errorTimes;
+        protected static int eventTimes;
         protected static Mock<ILoggerAdapter<UserController>> loggerMock;
         protected static Mock<IMapper> mapperMock;
         protected static Mock<IUserRepository> userRepositoryMock;
@@ -39,6 +44,11 @@ namespace BellRichM.Identity.Api.Test.Controllers
 
         Establish context = () =>
         {
+            debugTimes = 0;
+            informationTimes = 0;
+            errorTimes = 0;
+            eventTimes = 1;
+
             loggerMock = new Mock<ILoggerAdapter<UserController>>();
             mapperMock = new Mock<IMapper>();
             userRepositoryMock = new Mock<IUserRepository>();
@@ -100,13 +110,26 @@ namespace BellRichM.Identity.Api.Test.Controllers
         protected static ObjectResult result;
 
         Establish context = () =>
+        {
+            informationTimes = 1;
             userController.ModelState.AddModelError(ErrorCode, ErrorMessage);
+        };
 
         Cleanup after = () =>
             userController.ModelState.Clear();
 
         Because of = () =>
             result = (ObjectResult)userController.Login(userLogin).Await();
+
+#pragma warning disable 169
+        Behaves_like<LoggingBehaviors<UserController>> correct_logging;
+#pragma warning restore 169
+
+        It should_log_correct_information_messages = () =>
+           loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), IT.IsAny<ModelStateDictionary>()), Times.Once);
+
+        It should_log_correct_events = () =>
+            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventIds>(), IT.IsAny<string>(), IT.IsAny<UserLoginModel>()), Times.Once);
 
         It should_return_correct_result_type = () =>
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -123,13 +146,26 @@ namespace BellRichM.Identity.Api.Test.Controllers
         protected static ObjectResult result;
 
         Establish context = () =>
+        {
+            informationTimes = 1;
             userLogin.UserName = string.Empty;
+        };
 
         Cleanup after = () =>
             userController.ModelState.Clear();
 
         Because of = () =>
             result = (ObjectResult)userController.Login(userLogin).Await();
+
+#pragma warning disable 169
+        Behaves_like<LoggingBehaviors<UserController>> correct_logging;
+#pragma warning restore 169
+
+        It should_log_correct_information_messages = () =>
+          loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), IT.IsAny<ModelStateDictionary>()), Times.Once);
+
+        It should_log_correct_events = () =>
+            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventIds>(), IT.IsAny<string>(), IT.IsAny<UserLoginModel>()), Times.Once);
 
         It should_return_correct_result_type = () =>
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -147,6 +183,13 @@ namespace BellRichM.Identity.Api.Test.Controllers
 
         Because of = () =>
             result = (ObjectResult)userController.Login(userLogin).Await();
+
+#pragma warning disable 169
+        Behaves_like<LoggingBehaviors<UserController>> correct_logging;
+#pragma warning restore 169
+
+        It should_log_correct_events = () =>
+            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventIds>(), IT.IsAny<string>(), IT.IsAny<UserLoginModel>()), Times.Once);
 
         It should_return_correct_result_type = () =>
             result.Should().BeOfType<OkObjectResult>();
@@ -171,6 +214,13 @@ namespace BellRichM.Identity.Api.Test.Controllers
         Because of = () =>
             result = (ObjectResult)userController.GetById(userModel.Id).Await();
 
+#pragma warning disable 169
+        Behaves_like<LoggingBehaviors<UserController>> correct_logging;
+#pragma warning restore 169
+
+        It should_log_correct_events = () =>
+            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventIds>(), IT.IsAny<string>(), IT.IsAny<string>()), Times.Once);
+
         It should_return_success_status_code = () =>
             result.StatusCode.ShouldEqual(200);
 
@@ -194,10 +244,15 @@ namespace BellRichM.Identity.Api.Test.Controllers
         Because of = () =>
             result = (NotFoundResult)userController.GetById(string.Empty).Await();
 
+#pragma warning disable 169
+        Behaves_like<LoggingBehaviors<UserController>> correct_logging;
+#pragma warning restore 169
+
+        It should_log_correct_events = () =>
+            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventIds>(), IT.IsAny<string>(), IT.IsAny<string>()), Times.Once);
+
         It should_return_not_found_status_code = () =>
-        {
             result.StatusCode.ShouldEqual(404);
-        };
     }
 
     internal class When_decorating_GetById_method : UserControllerSpecs
@@ -219,13 +274,26 @@ namespace BellRichM.Identity.Api.Test.Controllers
         protected static ObjectResult result;
 
         Establish context = () =>
+        {
+            informationTimes = 1;
             userController.ModelState.AddModelError(ErrorCode, ErrorMessage);
+        };
 
         Cleanup after = () =>
             userController.ModelState.Clear();
 
         Because of = () =>
             result = (ObjectResult)userController.Create(userCreate).Await();
+
+#pragma warning disable 169
+        Behaves_like<LoggingBehaviors<UserController>> correct_logging;
+#pragma warning restore 169
+
+        It should_log_correct_information_messages = () =>
+           loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), IT.IsAny<ModelStateDictionary>()), Times.Once);
+
+        It should_log_correct_events = () =>
+            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventIds>(), IT.IsAny<string>(), IT.IsAny<UserCreateModel>()), Times.Once);
 
         It should_return_correct_result_type = () =>
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -242,13 +310,26 @@ namespace BellRichM.Identity.Api.Test.Controllers
         protected static ObjectResult result;
 
         Establish context = () =>
+        {
+            informationTimes = 1;
             userCreate.Password = string.Empty;
+        };
 
         Cleanup after = () =>
             userController.ModelState.Clear();
 
         Because of = () =>
             result = (ObjectResult)userController.Create(userCreate).Await();
+
+#pragma warning disable 169
+        Behaves_like<LoggingBehaviors<UserController>> correct_logging;
+#pragma warning restore 169
+
+        It should_log_correct_information_messages = () =>
+           loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), IT.IsAny<CreateUserException>()), Times.Once);
+
+        It should_log_correct_events = () =>
+            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventIds>(), IT.IsAny<string>(), IT.IsAny<UserCreateModel>()), Times.Once);
 
         It should_return_correct_result_type = () =>
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -273,6 +354,13 @@ namespace BellRichM.Identity.Api.Test.Controllers
 
         Because of = () =>
             result = (ObjectResult)userController.Create(userCreate).Await();
+
+#pragma warning disable 169
+        Behaves_like<LoggingBehaviors<UserController>> correct_logging;
+#pragma warning restore 169
+
+        It should_log_correct_events = () =>
+            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventIds>(), IT.IsAny<string>(), IT.IsAny<UserCreateModel>()), Times.Once);
 
         It should_return_success_status_code = () =>
             result.StatusCode.ShouldEqual(200);
@@ -312,7 +400,20 @@ namespace BellRichM.Identity.Api.Test.Controllers
             userController.ModelState.Clear();
 
         Because of = () =>
+        {
+            informationTimes = 1;
             result = (ObjectResult)userController.Delete(string.Empty).Await();
+        };
+
+#pragma warning disable 169
+        Behaves_like<LoggingBehaviors<UserController>> correct_logging;
+#pragma warning restore 169
+
+        It should_log_correct_information_messages = () =>
+           loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), IT.IsAny<DeleteUserException>()), Times.Once);
+
+        It should_log_correct_events = () =>
+            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventIds>(), IT.IsAny<string>(), IT.IsAny<string>()), Times.Once);
 
         It should_return_correct_result_type = () =>
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -330,6 +431,13 @@ namespace BellRichM.Identity.Api.Test.Controllers
 
         Because of = () =>
             result = (NoContentResult)userController.Delete("id").Await();
+
+#pragma warning disable 169
+        Behaves_like<LoggingBehaviors<UserController>> correct_logging;
+#pragma warning restore 169
+
+        It should_log_correct_events = () =>
+            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventIds>(), IT.IsAny<string>(), IT.IsAny<string>()), Times.Once);
 
         It should_return_success_status_code = () =>
             result.StatusCode.ShouldEqual(204);

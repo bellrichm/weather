@@ -25,6 +25,10 @@ namespace BellRichM.Identity.Api.Test.Services
     protected const string Issuer = "issuer";
     protected const string Audience = "audience";
     protected const string Password = "P@ssw0rd";
+    protected static int debugTimes;
+    protected static int informationTimes;
+    protected static int errorTimes;
+    protected static int eventTimes;
     protected static Mock<IJwtConfiguration> jwtConfigurationMock;
     protected static Mock<ILoggerAdapter<JwtManager>> loggerMock;
     protected static Mock<IUserRepository> userRepositoryMock;
@@ -45,6 +49,11 @@ namespace BellRichM.Identity.Api.Test.Services
     Establish context = () =>
     {
         const string secretKey = "superdupersecretkey";
+
+        debugTimes = 0;
+        informationTimes = 0;
+        errorTimes = 0;
+        eventTimes = 0;
 
         jwtConfigurationMock = new Mock<IJwtConfiguration>();
         loggerMock = new Mock<ILoggerAdapter<JwtManager>>();
@@ -110,6 +119,10 @@ namespace BellRichM.Identity.Api.Test.Services
     Because of = () =>
       jwt = jwtManager.GenerateToken(user.UserName, Password).Await();
 
+#pragma warning disable 169
+    Behaves_like<LoggingBehaviors<JwtManager>> correct_logging;
+#pragma warning restore 169
+
     It should_return_null_token = () =>
       jwt.ShouldBeNull();
   }
@@ -126,6 +139,10 @@ namespace BellRichM.Identity.Api.Test.Services
     Because of = () =>
       jwt = jwtManager.GenerateToken(user.UserName, Password).Await();
 
+#pragma warning disable 169
+    Behaves_like<LoggingBehaviors<JwtManager>> correct_logging;
+#pragma warning restore 169
+
     It should_return_null_token = () =>
       jwt.ShouldBeNull();
   }
@@ -133,6 +150,9 @@ namespace BellRichM.Identity.Api.Test.Services
   internal class When_token_created : JwtManagerSpecs
   {
     private static JwtSecurityToken jwtSecurityToken;
+
+    Establish context = () =>
+        informationTimes = 1;
 
     Because of = () =>
     {
@@ -142,6 +162,13 @@ namespace BellRichM.Identity.Api.Test.Services
             .ValidateToken(jwt, tokenValidationParameters, out var securityToken);
         jwtSecurityToken = (JwtSecurityToken)securityToken;
     };
+
+#pragma warning disable 169
+    Behaves_like<LoggingBehaviors<JwtManager>> correct_logging;
+#pragma warning restore 169
+
+    It should_log_correct_information_messages = () =>
+        loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), IT.IsAny<JwtSecurityToken>()), Times.Once);
 
     It should_have_correct_number_of_claims = () =>
       jwtSecurityToken.Claims.Count().ShouldBeEquivalentTo(10);

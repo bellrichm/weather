@@ -59,7 +59,7 @@ namespace BellRichM.ConfigurationManager.Test
 
       private static string debugLogPath = "logs";
       private static string debugLogName = "debug.log";
-      private static string debugLogSize = "10240";
+      private static string debugLogSize = "102400";
       private static string debugLogRetention = "7";
       private static string debugLogInterval = "Hour";
       private static string debugOutputTemplate = "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} {Type} {RequestId} {SourceContext}] {Message}{NewLine}";

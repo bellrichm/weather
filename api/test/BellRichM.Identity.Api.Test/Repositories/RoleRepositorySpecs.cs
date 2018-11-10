@@ -19,6 +19,11 @@ namespace BellRichM.Identity.Api.Test
 {
   internal class RoleRepositorySpecs
   {
+    protected static int debugTimes;
+    protected static int informationTimes;
+    protected static int errorTimes;
+    protected static int eventTimes;
+
     protected static Mock<ILoggerAdapter<RoleRepository>> loggerMock;
     protected static Mock<RoleManager<Role>> roleManagerMock;
     protected static Mock<IIdentityDbContext> identityDbContextMock;
@@ -33,6 +38,11 @@ namespace BellRichM.Identity.Api.Test
     protected static List<ClaimValue> claimValues;
     Establish context = () =>
     {
+      debugTimes = 1;
+      informationTimes = 0;
+      errorTimes = 0;
+      eventTimes = 0;
+
       loggerMock = new Mock<ILoggerAdapter<RoleRepository>>();
       roleStoreMock = new Mock<IRoleStore<Role>>();
       roleManagerMock = new Mock<RoleManager<Role>>(roleStoreMock.Object, null, null, null, null);
@@ -80,6 +90,10 @@ namespace BellRichM.Identity.Api.Test
     Because of = () =>
       roleResult = roleRepository.GetById(role.Id).Result;
 
+#pragma warning disable 169
+    Behaves_like<LoggingBehaviors<RoleRepository>> correct_logging;
+#pragma warning restore
+
     It should_return_correct_role = () =>
       roleResult.ShouldBeNull();
   }
@@ -90,6 +104,10 @@ namespace BellRichM.Identity.Api.Test
 
     Because of = () =>
       roleResult = roleRepository.GetById(role.Id).Result;
+
+#pragma warning disable 169
+    Behaves_like<LoggingBehaviors<RoleRepository>> correct_logging;
+#pragma warning restore
 
     It should_return_correct_role = () =>
       roleResult.ShouldBeEquivalentTo(role);
@@ -110,6 +128,10 @@ namespace BellRichM.Identity.Api.Test
 
     Because of = () =>
       roleResult = roleRepository.GetById(role.Id).Result;
+
+#pragma warning disable 169
+    Behaves_like<LoggingBehaviors<RoleRepository>> correct_logging;
+#pragma warning restore
 
     It should_return_correct_role = () =>
       roleResult.ShouldBeEquivalentTo(role);
@@ -136,6 +158,10 @@ namespace BellRichM.Identity.Api.Test
     Because of = () =>
       roleResult = roleRepository.GetByName(role.Id).Result;
 
+#pragma warning disable 169
+    Behaves_like<LoggingBehaviors<RoleRepository>> correct_logging;
+#pragma warning restore
+
     It should_return_correct_role = () =>
       roleResult.ShouldBeNull();
   }
@@ -146,6 +172,10 @@ namespace BellRichM.Identity.Api.Test
 
     Because of = () =>
       roleResult = roleRepository.GetByName(role.Name).Result;
+
+#pragma warning disable 169
+    Behaves_like<LoggingBehaviors<RoleRepository>> correct_logging;
+#pragma warning restore
 
     It should_return_correct_role = () =>
       roleResult.ShouldBeEquivalentTo(role);
@@ -166,6 +196,10 @@ namespace BellRichM.Identity.Api.Test
 
     Because of = () =>
       roleResult = roleRepository.GetByName(role.Name).Result;
+
+#pragma warning disable 169
+    Behaves_like<LoggingBehaviors<RoleRepository>> correct_logging;
+#pragma warning restore
 
     It should_return_correct_role = () =>
       roleResult.ShouldBeEquivalentTo(role);
@@ -193,6 +227,10 @@ namespace BellRichM.Identity.Api.Test
 
     Because of = () =>
       exception = Catch.Exception(() => roleResult = roleRepository.Create(role).Await());
+
+#pragma warning disable 169
+    Behaves_like<LoggingBehaviors<RoleRepository>> correct_logging;
+#pragma warning restore
 
     It should_throw_correct_exception_type = () =>
       exception.ShouldBeOfExactType<CreateRoleException>();
@@ -230,6 +268,10 @@ namespace BellRichM.Identity.Api.Test
     Because of = () =>
       exception = Catch.Exception(() => roleResult = roleRepository.Create(role).Await());
 
+#pragma warning disable 169
+    Behaves_like<LoggingBehaviors<RoleRepository>> correct_logging;
+#pragma warning restore
+
     It should_throw_correct_exception_type = () =>
       exception.ShouldBeOfExactType<CreateRoleException>();
 
@@ -253,12 +295,17 @@ namespace BellRichM.Identity.Api.Test
 
     Establish context = () =>
     {
+      debugTimes = 2;
       roleManagerMock.Setup(x => x.CreateAsync(role))
         .ReturnsAsync(IdentityResult.Success);
     };
 
     Because of = () =>
       exception = Catch.Exception(() => roleResult = roleRepository.Create(role).Await());
+
+#pragma warning disable 169
+    Behaves_like<LoggingBehaviors<RoleRepository>> correct_logging;
+#pragma warning restore
 
     It should_return_a_role = () =>
       roleResult.ShouldNotBeNull();
@@ -277,6 +324,8 @@ namespace BellRichM.Identity.Api.Test
 
     Establish context = () =>
     {
+      debugTimes = 2;
+
       roleManagerMock.Setup(x => x.CreateAsync(role))
         .ReturnsAsync(IdentityResult.Success);
 
@@ -289,6 +338,10 @@ namespace BellRichM.Identity.Api.Test
 
     Because of = () =>
         exception = Catch.Exception(() => roleResult = roleRepository.Create(role).Await());
+
+#pragma warning disable 169
+    Behaves_like<LoggingBehaviors<RoleRepository>> correct_logging;
+#pragma warning restore
 
     It should_return_a_role = () =>
       roleResult.ShouldNotBeNull();
@@ -324,6 +377,10 @@ namespace BellRichM.Identity.Api.Test
     Because of = () =>
         exception = Catch.Exception(() => roleRepository.Delete(role.Id).Await());
 
+#pragma warning disable 169
+    Behaves_like<LoggingBehaviors<RoleRepository>> correct_logging;
+#pragma warning restore
+
     It should_not_throw_exception = () =>
       exception.ShouldBeNull();
   }
@@ -344,6 +401,10 @@ namespace BellRichM.Identity.Api.Test
       Because of = () =>
         exception = Catch.Exception(() => roleRepository.Delete(role.Id).Await());
 
+#pragma warning disable 169
+      Behaves_like<LoggingBehaviors<RoleRepository>> correct_logging;
+#pragma warning restore
+
       It should_throw_correct_exception_type = () =>
         exception.ShouldBeOfExactType<DeleteRoleException>();
 
@@ -363,6 +424,10 @@ namespace BellRichM.Identity.Api.Test
 
     Because of = () =>
       exception = Catch.Exception(() => roleRepository.Delete(role.Id).Await());
+
+#pragma warning disable 169
+    Behaves_like<LoggingBehaviors<RoleRepository>> correct_logging;
+#pragma warning restore
 
     It should_throw_correct_exception_type = () =>
       exception.ShouldBeOfExactType<DeleteRoleException>();

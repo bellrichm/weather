@@ -37,6 +37,7 @@ namespace BellRichM.Identity.Api.Repositories
         /// <inheritdoc/>
         public async Task<User> GetById(string id)
         {
+            _logger.LogDiagnosticDebug("GetById: {@id}", id);
             var user = await _userManager.FindByIdAsync(id);
             if (user != null)
             {
@@ -49,6 +50,7 @@ namespace BellRichM.Identity.Api.Repositories
         /// <inheritdoc/>=
         public async Task<User> GetByName(string name)
         {
+            _logger.LogDiagnosticDebug("GetByName: {@name}", name);
             var user = await _userManager.FindByNameAsync(name);
             if (user != null)
             {
@@ -71,6 +73,7 @@ namespace BellRichM.Identity.Api.Repositories
         /// </exception>
         public async Task<User> Create(User user, string password)
         {
+            _logger.LogDiagnosticDebug("Create: {@user}", user);
             using (var identitydbContextTransaction = _context.BeginTransaction())
             {
                 IdentityResult userResult = await _userManager.CreateAsync(user, password);
@@ -80,7 +83,6 @@ namespace BellRichM.Identity.Api.Repositories
 
                     var exceptionDetails = GetErrors(userResult);
 
-                    // TODO: logging
                     throw new CreateUserException(CreateUserExceptionCode.CreateUserFailed, exceptionDetails);
                 }
 
@@ -93,7 +95,6 @@ namespace BellRichM.Identity.Api.Repositories
                         {
                             identitydbContextTransaction.Rollback();
 
-                            // TODO: logging
                             throw new CreateUserException(CreateUserExceptionCode.RoleNotFound);
                         }
 
@@ -104,7 +105,6 @@ namespace BellRichM.Identity.Api.Repositories
 
                             var exceptionDetails = GetErrors(roleResult);
 
-                            // TODO: logging
                             throw new CreateUserException(CreateUserExceptionCode.AddRoleFailed, exceptionDetails);
                         }
                     }
@@ -126,9 +126,10 @@ namespace BellRichM.Identity.Api.Repositories
         /// </exception>
         public async Task Delete(string id)
         {
+            _logger.LogDiagnosticDebug("Delete: {@id}", id);
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
-            { // TODO: logging
+            {
                 throw new DeleteUserException(DeleteUserExceptionCode.UserNotFound);
             }
 
@@ -137,7 +138,6 @@ namespace BellRichM.Identity.Api.Repositories
             {
                 var exceptionDetails = GetErrors(userResult);
 
-                // TODO: logging
                 throw new DeleteUserException(DeleteUserExceptionCode.DeleteUserFailed, exceptionDetails);
             }
         }

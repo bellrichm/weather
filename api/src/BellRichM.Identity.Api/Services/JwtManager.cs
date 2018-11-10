@@ -68,6 +68,7 @@ namespace BellRichM.Identity.Api.Services
                 expires: now.Add(_jwtConfiguration.ValidFor),
                 signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256));
 
+            _logger.LogDiagnosticInformation("{@jwt}", jwt);
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
             return encodedJwt;
         }

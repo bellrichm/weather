@@ -12,6 +12,7 @@ using Machine.Specifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Moq;
 
 using IT = Moq.It;
@@ -27,6 +28,11 @@ namespace BellRichM.Identity.Api.Test.Controllers
         protected const string ErrorCode = "errorCode";
         protected const string ErrorMessage = "errorMessage";
 
+        protected static int debugTimes;
+        protected static int informationTimes;
+        protected static int errorTimes;
+        protected static int eventTimes;
+
         protected static CreateRoleException createRoleException;
         protected static DeleteRoleException deleteRoleException;
 
@@ -41,6 +47,11 @@ namespace BellRichM.Identity.Api.Test.Controllers
 
         Establish context = () =>
         {
+            debugTimes = 0;
+            informationTimes = 0;
+            errorTimes = 0;
+            eventTimes = 1;
+
             loggerMock = new Mock<ILoggerAdapter<RoleController>>();
             mapperMock = new Mock<IMapper>();
             roleRepositoryMock = new Mock<IRoleRepository>();
@@ -87,6 +98,13 @@ namespace BellRichM.Identity.Api.Test.Controllers
         Because of = () =>
             result = (ObjectResult)roleController.GetById(RoleId).Await();
 
+#pragma warning disable 169
+        Behaves_like<LoggingBehaviors<RoleController>> correct_logging;
+#pragma warning restore 169
+
+        It should_log_correct_events = () =>
+            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventIds>(), IT.IsAny<string>(), IT.IsAny<string>()), Times.Once);
+
         It should_return_success_status_code = () =>
             result.StatusCode.ShouldEqual(200);
 
@@ -110,6 +128,13 @@ namespace BellRichM.Identity.Api.Test.Controllers
         Because of = () =>
             result = (NotFoundResult)roleController.GetById(RoleIdNotFound).Await();
 
+#pragma warning disable 169
+        Behaves_like<LoggingBehaviors<RoleController>> correct_logging;
+#pragma warning restore 169
+
+        It should_log_correct_events = () =>
+            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventIds>(), IT.IsAny<string>(), IT.IsAny<string>()), Times.Once);
+
         It should_return_not_found_status_code = () =>
             result.StatusCode.ShouldEqual(404);
     }
@@ -131,7 +156,20 @@ namespace BellRichM.Identity.Api.Test.Controllers
         private static ObjectResult result;
 
         Establish context = () =>
+        {
+            informationTimes = 1;
             roleController.ModelState.AddModelError(ErrorCode, ErrorMessage);
+        };
+
+#pragma warning disable 169
+        Behaves_like<LoggingBehaviors<RoleController>> correct_logging;
+#pragma warning restore 169
+
+        It should_log_correct_information_messages = () =>
+           loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), IT.IsAny<ModelStateDictionary>()), Times.Once);
+
+        It should_log_correct_events = () =>
+            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventIds>(), IT.IsAny<string>(), IT.IsAny<RoleModel>()), Times.Once);
 
         Cleanup after = () =>
             roleController.ModelState.Clear();
@@ -156,8 +194,21 @@ namespace BellRichM.Identity.Api.Test.Controllers
         Cleanup after = () =>
             roleController.ModelState.Clear();
 
+        Establish context = () =>
+            informationTimes = 1;
+
         Because of = () =>
             result = (ObjectResult)roleController.Create(null).Await();
+
+#pragma warning disable 169
+        Behaves_like<LoggingBehaviors<RoleController>> correct_logging;
+#pragma warning restore 169
+
+        It should_log_correct_information_messages = () =>
+           loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), IT.IsAny<CreateRoleException>()), Times.Once);
+
+        It should_log_correct_events = () =>
+            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventIds>(), IT.IsAny<string>(), IT.IsAny<RoleModel>()), Times.Once);
 
         It should_return_correct_result_type = () =>
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -175,6 +226,13 @@ namespace BellRichM.Identity.Api.Test.Controllers
 
         Because of = () =>
             result = (ObjectResult)roleController.Create(roleModel).Await();
+
+#pragma warning disable 169
+        Behaves_like<LoggingBehaviors<RoleController>> correct_logging;
+#pragma warning restore 169
+
+        It should_log_correct_events = () =>
+            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventIds>(), IT.IsAny<string>(), IT.IsAny<RoleModel>()), Times.Once);
 
         It should_return_success_status_code = () =>
             result.StatusCode.ShouldEqual(200);
@@ -213,8 +271,21 @@ namespace BellRichM.Identity.Api.Test.Controllers
         Cleanup after = () =>
             roleController.ModelState.Clear();
 
+        Establish context = () =>
+            informationTimes = 1;
+
         Because of = () =>
             result = (ObjectResult)roleController.Delete(RoleIdNotFound).Await();
+
+#pragma warning disable 169
+        Behaves_like<LoggingBehaviors<RoleController>> correct_logging;
+#pragma warning restore 169
+
+        It should_log_correct_information_messages = () =>
+           loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), IT.IsAny<DeleteRoleException>()), Times.Once);
+
+        It should_log_correct_events = () =>
+            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventIds>(), IT.IsAny<string>(), IT.IsAny<string>()), Times.Once);
 
         It should_return_correct_result_type = () =>
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -232,6 +303,13 @@ namespace BellRichM.Identity.Api.Test.Controllers
 
         Because of = () =>
             result = (NoContentResult)roleController.Delete(RoleId).Await();
+
+#pragma warning disable 169
+        Behaves_like<LoggingBehaviors<RoleController>> correct_logging;
+#pragma warning restore 169
+
+        It should_log_correct_events = () =>
+            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventIds>(), IT.IsAny<string>(), IT.IsAny<string>()), Times.Once);
 
         It should_return_no_content_code = () =>
             result.StatusCode.ShouldEqual(204);

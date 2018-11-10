@@ -50,6 +50,7 @@ namespace BellRichM.Identity.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(string id)
         {
+            _logger.LogEvent(EventIds.UserController_GetById, "{@id}", id);
             var newUser = await _userRepository.GetById(id);
             if (newUser == null)
             {
@@ -69,9 +70,11 @@ namespace BellRichM.Identity.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] UserCreateModel userCreate)
         {
+            _logger.LogEvent(EventIds.UserController_Create, "{@userCreate}", userCreate);
             User newUser;
             if (!ModelState.IsValid)
             {
+                _logger.LogDiagnosticInformation("{@ModelState}", ModelState);
                 var errorResponseModel = CreateModel();
                 return BadRequest(errorResponseModel);
             }
@@ -85,6 +88,7 @@ namespace BellRichM.Identity.Api.Controllers
             }
             catch (CreateUserException ex)
             {
+                _logger.LogDiagnosticInformation("{@ex}", ex);
                 var errorResponseModel = CreateModel(ex);
                 return BadRequest(errorResponseModel);
             }
@@ -99,6 +103,7 @@ namespace BellRichM.Identity.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
+            _logger.LogEvent(EventIds.UserController_Delete, "{@id}", id);
             try
             {
                 await _userRepository.Delete(id);
@@ -106,6 +111,7 @@ namespace BellRichM.Identity.Api.Controllers
             }
             catch (DeleteUserException ex)
             {
+                _logger.LogDiagnosticInformation("{@ex}", ex);
                 var errorResponseModel = CreateModel(ex);
                 return BadRequest(errorResponseModel);
             }
@@ -119,8 +125,10 @@ namespace BellRichM.Identity.Api.Controllers
         [HttpPost("/api/[controller]/[action]")]
         public async Task<IActionResult> Login([FromBody] UserLoginModel userLogin)
         {
+            _logger.LogEvent(EventIds.UserController_Login, "{@userLogin}", userLogin);
             if (!ModelState.IsValid)
             {
+                _logger.LogDiagnosticInformation("{@ModelState}", ModelState);
                 var errorResponseModel = CreateModel();
                 return BadRequest(errorResponseModel);
             }
@@ -130,6 +138,7 @@ namespace BellRichM.Identity.Api.Controllers
             if (jwt == null)
             {
                 ModelState.AddModelError("loginError", "Invalid user password combination.");
+                _logger.LogDiagnosticInformation("{@ModelState}", ModelState);
                 var errorResponseModel = CreateModel();
                 return BadRequest(errorResponseModel);
             }

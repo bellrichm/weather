@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using BellRichM.Identity.Api.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -58,6 +58,11 @@ namespace BellRichM.Weather.Web
 
             // needed for testserver to find controllers
             services.AddMvc().AddApplicationPart(Assembly.Load(new AssemblyName("BellRichM.Identity.Api")));
+
+            using (LogContext.PushProperty("Type", "INFORMATION"))
+            {
+                Log.Information("*** Starting: {@services}", services);
+            }
         }
 
         /// <summary>

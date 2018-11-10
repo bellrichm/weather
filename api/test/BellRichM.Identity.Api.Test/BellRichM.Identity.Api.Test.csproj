@@ -28,5 +28,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\BellRichM.Identity.Api\BellRichM.Identity.Api.csproj" />
+    <ProjectReference Include="..\BellRichM.Helpers.Test\BellRichM.Helpers.Test.csproj" />
   </ItemGroup>
 </Project>

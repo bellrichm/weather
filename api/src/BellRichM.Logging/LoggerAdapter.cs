@@ -72,11 +72,11 @@ namespace BellRichM.Logging
         }
 
         /// <inheritdoc/>
-        public void LogEvent(int id, string message, params object[] arguments)
+        public void LogEvent(EventIds id, string message, params object[] arguments)
         {
             LogDiagnosticInformation(message, arguments);
 
-            using (LogContext.Push(new PropertyEnricher("Type", "EVENT"), new PropertyEnricher("Id", id)))
+            using (LogContext.Push(new PropertyEnricher("Type", "EVENT"), new PropertyEnricher("Id", (int)id), new PropertyEnricher("Event", id)))
             {
                 _logger.Information(message, arguments);
             }

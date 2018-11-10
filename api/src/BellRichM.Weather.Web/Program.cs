@@ -31,6 +31,11 @@ namespace BellRichM.Weather.Web
 
             try
             {
+                using (LogContext.PushProperty("Type", "INFORMATION"))
+                {
+                    Log.Information("*** Starting: args {@args}", args);
+                }
+
                 BuildWebHost(args, logManager, configuration).Run();
                 return 0;
             }

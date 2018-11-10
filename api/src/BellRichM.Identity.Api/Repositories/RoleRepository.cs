@@ -35,6 +35,7 @@ namespace BellRichM.Identity.Api.Repositories
         /// <inheritdoc/>
         public async Task<Role> GetById(string id)
         {
+            _logger.LogDiagnosticDebug("GetById: {@id}", id);
             var role = await _roleManager.FindByIdAsync(id);
 
             if (role != null)
@@ -48,6 +49,7 @@ namespace BellRichM.Identity.Api.Repositories
         /// <inheritdoc/>
         public async Task<Role> GetByName(string name)
         {
+            _logger.LogDiagnosticDebug("GetByName: {@name}", name);
             var role = await _roleManager.FindByNameAsync(name);
 
             if (role != null)
@@ -69,6 +71,7 @@ namespace BellRichM.Identity.Api.Repositories
         /// </exception>
         public async Task<Role> Create(Role role)
         {
+            _logger.LogDiagnosticDebug("Create: {@role}", role);
             using (var identitydbContextTransaction = _context.BeginTransaction())
             {
                 IdentityResult roleResult = await _roleManager.CreateAsync(role);
@@ -79,7 +82,6 @@ namespace BellRichM.Identity.Api.Repositories
 
                     var exceptionDetails = GetErrors(roleResult);
 
-                    // TODO: logging
                     throw new CreateRoleException(CreateRoleExceptionCode.CreateRoleFailed, exceptionDetails);
                 }
 
@@ -95,7 +97,6 @@ namespace BellRichM.Identity.Api.Repositories
 
                             var exceptionDetails = GetErrors(claimResult);
 
-                            // TODO: logging
                             throw new CreateRoleException(CreateRoleExceptionCode.AddClaimFailed, exceptionDetails);
                         }
                     }
@@ -117,9 +118,10 @@ namespace BellRichM.Identity.Api.Repositories
         /// </exception>
         public async Task Delete(string id)
         {
+            _logger.LogDiagnosticDebug("Delete: {@id}", id);
             var role = await _roleManager.FindByIdAsync(id);
             if (role == null)
-            { // TODO: logging
+            {
                 throw new DeleteRoleException(DeleteRoleExceptionCode.RoleNotFound);
             }
 
@@ -128,7 +130,6 @@ namespace BellRichM.Identity.Api.Repositories
             {
                 var exceptionDetails = GetErrors(roleResult);
 
-                // TODO: logging
                 throw new DeleteRoleException(DeleteRoleExceptionCode.DeleteRoleFailed, exceptionDetails);
             }
         }
