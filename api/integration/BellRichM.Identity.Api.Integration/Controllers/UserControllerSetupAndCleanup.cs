@@ -102,6 +102,7 @@ namespace BellRichM.Identity.Api.Integration.Controllers
             Log.Logger = logger;
 
             var services = new ServiceCollection();
+            services.AddLogging(configure => configure.AddSerilog());
             services.AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
             services.AddIdentityServices(configuration);
 
