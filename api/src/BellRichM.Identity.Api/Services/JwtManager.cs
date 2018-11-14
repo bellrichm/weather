@@ -18,7 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace BellRichM.Identity.Api.Services
 {
     /// <summary>
-    /// Manages the Json Web Token (JWT)
+    /// Manages the Json Web Token (JWT).
     /// </summary>
     /// <seealso cref="BellRichM.Identity.Api.Services.IJwtManager" />
     public class JwtManager : IJwtManager

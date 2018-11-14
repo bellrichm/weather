@@ -1,8 +1,6 @@
 namespace BellRichM.Logging
 {
     /// <summary>
-    /// Adapter to enable unit testing logging
-    ///
     /// Microsoft Log Level     Serilog Log Level
     /// ===================     =================
     /// Trace                   Verbose
@@ -11,8 +9,10 @@ namespace BellRichM.Logging
     /// Warning                 Warning
     /// Error                   Error
     /// Critical                Fatal
+    ///
+    /// Adapter to enable unit testing logging.
     /// </summary>
-    /// <typeparam name="T">The logger type</typeparam>
+    /// <typeparam name="T">The logger type.</typeparam>
     public interface ILoggerAdapter<T>
     {
         /// <summary>
@@ -60,7 +60,7 @@ namespace BellRichM.Logging
         /// <summary>
         /// Logs an event.
         /// </summary>
-        /// <param name="id">The event id</param>
+        /// <param name="id">The event id.</param>
         /// <param name="message">The message.</param>
         /// <param name="arguments">Additional arguments to be logged.</param>
          void LogEvent(EventId id, string message, params object[] arguments);

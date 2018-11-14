@@ -169,11 +169,11 @@ namespace BellRichM.Identity.Api.Repositories
                foreach (Claim roleClaim in roleClaims)
                {
                     claimValues.Add(new ClaimValue
-                     {
+                    {
                         Type = roleClaim.Type,
                         Value = roleClaim.Value,
                         ValueType = roleClaim.ValueType
-                      });
+                    });
                 }
             }
 
@@ -190,7 +190,7 @@ namespace BellRichM.Identity.Api.Repositories
                     {
                          Code = error.Code,
                          Text = error.Description
-                     });
+                    });
              }
 
             return exceptionDetails;

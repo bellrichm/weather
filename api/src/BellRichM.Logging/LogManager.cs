@@ -14,7 +14,7 @@ using Serilog.Formatting.Compact;
 namespace BellRichM.Logging
 {
     /// <summary>
-    /// Manage the logging
+    /// Manage the logging.
     /// </summary>
     public class LogManager
     {
@@ -58,9 +58,9 @@ namespace BellRichM.Logging
         public LoggingFilterSwitches LoggingFilterSwitches { get; set; }
 
         /// <summary>
-        /// Creates the <see cref="LoggerConfiguration" />
+        /// Creates the <see cref="LoggerConfiguration" />.
         /// </summary>
-        /// <returns>The configured <see cref="Logger" /></returns>
+        /// <returns>The configured <see cref="Logger" />.</returns>
         public Logger Create()
         {
             var logger = new LoggerConfiguration()

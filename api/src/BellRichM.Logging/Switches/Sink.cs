@@ -4,7 +4,7 @@ using Serilog;
 namespace BellRichM.Logging.Switches
 {
     /// <summary>
-    /// The serilog sink
+    /// The serilog sink.
     /// </summary>
     [ExcludeFromCodeCoverage]
 

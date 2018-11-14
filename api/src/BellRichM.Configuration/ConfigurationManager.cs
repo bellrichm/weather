@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 namespace BellRichM.Configuration
 {
     /// <summary>
-    /// Manage the configuration
+    /// Manage the configuration.
     /// </summary>
     public class ConfigurationManager
     {
@@ -25,9 +25,9 @@ namespace BellRichM.Configuration
         }
 
         /// <summary>
-        /// Creates the <see cref="IConfiguration" />
+        /// Creates the <see cref="IConfiguration" />.
         /// </summary>
-        /// <returns>A <see cref="IConfiguration"/></returns>
+        /// <returns>A <see cref="IConfiguration"/>.</returns>
         public IConfiguration Create()
         {
             var configuration = new ConfigurationBuilder()

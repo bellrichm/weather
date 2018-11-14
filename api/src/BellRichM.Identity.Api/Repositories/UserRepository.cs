@@ -190,7 +190,7 @@ namespace BellRichM.Identity.Api.Repositories
                     {
                          Code = error.Code,
                          Text = error.Description
-                     });
+                    });
              }
 
             return exceptionDetails;

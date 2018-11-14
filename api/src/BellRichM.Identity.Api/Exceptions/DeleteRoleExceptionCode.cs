@@ -11,7 +11,7 @@ namespace BellRichM.Identity.Api.Exceptions
     public const string RoleNotFound = "RoleNotFound";
 
     /// <summary>
-    /// The delete role failed
+    /// The delete role failed.
     /// </summary>
     public const string DeleteRoleFailed = "DeleteRoleFailed";
   }

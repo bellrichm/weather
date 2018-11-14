@@ -20,7 +20,7 @@ namespace BellRichM.Weather.Web
         /// The main method.
         /// </summary>
         /// <param name="args">The startup parameters.</param>
-        /// <returns>Returns 0 on success and 1 on failure</returns>
+        /// <returns>Returns 0 on success and 1 on failure.</returns>
         public static int Main(string[] args)
         {
             var currentEnv = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
@@ -60,9 +60,7 @@ namespace BellRichM.Weather.Web
         /// <param name="args">The startup paramenters.</param>
         /// <param name="logManager">The <see cref="LogManager"/>.</param>
         /// <param name="configuration">The <see cref="IConfiguration"/>.</param>
-        /// <returns>
-        /// The <see cref="IWebHost" />
-        /// </returns>
+        /// <returns>The <see cref="IWebHost" />.</returns>
         public static IWebHost BuildWebHost(string[] args, LogManager logManager, IConfiguration configuration) =>
             WebHost.CreateDefaultBuilder(args)
             .UseConfiguration(configuration)

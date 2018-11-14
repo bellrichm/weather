@@ -5,7 +5,7 @@ using BellRichM.Attribute.CodeCoverage;
 namespace BellRichM.Identity.Api.Models
 {
     /// <summary>
-    /// The User View Model
+    /// The User View Model.
     /// </summary>
     [ExcludeFromCodeCoverage]
     public class UserModel

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 namespace BellRichM.Identity.Api.Data
 {
     /// <summary>
-    /// The context of the identity database
+    /// The context of the identity database.
     /// </summary>
     [ExcludeFromCodeCoverage]
     public class IdentityDbContext : IdentityDbContext<User, Role, string>
@@ -24,7 +24,7 @@ namespace BellRichM.Identity.Api.Data
         /// <summary>
         /// Begins the transaction.
         /// </summary>
-        /// <returns>The <see cref="IDbContextTransaction"/></returns>
+        /// <returns>The <see cref="IDbContextTransaction"/>.</returns>
         public virtual IDbContextTransaction BeginTransaction()
         {
              return Database.BeginTransaction();

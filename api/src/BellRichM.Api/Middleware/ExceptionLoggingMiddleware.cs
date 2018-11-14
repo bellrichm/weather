@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace BellRichM.Api.Middleware
 {
   /// <summary>
-  /// The logging and exception handling middleware
+  /// The logging and exception handling middleware.
   /// </summary>
   public class ExceptionLoggingMiddleware
   {
@@ -31,7 +31,7 @@ namespace BellRichM.Api.Middleware
     }
 
       /// <summary>
-      /// The logging and exception handling middleware
+      /// The logging and exception handling middleware.
       /// </summary>
       /// <param name="httpContext">The <see cref="HttpContext"/>.</param>
       /// <returns>The <see cref="Task"/> that represents the completion of request processing.</returns>

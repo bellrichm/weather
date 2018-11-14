@@ -10,7 +10,7 @@ namespace BellRichM.Logging
     public class LoggingFilterSwitches
     {
         /// <summary>
-        /// Gets or sets the <see cref="LoggingFilterSwitch"/>that dynamically controls the filtering of the console sink.>
+        /// Gets or sets the <see cref="LoggingFilterSwitch"/>that dynamically controls the filtering of the console sink.
         /// </summary>
         /// <value>
         /// The expression used to filter the event.

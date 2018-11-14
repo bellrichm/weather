@@ -7,7 +7,7 @@ using BellRichM.Attribute.CodeCoverage;
 namespace BellRichM.Exceptions
 {
   /// <summary>
-  /// The base exception class for the weather APIs
+  /// The base exception class for the weather APIs.
   /// </summary>
   /// <seealso cref="System.Exception" />
   [Serializable]
@@ -141,7 +141,7 @@ namespace BellRichM.Exceptions
     /// </summary>
     /// <param name="info">The <see cref="SerializationInfo"></see> that holds the serialized object data about the exception being thrown.</param>
     /// <param name="context">The <see cref="StreamingContext"></see> that contains contextual information about the source or destination.</param>
-    /// <exception cref="ArgumentNullException">Thrown when ???</exception>
+    /// <exception cref="ArgumentNullException">Thrown when ???.</exception>
     public override void GetObjectData(SerializationInfo info, StreamingContext context)
     {
       if (info == null)

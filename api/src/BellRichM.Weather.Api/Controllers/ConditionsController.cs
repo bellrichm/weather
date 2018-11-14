@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BellRichM.Weather.Api.Controllers
 {
     /// <summary>
-    /// The conditions controller
+    /// The conditions controller.
     /// </summary>
     /// <seealso cref="Controller" />
     [Route("api/[controller]")]
@@ -27,7 +27,7 @@ namespace BellRichM.Weather.Api.Controllers
         /// <summary>
         /// Gets weather condistions.
         /// </summary>
-        /// <returns>The <see cref="IEnumerable{String}"/></returns>
+        /// <returns>The <see cref="IEnumerable{String}"/>.</returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         /// <remarks>Not yet implemented.</remarks>
         [HttpGet]
@@ -40,7 +40,7 @@ namespace BellRichM.Weather.Api.Controllers
         /// <summary>
         /// Adds a new weather condition.
         /// </summary>
-        /// <exception cref="NotImplementedException">Not Implemented</exception>
+        /// <exception cref="NotImplementedException">Not Implemented.</exception>
         /// <remarks>Not yet implemented.</remarks>
         public void Post()
         {

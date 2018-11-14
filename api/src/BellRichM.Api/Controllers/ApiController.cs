@@ -13,7 +13,7 @@ namespace BellRichM.Api.Controllers
     public abstract class ApiController : Controller
     {
         /// <summary>
-        /// Creates a <see cref="ErrorResponseModel"/> from a <see cref="ModelStateDictionary"/>
+        /// Creates a <see cref="ErrorResponseModel"/> from a <see cref="ModelStateDictionary"/>.
         /// </summary>
         /// <returns>The <see cref="ErrorResponseModel"/>.</returns>
         protected ErrorResponseModel CreateModel()
@@ -45,7 +45,7 @@ namespace BellRichM.Api.Controllers
         }
 
         /// <summary>
-        /// Creates a <see cref="ErrorResponseModel"/> from a <see cref="BusinessException"/>
+        /// Creates a <see cref="ErrorResponseModel"/> from a <see cref="BusinessException"/>.
         /// </summary>
         /// <param name="businessException">The <see cref="BusinessException"/>.</param>
         /// <returns>The <see cref="ErrorResponseModel"/>.</returns>

@@ -107,7 +107,7 @@ namespace BellRichM.Api.Test
             {
                 Code = firstCode,
                 Text = firstText
-             };
+            };
 
             secondExceptionDetail = new ExceptionDetail
             {

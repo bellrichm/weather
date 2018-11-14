@@ -3,7 +3,7 @@ using BellRichM.Attribute.CodeCoverage;
 namespace BellRichM.Logging.Switches
 {
     /// <summary>
-    /// The serilog filter switch
+    /// The serilog filter switch.
     /// </summary>
     [ExcludeFromCodeCoverage]
 

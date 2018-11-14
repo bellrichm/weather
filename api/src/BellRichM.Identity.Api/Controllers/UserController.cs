@@ -118,7 +118,7 @@ namespace BellRichM.Identity.Api.Controllers
         }
 
         /// <summary>
-        /// Generates the JWT for the <paramref name="userLogin"/>
+        /// Generates the JWT for the <paramref name="userLogin"/>.
         /// </summary>
         /// <param name="userLogin">The<see cref="UserLoginModel"/>.</param>
         /// <returns>The <see cref="Task{IActionResult}"/> containing the JWT.</returns>

@@ -4,7 +4,7 @@ using Serilog.Events;
 namespace BellRichM.Logging.Switches
 {
     /// <summary>
-    /// The serilog level switch
+    /// The serilog level switch.
     /// </summary>
     [ExcludeFromCodeCoverage]
 

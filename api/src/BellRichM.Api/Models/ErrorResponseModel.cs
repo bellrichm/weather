@@ -35,10 +35,10 @@ namespace BellRichM.Api.Models
         public string Text { get; set; }
 
         /// <summary>
-        /// Gets or sets the errors details
+        /// Gets or sets the errors details.
         /// </summary>
         /// <value>
-        /// The error details
+        /// The error details.
         /// </value>
         public IEnumerable<ErrorDetailModel> ErrorDetails { get; set; }
     }
