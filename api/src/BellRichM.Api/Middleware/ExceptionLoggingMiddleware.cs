@@ -57,10 +57,10 @@ namespace BellRichM.Api.Middleware
         {
           _logger.LogDiagnosticInformation("Request Started {RequestProtocol} {RequestHost} {ClientIp}", httpContext.Request.Protocol, httpContext.Request.Host, httpContext.Connection.RemoteIpAddress.ToString());
 
-          await next(httpContext);
+          await next(httpContext).ConfigureAwait(true);
 
           sw.Stop();
-          _logger.LogEvent((int)EventIds.EndRequest, MessageTemplate, httpContext.Request.Method, httpContext.Request.Path, httpContext.Response?.StatusCode, sw.Elapsed.TotalMilliseconds);
+          _logger.LogEvent((int)EventId.EndRequest, MessageTemplate, httpContext.Request.Method, httpContext.Request.Path, httpContext.Response?.StatusCode, sw.Elapsed.TotalMilliseconds);
           _logger.LogDiagnosticDebug("{RequestHeaders}", httpContext.Request.Headers);
         }
       }
@@ -88,7 +88,7 @@ namespace BellRichM.Api.Middleware
 
         using (LogContext.PushProperty("authData", authorization))
         {
-          _logger.LogEvent((int)EventIds.EndRequest, MessageTemplate, httpContext.Request.Method, httpContext.Request.Path, httpContext.Response?.StatusCode, sw.Elapsed.TotalMilliseconds);
+          _logger.LogEvent((int)EventId.EndRequest, MessageTemplate, httpContext.Request.Method, httpContext.Request.Path, httpContext.Response?.StatusCode, sw.Elapsed.TotalMilliseconds);
           _logger.LogDiagnosticError("Unhandled exception {RequestHeaders}\n {exception}", httpContext.Request.Headers, ex);
 
           await httpContext.Response.WriteAsync(jsonResponse).ConfigureAwait(false);
@@ -96,7 +96,7 @@ namespace BellRichM.Api.Middleware
       }
     }
 
-    private Tuple<string, string> GetAuthData(HttpContext httpContext)
+    private static Tuple<string, string> GetAuthData(HttpContext httpContext)
     {
       string authTokenType = string.Empty;
       string authTokenData = string.Empty;

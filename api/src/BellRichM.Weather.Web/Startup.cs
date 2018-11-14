@@ -48,6 +48,22 @@ namespace BellRichM.Weather.Web
         public IConfiguration Configuration { get; }
 
         /// <summary>
+        /// Called by the rutntime to configure the HTTP request pipeline.
+        /// </summary>
+        /// <param name="app">The <see cref="IApplicationBuilder"/>.</param>
+        public static void Configure(IApplicationBuilder app)
+        {
+            app.UseExceptionLoggingMiddleware();
+
+            app.UseDefaultFiles()
+               .UseStaticFiles();
+
+            app.UseAuthentication();
+
+            app.UseMvc();
+        }
+
+        /// <summary>
         /// Called by the runtime to add services to the container.
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/>.</param>
@@ -63,23 +79,6 @@ namespace BellRichM.Weather.Web
             {
                 Log.Information("*** Starting: {@services}", services);
             }
-        }
-
-        /// <summary>
-        /// Called by the rutntime to configure the HTTP request pipeline.
-        /// </summary>
-        /// <param name="app">The <see cref="IApplicationBuilder"/>.</param>
-        /// <param name="env">The <see cref="IHostingEnvironment"/>.</param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            app.UseExceptionLoggingMiddleware();
-
-            app.UseDefaultFiles()
-               .UseStaticFiles();
-
-            app.UseAuthentication();
-
-            app.UseMvc();
         }
     }
 }

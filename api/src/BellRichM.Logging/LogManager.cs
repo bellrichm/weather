@@ -70,7 +70,7 @@ namespace BellRichM.Logging
                 .MinimumLevel.Override("System", LoggingLevelSwitches.SystemLoggingLevelSwitch)
                 .Enrich.FromLogContext()
                 .WriteTo.Logger(l => l
-                    .Filter.ByIncludingOnly(Matching.WithProperty<string>("Type", p => p.Equals("EVENT")))
+                    .Filter.ByIncludingOnly(Matching.WithProperty<string>("Type", p => p.Equals("EVENT", StringComparison.Ordinal)))
                     .WriteTo.File(
                         new CompactJsonFormatter(),
                         Path.Combine(_loggingConfiguration.Sinks.EventLog.LogPath, _loggingConfiguration.Sinks.EventLog.LogName),
@@ -79,7 +79,7 @@ namespace BellRichM.Logging
                         fileSizeLimitBytes: _loggingConfiguration.Sinks.EventLog.LogSize,
                         retainedFileCountLimit: _loggingConfiguration.Sinks.EventLog.LogRetention))
                 .WriteTo.Logger(l => l
-                    .Filter.ByExcluding(Matching.WithProperty<string>("Type", p => p.Equals("EVENT")))
+                    .Filter.ByExcluding(Matching.WithProperty<string>("Type", p => p.Equals("EVENT", StringComparison.Ordinal)))
                     .WriteTo.File(
                         new CompactJsonFormatter(),
                         Path.Combine(_loggingConfiguration.Sinks.DiagnosticLog.LogPath, _loggingConfiguration.Sinks.DiagnosticLog.LogName),
@@ -89,7 +89,7 @@ namespace BellRichM.Logging
                         retainedFileCountLimit: _loggingConfiguration.Sinks.DiagnosticLog.LogRetention))
                 .WriteTo.Logger(l => l
                     .Filter.ControlledBy(LoggingFilterSwitches.ConsoleSinkFilterSwitch)
-                    .Filter.ByExcluding(Matching.WithProperty<string>("Type", p => p.Equals("EVENT")))
+                    .Filter.ByExcluding(Matching.WithProperty<string>("Type", p => p.Equals("EVENT", StringComparison.Ordinal)))
                     .WriteTo.File(
                         Path.Combine(_loggingConfiguration.Sinks.DebugLog.LogPath, _loggingConfiguration.Sinks.DebugLog.LogName),
                         rollOnFileSizeLimit: true,

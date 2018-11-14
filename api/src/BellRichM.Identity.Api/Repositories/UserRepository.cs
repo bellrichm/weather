@@ -38,10 +38,10 @@ namespace BellRichM.Identity.Api.Repositories
         public async Task<User> GetById(string id)
         {
             _logger.LogDiagnosticDebug("GetById: {@id}", id);
-            var user = await _userManager.FindByIdAsync(id);
+            var user = await _userManager.FindByIdAsync(id).ConfigureAwait(true);
             if (user != null)
             {
-                user.Roles = await GetRoles(user);
+                user.Roles = await GetRoles(user).ConfigureAwait(true);
             }
 
             return user;
@@ -51,10 +51,10 @@ namespace BellRichM.Identity.Api.Repositories
         public async Task<User> GetByName(string name)
         {
             _logger.LogDiagnosticDebug("GetByName: {@name}", name);
-            var user = await _userManager.FindByNameAsync(name);
+            var user = await _userManager.FindByNameAsync(name).ConfigureAwait(true);
             if (user != null)
             {
-                user.Roles = await GetRoles(user);
+                user.Roles = await GetRoles(user).ConfigureAwait(true);
             }
 
             return user;
@@ -76,7 +76,7 @@ namespace BellRichM.Identity.Api.Repositories
             _logger.LogDiagnosticDebug("Create: {@user}", user);
             using (var identitydbContextTransaction = _context.BeginTransaction())
             {
-                IdentityResult userResult = await _userManager.CreateAsync(user, password);
+                IdentityResult userResult = await _userManager.CreateAsync(user, password).ConfigureAwait(true);
                 if (!userResult.Succeeded)
                 {
                     identitydbContextTransaction.Rollback();
@@ -90,7 +90,7 @@ namespace BellRichM.Identity.Api.Repositories
                 {
                     foreach (var userRole in user.Roles)
                     {
-                        var role = await _roleRepository.GetByName(userRole.Name);
+                        var role = await _roleRepository.GetByName(userRole.Name).ConfigureAwait(true);
                         if (role == null)
                         {
                             identitydbContextTransaction.Rollback();
@@ -98,7 +98,7 @@ namespace BellRichM.Identity.Api.Repositories
                             throw new CreateUserException(CreateUserExceptionCode.RoleNotFound);
                         }
 
-                        var roleResult = await _userManager.AddToRoleAsync(user, userRole.Name);
+                        var roleResult = await _userManager.AddToRoleAsync(user, userRole.Name).ConfigureAwait(true);
                         if (!roleResult.Succeeded)
                         {
                             identitydbContextTransaction.Rollback();
@@ -111,7 +111,7 @@ namespace BellRichM.Identity.Api.Repositories
                 }
 
                 identitydbContextTransaction.Commit();
-                return await GetById(user.Id); // TODO: Move to private method
+                return await GetById(user.Id).ConfigureAwait(true); // TODO: Move to private method
             }
         }
 
@@ -127,7 +127,7 @@ namespace BellRichM.Identity.Api.Repositories
         public async Task Delete(string id)
         {
             _logger.LogDiagnosticDebug("Delete: {@id}", id);
-            var user = await _userManager.FindByIdAsync(id);
+            var user = await _userManager.FindByIdAsync(id).ConfigureAwait(true);
             if (user == null)
             {
                 throw new DeleteUserException(DeleteUserExceptionCode.UserNotFound);
@@ -169,11 +169,11 @@ namespace BellRichM.Identity.Api.Repositories
 
         private async Task<IEnumerable<Role>> GetRoles(User user)
         {
-            var roleNames = await _userManager.GetRolesAsync(user);
+            var roleNames = await _userManager.GetRolesAsync(user).ConfigureAwait(true);
             var roles = new List<Role>();
             foreach (var roleName in roleNames)
             {
-                var role = await _roleRepository.GetByName(roleName);
+                var role = await _roleRepository.GetByName(roleName).ConfigureAwait(true);
                 roles.Add(role);
             }
 

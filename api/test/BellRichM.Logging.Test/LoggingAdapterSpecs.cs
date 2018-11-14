@@ -234,7 +234,7 @@ namespace BellRichM.Logging.Test
         {
             using (var testCorrelatorContext = TestCorrelator.CreateContext())
             {
-                loggerAdapter.LogEvent(EventIds.EndRequest, message, parameters);
+                loggerAdapter.LogEvent(EventId.EndRequest, message, parameters);
                 logEvents = TestCorrelator.GetLogEventsFromContextGuid(testCorrelatorContext.Guid);
             }
         };
@@ -252,7 +252,7 @@ namespace BellRichM.Logging.Test
                 .First()
                 .Properties["Id"]
                 .ToString();
-            id.ShouldEqual(EventIds.EndRequest.ToString("D"));
+            id.ShouldEqual(EventId.EndRequest.ToString("D"));
         };
 
         It should_have_correct_event = () =>
@@ -261,7 +261,7 @@ namespace BellRichM.Logging.Test
                 .First()
                 .Properties["Event"]
                 .ToString();
-            eventName.ShouldEqual(EventIds.EndRequest.ToString());
+            eventName.ShouldEqual(EventId.EndRequest.ToString());
         };
 
         It should_have_one_information_type_property = () =>

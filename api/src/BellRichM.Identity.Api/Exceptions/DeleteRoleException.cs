@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using BellRichM.Attribute.CodeCoverage;
 using BellRichM.Exceptions;
 
+#pragma warning disable CA1032
 namespace BellRichM.Identity.Api.Exceptions
 {
   /// <summary>
@@ -14,6 +15,14 @@ namespace BellRichM.Identity.Api.Exceptions
   [ExcludeFromCodeCoverage]
   public class DeleteRoleException : BusinessException
   {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DeleteRoleException"/> class.
+    /// </summary>
+    public DeleteRoleException()
+      : base(string.Empty)
+      {
+      }
+
     /// <summary>
     /// Initializes a new instance of the <see cref="DeleteRoleException"/> class.
     /// </summary>
@@ -80,11 +89,12 @@ namespace BellRichM.Identity.Api.Exceptions
     /// <summary>
     /// Initializes a new instance of the <see cref="DeleteRoleException"/> class.
     /// </summary>
-    /// <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"></see> that holds the serialized object data about the exception being thrown.</param>
-    /// <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext"></see> that contains contextual information about the source or destination.</param>
+    /// <param name="info">The <see cref="SerializationInfo"></see> that holds the serialized object data about the exception being thrown.</param>
+    /// <param name="context">The <see cref="StreamingContext"></see> that contains contextual information about the source or destination.</param>
     protected DeleteRoleException(SerializationInfo info, StreamingContext context)
       : base(info, context)
       {
       }
   }
+#pragma warning restore CA1032
 }

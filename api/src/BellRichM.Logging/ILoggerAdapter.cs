@@ -63,6 +63,6 @@ namespace BellRichM.Logging
         /// <param name="id">The event id</param>
         /// <param name="message">The message.</param>
         /// <param name="arguments">Additional arguments to be logged.</param>
-         void LogEvent(EventIds id, string message, params object[] arguments);
+         void LogEvent(EventId id, string message, params object[] arguments);
     }
 }

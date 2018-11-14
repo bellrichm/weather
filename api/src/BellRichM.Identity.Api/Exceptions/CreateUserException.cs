@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using BellRichM.Attribute.CodeCoverage;
 using BellRichM.Exceptions;
 
+#pragma warning disable CA1032
 namespace BellRichM.Identity.Api.Exceptions
 {
   /// <summary>
@@ -14,6 +15,14 @@ namespace BellRichM.Identity.Api.Exceptions
   [ExcludeFromCodeCoverage]
   public class CreateUserException : BusinessException
   {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CreateUserException"/> class.
+    /// </summary>
+    public CreateUserException()
+      : base(string.Empty)
+      {
+      }
+
     /// <summary>
     /// Initializes a new instance of the <see cref="CreateUserException"/> class.
     /// </summary>
@@ -87,4 +96,5 @@ namespace BellRichM.Identity.Api.Exceptions
       {
       }
   }
+#pragma warning restore CA1032
 }

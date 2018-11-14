@@ -36,11 +36,11 @@ namespace BellRichM.Identity.Api.Repositories
         public async Task<Role> GetById(string id)
         {
             _logger.LogDiagnosticDebug("GetById: {@id}", id);
-            var role = await _roleManager.FindByIdAsync(id);
+            var role = await _roleManager.FindByIdAsync(id).ConfigureAwait(true);
 
             if (role != null)
             {
-                role.ClaimValues = await GetClaimValues(role);
+                role.ClaimValues = await GetClaimValues(role).ConfigureAwait(true);
             }
 
             return role;
@@ -50,11 +50,11 @@ namespace BellRichM.Identity.Api.Repositories
         public async Task<Role> GetByName(string name)
         {
             _logger.LogDiagnosticDebug("GetByName: {@name}", name);
-            var role = await _roleManager.FindByNameAsync(name);
+            var role = await _roleManager.FindByNameAsync(name).ConfigureAwait(true);
 
             if (role != null)
             {
-                role.ClaimValues = await GetClaimValues(role);
+                role.ClaimValues = await GetClaimValues(role).ConfigureAwait(true);
             }
 
             return role;
@@ -74,7 +74,7 @@ namespace BellRichM.Identity.Api.Repositories
             _logger.LogDiagnosticDebug("Create: {@role}", role);
             using (var identitydbContextTransaction = _context.BeginTransaction())
             {
-                IdentityResult roleResult = await _roleManager.CreateAsync(role);
+                IdentityResult roleResult = await _roleManager.CreateAsync(role).ConfigureAwait(true);
 
                 if (!roleResult.Succeeded)
                 {
@@ -90,7 +90,7 @@ namespace BellRichM.Identity.Api.Repositories
                     foreach (var claimValue in role.ClaimValues)
                     {
                         var claim = new Claim(claimValue.Type, claimValue.Value);
-                        var claimResult = await _roleManager.AddClaimAsync(role, claim);
+                        var claimResult = await _roleManager.AddClaimAsync(role, claim).ConfigureAwait(true);
                         if (!claimResult.Succeeded)
                         {
                             identitydbContextTransaction.Rollback();
@@ -103,7 +103,7 @@ namespace BellRichM.Identity.Api.Repositories
                 }
 
                 identitydbContextTransaction.Commit();
-                return await GetById(role.Id); // TODO: Move to private method
+                return await GetById(role.Id).ConfigureAwait(true); // TODO: Move to private method
             }
         }
 
@@ -119,7 +119,7 @@ namespace BellRichM.Identity.Api.Repositories
         public async Task Delete(string id)
         {
             _logger.LogDiagnosticDebug("Delete: {@id}", id);
-            var role = await _roleManager.FindByIdAsync(id);
+            var role = await _roleManager.FindByIdAsync(id).ConfigureAwait(true);
             if (role == null)
             {
                 throw new DeleteRoleException(DeleteRoleExceptionCode.RoleNotFound);
@@ -161,7 +161,7 @@ namespace BellRichM.Identity.Api.Repositories
 
         private async Task<List<ClaimValue>> GetClaimValues(Role role)
         {
-            var roleClaims = await _roleManager.GetClaimsAsync(role);
+            var roleClaims = await _roleManager.GetClaimsAsync(role).ConfigureAwait(true);
 
             var claimValues = new List<ClaimValue>();
             if (roleClaims.Count > 0)

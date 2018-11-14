@@ -50,8 +50,8 @@ namespace BellRichM.Identity.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(string id)
         {
-            _logger.LogEvent(EventIds.UserController_GetById, "{@id}", id);
-            var newUser = await _userRepository.GetById(id);
+            _logger.LogEvent(EventId.UserController_GetById, "{@id}", id);
+            var newUser = await _userRepository.GetById(id).ConfigureAwait(true);
             if (newUser == null)
             {
                 return NotFound();
@@ -70,7 +70,7 @@ namespace BellRichM.Identity.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] UserCreateModel userCreate)
         {
-            _logger.LogEvent(EventIds.UserController_Create, "{@userCreate}", userCreate);
+            _logger.LogEvent(EventId.UserController_Create, "{@userCreate}", userCreate);
             User newUser;
             if (!ModelState.IsValid)
             {
@@ -82,7 +82,7 @@ namespace BellRichM.Identity.Api.Controllers
             var user = _mapper.Map<User>(userCreate);
             try
             {
-                newUser = await _userRepository.Create(user, userCreate.Password);
+                newUser = await _userRepository.Create(user, userCreate.Password).ConfigureAwait(true);
                 var userModel = _mapper.Map<UserModel>(newUser);
                 return Ok(userModel);
             }
@@ -103,10 +103,10 @@ namespace BellRichM.Identity.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            _logger.LogEvent(EventIds.UserController_Delete, "{@id}", id);
+            _logger.LogEvent(EventId.UserController_Delete, "{@id}", id);
             try
             {
-                await _userRepository.Delete(id);
+                await _userRepository.Delete(id).ConfigureAwait(true);
                 return NoContent();
             }
             catch (DeleteUserException ex)
@@ -125,7 +125,7 @@ namespace BellRichM.Identity.Api.Controllers
         [HttpPost("/api/[controller]/[action]")]
         public async Task<IActionResult> Login([FromBody] UserLoginModel userLogin)
         {
-            _logger.LogEvent(EventIds.UserController_Login, "{@userLogin}", userLogin);
+            _logger.LogEvent(EventId.UserController_Login, "{@userLogin}", userLogin);
             if (!ModelState.IsValid)
             {
                 _logger.LogDiagnosticInformation("{@ModelState}", ModelState);
@@ -133,7 +133,7 @@ namespace BellRichM.Identity.Api.Controllers
                 return BadRequest(errorResponseModel);
             }
 
-            var jwt = await _jwtManager.GenerateToken(userLogin.UserName, userLogin.Password);
+            var jwt = await _jwtManager.GenerateToken(userLogin.UserName, userLogin.Password).ConfigureAwait(true);
 
             if (jwt == null)
             {

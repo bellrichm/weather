@@ -61,6 +61,7 @@ namespace BellRichM.Exceptions.Test
   }
 
   [Serializable]
+  #pragma warning disable CA1032
   #pragma warning disable S3376 // Class name should end with exception
 
   internal class RoleExceptionTestClass : BusinessException
@@ -88,3 +89,4 @@ namespace BellRichM.Exceptions.Test
   }
 }
 #pragma warning restore SA1649 // File name should match first type name
+#pragma warning restore CA1032

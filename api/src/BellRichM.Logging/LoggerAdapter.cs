@@ -72,7 +72,7 @@ namespace BellRichM.Logging
         }
 
         /// <inheritdoc/>
-        public void LogEvent(EventIds id, string message, params object[] arguments)
+        public void LogEvent(EventId id, string message, params object[] arguments)
         {
             LogDiagnosticInformation(message, arguments);
 

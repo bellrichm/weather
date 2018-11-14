@@ -16,7 +16,7 @@ namespace BellRichM.Logging
         protected static int errorTimes;
         protected static int eventTimes;
 
-        protected It should_log_correct_trace_messages = () =>
+        It should_log_correct_trace_messages = () =>
             loggerMock.Verify(x => x.LogDiagnosticTrace(IT.IsAny<string>(), IT.IsAny<object[]>()), Times.Never);
 
         It should_log_correct_debug_messages = () =>
@@ -35,6 +35,6 @@ namespace BellRichM.Logging
             loggerMock.Verify(x => x.LogDiagnosticError(IT.IsAny<string>(), IT.IsAny<object[]>()), Times.Exactly(errorTimes));
 
         It should_log_correct_events = () =>
-            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventIds>(), IT.IsAny<string>(), IT.IsAny<object[]>()), Times.Exactly(eventTimes));
+            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventId>(), IT.IsAny<string>(), IT.IsAny<object[]>()), Times.Exactly(eventTimes));
     }
 }

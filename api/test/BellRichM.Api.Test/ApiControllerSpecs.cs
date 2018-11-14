@@ -166,6 +166,7 @@ namespace BellRichM.Api.Test
         }
     }
 
+#pragma warning disable CA1032
     internal class TestException : BusinessException
     {
          public TestException(string code, IEnumerable<ExceptionDetail> exceptionDetails, string message)
@@ -173,4 +174,5 @@ namespace BellRichM.Api.Test
          {
          }
     }
+#pragma warning restore CA1032
 }

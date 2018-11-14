@@ -44,8 +44,8 @@ namespace BellRichM.Identity.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(string id)
         {
-            _logger.LogEvent(EventIds.RoleController_GetById, "{@id}", id);
-            var newRole = await _roleRepository.GetById(id);
+            _logger.LogEvent(EventId.RoleController_GetById, "{@id}", id);
+            var newRole = await _roleRepository.GetById(id).ConfigureAwait(true);
             if (newRole == null)
             {
                 return NotFound();
@@ -64,7 +64,7 @@ namespace BellRichM.Identity.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] RoleModel roleCreate)
         {
-            _logger.LogEvent(EventIds.RoleController_Create, "{@roleCreate}", roleCreate);
+            _logger.LogEvent(EventId.RoleController_Create, "{@roleCreate}", roleCreate);
             if (!ModelState.IsValid)
             {
                 _logger.LogDiagnosticInformation("{@ModelState}", ModelState);
@@ -75,7 +75,7 @@ namespace BellRichM.Identity.Api.Controllers
             var role = _mapper.Map<Role>(roleCreate);
             try
             {
-                var newRole = await _roleRepository.Create(role);
+                var newRole = await _roleRepository.Create(role).ConfigureAwait(true);
                 var roleModel = _mapper.Map<RoleModel>(newRole);
                 return Ok(roleModel);
             }
@@ -96,10 +96,10 @@ namespace BellRichM.Identity.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            _logger.LogEvent(EventIds.RoleController_Delete, "{@id}", id);
+            _logger.LogEvent(EventId.RoleController_Delete, "{@id}", id);
             try
             {
-                await _roleRepository.Delete(id);
+                await _roleRepository.Delete(id).ConfigureAwait(true);
                 return NoContent();
             }
             catch (DeleteRoleException ex)

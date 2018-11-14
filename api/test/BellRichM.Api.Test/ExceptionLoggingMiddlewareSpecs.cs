@@ -86,7 +86,7 @@ namespace BellRichM.Api.Middleware.Test
             loggerMock.Verify(x => x.LogDiagnosticError(IT.IsAny<string>(), IT.IsAny<IHeaderDictionary>(), IT.IsAny<Exception>()), Times.Once);
 
         It should_log_correct_events = () =>
-            loggerMock.Verify(x => x.LogEvent((int)EventIds.EndRequest, IT.IsAny<string>(), httpContext.Request.Method, httpContext.Request.Path, 500, IT.IsAny<double>()), Times.Once);
+            loggerMock.Verify(x => x.LogEvent((int)EventId.EndRequest, IT.IsAny<string>(), httpContext.Request.Method, httpContext.Request.Path, 500, IT.IsAny<double>()), Times.Once);
 
         It should_add_identifer_header = () =>
             httpContext.Response.Headers["X-Request-Id"].ToString().ShouldEqual(httpContext.TraceIdentifier);
@@ -136,7 +136,7 @@ namespace BellRichM.Api.Middleware.Test
             loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), httpContext.Request.Protocol, httpContext.Request.Host, httpContext.Connection.RemoteIpAddress.ToString()), Times.Exactly(1));
 
         It should_log_correct_events = () =>
-            loggerMock.Verify(x => x.LogEvent((int)EventIds.EndRequest, IT.IsAny<string>(), httpContext.Request.Method, httpContext.Request.Path, IT.IsAny<int>(), IT.IsAny<double>()), Times.Once);
+            loggerMock.Verify(x => x.LogEvent((int)EventId.EndRequest, IT.IsAny<string>(), httpContext.Request.Method, httpContext.Request.Path, IT.IsAny<int>(), IT.IsAny<double>()), Times.Once);
 
         It should_add_identifer_header = () =>
             httpContext.Response.Headers["X-Request-Id"].ToString().ShouldEqual(httpContext.TraceIdentifier);

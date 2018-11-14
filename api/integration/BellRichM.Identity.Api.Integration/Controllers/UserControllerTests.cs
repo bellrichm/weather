@@ -5,6 +5,7 @@ using Machine.Specifications;
 using Microsoft.AspNetCore.TestHost;
 using Moq;
 using Newtonsoft.Json;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -16,7 +17,7 @@ namespace BellRichM.Identity.Api.Integration
 {
   internal class UserControllerTests
   {
-    protected const string GetByIdRoute = "/api/user/";
+    protected const string GetByIdRoute = "http://localhost/api/user/";
 
     Establish context = () =>
     {
@@ -40,7 +41,7 @@ namespace BellRichM.Identity.Api.Integration
       response.Dispose();
 
     Because of = () =>
-      response = Client.GetAsync(GetByIdRoute + TestUser.Id).Await();
+      response = Client.GetAsync(new Uri(GetByIdRoute + TestUser.Id)).Await();
 
     It should_return_unauthorized_response_code = () =>
       response.StatusCode.ShouldEqual(HttpStatusCode.Unauthorized);
@@ -63,7 +64,7 @@ namespace BellRichM.Identity.Api.Integration
       response.Dispose();
 
     Because of = () =>
-      response = Client.GetAsync(GetByIdRoute + TestUser.Id).Await();
+      response = Client.GetAsync(new Uri(GetByIdRoute + TestUser.Id)).Await();
 
     It should_return_unauthorized_response_code = () =>
       response.StatusCode.ShouldEqual(HttpStatusCode.Forbidden);
@@ -86,7 +87,7 @@ namespace BellRichM.Identity.Api.Integration
       response.Dispose();
 
     Because of = () =>
-      response = Client.GetAsync(GetByIdRoute + TestUser.Id).Await();
+      response = Client.GetAsync(new Uri(GetByIdRoute + TestUser.Id)).Await();
 
     It should_return_unauthorized_response_code = () =>
       response.StatusCode.ShouldEqual(HttpStatusCode.OK);

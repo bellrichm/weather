@@ -21,7 +21,7 @@ namespace BellRichM.Identity.Api.Configuration
         public string SecretKey { get; set; }
 
         /// <inheritdoc/>
-        #pragma warning disable S3928
+        #pragma warning disable CA2208
         public void Validate()
         {
             if (string.IsNullOrEmpty(Issuer))
@@ -39,6 +39,6 @@ namespace BellRichM.Identity.Api.Configuration
                 throw new ArgumentNullException(nameof(SecretKey));
             }
         }
-        #pragma warning restore S3928
+        #pragma warning restore CA2208
     }
 }

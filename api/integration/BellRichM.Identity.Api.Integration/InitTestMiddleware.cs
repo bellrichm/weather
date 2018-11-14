@@ -19,7 +19,7 @@ namespace BellRichM.Identity.Api.Integration
         {
             httpContext.Connection.RemoteIpAddress = fakeIpAddress;
 
-            await this.next(httpContext);
+            await this.next(httpContext).ConfigureAwait(true);
         }
     }
 }

@@ -103,7 +103,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
 #pragma warning restore 169
 
         It should_log_correct_events = () =>
-            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventIds>(), IT.IsAny<string>(), IT.IsAny<string>()), Times.Once);
+            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventId>(), IT.IsAny<string>(), IT.IsAny<string>()), Times.Once);
 
         It should_return_success_status_code = () =>
             result.StatusCode.ShouldEqual(200);
@@ -133,7 +133,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
 #pragma warning restore 169
 
         It should_log_correct_events = () =>
-            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventIds>(), IT.IsAny<string>(), IT.IsAny<string>()), Times.Once);
+            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventId>(), IT.IsAny<string>(), IT.IsAny<string>()), Times.Once);
 
         It should_return_not_found_status_code = () =>
             result.StatusCode.ShouldEqual(404);
@@ -169,7 +169,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
            loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), IT.IsAny<ModelStateDictionary>()), Times.Once);
 
         It should_log_correct_events = () =>
-            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventIds>(), IT.IsAny<string>(), IT.IsAny<RoleModel>()), Times.Once);
+            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventId>(), IT.IsAny<string>(), IT.IsAny<RoleModel>()), Times.Once);
 
         Cleanup after = () =>
             roleController.ModelState.Clear();
@@ -208,7 +208,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
            loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), IT.IsAny<CreateRoleException>()), Times.Once);
 
         It should_log_correct_events = () =>
-            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventIds>(), IT.IsAny<string>(), IT.IsAny<RoleModel>()), Times.Once);
+            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventId>(), IT.IsAny<string>(), IT.IsAny<RoleModel>()), Times.Once);
 
         It should_return_correct_result_type = () =>
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -232,7 +232,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
 #pragma warning restore 169
 
         It should_log_correct_events = () =>
-            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventIds>(), IT.IsAny<string>(), IT.IsAny<RoleModel>()), Times.Once);
+            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventId>(), IT.IsAny<string>(), IT.IsAny<RoleModel>()), Times.Once);
 
         It should_return_success_status_code = () =>
             result.StatusCode.ShouldEqual(200);
@@ -285,7 +285,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
            loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), IT.IsAny<DeleteRoleException>()), Times.Once);
 
         It should_log_correct_events = () =>
-            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventIds>(), IT.IsAny<string>(), IT.IsAny<string>()), Times.Once);
+            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventId>(), IT.IsAny<string>(), IT.IsAny<string>()), Times.Once);
 
         It should_return_correct_result_type = () =>
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -309,7 +309,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
 #pragma warning restore 169
 
         It should_log_correct_events = () =>
-            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventIds>(), IT.IsAny<string>(), IT.IsAny<string>()), Times.Once);
+            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventId>(), IT.IsAny<string>(), IT.IsAny<string>()), Times.Once);
 
         It should_return_no_content_code = () =>
             result.StatusCode.ShouldEqual(204);

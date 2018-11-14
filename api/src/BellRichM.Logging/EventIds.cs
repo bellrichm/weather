@@ -1,8 +1,8 @@
-#pragma warning disable SA1514
+#pragma warning disable CA1707
 /// <summary>
 /// The ids of the events being logged.
 /// </summary>
-public enum EventIds
+public enum EventId
 {
     /// <summary>
     /// The request end event id.
@@ -54,4 +54,4 @@ public enum EventIds
     /// </summary>
     RoleController_Delete,
 }
-#pragma warning restore SA1514
+#pragma warning restore CA1707

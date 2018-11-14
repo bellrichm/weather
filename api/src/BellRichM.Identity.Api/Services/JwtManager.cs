@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -45,13 +46,13 @@ namespace BellRichM.Identity.Api.Services
         /// <inheritdoc/>
         public async Task<string> GenerateToken(string userName, string password)
         {
-            var user = await _userRepository.GetByName(userName);
+            var user = await _userRepository.GetByName(userName).ConfigureAwait(true);
             if (user == null)
             {
                 return null;
             }
 
-            var result = await _signInManager.CheckPasswordSignInAsync(user, password,  false);
+            var result = await _signInManager.CheckPasswordSignInAsync(user, password, false).ConfigureAwait(true);
             if (!result.Succeeded)
             {
                 return null;
@@ -82,8 +83,8 @@ namespace BellRichM.Identity.Api.Services
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(now).ToString(), ClaimValueTypes.Integer64),
-                new Claim(options.ClaimsIdentity.UserIdClaimType, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(now).ToString(CultureInfo.InvariantCulture), ClaimValueTypes.Integer64),
+                new Claim(options.ClaimsIdentity.UserIdClaimType, user.Id),
                 new Claim(options.ClaimsIdentity.UserNameClaimType, user.UserName)
             };
 
