@@ -5,6 +5,8 @@ using BellRichM.Logging;
 using FluentAssertions;
 using Machine.Specifications;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
 using Microsoft.EntityFrameworkCore.Storage;
 using Moq;
 using System;
@@ -26,7 +28,7 @@ namespace BellRichM.Identity.Api.Test.Repositories
     protected static Mock<IRoleRepository> roleRepositoryMock;
     protected static Mock<IUserStore<User>> userStoreMock;
     protected static Mock<UserManager<User>> userManagerMock;
-    protected static Mock<IIdentityDbContext> identityDbContextMock;
+    protected static Mock<IdentityDbContext> identityDbContextMock;
     protected static Mock<IDbContextTransaction> dbTransactionMock;
 
     protected static UserRepository userRepository;
@@ -49,7 +51,7 @@ namespace BellRichM.Identity.Api.Test.Repositories
       userStoreMock = new Mock<IUserStore<User>>();
       userManagerMock = new Mock<UserManager<User>>(userStoreMock.Object, null, null, null, null, null, null, null, null);
       dbTransactionMock = new Mock<IDbContextTransaction>();
-      identityDbContextMock = new Mock<IIdentityDbContext>();
+      identityDbContextMock = new Mock<IdentityDbContext>(new DbContextOptions<IdentityDbContext>());
       identityDbContextMock.Setup(x => x.BeginTransaction()).Returns(dbTransactionMock.Object);
 
       roleNames = new List<string>();

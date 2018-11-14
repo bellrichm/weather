@@ -6,9 +6,11 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace BellRichM.Identity.Api.Data
 {
-    /// <inheritdoc/>
+    /// <summary>
+    /// The context of the identity database
+    /// </summary>
     [ExcludeFromCodeCoverage]
-    public class IdentityDbContext : IdentityDbContext<User, Role, string>, IIdentityDbContext
+    public class IdentityDbContext : IdentityDbContext<User, Role, string>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="IdentityDbContext"/> class.
@@ -19,8 +21,11 @@ namespace BellRichM.Identity.Api.Data
         {
         }
 
-        /// <inheritdoc/>
-        public IDbContextTransaction BeginTransaction()
+        /// <summary>
+        /// Begins the transaction.
+        /// </summary>
+        /// <returns>The <see cref="IDbContextTransaction"/></returns>
+        public virtual IDbContextTransaction BeginTransaction()
         {
              return Database.BeginTransaction();
         }

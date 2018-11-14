@@ -16,7 +16,7 @@ namespace BellRichM.Identity.Api.Repositories
     {
         private readonly ILoggerAdapter<RoleRepository> _logger;
         private readonly RoleManager<Role> _roleManager;
-        private readonly IIdentityDbContext _context;
+        private readonly IdentityDbContext _context;
         private bool disposed = false;
 
         /// <summary>
@@ -24,8 +24,8 @@ namespace BellRichM.Identity.Api.Repositories
         /// </summary>
         /// <param name="logger">The <see cref="ILoggerAdapter{T}"/>.</param>
         /// <param name="roleManager">The <see cref="RoleManager{Role}"/>.</param>
-        /// <param name="context">The <see cref="IIdentityDbContext"/>.</param>
-        public RoleRepository(ILoggerAdapter<RoleRepository> logger, RoleManager<Role> roleManager, IIdentityDbContext context)
+        /// <param name="context">The <see cref="IdentityDbContext"/>.</param>
+        public RoleRepository(ILoggerAdapter<RoleRepository> logger, RoleManager<Role> roleManager, IdentityDbContext context)
         {
             _logger = logger;
             _roleManager = roleManager;
@@ -152,6 +152,7 @@ namespace BellRichM.Identity.Api.Repositories
                 if (disposing)
                 {
                     _roleManager.Dispose();
+                    _context.Dispose();
                 }
 
                 disposed = true;

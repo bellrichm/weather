@@ -85,7 +85,6 @@ namespace BellRichM.Identity.Api.Extensions
             services.AddScoped<IJwtManager, JwtManager>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
-            services.AddScoped<IIdentityDbContext, IdentityDbContext>();
         }
     }
 }
