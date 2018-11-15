@@ -171,7 +171,7 @@ namespace BellRichM.Identity.Api.Test.Services
         loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), IT.IsAny<JwtSecurityToken>()), Times.Once);
 
     It should_have_correct_number_of_claims = () =>
-      jwtSecurityToken.Claims.Count().ShouldBeEquivalentTo(10);
+      jwtSecurityToken.Claims.Count().Should().Be(10);
 
     It should_contain_sub_claim = () =>
       jwtSecurityToken.Claims.Should().

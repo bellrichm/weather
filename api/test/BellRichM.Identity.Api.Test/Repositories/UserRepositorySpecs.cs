@@ -114,7 +114,7 @@ namespace BellRichM.Identity.Api.Test.Repositories
 #pragma warning restore
 
     It should_return_correct_user = () =>
-      userResult.ShouldBeEquivalentTo(user);
+      userResult.Should().BeEquivalentTo(user);
 
     It should_have_no_roles = () =>
       userResult.Roles.Should().BeEmpty();
@@ -135,13 +135,13 @@ namespace BellRichM.Identity.Api.Test.Repositories
 #pragma warning restore
 
     It should_return_correct_role = () =>
-      userResult.ShouldBeEquivalentTo(user);
+      userResult.Should().BeEquivalentTo(user);
 
     It should_have_one_claim = () =>
       userResult.Roles.Should().ContainSingle();
 
     It should_have_correct_claim_values = () =>
-      userResult.Roles.ShouldAllBeEquivalentTo(role);
+      userResult.Roles.Should().AllBeEquivalentTo(role);
   }
 
   internal class When_getting_user_by_id_and_does_not_exist : UserRepositorySpecs
@@ -175,7 +175,7 @@ namespace BellRichM.Identity.Api.Test.Repositories
 #pragma warning restore
 
     It should_return_correct_user = () =>
-      userResult.ShouldBeEquivalentTo(user);
+      userResult.Should().BeEquivalentTo(user);
 
     It should_have_no_roles = () =>
       userResult.Roles.Should().BeEmpty();
@@ -196,13 +196,13 @@ namespace BellRichM.Identity.Api.Test.Repositories
 #pragma warning restore
 
     It should_return_correct_role = () =>
-      userResult.ShouldBeEquivalentTo(user);
+      userResult.Should().BeEquivalentTo(user);
 
     It should_have_one_claim = () =>
       userResult.Roles.Should().ContainSingle();
 
     It should_have_correct_claim_values = () =>
-      userResult.Roles.ShouldAllBeEquivalentTo(role);
+      userResult.Roles.Should().AllBeEquivalentTo(role);
   }
 
   [Subject("creating User")]

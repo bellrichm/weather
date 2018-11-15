@@ -233,7 +233,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
         It should_return_the_usermodel = () =>
         {
             var user = (UserModel)result.Value;
-            user.ShouldBeEquivalentTo(userModel);
+            user.Should().BeEquivalentTo(userModel);
         };
     }
 

@@ -111,7 +111,7 @@ namespace BellRichM.Identity.Api.Test
 #pragma warning restore
 
     It should_return_correct_role = () =>
-      roleResult.ShouldBeEquivalentTo(role);
+      roleResult.Should().BeEquivalentTo(role);
 
     It should_have_no_claims = () =>
       roleResult.ClaimValues.Should().BeEmpty();
@@ -135,14 +135,19 @@ namespace BellRichM.Identity.Api.Test
 #pragma warning restore
 
     It should_return_correct_role = () =>
-      roleResult.ShouldBeEquivalentTo(role);
+      roleResult.Should().BeEquivalentTo(role);
 
     It should_have_one_claim = () =>
       roleResult.ClaimValues.Should().ContainSingle();
 
     It should_have_correct_claim_values = () =>
     {
-      roleResult.ClaimValues.ShouldAllBeEquivalentTo(claim);
+      roleResult.ClaimValues.Should()
+        .AllBeEquivalentTo(claim, config => config
+            .Excluding(ctx => ctx.OriginalIssuer)
+            .Excluding(ctx => ctx.Properties)
+            .Excluding(ctx => ctx.Subject)
+            .Excluding(ctx => ctx.Issuer));
     };
   }
 
@@ -179,7 +184,7 @@ namespace BellRichM.Identity.Api.Test
 #pragma warning restore
 
     It should_return_correct_role = () =>
-      roleResult.ShouldBeEquivalentTo(role);
+      roleResult.Should().BeEquivalentTo(role);
 
     It should_have_no_claims = () =>
       roleResult.ClaimValues.Should().BeEmpty();
@@ -203,14 +208,19 @@ namespace BellRichM.Identity.Api.Test
 #pragma warning restore
 
     It should_return_correct_role = () =>
-      roleResult.ShouldBeEquivalentTo(role);
+      roleResult.Should().BeEquivalentTo(role);
 
     It should_have_one_claim = () =>
       roleResult.ClaimValues.Should().ContainSingle();
 
     It should_have_correct_claim_values = () =>
     {
-      roleResult.ClaimValues.ShouldAllBeEquivalentTo(claim);
+      roleResult.ClaimValues.Should()
+        .AllBeEquivalentTo(claim, config => config
+            .Excluding(ctx => ctx.OriginalIssuer)
+            .Excluding(ctx => ctx.Properties)
+            .Excluding(ctx => ctx.Subject)
+            .Excluding(ctx => ctx.Issuer));
     };
   }
 
