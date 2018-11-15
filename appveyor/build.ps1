@@ -61,7 +61,7 @@ if ($env:BUILD_PLATFORM-eq "Windows" `
   RunCmd $cmd
 }
 
-$defBuildParams = '--no-restore --no-dependencies '
+$defBuildParams = '--no-restore '
 
 $cmd = "dotnet build api\src\BellRichM.Weather.sln --no-restore $buildFramework"
 RunCmd $cmd
