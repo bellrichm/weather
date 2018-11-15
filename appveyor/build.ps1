@@ -33,12 +33,12 @@ if ($env:BUILD -eq "NO")
 
 if ($env:BUILD_PLATFORM -eq "Windows")
 {
-  $unitTestFramework = '-f net462 '
+  $unitTestFramework = '-f net472 '
 }
 else
 {
-    $unitTestFramework = '-f netcoreapp2.0 '
-    $buildFramework = '-f netcoreapp2.0 '
+    $unitTestFramework = '-f netcoreapp2.1 '
+    $buildFramework = '-f netcoreapp2.1 '
 }
 
 if ($env:BUILD_PLATFORM-eq "Windows" `
