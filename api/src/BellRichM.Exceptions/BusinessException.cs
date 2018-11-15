@@ -11,6 +11,8 @@ namespace BellRichM.Exceptions
   /// </summary>
   /// <seealso cref="System.Exception" />
   [Serializable]
+#pragma warning disable CA1032
+
   public abstract class BusinessException : Exception
   {
     #pragma warning disable CA2235 // TODO: Investigate, seems to be a false positive
@@ -146,7 +148,7 @@ namespace BellRichM.Exceptions
     {
       if (info == null)
       {
-        throw new ArgumentNullException("info");
+        throw new ArgumentNullException(nameof(info));
       }
 
       base.GetObjectData(info, context);
@@ -154,4 +156,5 @@ namespace BellRichM.Exceptions
       info.AddValue("ErrorDetails", ErrorDetails);
     }
   }
+#pragma warning restore CA1032
 }
