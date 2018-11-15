@@ -5,6 +5,7 @@
     <CodeAnalysisRuleSet>$(ProjectDir)..\StyleCop.Analyzers.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <NoWarn>NU1603</NoWarn>
+    <ProjectGuid>A04F3959-2159-4528-BED7-BD6F4238BBAD</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net462'">
     <DebugType>full</DebugType>
@@ -19,13 +20,13 @@
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta009" PrivateAssets="All" />
-    <PackageReference Include="Destructurama.Attributed" Version="1.1.0" />    
+    <PackageReference Include="Destructurama.Attributed" Version="1.1.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Serilog.Filters.Expressions" Version="1.1.0" />
-    <PackageReference Include="Serilog.Formatting.Compact" Version="1.0.0" /> 
-    <PackageReference Include="Serilog.Sinks.File" Version="4.0.0" />   
+    <PackageReference Include="Serilog.Formatting.Compact" Version="1.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="4.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BellRichM.Attribute\BellRichM.Attribute.csproj" />
-  </ItemGroup>  
+  </ItemGroup>
 </Project>

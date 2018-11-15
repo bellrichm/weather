@@ -6,13 +6,14 @@
     <SonarQubeExclude>true</SonarQubeExclude>
     <CodeAnalysisRuleSet>$(ProjectDir)..\StyleCop.Analyzers.ruleset</CodeAnalysisRuleSet>
     <NoWarn>NU1603;S101;S1144;S2223;S2933</NoWarn>
+    <ProjectGuid>84EE82D1-0184-4FB5-BF5A-8A20C17EDDB3</ProjectGuid>
   </PropertyGroup>
-    <ItemGroup>
-      <Content Update="appsettings*.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
-      <Content Include="../../src/BellRichM.Weather.Web/appsettings.json" Link="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
-    </ItemGroup>
+  <ItemGroup>
+    <Content Update="appsettings*.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="../../src/BellRichM.Weather.Web/appsettings.json" Link="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="4.19.4" />
     <PackageReference Include="Machine.Specifications" Version="0.12.0" />
@@ -28,13 +29,11 @@
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta009" PrivateAssets="All" />
     <PackageReference Include="Serilog.AspNetCore" Version="2.0.0" />
   </ItemGroup>
-
   <ItemGroup>
     <DotNetCliToolReference Include="Machine.Specifications.Runner.Console" Version="0.9.3" />
     <DotNetCliToolReference Include="OpenCover" Version="4.6.519" />
     <DotNetCliToolReference Include="ReportGenerator" Version="3.0.2" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\src\BellRichM.Weather.Web\BellRichM.Weather.Web.csproj" />
     <ProjectReference Include="..\..\src\BellRichM.Identity.Api\BellRichM.Identity.Api.csproj" />

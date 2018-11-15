@@ -6,8 +6,8 @@
     <SonarQubeExclude>true</SonarQubeExclude>
     <CodeAnalysisRuleSet>$(ProjectDir)..\StyleCop.Analyzers.ruleset</CodeAnalysisRuleSet>
     <NoWarn>NU1603;S101;S1144;S2223;S2933</NoWarn>
+    <ProjectGuid>A4EEA32E-512E-4B76-AC40-FD39539FFE3E</ProjectGuid>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="4.19.4" />
     <PackageReference Include="Machine.Specifications" Version="0.12.0" />
@@ -20,7 +20,6 @@
     </PackageReference>
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta009" PrivateAssets="All" />
   </ItemGroup>
-
   <ItemGroup>
     <DotNetCliToolReference Include="Machine.Specifications.Runner.Console" Version="0.9.3" />
   </ItemGroup>

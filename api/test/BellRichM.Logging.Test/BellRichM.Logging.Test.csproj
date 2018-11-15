@@ -6,11 +6,12 @@
     <SonarQubeExclude>true</SonarQubeExclude>
     <CodeAnalysisRuleSet>$(ProjectDir)..\StyleCop.Analyzers.ruleset</CodeAnalysisRuleSet>
     <NoWarn>NU1603;S101;S1144;S2223;S2933</NoWarn>
+    <ProjectGuid>0056FA5D-9EA5-4299-B733-78659D988F04</ProjectGuid>
   </PropertyGroup>
   <ItemGroup>
-      <Content Update="testlogging.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
+    <Content Update="testlogging.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="4.19.4" />

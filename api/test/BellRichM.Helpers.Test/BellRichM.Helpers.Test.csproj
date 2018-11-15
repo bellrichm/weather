@@ -6,12 +6,13 @@
     <SonarQubeExclude>true</SonarQubeExclude>
     <CodeAnalysisRuleSet>$(ProjectDir)..\StyleCop.Analyzers.ruleset</CodeAnalysisRuleSet>
     <NoWarn>NU1603;S101;S1144;S2223;S2933</NoWarn>
+    <ProjectGuid>D7DCE70D-B1D4-4E9F-B519-B4A8C87C23DE</ProjectGuid>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Machine.Specifications" Version="0.12.0" />
     <PackageReference Include="Moq" Version="4.7.142" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.2" />
-        <PackageReference Include="StyleCop" Version="5.0.0">
+    <PackageReference Include="StyleCop" Version="5.0.0">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta009" PrivateAssets="All" />

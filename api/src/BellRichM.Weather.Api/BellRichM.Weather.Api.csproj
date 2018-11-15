@@ -5,12 +5,13 @@
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <OutputType>Library</OutputType>
     <NoWarn>NU1603</NoWarn>
+    <ProjectGuid>93A8CBCC-12B3-46B9-98BB-3DCC23E01BCF</ProjectGuid>
   </PropertyGroup>
-<PropertyGroup  Condition=" '$(TargetFramework)' == 'net462'">
-  <DebugType>full</DebugType>
-</PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net462'">
+    <DebugType>full</DebugType>
+  </PropertyGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
-      <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
@@ -25,5 +26,5 @@
   <ItemGroup>
     <ProjectReference Include="..\BellRichM.Logging\BellRichM.Logging.csproj" />
     <ProjectReference Include="..\BellRichM.Api\BellRichM.Api.csproj" />
-  </ItemGroup>  
+  </ItemGroup>
 </Project>
