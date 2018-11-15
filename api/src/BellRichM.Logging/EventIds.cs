@@ -1,8 +1,10 @@
 #pragma warning disable CA1707
-/// <summary>
-/// The ids of the events being logged.
-/// </summary>
-public enum EventId
+namespace BellRichM.Logging
+{
+    /// <summary>
+    /// The ids of the events being logged.
+    /// </summary>
+    public enum EventId
 {
     /// <summary>
     /// The request end event id.
@@ -53,5 +55,6 @@ public enum EventId
     /// The role controller delete event id.
     /// </summary>
     RoleController_Delete,
+}
 }
 #pragma warning restore CA1707

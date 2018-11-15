@@ -4,7 +4,6 @@ using BellRichM.Logging;
 using FluentAssertions;
 using Machine.Specifications;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 using Moq;
 using Newtonsoft.Json;
 using System;
