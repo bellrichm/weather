@@ -36,6 +36,7 @@ if ($preClean -ne "NO")
   RunCmd "dotnet clean -v m api/src/BellRichM.Weather.sln"
   RunCmd "dotnet clean -v m api/integration/BellRichM.Identity.Api.Integration/BellRichM.Identity.Api.Integration.csproj"
   RunCmd "dotnet clean -v m api/smoke/BellRichM.Identity.Api.Smoke/BellRichM.Identity.Api.Smoke.csproj"
+  RunCmd "git clean -xdf api"
   Remove-Item $env:APPVEYOR_BUILD_FOLDER/dist -Force -Recurse -ErrorAction Ignore
   Remove-Item $env:APPVEYOR_BUILD_FOLDER/$env:ARTIFACT_NAME.zip -ErrorAction Ignore
 }
