@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <ProjectGuid>{21949364-076f-4825-95bd-fe101594dbee}</ProjectGuid>
+    <GenerateFullPaths>true</GenerateFullPaths>     
     <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
     <OutputType>Library</OutputType>
     <SonarQubeExclude>true</SonarQubeExclude>
