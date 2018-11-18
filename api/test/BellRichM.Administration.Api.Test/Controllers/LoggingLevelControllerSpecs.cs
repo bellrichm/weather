@@ -125,6 +125,18 @@ namespace BellRichM.Administration.Test.Controllers
         };
     }
 
+    internal class When_decorating_LoggingLevel_update_method : LoggingLevelControllerSpecs
+    {
+        private static MethodInfo methodInfo;
+
+        Because of = () =>
+            methodInfo = typeof(LoggingLevelController).GetMethod("Update");
+
+        It should_have_CanCreateRoles_policy = () =>
+            methodInfo.Should()
+            .BeDecoratedWith<AuthorizeAttribute>(a => a.Policy == "CanUpdateLoggingLevels");
+    }
+
     internal class When_getting_logging_level_succeeds : LoggingLevelControllerSpecs
     {
         private static ObjectResult result;
@@ -155,15 +167,15 @@ namespace BellRichM.Administration.Test.Controllers
         };
     }
 
-    internal class When_decorating_LoggingLevel_update_method : LoggingLevelControllerSpecs
+    internal class When_decorating_LoggingLevel_get_method : LoggingLevelControllerSpecs
     {
         private static MethodInfo methodInfo;
 
         Because of = () =>
-            methodInfo = typeof(LoggingLevelController).GetMethod("Update");
+            methodInfo = typeof(LoggingLevelController).GetMethod("Get");
 
         It should_have_CanCreateRoles_policy = () =>
             methodInfo.Should()
-            .BeDecoratedWith<AuthorizeAttribute>(a => a.Policy == "CanUpdateLoggingLevels");
+            .BeDecoratedWith<AuthorizeAttribute>(a => a.Policy == "CanViewLoggingLevels");
     }
 }
