@@ -29,5 +29,6 @@
     <ProjectReference Include="..\BellRichM.Identity.Api\BellRichM.Identity.Api.csproj" />
     <ProjectReference Include="..\BellRichM.Logging\BellRichM.Logging.csproj" />
     <ProjectReference Include="..\BellRichM.Configuration\BellRichM.Configuration.csproj" />
+    <ProjectReference Include="..\BellRichM.Administration.Api\BellRichM.Administration.Api.csproj" />
   </ItemGroup>
 </Project>

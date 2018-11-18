@@ -55,6 +55,21 @@ namespace BellRichM.Logging
     /// The role controller delete event id.
     /// </summary>
     RoleController_Delete,
+
+    /// <summary>
+    /// The logging level controller event id.
+    /// </summary>
+    LoggingLevelController = 3000,
+
+    /// <summary>
+    /// The logging level  controller get event id.
+    /// </summary>
+    LoggingLevelController_Get,
+
+    /// <summary>
+    /// The logging level  controller update event id.
+    /// </summary>
+    LoggingLevelController_Update,
 }
 }
 #pragma warning restore CA1707

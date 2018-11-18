@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BellRichM.Api", "BellRichM.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BellRichM.Exceptions", "BellRichM.Exceptions\BellRichM.Exceptions.csproj", "{51DA6825-C976-471A-9C54-359979E016E0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BellRichM.Administration.Api", "BellRichM.Administration.Api\BellRichM.Administration.Api.csproj", "{624725AD-E6EE-4D0D-9E8C-93B4AD80AEE5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -128,5 +130,17 @@ Global
 		{51DA6825-C976-471A-9C54-359979E016E0}.Release|x64.Build.0 = Release|Any CPU
 		{51DA6825-C976-471A-9C54-359979E016E0}.Release|x86.ActiveCfg = Release|Any CPU
 		{51DA6825-C976-471A-9C54-359979E016E0}.Release|x86.Build.0 = Release|Any CPU
+		{624725AD-E6EE-4D0D-9E8C-93B4AD80AEE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{624725AD-E6EE-4D0D-9E8C-93B4AD80AEE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{624725AD-E6EE-4D0D-9E8C-93B4AD80AEE5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{624725AD-E6EE-4D0D-9E8C-93B4AD80AEE5}.Debug|x64.Build.0 = Debug|Any CPU
+		{624725AD-E6EE-4D0D-9E8C-93B4AD80AEE5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{624725AD-E6EE-4D0D-9E8C-93B4AD80AEE5}.Debug|x86.Build.0 = Debug|Any CPU
+		{624725AD-E6EE-4D0D-9E8C-93B4AD80AEE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{624725AD-E6EE-4D0D-9E8C-93B4AD80AEE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{624725AD-E6EE-4D0D-9E8C-93B4AD80AEE5}.Release|x64.ActiveCfg = Release|Any CPU
+		{624725AD-E6EE-4D0D-9E8C-93B4AD80AEE5}.Release|x64.Build.0 = Release|Any CPU
+		{624725AD-E6EE-4D0D-9E8C-93B4AD80AEE5}.Release|x86.ActiveCfg = Release|Any CPU
+		{624725AD-E6EE-4D0D-9E8C-93B4AD80AEE5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
