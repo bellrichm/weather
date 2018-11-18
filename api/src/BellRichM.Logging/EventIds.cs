@@ -70,6 +70,21 @@ namespace BellRichM.Logging
     /// The logging level  controller update event id.
     /// </summary>
     LoggingLevelController_Update,
+
+    /// <summary>
+    /// The logging filter controller event id.
+    /// </summary>
+    LoggingFilterController = 3000,
+
+    /// <summary>
+    /// The logging filter  controller get event id.
+    /// </summary>
+    LoggingFilterController_Get,
+
+    /// <summary>
+    /// The logging filter  controller update event id.
+    /// </summary>
+    LoggingFilterController_Update,
 }
 }
 #pragma warning restore CA1707

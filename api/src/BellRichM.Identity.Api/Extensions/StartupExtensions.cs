@@ -62,6 +62,8 @@ namespace BellRichM.Identity.Api.Extensions
                 options.AddPolicy("CanDeleteRoles", policy => policy.RequireClaim(ClaimTypes.Role, "CanDeleteRoles"));
                 options.AddPolicy("CanViewLoggingLevels", policy => policy.RequireClaim(ClaimTypes.Role, "CanViewLoggingLevels"));
                 options.AddPolicy("CanUpdateLoggingLevels", policy => policy.RequireClaim(ClaimTypes.Role, "CanUpdateLoggingLevels"));
+                options.AddPolicy("CanViewLoggingFilters", policy => policy.RequireClaim(ClaimTypes.Role, "CanViewLoggingLevels"));
+                options.AddPolicy("CanUpdateLoggingFilters", policy => policy.RequireClaim(ClaimTypes.Role, "CanUpdateLoggingLevels"));
             });
 
             services.AddAuthentication(options =>

@@ -16,6 +16,14 @@ namespace BellRichM.Logging
         LoggingLevelSwitches LoggingLevelSwitches { get; set; }
 
         /// <summary>
+        /// Gets or sets the logging filter switches.
+        /// </summary>
+        /// <value>
+        /// The logging filter switches.
+        /// </value>
+        LoggingFilterSwitches LoggingFilterSwitches { get; set; }
+
+        /// <summary>
         /// Creates the <see cref="Logger" />.
         /// </summary>
         /// <returns>The configured <see cref="Logger" />.</returns>
