@@ -32,13 +32,13 @@ $postClean = "YES"
 if ($preClean -ne "NO")
 {
   Write-Host "******************************** PreCleaning ********************************"
+  # RunCmd "git clean -xdf api"
+  RunCmd "git clean -xdf api/*/*/obj"
+  RunCmd "git clean -xdf api/*/*/bin"  
   RunCmd "dotnet clean -v m api/test/BellRichM.Weather.Test.sln"
   RunCmd "dotnet clean -v m api/src/BellRichM.Weather.sln"
   RunCmd "dotnet clean -v m api/integration/BellRichM.Identity.Api.Integration/BellRichM.Identity.Api.Integration.csproj"
   RunCmd "dotnet clean -v m api/smoke/BellRichM.Identity.Api.Smoke/BellRichM.Identity.Api.Smoke.csproj"
-  # RunCmd "git clean -xdf api"
-  RunCmd "git clean -xdf api/*/*/obj"
-  RunCmd "git clean -xdf api/*/*/bin"
   Remove-Item $env:APPVEYOR_BUILD_FOLDER/dist -Force -Recurse -ErrorAction Ignore
   Remove-Item $env:APPVEYOR_BUILD_FOLDER/$env:ARTIFACT_NAME.zip -ErrorAction Ignore
 }
