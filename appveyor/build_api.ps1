@@ -1,32 +1,6 @@
-Function RunCmd {
-  Param ($cmd = $cmd)
-  Process{
-    Write-Host "Running: $cmd"
-    Invoke-Expression $cmd
-    Write-Host "Return code: $LastExitCode"
-
-    if ($LastExitCode -ne 0)
-    {
-      Write-Host "Error running: $cmd"
-      if ([string]::IsNullOrEmpty($LastExitCode))
-      {
-        exit 1
-      }
-
-      exit $LastExitCode
-    }
-
-    if ( -Not [string]::IsNullOrEmpty($error))
-    {
-      Write-Host "Error running: $cmd"
-      Write-Host $error
-      exit 1
-    }
-  }
-}
-
+""
 "******************************** " + $MyInvocation.InvocationName + " ********************************"
-if ($env:BUILD -eq "NO")
+if ($env:BUILD_API -eq "NO")
 {
   return
 }
@@ -42,7 +16,7 @@ else
 }
 
 if ($env:BUILD_PLATFORM-eq "Windows" `
-  -And $env:UPLOAD_SONARQUBE -ne 'NO')
+  -And $env:UPLOAD_SONARQUBE_API -ne 'NO')
 {
   $parms = ''
   $parms = $parms + 'begin '
@@ -52,9 +26,10 @@ if ($env:BUILD_PLATFORM-eq "Windows" `
   $parms = $parms + '/d:sonar.branch.name=$env:BRANCH_NAME '
   $parms = $parms + '/d:sonar.host.url="https://sonarcloud.io" '
   $parms = $parms + '/d:sonar.login=$env:SONARQUBE_REPO_TOKEN '
-  $parms = $parms + '/d:sonar.exclusions="**/Migrations/*, **/obj/**/*" '
+  $parms = $parms + '/d:sonar.exclusions="**/Migrations/*, **/obj/**/*, *.conf.*, **/e2e/**/*, **/coverage/**/*, *spec*" '
   $parms = $parms + '/d:sonar.test.exclusions="**/obj/**/*" '
   $parms = $parms + '/d:sonar.cs.opencover.reportsPaths="opencover.xml" '
+  $parms = $parms + '/d:sonar.typescript.lcov.reportPaths="../ClientApp/coverage/lcov.info" '
   # $parms = $parms + '/d:sonar.verbose=true '
 
   $cmd = "SonarScanner.MSBuild.exe $parms"
@@ -62,6 +37,7 @@ if ($env:BUILD_PLATFORM-eq "Windows" `
 }
 
 $defBuildParams = '--no-restore '
+
 
 $cmd = "dotnet build api\src\BellRichM.Weather.sln --no-restore $buildFramework"
 RunCmd $cmd

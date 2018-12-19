@@ -17,3 +17,5 @@ packages-microsoft-prod.deb
 util/InitUsers/Identity.db
 mspec.xml
 opencover.xml
+
+**/node_modules

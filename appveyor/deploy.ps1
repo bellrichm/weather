@@ -1,30 +1,4 @@
-Function RunCmd {
-  Param ($cmd = $cmd)
-  Process{
-    Write-Host "Running: $cmd"
-    Invoke-Expression $cmd
-    Write-Host "Return code: $LastExitCode"
-
-    if ($LastExitCode -ne 0)
-    {
-      Write-Host "Error running: $cmd"
-      if ([string]::IsNullOrEmpty($LastExitCode))
-      {
-        exit 1
-      }
-
-      exit $LastExitCode
-    }
-
-    if ( -Not [string]::IsNullOrEmpty($error))
-    {
-      Write-Host "Error running: $cmd"
-      Write-Host $error
-      exit 1
-    }
-  }
-}
-
+""
 "******************************** " + $MyInvocation.InvocationName + " ********************************"
 
 if ($env:DEPLOY -eq "NO")

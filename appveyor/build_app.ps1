@@ -1,3 +1,7 @@
+""
 "******************************** " + $MyInvocation.InvocationName + " ********************************"
 
-choco upgrade "msbuild-sonarqube-runner" -y
+if ($env:BUILD_APP -eq "NO")
+{
+  return
+}

@@ -1,18 +1,4 @@
-Function RunCmd {
-  Param ($cmd = $cmd)
-  Process{
-    Write-Host "Running: $cmd"
-    Invoke-Expression $cmd
-    Write-Host "Return code: $LastExitCode"
-
-    if ($LastExitCode -ne 0)
-    {
-      Write-Host "Error running: $cmd"
-      exit $LastExitCode
-    }
-  }
-}
-
+""
 "******************************** " + $MyInvocation.InvocationName + " ********************************"
 
 if ($env:SMOKE_TEST -eq "NO")

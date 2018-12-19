@@ -2,7 +2,7 @@
   cache:
     - C:\ProgramData\chocolatey\bin
     - C:\ProgramData\chocolatey\lib
-  
+
   branches:
     only:
       - master
@@ -30,25 +30,31 @@
 
   install:
     - ps: appveyor/init.ps1
-    - ps: appveyor/install.ps1
+    - ps: appveyor/install_api.ps1
 
   before_build:
-    - ps: appveyor/before_build.ps1
+    - ps: appveyor/before_build_api.ps1
+    - ps: appveyor/before_build_app.ps1
 
   build_script:
-    - ps: appveyor/build.ps1
+    - ps: appveyor/build_api.ps1
+    - ps: appveyor/build_app.ps1
 
+  # Order matters, Need to run app first to generate the lcov 
+  # The sonarqube end in api will upload it 
   after_build:
-    - ps: appveyor/after_build.ps1
+    - ps: appveyor/after_build_test_unit_app.ps1
+    - ps: appveyor/after_build_test_unit_api.ps1
+    - ps: appveyor/after_build_test_unit_post.ps1
 
   test_script:
-    - ps: appveyor/test.ps1
+    - ps: appveyor/test_integration_api.ps1
 
   before_deploy:
-    - ps: appveyor/before_deploy.ps1
+    - ps: appveyor/before_deploy_api.ps1
 
   deploy_script:
     - ps: appveyor/deploy.ps1
 
   after_deploy:
-    - ps: appveyor/after_deploy.ps1
+    - ps: appveyor/after_deploy_smoke.ps1

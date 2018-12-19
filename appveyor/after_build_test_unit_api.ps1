@@ -1,51 +1,31 @@
-# Cannot log cmd because it has the secret key
-Function RunCmd {
-  Param ($cmd = $cmd)
-  Process{
-    Write-Host "Running: $cmd"
-    Invoke-Expression $cmd
-    Write-Host "Return code: $LastExitCode"
-
-    if ($LastExitCode -ne 0)
-    {
-      Write-Host "Error running: $cmd"
-      if ([string]::IsNullOrEmpty($LastExitCode))
-      {
-        exit 1
-      }
-
-      exit $LastExitCode
-    }
-
-    if ( -Not [string]::IsNullOrEmpty($error))
-    {
-      Write-Host "Error running: $cmd"
-      Write-Host $error
-      exit 1
-    }
-  }
-}
-
+""
 "******************************** " + $MyInvocation.InvocationName + " ********************************"
 
-if ($env:UNIT_TEST -eq "NO" `
-  -And $env:UPLOAD_COVERALLS -eq "NO" `
-  -And $env:UPLOAD_SONARQUBE -EQ 'NO')
+if ($env:UNIT_TEST_API -eq "NO" `
+  -And $env:UPLOAD_COVERALLS_API -eq "NO" `
+  -And $env:UPLOAD_SONARQUBE_API -EQ 'NO')
 {
   return
+}
+
+if ($env:BUILD_PLATFORM -eq "Unix" `
+  -And $env:UNIT_TEST_API -ne "NO")
+{
+  $cmd = "dotnet test --no-restore --no-build -f netcoreapp2.1 api/test/BellRichM.Weather.Test.sln"
+  RunCmd $cmd
 }
 
 if ($env:BUILD_PLATFORM-eq "Windows")
 {
   $TESTDIR = "api\test\"
   $TESTDLLS = ""
-  
+
   $TESTDLLS = $TESTDLLS + $TESTDIR + "BellRichM.Administration.Api.Test\bin\Debug\net472\BellRichM.Administration.Api.Test.dll "
   $TESTDLLS = $TESTDLLS + $TESTDIR + "BellRichM.Api.Test\bin\Debug\net472\BellRichM.Api.Test.dll "
   $TESTDLLS = $TESTDLLS + $TESTDIR + "BellRichM.Configuration.Test\bin\Debug\net472\BellRichM.Configuration.Test.dll "
   $TESTDLLS = $TESTDLLS + $TESTDIR + "BellRichM.Exceptions.Test\bin\Debug\net472\BellRichM.Exceptions.Test.dll "
-  $TESTDLLS = $TESTDLLS + $TESTDIR + "BellRichM.Identity.Api.Test\bin\Debug\net472\BellRichM.Identity.Api.Test.dll "  
-  $TESTDLLS = $TESTDLLS + $TESTDIR + "BellRichM.Logging.Test\bin\Debug\net472\BellRichM.Logging.Test.dll "  
+  $TESTDLLS = $TESTDLLS + $TESTDIR + "BellRichM.Identity.Api.Test\bin\Debug\net472\BellRichM.Identity.Api.Test.dll "
+  $TESTDLLS = $TESTDLLS + $TESTDIR + "BellRichM.Logging.Test\bin\Debug\net472\BellRichM.Logging.Test.dll "
   $TESTDLLS = $TESTDLLS + $TESTDIR + "BellRichM.Weather.Api.Test\bin\Debug\net472\BellRichM.Weather.Api.Test.dll "
 
   $parms = ''
@@ -53,24 +33,27 @@ if ($env:BUILD_PLATFORM-eq "Windows")
   $parms = $parms + '-filter:"+[BellRichM*]* -[*]*.Migrations.* -[*.Test]*" '
   $parms = $parms + '-excludebyattribute:BellRichM.Attribute.CodeCoverage.ExcludeFromCodeCoverageAttribute '
   $parms = $parms + '-target:$env:MSPEC '
-  $parms = $parms + '-targetargs:"--xml .\mspec.xml $TESTDLLS"'
+  $parms = $parms + '-targetargs:"--xml .\mspec.xml ' + $TESTDLLS + '"'
 
-  $cmd = "$env:OPENCOVER $parms"
-  RunCmd $cmd
-
-  if ($env:UPLOAD_COVERALLS -ne "NO")
+  if ($env:UNIT_TEST_API -ne "NO")
   {
-    $cmd = "$env:COVERALLS --opencover opencover.xml --full-sources"
+    $cmd = "$env:OPENCOVER $parms"
     RunCmd $cmd
   }
 
-  if ($env:UPLOAD_SONARQUBE -ne 'NO')
+  if ($env:UPLOAD_COVERALLS_API -ne "NO")
+  {
+    $cmd = "$env:COVERALLS --opencover opencover.xml --full-sources"
+    # RunCmd $cmd
+  }
+
+  if ($env:UPLOAD_SONARQUBE_API -ne 'NO')
   {
     $parms = '/d:sonar.login=$env:SONARQUBE_REPO_TOKEN'
     $cmd = "SonarScanner.MSBuild.exe end $parms"
     RunCmd $cmd
   }
-  
+
   if ($env:COVERAGE_REPORT -eq 'YES')
   {
     $parms = ''
@@ -81,11 +64,4 @@ if ($env:BUILD_PLATFORM-eq "Windows")
 	  $cmd = "ReportGenerator.exe $parms"
 	  RunCmd $cmd
   }
-}
-
-if ($env:BUILD_PLATFORM -eq "Unix" `
-  -And $env:UNIT_TEST -ne "NO")
-{
-  $cmd = "dotnet test --no-restore --no-build -f netcoreapp2.1 api/test/BellRichM.Weather.Test.sln"
-  RunCmd $cmd
 }
