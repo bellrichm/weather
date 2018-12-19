@@ -44,7 +44,7 @@ if ($env:BUILD_PLATFORM-eq "Windows")
   if ($env:UPLOAD_COVERALLS_API -ne "NO")
   {
     $cmd = "$env:COVERALLS --opencover opencover.xml --full-sources"
-    # RunCmd $cmd
+    RunCmd $cmd
   }
 
   if ($env:UPLOAD_SONARQUBE_API -ne 'NO')
