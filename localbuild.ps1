@@ -46,7 +46,7 @@ if ($preClean -ne "NO")
   RunCmd "git clean -xdf app/*/*/obj"
   RunCmd "git clean -xdf api/*/*/obj"
   RunCmd "git clean -xdf api/*/*/bin"
-  # RunCmd "dotnet clean -v m app/BellRichM.App.csproj" ToDo - uncomment when app developed
+  RunCmd "dotnet clean -v m app/BellRichM.App.csproj" ToDo - uncomment when app developed
   RunCmd "dotnet clean -v m api/test/BellRichM.Weather.Test.sln"
   RunCmd "dotnet clean -v m api/src/BellRichM.Weather.sln"
   RunCmd "dotnet clean -v m api/integration/BellRichM.Identity.Api.Integration/BellRichM.Identity.Api.Integration.csproj"
@@ -59,19 +59,19 @@ $env:ARTIFACT_NAME = "weather-branch"
 $env:BRANCH_NAME = "buildexperiments"
 
 $env:RESTORE_API = "YES"
-$env:RESTORE_APP = "NO"
+$env:RESTORE_APP = "YES"
 $env:BUILD_API = "YES"
-$env:BUILD_APP = "NO"
+$env:BUILD_APP = "YES"
 $env:UNIT_TEST_API = "YES"
-$env:UNIT_TEST_APP = "NO"
+$env:UNIT_TEST_APP = "YES"
 $env:INTEGRATION_TEST_APP = "YES"
 $env:INTEGRATION_TEST_APP = "unused"
 $env:BUILD_ARTIFACT = "YES"
 # Unless testing the process, these should usually be set to NO
 $env:UPLOAD_COVERALLS_API = "YES"
-$env:UPLOAD_COVERALLS_APP = "NO"
+$env:UPLOAD_COVERALLS_APP = "NO" # todo - until parallel build support implemented
 $env:UPLOAD_SONARQUBE_API = "YES"
-$env:UPLOAD_SONARQUBE_APP = "NO"
+$env:UPLOAD_SONARQUBE_APP = "YES"
 
 $env:UPLOAD_ARTIFACT = "NO"
 $env:DEPLOY = "NO"
