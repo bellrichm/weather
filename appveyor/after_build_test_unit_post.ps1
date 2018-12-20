@@ -10,9 +10,9 @@ $parms = $parms + '"-Dsonar.projectKey=weather" '
 
 $parms = $parms + '"-Dsonar.branch.name=buildexperiments" '
 $parms = $parms + '"-Dsonar.organization=bellrichm" '
-$parms = $parms + '"-Dsonar.sources=ClientApp/src" '
+$parms = $parms + '"-Dsonar.sources=app/src" '
 $parms = $parms + '"-Dsonar.host.url=https://sonarcloud.io" '
-$parms = $parms + '"-Dsonar.typescript.lcov.reportPaths=ClientApp/coverage/lcov.info" '
+$parms = $parms + '"-Dsonar.typescript.lcov.reportPaths=app/coverage/lcov.info" '
 #$parms = $parms + '"-Dsonar.projectVersion=local "'
 $parms = $parms + '"-Dsonar.login=?????" '
 

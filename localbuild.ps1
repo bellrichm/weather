@@ -42,11 +42,11 @@ if ($preClean -ne "NO")
   {
     Remove-Item opencover.xml
   }
-  RunCmd "git clean -xdf ClientApp/coverage"
-  RunCmd "git clean -xdf ClientApp/*/*/obj"
+  RunCmd "git clean -xdf app/coverage"
+  RunCmd "git clean -xdf app/*/*/obj"
   RunCmd "git clean -xdf api/*/*/obj"
   RunCmd "git clean -xdf api/*/*/bin"
-  # todo RunCmd "dotnet clean -v m ClientApp/BellRichM.ClientApp.csproj"
+  # RunCmd "dotnet clean -v m app/BellRichM.App.csproj" ToDo - uncomment when app developed
   RunCmd "dotnet clean -v m api/test/BellRichM.Weather.Test.sln"
   RunCmd "dotnet clean -v m api/src/BellRichM.Weather.sln"
   RunCmd "dotnet clean -v m api/integration/BellRichM.Identity.Api.Integration/BellRichM.Identity.Api.Integration.csproj"
@@ -59,18 +59,18 @@ $env:ARTIFACT_NAME = "weather-branch"
 $env:BRANCH_NAME = "buildexperiments"
 
 $env:RESTORE_API = "YES"
-$env:RESTORE_APP = "YES"
+$env:RESTORE_APP = "NO"
 $env:BUILD_API = "YES"
-$env:BUILD_APP = "YES"
+$env:BUILD_APP = "NO"
 $env:UNIT_TEST_API = "YES"
-$env:UNIT_TEST_APP = "YES"
+$env:UNIT_TEST_APP = "NO"
 $env:INTEGRATION_TEST_APP = "YES"
 $env:INTEGRATION_TEST_APP = "unused"
 $env:BUILD_ARTIFACT = "YES"
 # Unless testing the process, these should usually be set to NO
-$env:UPLOAD_COVERALLS_API = "NO"
-$env:UPLOAD_COVERALLS_APP = "N0"
-$env:UPLOAD_SONARQUBE_API = "NO"
+$env:UPLOAD_COVERALLS_API = "YES"
+$env:UPLOAD_COVERALLS_APP = "NO"
+$env:UPLOAD_SONARQUBE_API = "YES"
 $env:UPLOAD_SONARQUBE_APP = "NO"
 
 $env:UPLOAD_ARTIFACT = "NO"
