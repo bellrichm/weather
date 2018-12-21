@@ -26,10 +26,10 @@ namespace BellRichM.Identity.Api.Integration
         public IConfigurationRoot Configuration { get; }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public static void Configure(IApplicationBuilder app)
+        public static void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseMiddleware<InitTestMiddleware>();
-            Startup.Configure(app);
+            Startup.Configure(app, env);
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
