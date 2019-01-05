@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <GenerateFullPaths>true</GenerateFullPaths>     
+    <GenerateFullPaths>true</GenerateFullPaths>
     <TargetFrameworks>netcoreapp2.1;net472</TargetFrameworks>
     <CodeAnalysisRuleSet>$(ProjectDir)..\StyleCop.Analyzers.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
@@ -23,6 +23,8 @@
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta009" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="2.1.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.5.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BellRichM.Logging\BellRichM.Logging.csproj" />
