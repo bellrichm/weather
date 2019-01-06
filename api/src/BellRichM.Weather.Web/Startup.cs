@@ -86,8 +86,6 @@ namespace BellRichM.Weather.Web
             });
 
             app.UseAuthentication();
-
-            // app.UseMvc();
         }
 
         /// <summary>
@@ -106,9 +104,7 @@ namespace BellRichM.Weather.Web
             // needed for testserver to find controllers
             services.AddMvc()
                 .AddApplicationPart(Assembly.Load(new AssemblyName("BellRichM.Identity.Api")))
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
-           // todo? services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1); // todo what is this
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

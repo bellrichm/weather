@@ -1,8 +1,11 @@
+using BellRichM.Attribute.CodeCoverage;
+
 namespace BellRichM.Weather.Api.Data
 {
     /// <summary>
     /// The min max weather conditions for a given time.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class Condition
     {
         /// <summary>

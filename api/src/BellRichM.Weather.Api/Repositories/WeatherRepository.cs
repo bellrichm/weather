@@ -12,7 +12,7 @@ namespace BellRichM.Weather.Api.Repositories
     {
         private readonly ILoggerAdapter<WeatherRepository> _logger;
         private readonly string _connectionString;
-        private DbProviderFactory _weatherDbProviderFactory;
+        private readonly DbProviderFactory _weatherDbProviderFactory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WeatherRepository"/> class.

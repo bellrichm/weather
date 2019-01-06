@@ -1,3 +1,4 @@
+using BellRichM.Attribute.CodeCoverage;
 using System.Collections.Generic;
 
 namespace BellRichM.Weather.Api.Data
@@ -6,6 +7,7 @@ namespace BellRichM.Weather.Api.Data
     /// The condition page.
     /// </summary>
     /// <seealso cref="Condition" />
+    [ExcludeFromCodeCoverage]
     public class ConditionPage
     {
         /// <summary>
