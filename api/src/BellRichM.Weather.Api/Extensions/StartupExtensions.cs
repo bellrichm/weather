@@ -1,5 +1,6 @@
 using BellRichM.Weather.Api.Configuration;
 using BellRichM.Weather.Api.Repositories;
+using BellRichM.Weather.Api.Services;
 using System;
 using System.Data.Common;
 using System.Security.Claims;
@@ -42,6 +43,7 @@ namespace BellRichM.Weather.Api.Extensions
             var weatherDbProviderFactory = new WeatherRepositoryDbProviderFactory(dbProviderFactory);
             services.AddSingleton(weatherDbProviderFactory);
 
+            services.AddScoped<IWeatherService, WeatherService>();
             services.AddScoped<IWeatherRepository, WeatherRepository>();
         }
     }

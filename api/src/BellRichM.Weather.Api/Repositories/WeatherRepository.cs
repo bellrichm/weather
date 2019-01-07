@@ -28,7 +28,7 @@ namespace BellRichM.Weather.Api.Repositories
         }
 
         /// <inheritdoc/>
-        public ConditionPage GetYear(int offset, int limit)
+        public IEnumerable<Condition> GetYear(int offset, int limit)
         {
             var statement = @"
 SELECT
@@ -113,17 +113,11 @@ OFFSET @offset
                 }
             }
 
-            var conditionPage = new ConditionPage
-            {
-                TotalCount = GetYearCount(),
-                Offset = offset,
-                Limit = limit,
-                Conditions = records
-            };
-            return conditionPage;
+            return records;
         }
 
-        private int GetYearCount()
+    /// <inheritdoc/>
+        public int GetYearCount()
         {
             var statement = @"
 SELECT COUNT(DISTINCT year) as yearCount
