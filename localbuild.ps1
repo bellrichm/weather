@@ -64,7 +64,7 @@ $env:BUILD_API = "YES"
 $env:BUILD_APP = "YES"
 $env:UNIT_TEST_API = "YES"
 $env:UNIT_TEST_APP = "YES"
-$env:INTEGRATION_TEST_APP = "YES"
+$env:INTEGRATION_TEST_API = "YES"
 $env:INTEGRATION_TEST_APP = "unused"
 $env:BUILD_ARTIFACT = "YES"
 # Unless testing the process, these should usually be set to NO
