@@ -1,6 +1,9 @@
+using BellRichM.Attribute.CodeCoverage;
+
 namespace BellRichM.Weather.Api.Configuration
 {
     /// <inheritdoc/>
+    [ExcludeFromCodeCoverage]
     public class WeatherRepositoryConfiguration : IWeatherRepositoryConfiguration
     {
         /// <inheritdoc/>

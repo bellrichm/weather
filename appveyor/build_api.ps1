@@ -26,7 +26,7 @@ if ($env:BUILD_PLATFORM-eq "Windows" `
   $parms = $parms + '/d:sonar.branch.name=$env:BRANCH_NAME '
   $parms = $parms + '/d:sonar.host.url="https://sonarcloud.io" '
   $parms = $parms + '/d:sonar.login=$env:SONARQUBE_REPO_TOKEN '
-  $parms = $parms + '/d:sonar.exclusions="**/Migrations/*, **/obj/**/*, *.conf.*, **/e2e/**/*, **/coverage/**/*, *spec*" '
+  $parms = $parms + '/d:sonar.exclusions="**/Migrations/*, **/obj/**/*, **/*.conf.*, **/e2e/**/*, **/coverage/**/*, **/*spec*" '
   $parms = $parms + '/d:sonar.test.exclusions="**/obj/**/*" '
   $parms = $parms + '/d:sonar.cs.opencover.reportsPaths="opencover.xml" '
   $parms = $parms + '/d:sonar.typescript.lcov.reportPaths="../app/coverage/lcov.info" '
