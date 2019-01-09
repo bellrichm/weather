@@ -13,6 +13,66 @@ namespace BellRichM.Api.Controllers
     public abstract class ApiController : Controller
     {
         /// <summary>
+        /// Gets the navigation links.
+        /// </summary>
+        /// <param name="offset">The offset.</param>
+        /// <param name="limit">The limit.</param>
+        /// <param name="total">The total.</param>
+        /// <returns>The navigation links.</returns>
+        protected IEnumerable<LinkModel> GetNavigationLinks(int offset, int limit, int total)
+        {
+            var links = new List<LinkModel>();
+
+            links.Add(
+                new LinkModel
+                {
+                    Href = "first",
+                    Rel = Url.Link(
+                        "GetYearWeatherPage",
+                        new { Offset = 0, Limit = limit })
+                });
+
+            var prev = offset - limit;
+            if (prev > 0)
+            {
+                links.Add(
+                    new LinkModel
+                    {
+                        Href = "prev",
+                        Rel = Url.Link(
+                            "GetYearWeatherPage",
+                            new { Offset = prev, Limit = limit })
+                    });
+            }
+
+            var next = offset + limit;
+            if (next < total)
+            {
+                links.Add(
+                    new LinkModel
+                    {
+                        Href = "next",
+                        Rel = Url.Link(
+                            "GetYearWeatherPage",
+                            new { Offset = next, Limit = limit })
+                    });
+            }
+
+            links.Add(
+                new LinkModel
+                {
+                    Href = "last",
+                    Rel = Url.Link(
+                        "GetYearWeatherPage",
+                        new { Offset = (total / limit) * limit, Limit = limit })
+                });
+
+            var lastPageStart = (total / limit) * limit;
+
+            return links;
+        }
+
+        /// <summary>
         /// Creates a <see cref="ErrorResponseModel"/> from a <see cref="ModelStateDictionary"/>.
         /// </summary>
         /// <returns>The <see cref="ErrorResponseModel"/>.</returns>

@@ -1,5 +1,6 @@
 using BellRichM.Logging;
 using BellRichM.Weather.Api.Controllers;
+using BellRichM.Weather.Api.Services;
 using FluentAssertions;
 using Machine.Specifications;
 using Moq;
@@ -18,18 +19,20 @@ namespace BellRichM.Weather.Api.Test.Controllers
       static ConditionsController conditionsController;
       static Exception exception;
       static Mock<ILoggerAdapter<ConditionsController>> loggerMock;
+      static Mock<IWeatherService> weatherServiceMock;
 
       Establish context = () =>
       {
         loggerMock = new Mock<ILoggerAdapter<ConditionsController>>();
-        conditionsController = new ConditionsController(loggerMock.Object);
+        weatherServiceMock = new Mock<IWeatherService>();
+        conditionsController = new ConditionsController(loggerMock.Object, weatherServiceMock.Object);
       };
 
       Cleanup after = () =>
         conditionsController.Dispose();
 
       Because of = () =>
-        exception = Catch.Exception(() => conditionsController.Get());
+        exception = Catch.Exception(() => conditionsController.GetYearsConditionPage());
 
       It should_throw_expected_exception = () =>
         exception.ShouldBeOfExactType<NotImplementedException>();

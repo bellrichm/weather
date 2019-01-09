@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using BellRichM.Api.Controllers;
 using BellRichM.Logging;
+using BellRichM.Weather.Api.Models;
+using BellRichM.Weather.Api.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace BellRichM.Weather.Api.Controllers
 {
@@ -14,36 +17,188 @@ namespace BellRichM.Weather.Api.Controllers
     public class ConditionsController : ApiController
     {
         private readonly ILoggerAdapter<ConditionsController> _logger;
+        private readonly IWeatherService _weatherService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConditionsController"/> class.
         /// </summary>
         /// <param name="logger">The <see cref="ILoggerAdapter{T}"/>.</param>
-        public ConditionsController(ILoggerAdapter<ConditionsController> logger)
+        /// <param name="weatherService">The <see cref="IWeatherService"/>.</param>
+        public ConditionsController(ILoggerAdapter<ConditionsController> logger, IWeatherService weatherService)
         {
             _logger = logger;
+            _weatherService = weatherService;
         }
 
         /// <summary>
-        /// Gets weather condistions.
+        /// Gets the yearly minimum and maximimum weather conditions.
         /// </summary>
-        /// <returns>The <see cref="IEnumerable{String}"/>.</returns>
+        /// <returns>The <see cref="ConditionPageModel"/>.</returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         /// <remarks>Not yet implemented.</remarks>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        [HttpGet("/api/[controller]/years", Name="GetYearsConditionPage")]
+        public ConditionPageModel GetYearsConditionPage()
         {
-            _logger.LogDiagnosticInformation("Get conditions route called");
+            _logger.LogDiagnosticInformation("GetYearsConditionPage called.");
+
             throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Adds a new weather condition.
+        /// Gets the minimum and maximum weather conditions for the year.
         /// </summary>
-        /// <exception cref="NotImplementedException">Not Implemented.</exception>
+        /// <param name="year">The year to get the conditions for.</param>
+        /// <returns>The <see cref="ConditionModel"/>.</returns>
+        /// <exception cref="NotImplementedException">Not implemented.</exception>
         /// <remarks>Not yet implemented.</remarks>
-        public void Post()
+        [HttpGet("/api/[controller]/years/{year}", Name="GetYearDetail")]
+        public ConditionModel GetYearDetail([FromRoute] int year)
         {
+            _logger.LogDiagnosticInformation("GetYearDetail called with {year}.", year);
+
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Gets the monthly mininimum and maximum weather conditions for the year.
+        /// </summary>
+        /// <param name="year">The year.</param>
+        /// <returns>The <see cref="ConditionPageModel"/>.</returns>
+        /// <exception cref="NotImplementedException">Not implemented.</exception>
+        [HttpGet("/api/[controller]/years/{year}/months", Name="GetMonthsConditionPage")]
+        public ConditionPageModel GetMonthsConditionPage([FromRoute] int year)
+        {
+            _logger.LogDiagnosticInformation("GetMonthsConditionPage called with {year}.", year);
+
+            // min/max for the months in the given year
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Gets the minimum and maximum weather conditions for the year and month.
+        /// </summary>
+        /// <param name="year">The year.</param>
+        /// <param name="month">The month.</param>
+        /// <returns>The <see cref="ConditionModel"/>.</returns>
+        /// <exception cref="NotImplementedException">Not implemented.</exception>
+        [HttpGet("/api/[controller]/years/{year}/months/{month}", Name="GetMonthDetail")]
+        public ConditionModel GetMonthDetail([FromRoute] int year, [FromRoute] int month)
+        {
+            _logger.LogDiagnosticInformation("GetMonthDetail called with {year} {month}.", year, month);
+
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Gets the daily mininimum and maximum weather conditions for the year and month.
+        /// </summary>
+        /// <param name="year">The year.</param>
+        /// <param name="month">The month.</param>
+        /// <returns>The <see cref="ConditionPageModel"/>.</returns>
+        /// <exception cref="NotImplementedException">Not implemented.</exception>
+        [HttpGet("/api/[controller]/years/{year}/months/{month}/days", Name="GetDaysConditionPage")]
+        public ConditionPageModel GetDaysConditionPage([FromRoute] int year, [FromRoute] int month)
+        {
+            _logger.LogDiagnosticInformation("GetDaysConditionPage called with {year} {month}.", year, month);
+
+            // min/max for the days in the given year/month
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Gets the minimum and maximum weather conditions for the year, month, and day.
+        /// </summary>
+        /// <param name="year">The year.</param>
+        /// <param name="month">The month.</param>
+        /// <param name="day">The day.</param>
+        /// <returns>The <see cref="ConditionModel"/>.</returns>
+        /// <exception cref="NotImplementedException">Not implemented.</exception>
+        [HttpGet("/api/[controller]/years/{year}/months/{month}/days/{day}", Name="GetDayDetail")]
+        public ConditionModel GetDayDetail([FromRoute] int year, [FromRoute] int month, [FromRoute] int day)
+        {
+            _logger.LogDiagnosticInformation("GetDayDetail called with {year} {month} {day}.", year, month, day);
+
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Gets the hourly mininimum and maximum weather conditions for the year, month, and day.
+        /// </summary>
+        /// <param name="year">The year.</param>
+        /// <param name="month">The month.</param>
+        /// <param name="day">The day.</param>
+        /// <returns>The <see cref="ConditionPageModel"/>.</returns>
+        /// <exception cref="NotImplementedException">Not implemented.</exception>
+        [HttpGet("/api/[controller]/years/{year}/months/{month}/days/{day}/hours", Name="GetHoursConditionPage")]
+        public ConditionPageModel GetHoursConditionPage([FromRoute] int year, [FromRoute] int month, [FromRoute] int day)
+        {
+            _logger.LogDiagnosticInformation("GetHoursConditionPage called with {year} {month} {day}.", year, month, day);
+
+            // min/max for the hours in the given year/month/day
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Gets the minimum and maximum weather conditions for the year, month, day, and hour.
+        /// </summary>
+        /// <param name="year">The year.</param>
+        /// <param name="month">The month.</param>
+        /// <param name="day">The day.</param>
+        /// <param name="hour">The hour.</param>
+        /// <returns>The <see cref="ConditionModel"/>.</returns>
+        /// <exception cref="NotImplementedException">Not implemented.</exception>
+        [HttpGet("/api/[controller]/years/{year}/months/{month}/days/{day}/hours/{hour}", Name="GetHourDetail")]
+        public ConditionModel GetHourDetail([FromRoute] int year, [FromRoute] int month, [FromRoute] int day, [FromRoute] int hour)
+        {
+            _logger.LogDiagnosticInformation("GetHourDetail called with {year} {month} {day} {hour}.", year, month, day, hour);
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Gets minimum and maximimum weather conditions for the month across all years.
+        /// </summary>
+        /// <param name="month">The month.</param>
+        /// <returns>The <see cref="ConditionPageModel"/>.</returns>
+        /// <exception cref="NotImplementedException">Not implemented.</exception>
+        [HttpGet("/api/[controller]/years/months/{month}", Name="GetYearsMonthConditionPage")]
+        public ConditionPageModel GetYearsMonthConditionPage([FromRoute] int month)
+        {
+            _logger.LogDiagnosticInformation("GetYearsMonthConditionPage called with {month}.", month);
+
+            // min/max for a give month all the years
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Gets minimum and maximimum weather conditions for the month and day across all years.
+        /// </summary>
+        /// <param name="month">The month.</param>
+        /// <param name="day">The day.</param>
+        /// <returns>The <see cref="ConditionPageModel"/>.</returns>
+        /// <exception cref="NotImplementedException">Not implemented.</exception>
+        [HttpGet("/api/[controller]/years/months/{month}/days/{day}", Name="GetYearsDayConditionPage")]
+        public ConditionPageModel GetYearsDayConditionPage([FromRoute] int month, [FromRoute] int day)
+        {
+            _logger.LogDiagnosticInformation("GetYearsDayConditionPage called with {month} {day}.", month, day);
+
+            // min/max for a give month/day across all the years
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Gets minimum and maximimum weather conditions for the month, day and hour across all years.
+        /// </summary>
+        /// <param name="month">The month.</param>
+        /// <param name="day">The day.</param>
+        /// <param name="hour">The hour.</param>
+        /// <returns>The <see cref="ConditionPageModel"/>.</returns>
+        /// <exception cref="NotImplementedException">Not implemented.</exception>
+        [HttpGet("/api/[controller]/years/months/{month}/days/{day}/hours/{hour}", Name="GetYearsHourConditionPage")]
+        public ConditionPageModel GetYearsHourConditionPage([FromRoute] int month, [FromRoute] int day, [FromRoute] int hour)
+        {
+            _logger.LogDiagnosticInformation("GetYearsHourConditionPage called with {month} {day} {hour}.", month, day, hour);
+
+            // min/max for a give month/day/hour across all the years
             throw new NotImplementedException();
         }
     }
