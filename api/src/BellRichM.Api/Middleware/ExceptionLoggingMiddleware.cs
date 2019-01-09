@@ -64,6 +64,36 @@ namespace BellRichM.Api.Middleware
           _logger.LogDiagnosticDebug("{RequestHeaders}", httpContext.Request.Headers);
         }
       }
+      catch (NotImplementedException)
+      {
+          sw.Stop();
+
+          var authorization = new
+          {
+            authTokenType = authData.Item1,
+            authTokenData = authData.Item2
+          };
+
+          var errorResponse = new ErrorResponseModel
+          {
+            CorrelationId = httpContext.TraceIdentifier,
+            Text = "Call is not implemented",
+            Code = "NotImplemented"
+          };
+
+          string jsonResponse = JsonConvert.SerializeObject(errorResponse, Formatting.Indented);
+
+          httpContext.Response.StatusCode = (int)HttpStatusCode.NotImplemented;
+          httpContext.Response.ContentType = "application/json";
+
+          using (LogContext.PushProperty("authData", authorization))
+          {
+            _logger.LogEvent((int)EventId.EndRequest, MessageTemplate, httpContext.Request.Method, httpContext.Request.Path, httpContext.Response?.StatusCode, sw.Elapsed.TotalMilliseconds);
+            _logger.LogDiagnosticDebug("{RequestHeaders}", httpContext.Request.Headers);
+          }
+
+          await httpContext.Response.WriteAsync(jsonResponse).ConfigureAwait(false);
+      }
       catch (Exception ex)
       {
         sw.Stop();
