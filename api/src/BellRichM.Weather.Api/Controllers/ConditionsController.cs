@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using AutoMapper;
 using BellRichM.Api.Controllers;
 using BellRichM.Logging;
+using BellRichM.Weather.Api.Data;
 using BellRichM.Weather.Api.Models;
 using BellRichM.Weather.Api.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -17,31 +19,40 @@ namespace BellRichM.Weather.Api.Controllers
     public class ConditionsController : ApiController
     {
         private readonly ILoggerAdapter<ConditionsController> _logger;
+        private readonly IMapper _mapper;
         private readonly IWeatherService _weatherService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConditionsController"/> class.
         /// </summary>
         /// <param name="logger">The <see cref="ILoggerAdapter{T}"/>.</param>
+        /// <param name="mapper">The <see cref="IMapper"/>.</param>
         /// <param name="weatherService">The <see cref="IWeatherService"/>.</param>
-        public ConditionsController(ILoggerAdapter<ConditionsController> logger, IWeatherService weatherService)
+        public ConditionsController(ILoggerAdapter<ConditionsController> logger, IMapper mapper, IWeatherService weatherService)
         {
             _logger = logger;
+            _mapper = mapper;
             _weatherService = weatherService;
         }
 
         /// <summary>
         /// Gets the yearly minimum and maximimum weather conditions.
         /// </summary>
+        /// <param name="offset">The starting offset.</param>
+        /// <param name="limit">The maximum number of years to return.</param>
         /// <returns>The <see cref="ConditionPageModel"/>.</returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         /// <remarks>Not yet implemented.</remarks>
         [HttpGet("/api/[controller]/years", Name="GetYearsConditionPage")]
-        public ConditionPageModel GetYearsConditionPage()
+        public ConditionPageModel GetYearsConditionPage([FromQuery] int offset, [FromQuery] int limit)
         {
-            _logger.LogDiagnosticInformation("GetYearsConditionPage called.");
+            var routeName = "GetYearsConditionPage";
+            _logger.LogDiagnosticInformation("{GetYearsConditionPage} called.", routeName);
 
-            throw new NotImplementedException();
+            var conditionPage = _weatherService.GetYearWeatherPage(offset, limit);
+            var conditionPageModel = _mapper.Map<ConditionPageModel>(conditionPage);
+            conditionPageModel.Links = GetNavigationLinks(routeName, conditionPageModel.Offset, conditionPageModel.Limit, conditionPageModel.TotalCount);
+            return conditionPageModel;
         }
 
         /// <summary>

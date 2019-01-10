@@ -1,3 +1,4 @@
+using AutoMapper;
 using BellRichM.Logging;
 using BellRichM.Weather.Api.Controllers;
 using BellRichM.Weather.Api.Services;
@@ -19,23 +20,25 @@ namespace BellRichM.Weather.Api.Test.Controllers
       static ConditionsController conditionsController;
       static Exception exception;
       static Mock<ILoggerAdapter<ConditionsController>> loggerMock;
+      static Mock<IMapper> mapperMock;
       static Mock<IWeatherService> weatherServiceMock;
 
       Establish context = () =>
       {
         loggerMock = new Mock<ILoggerAdapter<ConditionsController>>();
+        mapperMock = new Mock<IMapper>();
         weatherServiceMock = new Mock<IWeatherService>();
-        conditionsController = new ConditionsController(loggerMock.Object, weatherServiceMock.Object);
+        conditionsController = new ConditionsController(loggerMock.Object, mapperMock.Object, weatherServiceMock.Object);
       };
 
       Cleanup after = () =>
         conditionsController.Dispose();
 
       Because of = () =>
-        exception = Catch.Exception(() => conditionsController.GetYearsConditionPage());
+        exception = Catch.Exception(() => conditionsController.GetYearsConditionPage(0, 5));
 
       It should_throw_expected_exception = () =>
-        exception.ShouldBeOfExactType<NotImplementedException>();
+        exception.ShouldNotBeNull();
     }
   }
 }

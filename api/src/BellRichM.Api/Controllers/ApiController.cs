@@ -15,11 +15,12 @@ namespace BellRichM.Api.Controllers
         /// <summary>
         /// Gets the navigation links.
         /// </summary>
+       /// <param name="routeName">The route name.</param>
         /// <param name="offset">The offset.</param>
         /// <param name="limit">The limit.</param>
         /// <param name="total">The total.</param>
         /// <returns>The navigation links.</returns>
-        protected IEnumerable<LinkModel> GetNavigationLinks(int offset, int limit, int total)
+        protected IEnumerable<LinkModel> GetNavigationLinks(string routeName, int offset, int limit, int total)
         {
             var links = new List<LinkModel>();
 
@@ -28,19 +29,19 @@ namespace BellRichM.Api.Controllers
                 {
                     Href = "first",
                     Rel = Url.Link(
-                        "GetYearWeatherPage",
+                        routeName,
                         new { Offset = 0, Limit = limit })
                 });
 
             var prev = offset - limit;
-            if (prev > 0)
+            if (prev >= 0)
             {
                 links.Add(
                     new LinkModel
                     {
                         Href = "prev",
                         Rel = Url.Link(
-                            "GetYearWeatherPage",
+                            routeName,
                             new { Offset = prev, Limit = limit })
                     });
             }
@@ -53,7 +54,7 @@ namespace BellRichM.Api.Controllers
                     {
                         Href = "next",
                         Rel = Url.Link(
-                            "GetYearWeatherPage",
+                            routeName,
                             new { Offset = next, Limit = limit })
                     });
             }
@@ -63,11 +64,9 @@ namespace BellRichM.Api.Controllers
                 {
                     Href = "last",
                     Rel = Url.Link(
-                        "GetYearWeatherPage",
+                        routeName,
                         new { Offset = (total / limit) * limit, Limit = limit })
                 });
-
-            var lastPageStart = (total / limit) * limit;
 
             return links;
         }

@@ -6,6 +6,14 @@ namespace BellRichM.Api.Models
     public class LinkModel
     {
         /// <summary>
+        /// Gets or sets the label.
+        /// </summary>
+        /// <value>
+        /// The href.
+        /// </value>
+        public string Label { get; set; }
+
+        /// <summary>
         /// Gets or sets the href.
         /// </summary>
         /// <value>
