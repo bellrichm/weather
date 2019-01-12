@@ -17,6 +17,16 @@ namespace BellRichM.Weather.Api.Repositories
         IEnumerable<Condition> GetYear(int offset, int limit);
 
         /// <summary>
+        /// Get the condition for detail for an hour.
+        /// </summary>
+        /// <param name="year">The year.</param>
+        /// <param name="month">The mont.</param>
+        /// <param name="day">The day.</param>
+        /// <param name="hour">The hour.</param>
+        /// <returns>The <see cref="Condition"/>.</returns>
+        Condition GetHourDetail(int year, int month, int day, int hour);
+
+        /// <summary>
         /// Gets the total count of year records.
         /// </summary>
         /// <returns>The count.</returns>

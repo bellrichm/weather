@@ -10,29 +10,7 @@ namespace BellRichM.Weather.Api.Repositories
     /// <inheritdoc/>
     public class WeatherRepository : IWeatherRepository
     {
-        private readonly ILoggerAdapter<WeatherRepository> _logger;
-        private readonly string _connectionString;
-        private readonly DbProviderFactory _weatherDbProviderFactory;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WeatherRepository"/> class.
-        /// </summary>
-        /// <param name="logger">The <see cref="ILoggerAdapter{T}"/>.</param>
-        /// <param name="weatherDbProviderFactory">The <see cref="WeatherRepositoryDbProviderFactory"/>.</param>
-        /// <param name="weatherRepositoryConfiguration">The config.</param>
-        public WeatherRepository(ILoggerAdapter<WeatherRepository> logger, WeatherRepositoryDbProviderFactory weatherDbProviderFactory, IWeatherRepositoryConfiguration weatherRepositoryConfiguration)
-        {
-            _logger = logger;
-            _weatherDbProviderFactory = weatherDbProviderFactory.WeatherDbProviderFactory;
-            _connectionString = weatherRepositoryConfiguration.ConnectionString;
-        }
-
-        /// <inheritdoc/>
-        public IEnumerable<Condition> GetYear(int offset, int limit)
-        {
-            var statement = @"
-SELECT
-  year
+        private const string DataFields = @"
   , MAX(outTemp) as maxTemp
   , MIN(outTemp) as minTemp
   , MAX(outHumidity) as maxHumidity
@@ -54,6 +32,31 @@ SELECT
   , MAX(windGust) as maxWindGust
   , AVG(windSpeed) as avgWindSpeed
 FROM v_condition
+        ";
+
+        private readonly ILoggerAdapter<WeatherRepository> _logger;
+        private readonly string _connectionString;
+        private readonly DbProviderFactory _weatherDbProviderFactory;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WeatherRepository"/> class.
+        /// </summary>
+        /// <param name="logger">The <see cref="ILoggerAdapter{T}"/>.</param>
+        /// <param name="weatherDbProviderFactory">The <see cref="WeatherRepositoryDbProviderFactory"/>.</param>
+        /// <param name="weatherRepositoryConfiguration">The config.</param>
+        public WeatherRepository(ILoggerAdapter<WeatherRepository> logger, WeatherRepositoryDbProviderFactory weatherDbProviderFactory, IWeatherRepositoryConfiguration weatherRepositoryConfiguration)
+        {
+            _logger = logger;
+            _weatherDbProviderFactory = weatherDbProviderFactory.WeatherDbProviderFactory;
+            _connectionString = weatherRepositoryConfiguration.ConnectionString;
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<Condition> GetYear(int offset, int limit)
+        {
+            var statement = "SELECT year"
+            + DataFields
+            + @"
 GROUP BY year
 ORDER BY year
 LIMIT @limit
@@ -80,34 +83,9 @@ OFFSET @offset
                     {
                         while (rdr.Read())
                         {
-                            records.Add(
-                                new Condition
-                                {
-                                    Year = System.Convert.ToInt32(rdr["year"], CultureInfo.InvariantCulture),
-                                    // Month = System.Convert.ToInt32(rdr["month"], CultureInfo.InvariantCulture),
-                                    // Day = System.Convert.ToInt32(rdr["day"], CultureInfo.InvariantCulture),
-                                    // Hour = System.Convert.ToInt32(rdr["hour"], CultureInfo.InvariantCulture),
-                                    MaxTemp = rdr.GetStringValue("maxTemp"),
-                                    MinTemp = rdr.GetStringValue("minTemp"),
-                                    MaxHumidity = rdr.GetStringValue("maxHumidity"),
-                                    MinHumidity = rdr.GetStringValue("minHumidity"),
-                                    MaxDewpoint = rdr.GetStringValue("maxDewpoint"),
-                                    MinDewpoint = rdr.GetStringValue("minDewpoint"),
-                                    MaxHeatIndex = rdr.GetStringValue("maxHeatIndex"),
-                                    MinWindchill = rdr.GetStringValue("minWindchill"),
-                                    MaxBarometer = rdr.GetStringValue("maxBarometer"),
-                                    MinBarometer = rdr.GetStringValue("minBarometer"),
-                                    MaxET = rdr.GetStringValue("maxET"),
-                                    MinET = rdr.GetStringValue("minET"),
-                                    MaxUV = rdr.GetStringValue("maxUV"),
-                                    MinUV = rdr.GetStringValue("minUV"),
-                                    MaxRadiation = rdr.GetStringValue("maxRadiation"),
-                                    MinRadiation = rdr.GetStringValue("minRadiation"),
-                                    MaxRainRate = rdr.GetStringValue("maxRainRate"),
-                                    RainTotal = rdr.GetStringValue("rainTotal"),
-                                    MaxWindGust = rdr.GetStringValue("maxWindGust"),
-                                    AvgWindSpeed = rdr.GetStringValue("avgWindSpeed"),
-                                });
+                            var condition = ReadDataFields(rdr);
+                            condition.Year = System.Convert.ToInt32(rdr["year"], CultureInfo.InvariantCulture);
+                            records.Add(condition);
                         }
                     }
                 }
@@ -116,7 +94,63 @@ OFFSET @offset
             return records;
         }
 
-    /// <inheritdoc/>
+        /// <inheritdoc/>
+        public Condition GetHourDetail(int year, int month, int day, int hour)
+        {
+            var statement = @"
+SELECT
+  year, month, day, hour"
+            +
+            DataFields
+            + @"
+WHERE
+    year = @year
+AND
+    month = @month
+AND
+    DAY = @day
+AND
+    HOUR = @hour
+GROUP BY year, month, day, hour
+;
+            ";
+
+            Condition condition = null;
+
+            var dbConnection = _weatherDbProviderFactory.CreateConnection();
+            dbConnection.ConnectionString = _connectionString;
+            using (dbConnection)
+            {
+                var dbCommand = dbConnection.CreateCommand();
+                dbCommand.CommandText = statement;
+                using (dbCommand)
+                {
+                    dbCommand.AddParamWithValue("@year", year);
+                    dbCommand.AddParamWithValue("@month", month);
+                    dbCommand.AddParamWithValue("@day", day);
+                    dbCommand.AddParamWithValue("@hour", hour);
+
+                    dbConnection.Open();
+
+                    using (var rdr = dbCommand.ExecuteReader())
+                    {
+                        while (rdr.Read())
+                        {
+                            System.Console.WriteLine("reading");
+                            condition = ReadDataFields(rdr);
+                            condition.Year = System.Convert.ToInt32(rdr["year"], CultureInfo.InvariantCulture);
+                            condition.Month = System.Convert.ToInt32(rdr["month"], CultureInfo.InvariantCulture);
+                            condition.Day = System.Convert.ToInt32(rdr["day"], CultureInfo.InvariantCulture);
+                            condition.Hour = System.Convert.ToInt32(rdr["hour"], CultureInfo.InvariantCulture);
+                        }
+                    }
+                }
+            }
+
+            return condition;
+        }
+
+        /// <inheritdoc/>
         public int GetYearCount()
         {
             var statement = @"
@@ -148,6 +182,34 @@ SELECT COUNT(DISTINCT year) as yearCount
 
                 return yearCount;
             }
+        }
+
+        private Condition ReadDataFields(DbDataReader rdr)
+        {
+            var condition = new Condition
+            {
+                MaxTemp = rdr.GetStringValue("maxTemp"),
+                MinTemp = rdr.GetStringValue("minTemp"),
+                MaxHumidity = rdr.GetStringValue("maxHumidity"),
+                MinHumidity = rdr.GetStringValue("minHumidity"),
+                MaxDewpoint = rdr.GetStringValue("maxDewpoint"),
+                MinDewpoint = rdr.GetStringValue("minDewpoint"),
+                MaxHeatIndex = rdr.GetStringValue("maxHeatIndex"),
+                MinWindchill = rdr.GetStringValue("minWindchill"),
+                MaxBarometer = rdr.GetStringValue("maxBarometer"),
+                MinBarometer = rdr.GetStringValue("minBarometer"),
+                MaxET = rdr.GetStringValue("maxET"),
+                MinET = rdr.GetStringValue("minET"),
+                MaxUV = rdr.GetStringValue("maxUV"),
+                MinUV = rdr.GetStringValue("minUV"),
+                MaxRadiation = rdr.GetStringValue("maxRadiation"),
+                MinRadiation = rdr.GetStringValue("minRadiation"),
+                MaxRainRate = rdr.GetStringValue("maxRainRate"),
+                RainTotal = rdr.GetStringValue("rainTotal"),
+                MaxWindGust = rdr.GetStringValue("maxWindGust"),
+                AvgWindSpeed = rdr.GetStringValue("avgWindSpeed"),
+            };
+            return condition;
         }
     }
 }
