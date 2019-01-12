@@ -51,7 +51,7 @@ namespace BellRichM.Weather.Api.Controllers
 
             var conditionPage = _weatherService.GetYearWeatherPage(offset, limit);
             var conditionPageModel = _mapper.Map<ConditionPageModel>(conditionPage);
-            conditionPageModel.Links = GetNavigationLinks(routeName, conditionPageModel.Offset, conditionPageModel.Limit, conditionPageModel.TotalCount);
+            conditionPageModel.Links = GetNavigationLinks(routeName, conditionPageModel.Paging);
             return conditionPageModel;
         }
 

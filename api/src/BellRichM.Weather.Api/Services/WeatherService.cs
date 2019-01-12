@@ -1,3 +1,4 @@
+using BellRichM.Service.Data;
 using BellRichM.Weather.Api.Data;
 using BellRichM.Weather.Api.Repositories;
 
@@ -21,11 +22,17 @@ namespace BellRichM.Weather.Api.Services
         public ConditionPage GetYearWeatherPage(int offset, int limit)
         {
             var conditions = _weatherRepository.GetYear(offset, limit);
-            var conditionPage = new ConditionPage
+
+            var paging = new Paging
             {
                 TotalCount = _weatherRepository.GetYearCount(),
                 Offset = offset,
-                Limit = limit,
+                Limit = limit
+            };
+
+            var conditionPage = new ConditionPage
+            {
+                Paging = paging,
                 Conditions = conditions
             };
 

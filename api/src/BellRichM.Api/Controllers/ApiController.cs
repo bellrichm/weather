@@ -16,11 +16,9 @@ namespace BellRichM.Api.Controllers
         /// Gets the navigation links.
         /// </summary>
        /// <param name="routeName">The route name.</param>
-        /// <param name="offset">The offset.</param>
-        /// <param name="limit">The limit.</param>
-        /// <param name="total">The total.</param>
+        /// <param name="paging">The <see cref="PagingModel"/>.</param>
         /// <returns>The navigation links.</returns>
-        protected IEnumerable<LinkModel> GetNavigationLinks(string routeName, int offset, int limit, int total)
+        protected IEnumerable<LinkModel> GetNavigationLinks(string routeName, PagingModel paging)
         {
             var links = new List<LinkModel>();
 
@@ -30,10 +28,10 @@ namespace BellRichM.Api.Controllers
                     Href = "first",
                     Rel = Url.Link(
                         routeName,
-                        new { Offset = 0, Limit = limit })
+                        new { Offset = 0, Limit = paging.Limit })
                 });
 
-            var prev = offset - limit;
+            var prev = paging.Offset - paging.Limit;
             if (prev >= 0)
             {
                 links.Add(
@@ -42,12 +40,12 @@ namespace BellRichM.Api.Controllers
                         Href = "prev",
                         Rel = Url.Link(
                             routeName,
-                            new { Offset = prev, Limit = limit })
+                            new { Offset = prev, Limit = paging.Limit })
                     });
             }
 
-            var next = offset + limit;
-            if (next < total)
+            var next = paging.Offset + paging.Limit;
+            if (next < paging.TotalCount)
             {
                 links.Add(
                     new LinkModel
@@ -55,7 +53,7 @@ namespace BellRichM.Api.Controllers
                         Href = "next",
                         Rel = Url.Link(
                             routeName,
-                            new { Offset = next, Limit = limit })
+                            new { Offset = next, Limit = paging.Limit })
                     });
             }
 
@@ -65,7 +63,7 @@ namespace BellRichM.Api.Controllers
                     Href = "last",
                     Rel = Url.Link(
                         routeName,
-                        new { Offset = (total / limit) * limit, Limit = limit })
+                        new { Offset = (paging.TotalCount / paging.Limit) * paging.Limit, Limit = paging.Limit })
                 });
 
             return links;

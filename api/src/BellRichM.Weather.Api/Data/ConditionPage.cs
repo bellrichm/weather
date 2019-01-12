@@ -1,4 +1,5 @@
 using BellRichM.Attribute.CodeCoverage;
+using BellRichM.Service.Data;
 using System.Collections.Generic;
 
 namespace BellRichM.Weather.Api.Data
@@ -11,28 +12,12 @@ namespace BellRichM.Weather.Api.Data
     public class ConditionPage
     {
         /// <summary>
-        /// Gets or sets the total count.
+        /// Gets or sets the paging.
         /// </summary>
         /// <value>
-        /// The total count.
+        /// The <see cref="Paging"/>.
         /// </value>
-        public int TotalCount { get; set; }
-
-        /// <summary>
-        /// Gets or sets the offset.
-        /// </summary>
-        /// <value>
-        /// The offset.
-        /// </value>
-        public int Offset { get; set; }
-
-        /// <summary>
-        /// Gets or sets the limit.
-        /// </summary>
-        /// <value>
-        /// The limit.
-        /// </value>
-        public int Limit { get; set; }
+        public Paging Paging { get; set; }
 
         /// <summary>
         /// Gets or sets the conditions.
