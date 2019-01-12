@@ -1,8 +1,11 @@
+using BellRichM.Attribute.CodeCoverage;
+
 namespace BellRichM.Api.Models
 {
     /// <summary>
     ///  The link model.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class LinkModel
     {
         /// <summary>
