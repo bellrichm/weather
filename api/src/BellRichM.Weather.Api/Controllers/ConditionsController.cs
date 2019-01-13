@@ -81,7 +81,6 @@ namespace BellRichM.Weather.Api.Controllers
         {
             _logger.LogDiagnosticInformation("GetMonthsConditionPage called with {year}.", year);
 
-            // min/max for the months in the given year
             throw new NotImplementedException();
         }
 
@@ -112,7 +111,6 @@ namespace BellRichM.Weather.Api.Controllers
         {
             _logger.LogDiagnosticInformation("GetDaysConditionPage called with {year} {month}.", year, month);
 
-            // min/max for the days in the given year/month
             throw new NotImplementedException();
         }
 
@@ -145,7 +143,6 @@ namespace BellRichM.Weather.Api.Controllers
         {
             _logger.LogDiagnosticInformation("GetHoursConditionPage called with {year} {month} {day}.", year, month, day);
 
-            // min/max for the hours in the given year/month/day
             throw new NotImplementedException();
         }
 
@@ -162,6 +159,7 @@ namespace BellRichM.Weather.Api.Controllers
         public ConditionModel GetHourDetail([FromRoute] int year, [FromRoute] int month, [FromRoute] int day, [FromRoute] int hour)
         {
             _logger.LogDiagnosticInformation("GetHourDetail called with {year} {month} {day} {hour}.", year, month, day, hour);
+
             throw new NotImplementedException();
         }
 
@@ -176,7 +174,6 @@ namespace BellRichM.Weather.Api.Controllers
         {
             _logger.LogDiagnosticInformation("GetYearsMonthConditionPage called with {month}.", month);
 
-            // min/max for a give month all the years
             throw new NotImplementedException();
         }
 
@@ -192,7 +189,6 @@ namespace BellRichM.Weather.Api.Controllers
         {
             _logger.LogDiagnosticInformation("GetYearsDayConditionPage called with {month} {day}.", month, day);
 
-            // min/max for a give month/day across all the years
             throw new NotImplementedException();
         }
 
@@ -209,7 +205,6 @@ namespace BellRichM.Weather.Api.Controllers
         {
             _logger.LogDiagnosticInformation("GetYearsHourConditionPage called with {month} {day} {hour}.", month, day, hour);
 
-            // min/max for a give month/day/hour across all the years
             throw new NotImplementedException();
         }
     }
