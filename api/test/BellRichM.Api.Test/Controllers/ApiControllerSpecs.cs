@@ -4,6 +4,7 @@ using BellRichM.Exceptions;
 using FluentAssertions;
 using Machine.Specifications;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Moq;
 using Newtonsoft.Json;
@@ -22,14 +23,21 @@ namespace BellRichM.Api.Test
 {
     internal class ApiControllerSpecs
     {
+        protected static Mock<IUrlHelper> urlHelperMock;
         protected static string traceIdentifier = "foobar";
         protected static ErrorResponseModel errorResponseModel;
         protected static TestController testController;
         Establish context = () =>
         {
+            urlHelperMock = new Mock<IUrlHelper>();
+            urlHelperMock.Setup(x => x.Link(IT.IsAny<string>(), IT.IsAny<PagingParmModel>()))
+                    .Returns((string s, PagingParmModel p) =>
+                        "URL?offset=" + p.Offset + "&limit=" + p.Limit);
+
             testController = new TestController();
             testController.ControllerContext.HttpContext = new DefaultHttpContext();
             testController.ControllerContext.HttpContext.TraceIdentifier = traceIdentifier;
+            testController.Url = urlHelperMock.Object;
         };
 
         Cleanup after = () =>
@@ -153,6 +161,122 @@ namespace BellRichM.Api.Test
         };
     }
 
+    internal class When_single_page_of_data : ApiControllerSpecs
+    {
+        protected static IEnumerable<LinkModel> links;
+        static PagingModel pagingModel;
+
+        Establish context = () =>
+            pagingModel = new PagingModel
+            {
+                TotalCount = 3,
+                Offset = 0,
+                Limit = 3
+            };
+
+        Because of = () =>
+            links = testController.GetNavigationLinks("foo", pagingModel);
+
+        It should_have_no_links = () =>
+            links.Should().BeEmpty();
+    }
+
+    internal class When_first_page_of_data : ApiControllerSpecs
+    {
+        protected static IEnumerable<LinkModel> links;
+        static PagingModel pagingModel;
+
+        Establish context = () =>
+            pagingModel = new PagingModel
+            {
+                TotalCount = 6,
+                Offset = 0,
+                Limit = 3
+            };
+
+        Because of = () =>
+            links = testController.GetNavigationLinks("foo", pagingModel);
+
+        It should_have_Rel_values = () =>
+            links.Should().NotContainNulls(x => x.Rel);
+
+        It should_have_not_have_prev_link = () =>
+            links.Should().NotContain(x => x.Href == "prev");
+
+        It should_have_next_link = () =>
+            links.Should().Contain(x => x.Href == "next");
+
+        It should_have_first_link = () =>
+            links.Should().Contain(x => x.Href == "first");
+
+        It should_have_last_link = () =>
+            links.Should().Contain(x => x.Href == "last");
+    }
+
+    internal class When_last_page_of_data : ApiControllerSpecs
+    {
+        protected static IEnumerable<LinkModel> links;
+        static PagingModel pagingModel;
+
+        Establish context = () =>
+            pagingModel = new PagingModel
+            {
+                TotalCount = 6,
+                Offset = 3,
+                Limit = 3
+            };
+
+        Because of = () =>
+            links = testController.GetNavigationLinks(" ", pagingModel);
+
+        It should_have_Rel_values = () =>
+            links.Should().NotContainNulls(x => x.Rel);
+
+        It should_have_not_have_next_link = () =>
+            links.Should().NotContain(x => x.Href == "next");
+
+        It should_have_prec_link = () =>
+            links.Should().Contain(x => x.Href == "prev");
+
+        It should_have_first_link = () =>
+            links.Should().Contain(x => x.Href == "first");
+
+        It should_have_last_link = () =>
+            links.Should().Contain(x => x.Href == "last");
+    }
+
+    internal class When_middle_page_of_data : ApiControllerSpecs
+    {
+        protected static IEnumerable<LinkModel> links;
+        static PagingModel pagingModel;
+
+        Establish context = () =>
+            pagingModel = new PagingModel
+            {
+                TotalCount = 8,
+                Offset = 3,
+                Limit = 3
+            };
+
+        Because of = () =>
+            links = testController.GetNavigationLinks(" ", pagingModel);
+
+        It should_have_Rel_values = () =>
+            links.Should().NotContainNulls(x => x.Rel);
+
+        It should_have_have_prev_link = () =>
+            links.Should().Contain(x => x.Href == "prev");
+
+        It should_have_next_link = () =>
+            links.Should().Contain(x => x.Href == "next");
+
+        It should_have_first_link = () =>
+            links.Should().Contain(x => x.Href == "first");
+
+        It should_have_last_link = () =>
+            links.Should().Contain(x => x.Href == "last");
+    }
+
     internal class TestController : ApiController
     {
         internal new ErrorResponseModel CreateModel()
@@ -163,6 +287,11 @@ namespace BellRichM.Api.Test
         internal new ErrorResponseModel CreateModel(BusinessException businessException)
         {
             return base.CreateModel(businessException);
+        }
+
+        internal new IEnumerable<LinkModel> GetNavigationLinks(string routeName, PagingModel pagingModel)
+        {
+            return base.GetNavigationLinks(routeName, pagingModel);
         }
     }
 

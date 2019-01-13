@@ -22,49 +22,62 @@ namespace BellRichM.Api.Controllers
         {
             var links = new List<LinkModel>();
 
-            links.Add(
-                new LinkModel
-                {
-                    Href = "first",
-                    Rel = Url.Link(
-                        routeName,
-                        new { Offset = 0, Limit = paging.Limit })
-                });
-
-            var prev = paging.Offset - paging.Limit;
-            if (prev >= 0)
+            if (paging.TotalCount > paging.Limit)
             {
                 links.Add(
                     new LinkModel
                     {
-                        Href = "prev",
+                        Href = "first",
                         Rel = Url.Link(
                             routeName,
-                            new { Offset = prev, Limit = paging.Limit })
+                            new PagingParmModel { Offset = 0, Limit = paging.Limit })
                     });
-            }
 
-            var next = paging.Offset + paging.Limit;
-            if (next < paging.TotalCount)
-            {
+                var prev = paging.Offset - paging.Limit;
+                if (prev >= 0)
+                {
+                    links.Add(
+                        new LinkModel
+                        {
+                            Href = "prev",
+                            Rel = Url.Link(
+                                routeName,
+                                new PagingParmModel { Offset = prev, Limit = paging.Limit })
+                        });
+                }
+
+                var next = paging.Offset + paging.Limit;
+                if (next < paging.TotalCount)
+                {
+                    links.Add(
+                        new LinkModel
+                        {
+                            Href = "next",
+                            Rel = Url.Link(
+                                routeName,
+                                new PagingParmModel { Offset = next, Limit = paging.Limit })
+                        });
+                }
+
+                int last;
+                if (paging.TotalCount % paging.Limit == 0)
+                {
+                    last = paging.TotalCount - paging.Limit;
+                }
+                else
+                {
+                    last = (paging.TotalCount / paging.Limit) * paging.Limit;
+                }
+
                 links.Add(
                     new LinkModel
                     {
-                        Href = "next",
+                        Href = "last",
                         Rel = Url.Link(
                             routeName,
-                            new { Offset = next, Limit = paging.Limit })
+                            new PagingParmModel { Offset = last, Limit = paging.Limit })
                     });
             }
-
-            links.Add(
-                new LinkModel
-                {
-                    Href = "last",
-                    Rel = Url.Link(
-                        routeName,
-                        new { Offset = (paging.TotalCount / paging.Limit) * paging.Limit, Limit = paging.Limit })
-                });
 
             return links;
         }
