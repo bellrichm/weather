@@ -33,6 +33,9 @@ namespace BellRichM.Api.Middleware.Test
         protected static string errorText = "Severe error. Please contact support.";
         protected static string errorCode = "SevereError";
 
+        protected static string notImplementedText = "Call is not implemented";
+        protected static string notImplementedCode = "NotImplemented";
+
         Establish context = () =>
         {
             debugTimes = 0;
@@ -101,6 +104,54 @@ namespace BellRichM.Api.Middleware.Test
             errorResponse.ErrorDetails.ShouldBeNull();
             errorResponse.Code.ShouldEqual(errorCode);
             errorResponse.Text.ShouldEqual(errorText);
+        };
+    }
+
+    internal class When_NotImplementedException_is_caught : ExceptionLoggingMiddlewareSpecs
+    {
+        Establish context = () =>
+        {
+            debugTimes = 1;
+            informationTimes = 1;
+            errorTimes = 0;
+            eventTimes = 1;
+
+            Task ExceptionRequestDelegate(HttpContext innerHttpContext)
+            {
+              throw new NotImplementedException();
+            }
+
+            requestDelegate = ExceptionRequestDelegate;
+            exceptionLoggingMiddleware = new ExceptionLoggingMiddleware(requestDelegate, loggerMock.Object);
+        };
+
+        Because of = () =>
+          exceptionLoggingMiddleware.Invoke(httpContext).Await();
+
+ #pragma warning disable 169
+        Behaves_like<LoggingBehaviors<ExceptionLoggingMiddleware>> correct_logging;
+ #pragma warning restore 169
+
+        It should_log_correct_information_messages = () =>
+            loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), httpContext.Request.Protocol, httpContext.Request.Host, httpContext.Connection.RemoteIpAddress.ToString()), Times.Exactly(1));
+
+        It should_log_correct_events = () =>
+            loggerMock.Verify(x => x.LogEvent((int)EventId.EndRequest, IT.IsAny<string>(), httpContext.Request.Method, httpContext.Request.Path, 501, IT.IsAny<double>()), Times.Once);
+
+        It should_add_identifer_header = () =>
+            httpContext.Response.Headers["X-Request-Id"].ToString().ShouldEqual(httpContext.TraceIdentifier);
+
+        It should_return_error_body = () =>
+        {
+            httpContext.Response.Body.Seek(0, SeekOrigin.Begin);
+            var reader = new StreamReader(httpContext.Response.Body);
+            var responseString = reader.ReadToEnd();
+            var errorResponse = JsonConvert.DeserializeObject<ErrorResponseModel>(responseString);
+
+            errorResponse.CorrelationId.ShouldEqual(httpContext.TraceIdentifier);
+            errorResponse.ErrorDetails.ShouldBeNull();
+            errorResponse.Code.ShouldEqual(notImplementedCode);
+            errorResponse.Text.ShouldEqual(notImplementedText);
         };
     }
 
