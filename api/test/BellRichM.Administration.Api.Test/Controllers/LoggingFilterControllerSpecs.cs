@@ -1,8 +1,8 @@
-using System.Reflection;
 using AutoMapper;
 using BellRichM.Administration.Api.Controllers;
 using BellRichM.Administration.Api.Models;
 using BellRichM.Api.Models;
+using BellRichM.Helpers.Test;
 using BellRichM.Logging;
 using FluentAssertions;
 using Machine.Specifications;
@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Moq;
+using System.Collections.Generic;
+using System.Reflection;
 
 using IT = Moq.It;
 using It = Machine.Specifications.It;
@@ -22,10 +24,7 @@ namespace BellRichM.Administration.Api.Test.Controllers
         protected const string ErrorCode = "errorCode";
         protected const string ErrorMessage = "errorMessage";
 
-        protected static int debugTimes;
-        protected static int informationTimes;
-        protected static int errorTimes;
-        protected static int eventTimes;
+        protected static LoggingData loggingData;
 
         protected static LoggingFilterSwitchesModel loggingFilterSwitchesModel;
 
@@ -37,11 +36,6 @@ namespace BellRichM.Administration.Api.Test.Controllers
 
         Establish context = () =>
         {
-            debugTimes = 0;
-            informationTimes = 0;
-            errorTimes = 0;
-            eventTimes = 1;
-
             loggingFilterSwitchesModel = new LoggingFilterSwitchesModel
             {
                 ConsoleSinkFilterSwitch = new LoggingFilterSwitchModel { Expression = "true" }
@@ -65,7 +59,17 @@ namespace BellRichM.Administration.Api.Test.Controllers
 
         Establish context = () =>
         {
-            informationTimes = 1;
+            loggingData = new LoggingData
+            {
+                InformationTimes = 1,
+                EventLoggingData = new List<EventLoggingData>
+                {
+                    new EventLoggingData(
+                        EventId.LoggingFilterController_Update,
+                        "{@loggingFilterSwitchesModel}")
+                },
+                ErrorLoggingMessages = new List<string>()
+            };
             loggingFilterController.ModelState.AddModelError(ErrorCode, ErrorMessage);
         };
 
@@ -75,9 +79,6 @@ namespace BellRichM.Administration.Api.Test.Controllers
 
         It should_log_correct_information_messages = () =>
            loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), IT.IsAny<ModelStateDictionary>()), Times.Once);
-
-        It should_log_correct_events = () =>
-            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventId>(), IT.IsAny<string>(), IT.IsAny<object[]>()), Times.Once);
 
         Cleanup after = () =>
             loggingFilterController.ModelState.Clear();
@@ -99,15 +100,26 @@ namespace BellRichM.Administration.Api.Test.Controllers
     {
         private static ObjectResult result;
 
+        Establish context = () =>
+        {
+            loggingData = new LoggingData
+            {
+                EventLoggingData = new List<EventLoggingData>
+                {
+                    new EventLoggingData(
+                        EventId.LoggingFilterController_Update,
+                        "{@loggingFilterSwitchesModel}")
+                },
+                ErrorLoggingMessages = new List<string>()
+            };
+        };
+
         Because of = () =>
             result = (ObjectResult)loggingFilterController.Update(loggingFilterSwitchesModel);
 
 #pragma warning disable 169
         Behaves_like<LoggingBehaviors<LoggingFilterController>> correct_logging;
 #pragma warning restore 169
-
-        It should_log_correct_events = () =>
-            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventId>(), IT.IsAny<string>(), IT.IsAny<object[]>()), Times.Once);
 
         It should_return_success_status_code = () =>
             result.StatusCode.ShouldEqual(200);
@@ -141,15 +153,26 @@ namespace BellRichM.Administration.Api.Test.Controllers
     {
         private static ObjectResult result;
 
+        Establish context = () =>
+        {
+            loggingData = new LoggingData
+            {
+                EventLoggingData = new List<EventLoggingData>
+                {
+                    new EventLoggingData(
+                        EventId.LoggingFilterController_Get,
+                        string.Empty)
+                },
+                ErrorLoggingMessages = new List<string>()
+            };
+        };
+
         Because of = () =>
             result = (ObjectResult)loggingFilterController.Get();
 
 #pragma warning disable 169
         Behaves_like<LoggingBehaviors<LoggingFilterController>> correct_logging;
 #pragma warning restore 169
-
-        It should_log_correct_events = () =>
-            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventId>(), IT.IsAny<string>(), IT.IsAny<object[]>()), Times.Once);
 
         It should_return_success_status_code = () =>
             result.StatusCode.ShouldEqual(200);

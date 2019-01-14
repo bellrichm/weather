@@ -1,8 +1,8 @@
-using System.Reflection;
 using AutoMapper;
 using BellRichM.Administration.Api.Controllers;
 using BellRichM.Administration.Api.Models;
 using BellRichM.Api.Models;
+using BellRichM.Helpers.Test;
 using BellRichM.Logging;
 using FluentAssertions;
 using Machine.Specifications;
@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Moq;
+using System.Collections.Generic;
+using System.Reflection;
 
 using IT = Moq.It;
 using It = Machine.Specifications.It;
@@ -22,10 +24,7 @@ namespace BellRichM.Administration.Test.Controllers
         protected const string ErrorCode = "errorCode";
         protected const string ErrorMessage = "errorMessage";
 
-        protected static int debugTimes;
-        protected static int informationTimes;
-        protected static int errorTimes;
-        protected static int eventTimes;
+        protected static LoggingData loggingData;
 
         protected static LoggingLevelSwitchesModel loggingLevelSwitchesModel;
 
@@ -37,11 +36,6 @@ namespace BellRichM.Administration.Test.Controllers
 
         Establish context = () =>
         {
-            debugTimes = 0;
-            informationTimes = 0;
-            errorTimes = 0;
-            eventTimes = 1;
-
             loggingLevelSwitchesModel = new LoggingLevelSwitchesModel
             {
                 DefaultLoggingLevelSwitch = new LoggingLevelSwitchModel { MinimumLevel = "Verbose" }
@@ -65,19 +59,23 @@ namespace BellRichM.Administration.Test.Controllers
 
         Establish context = () =>
         {
-            informationTimes = 1;
             loggingLevelController.ModelState.AddModelError(ErrorCode, ErrorMessage);
+            loggingData = new LoggingData
+            {
+                InformationTimes = 1,
+                EventLoggingData = new List<EventLoggingData>
+                {
+                    new EventLoggingData(
+                        EventId.LoggingLevelController_Update,
+                        "{@loggingLevelSwitchesModel}")
+                },
+                ErrorLoggingMessages = new List<string>()
+            };
         };
 
 #pragma warning disable 169
         Behaves_like<LoggingBehaviors<LoggingLevelController>> correct_logging;
 #pragma warning restore 169
-
-        It should_log_correct_information_messages = () =>
-           loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), IT.IsAny<ModelStateDictionary>()), Times.Once);
-
-        It should_log_correct_events = () =>
-            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventId>(), IT.IsAny<string>(), IT.IsAny<object[]>()), Times.Once);
 
         Cleanup after = () =>
             loggingLevelController.ModelState.Clear();
@@ -99,15 +97,26 @@ namespace BellRichM.Administration.Test.Controllers
     {
         private static ObjectResult result;
 
+        Establish context = () =>
+        {
+            loggingData = new LoggingData
+            {
+                EventLoggingData = new List<EventLoggingData>
+                {
+                    new EventLoggingData(
+                        EventId.LoggingLevelController_Update,
+                        "{@loggingLevelSwitchesModel}")
+                },
+                ErrorLoggingMessages = new List<string>()
+            };
+        };
+
         Because of = () =>
             result = (ObjectResult)loggingLevelController.Update(loggingLevelSwitchesModel);
 
 #pragma warning disable 169
         Behaves_like<LoggingBehaviors<LoggingLevelController>> correct_logging;
 #pragma warning restore 169
-
-        It should_log_correct_events = () =>
-            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventId>(), IT.IsAny<string>(), IT.IsAny<object[]>()), Times.Once);
 
         It should_return_success_status_code = () =>
             result.StatusCode.ShouldEqual(200);
@@ -141,15 +150,26 @@ namespace BellRichM.Administration.Test.Controllers
     {
         private static ObjectResult result;
 
+        Establish context = () =>
+        {
+            loggingData = new LoggingData
+            {
+                EventLoggingData = new List<EventLoggingData>
+                {
+                    new EventLoggingData(
+                        EventId.LoggingLevelController_Get,
+                        string.Empty)
+                },
+                ErrorLoggingMessages = new List<string>()
+            };
+        };
+
         Because of = () =>
             result = (ObjectResult)loggingLevelController.Get();
 
 #pragma warning disable 169
         Behaves_like<LoggingBehaviors<LoggingLevelController>> correct_logging;
 #pragma warning restore 169
-
-        It should_log_correct_events = () =>
-            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventId>(), IT.IsAny<string>(), IT.IsAny<object[]>()), Times.Once);
 
         It should_return_success_status_code = () =>
             result.StatusCode.ShouldEqual(200);
