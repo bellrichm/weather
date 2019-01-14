@@ -1,5 +1,6 @@
 using BellRichM.Api.Middleware;
 using BellRichM.Api.Models;
+using BellRichM.Helpers.Test;
 using BellRichM.Logging;
 using FluentAssertions;
 using Machine.Specifications;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Moq;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
@@ -20,10 +22,7 @@ namespace BellRichM.Api.Middleware.Test
 {
     internal class ExceptionLoggingMiddlewareSpecs
     {
-        protected static int debugTimes;
-        protected static int informationTimes;
-        protected static int errorTimes;
-        protected static int eventTimes;
+        protected static LoggingData loggingData;
 
         protected static ExceptionLoggingMiddleware exceptionLoggingMiddleware;
         protected static Mock<ILoggerAdapter<ExceptionLoggingMiddleware>> loggerMock;
@@ -38,11 +37,6 @@ namespace BellRichM.Api.Middleware.Test
 
         Establish context = () =>
         {
-            debugTimes = 0;
-            informationTimes = 0;
-            errorTimes = 0;
-            eventTimes = 0;
-
             loggerMock = new Mock<ILoggerAdapter<ExceptionLoggingMiddleware>>();
 
             httpContext = new DefaultHttpContext();
@@ -61,9 +55,20 @@ namespace BellRichM.Api.Middleware.Test
     {
         Establish context = () =>
         {
-            informationTimes = 1;
-            errorTimes = 1;
-            eventTimes = 1;
+            loggingData = new LoggingData
+            {
+                InformationTimes = 1,
+                EventLoggingData = new List<EventLoggingData>
+                {
+                    new EventLoggingData(
+                        EventId.EndRequest,
+                        "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms")
+                },
+                ErrorLoggingMessages = new List<string>
+                {
+                    "Unhandled exception {RequestHeaders}\n {exception}"
+                }
+            };
 
             Task ExceptionRequestDelegate(HttpContext innerHttpContext)
             {
@@ -80,15 +85,6 @@ namespace BellRichM.Api.Middleware.Test
  #pragma warning disable 169
         Behaves_like<LoggingBehaviors<ExceptionLoggingMiddleware>> correct_logging;
  #pragma warning restore 169
-
-        It should_log_correct_information_messages = () =>
-            loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), httpContext.Request.Protocol, httpContext.Request.Host, httpContext.Connection.RemoteIpAddress.ToString()), Times.Exactly(1));
-
-        It should_log_correct_error_messages = () =>
-            loggerMock.Verify(x => x.LogDiagnosticError(IT.IsAny<string>(), IT.IsAny<IHeaderDictionary>(), IT.IsAny<Exception>()), Times.Once);
-
-        It should_log_correct_events = () =>
-            loggerMock.Verify(x => x.LogEvent((int)EventId.EndRequest, IT.IsAny<string>(), httpContext.Request.Method, httpContext.Request.Path, 500, IT.IsAny<double>()), Times.Once);
 
         It should_add_identifer_header = () =>
             httpContext.Response.Headers["X-Request-Id"].ToString().ShouldEqual(httpContext.TraceIdentifier);
@@ -111,10 +107,18 @@ namespace BellRichM.Api.Middleware.Test
     {
         Establish context = () =>
         {
-            debugTimes = 1;
-            informationTimes = 1;
-            errorTimes = 0;
-            eventTimes = 1;
+            loggingData = new LoggingData
+            {
+                DebugTimes = 1,
+                InformationTimes = 1,
+                EventLoggingData = new List<EventLoggingData>
+                {
+                    new EventLoggingData(
+                        EventId.EndRequest,
+                        "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms")
+                },
+                ErrorLoggingMessages = new List<string>()
+            };
 
             Task ExceptionRequestDelegate(HttpContext innerHttpContext)
             {
@@ -131,12 +135,6 @@ namespace BellRichM.Api.Middleware.Test
  #pragma warning disable 169
         Behaves_like<LoggingBehaviors<ExceptionLoggingMiddleware>> correct_logging;
  #pragma warning restore 169
-
-        It should_log_correct_information_messages = () =>
-            loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), httpContext.Request.Protocol, httpContext.Request.Host, httpContext.Connection.RemoteIpAddress.ToString()), Times.Exactly(1));
-
-        It should_log_correct_events = () =>
-            loggerMock.Verify(x => x.LogEvent((int)EventId.EndRequest, IT.IsAny<string>(), httpContext.Request.Method, httpContext.Request.Path, 501, IT.IsAny<double>()), Times.Once);
 
         It should_add_identifer_header = () =>
             httpContext.Response.Headers["X-Request-Id"].ToString().ShouldEqual(httpContext.TraceIdentifier);
@@ -159,9 +157,18 @@ namespace BellRichM.Api.Middleware.Test
     {
         Establish context = () =>
         {
-            debugTimes = 1;
-            informationTimes = 1;
-            eventTimes = 1;
+            loggingData = new LoggingData
+            {
+                DebugTimes = 1,
+                InformationTimes = 1,
+                EventLoggingData = new List<EventLoggingData>
+                {
+                    new EventLoggingData(
+                    EventId.EndRequest,
+                    "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms")
+                },
+                ErrorLoggingMessages = new List<string>()
+            };
 
             Task SuccessRequestDelegate(HttpContext innerHttpContext)
             {
@@ -178,15 +185,6 @@ namespace BellRichM.Api.Middleware.Test
  #pragma warning disable 169
         Behaves_like<LoggingBehaviors<ExceptionLoggingMiddleware>> correct_logging;
  #pragma warning restore 169
-
-        It should_log_correct_debug_messages = () =>
-            loggerMock.Verify(x => x.LogDiagnosticDebug(IT.IsAny<string>(), IT.IsAny<IHeaderDictionary>()), Times.Once);
-
-        It should_log_correct_information_messages = () =>
-            loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), httpContext.Request.Protocol, httpContext.Request.Host, httpContext.Connection.RemoteIpAddress.ToString()), Times.Exactly(1));
-
-        It should_log_correct_events = () =>
-            loggerMock.Verify(x => x.LogEvent((int)EventId.EndRequest, IT.IsAny<string>(), httpContext.Request.Method, httpContext.Request.Path, IT.IsAny<int>(), IT.IsAny<double>()), Times.Once);
 
         It should_add_identifer_header = () =>
             httpContext.Response.Headers["X-Request-Id"].ToString().ShouldEqual(httpContext.TraceIdentifier);
