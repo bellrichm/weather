@@ -1,3 +1,4 @@
+using BellRichM.Helpers.Test;
 using BellRichM.Identity.Api.Data;
 using BellRichM.Identity.Api.Exceptions;
 using BellRichM.Identity.Api.Repositories;
@@ -20,10 +21,7 @@ namespace BellRichM.Identity.Api.Test
 {
   internal class RoleRepositorySpecs
   {
-    protected static int debugTimes;
-    protected static int informationTimes;
-    protected static int errorTimes;
-    protected static int eventTimes;
+    protected static LoggingData loggingData;
 
     protected static Mock<ILoggerAdapter<RoleRepository>> loggerMock;
     protected static Mock<RoleManager<Role>> roleManagerMock;
@@ -39,11 +37,6 @@ namespace BellRichM.Identity.Api.Test
     protected static List<ClaimValue> claimValues;
     Establish context = () =>
     {
-      debugTimes = 1;
-      informationTimes = 0;
-      errorTimes = 0;
-      eventTimes = 0;
-
       loggerMock = new Mock<ILoggerAdapter<RoleRepository>>();
       roleStoreMock = new Mock<IRoleStore<Role>>();
       roleManagerMock = new Mock<RoleManager<Role>>(roleStoreMock.Object, null, null, null, null);
@@ -84,6 +77,13 @@ namespace BellRichM.Identity.Api.Test
 
     Establish context = () =>
     {
+      loggingData = new LoggingData
+      {
+          DebugTimes = 1,
+          EventLoggingData = new List<EventLoggingData>(),
+          ErrorLoggingMessages = new List<string>()
+      };
+
       roleManagerMock.Setup(x => x.FindByIdAsync(role.Id))
         .ReturnsAsync((Role)null);
     };
@@ -102,6 +102,16 @@ namespace BellRichM.Identity.Api.Test
   internal class When_getting_role_by_id_without_claims : RoleRepositorySpecs
   {
     private static Role roleResult;
+
+    Establish context = () =>
+    {
+        loggingData = new LoggingData
+        {
+            DebugTimes = 1,
+            EventLoggingData = new List<EventLoggingData>(),
+            ErrorLoggingMessages = new List<string>()
+        };
+    };
 
     Because of = () =>
       roleResult = roleRepository.GetById(role.Id).Result;
@@ -125,6 +135,13 @@ namespace BellRichM.Identity.Api.Test
     {
       claim = new Claim("type", "value", "description");
       claims.Add(claim);
+
+      loggingData = new LoggingData
+      {
+          DebugTimes = 1,
+          EventLoggingData = new List<EventLoggingData>(),
+          ErrorLoggingMessages = new List<string>()
+      };
     };
 
     Because of = () =>
@@ -159,6 +176,12 @@ namespace BellRichM.Identity.Api.Test
     {
       roleManagerMock.Setup(x => x.FindByNameAsync(role.Name))
         .ReturnsAsync((Role)null);
+      loggingData = new LoggingData
+      {
+          DebugTimes = 1,
+          EventLoggingData = new List<EventLoggingData>(),
+          ErrorLoggingMessages = new List<string>()
+      };
     };
 
     Because of = () =>
@@ -175,6 +198,16 @@ namespace BellRichM.Identity.Api.Test
   internal class When_getting_role_by_name_without_claims : RoleRepositorySpecs
   {
     private static Role roleResult;
+
+    Establish context = () =>
+    {
+        loggingData = new LoggingData
+        {
+            DebugTimes = 1,
+            EventLoggingData = new List<EventLoggingData>(),
+            ErrorLoggingMessages = new List<string>()
+        };
+    };
 
     Because of = () =>
       roleResult = roleRepository.GetByName(role.Name).Result;
@@ -198,6 +231,12 @@ namespace BellRichM.Identity.Api.Test
     {
         claim = new Claim("type", "value", "description");
         claims.Add(claim);
+        loggingData = new LoggingData
+        {
+            DebugTimes = 1,
+            EventLoggingData = new List<EventLoggingData>(),
+            ErrorLoggingMessages = new List<string>()
+        };
     };
 
     Because of = () =>
@@ -234,6 +273,13 @@ namespace BellRichM.Identity.Api.Test
     {
         roleManagerMock.Setup(x => x.CreateAsync(role))
           .ReturnsAsync(IdentityResult.Failed());
+
+        loggingData = new LoggingData
+        {
+            DebugTimes = 1,
+            EventLoggingData = new List<EventLoggingData>(),
+            ErrorLoggingMessages = new List<string>()
+        };
     };
 
     Because of = () =>
@@ -274,6 +320,13 @@ namespace BellRichM.Identity.Api.Test
           .ReturnsAsync(IdentityResult.Failed());
 
         role.ClaimValues = claimValues;
+
+        loggingData = new LoggingData
+        {
+            DebugTimes = 1,
+            EventLoggingData = new List<EventLoggingData>(),
+            ErrorLoggingMessages = new List<string>()
+        };
     };
 
     Because of = () =>
@@ -306,9 +359,15 @@ namespace BellRichM.Identity.Api.Test
 
     Establish context = () =>
     {
-      debugTimes = 2;
       roleManagerMock.Setup(x => x.CreateAsync(role))
         .ReturnsAsync(IdentityResult.Success);
+
+      loggingData = new LoggingData
+      {
+          DebugTimes = 2,
+          EventLoggingData = new List<EventLoggingData>(),
+          ErrorLoggingMessages = new List<string>()
+      };
     };
 
     Because of = () =>
@@ -335,8 +394,6 @@ namespace BellRichM.Identity.Api.Test
 
     Establish context = () =>
     {
-      debugTimes = 2;
-
       roleManagerMock.Setup(x => x.CreateAsync(role))
         .ReturnsAsync(IdentityResult.Success);
 
@@ -345,6 +402,13 @@ namespace BellRichM.Identity.Api.Test
         .ReturnsAsync(IdentityResult.Success);
 
       role.ClaimValues = claimValues;
+
+      loggingData = new LoggingData
+      {
+          DebugTimes = 2,
+          EventLoggingData = new List<EventLoggingData>(),
+          ErrorLoggingMessages = new List<string>()
+      };
     };
 
     Because of = () =>
@@ -383,6 +447,13 @@ namespace BellRichM.Identity.Api.Test
 
       roleManagerMock.Setup(x => x.DeleteAsync(role))
         .ReturnsAsync(IdentityResult.Success);
+
+      loggingData = new LoggingData
+      {
+          DebugTimes = 1,
+          EventLoggingData = new List<EventLoggingData>(),
+          ErrorLoggingMessages = new List<string>()
+      };
     };
 
     Because of = () =>
@@ -407,7 +478,14 @@ namespace BellRichM.Identity.Api.Test
 
           roleManagerMock.Setup(x => x.DeleteAsync(role))
             .ReturnsAsync(IdentityResult.Failed());
-      };
+
+          loggingData = new LoggingData
+          {
+            DebugTimes = 1,
+            EventLoggingData = new List<EventLoggingData>(),
+            ErrorLoggingMessages = new List<string>()
+          };
+    };
 
       Because of = () =>
         exception = Catch.Exception(() => roleRepository.Delete(role.Id).Await());
@@ -431,6 +509,13 @@ namespace BellRichM.Identity.Api.Test
     {
       roleManagerMock.Setup(x => x.FindByIdAsync(role.Id))
         .ReturnsAsync((Role)null);
+
+      loggingData = new LoggingData
+      {
+          DebugTimes = 1,
+          EventLoggingData = new List<EventLoggingData>(),
+          ErrorLoggingMessages = new List<string>()
+      };
     };
 
     Because of = () =>

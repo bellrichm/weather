@@ -1,3 +1,4 @@
+using BellRichM.Helpers.Test;
 using BellRichM.Identity.Api.Configuration;
 using BellRichM.Identity.Api.Data;
 using BellRichM.Identity.Api.Repositories;
@@ -25,10 +26,7 @@ namespace BellRichM.Identity.Api.Test.Services
     protected const string Issuer = "issuer";
     protected const string Audience = "audience";
     protected const string Password = "P@ssw0rd";
-    protected static int debugTimes;
-    protected static int informationTimes;
-    protected static int errorTimes;
-    protected static int eventTimes;
+    protected static LoggingData loggingData;
     protected static Mock<IJwtConfiguration> jwtConfigurationMock;
     protected static Mock<ILoggerAdapter<JwtManager>> loggerMock;
     protected static Mock<IUserRepository> userRepositoryMock;
@@ -49,11 +47,6 @@ namespace BellRichM.Identity.Api.Test.Services
     Establish context = () =>
     {
         const string secretKey = "superdupersecretkey";
-
-        debugTimes = 0;
-        informationTimes = 0;
-        errorTimes = 0;
-        eventTimes = 0;
 
         jwtConfigurationMock = new Mock<IJwtConfiguration>();
         loggerMock = new Mock<ILoggerAdapter<JwtManager>>();
@@ -113,8 +106,16 @@ namespace BellRichM.Identity.Api.Test.Services
   internal class When_user_does_not_exist : JwtManagerSpecs
   {
     Establish context = () =>
+    {
+        loggingData = new LoggingData
+        {
+            EventLoggingData = new List<EventLoggingData>(),
+            ErrorLoggingMessages = new List<string>()
+        };
+
         userRepositoryMock.Setup(x => x.GetByName(user.UserName))
             .ReturnsAsync((User)null);
+    };
 
     Because of = () =>
       jwt = jwtManager.GenerateToken(user.UserName, Password).Await();
@@ -131,6 +132,12 @@ namespace BellRichM.Identity.Api.Test.Services
   {
     Establish context = () =>
     {
+        loggingData = new LoggingData
+        {
+            EventLoggingData = new List<EventLoggingData>(),
+            ErrorLoggingMessages = new List<string>()
+        };
+
         signInResult = SignInResult.Failed;
         signInManagerMock.Setup(x => x.CheckPasswordSignInAsync(user, Password, false))
           .ReturnsAsync(signInResult);
@@ -152,7 +159,14 @@ namespace BellRichM.Identity.Api.Test.Services
     private static JwtSecurityToken jwtSecurityToken;
 
     Establish context = () =>
-        informationTimes = 1;
+    {
+        loggingData = new LoggingData
+        {
+            InformationTimes = 1,
+            EventLoggingData = new List<EventLoggingData>(),
+            ErrorLoggingMessages = new List<string>()
+        };
+    };
 
     Because of = () =>
     {

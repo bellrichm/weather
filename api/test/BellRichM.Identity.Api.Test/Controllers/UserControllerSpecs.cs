@@ -1,6 +1,6 @@
-using System.Reflection;
 using AutoMapper;
 using BellRichM.Api.Models;
+using BellRichM.Helpers.Test;
 using BellRichM.Identity.Api.Controllers;
 using BellRichM.Identity.Api.Data;
 using BellRichM.Identity.Api.Exceptions;
@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Moq;
+using System.Collections.Generic;
+using System.Reflection;
 
 using IT = Moq.It;
 using It = Machine.Specifications.It;
@@ -26,10 +28,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
         protected const string Jwt = "jwt";
         protected const string UserName = "userName";
         protected const string Password = "P@ssw0rd";
-        protected static int debugTimes;
-        protected static int informationTimes;
-        protected static int errorTimes;
-        protected static int eventTimes;
+        protected static LoggingData loggingData;
         protected static Mock<ILoggerAdapter<UserController>> loggerMock;
         protected static Mock<IMapper> mapperMock;
         protected static Mock<IUserRepository> userRepositoryMock;
@@ -44,11 +43,6 @@ namespace BellRichM.Identity.Api.Test.Controllers
 
         Establish context = () =>
         {
-            debugTimes = 0;
-            informationTimes = 0;
-            errorTimes = 0;
-            eventTimes = 1;
-
             loggerMock = new Mock<ILoggerAdapter<UserController>>();
             mapperMock = new Mock<IMapper>();
             userRepositoryMock = new Mock<IUserRepository>();
@@ -111,7 +105,18 @@ namespace BellRichM.Identity.Api.Test.Controllers
 
         Establish context = () =>
         {
-            informationTimes = 1;
+            loggingData = new LoggingData
+            {
+                InformationTimes = 1,
+                EventLoggingData = new List<EventLoggingData>
+                {
+                    new EventLoggingData(
+                        EventId.UserController_Login,
+                        "{@userLogin}")
+                },
+                ErrorLoggingMessages = new List<string>()
+            };
+
             userController.ModelState.AddModelError(ErrorCode, ErrorMessage);
         };
 
@@ -124,12 +129,6 @@ namespace BellRichM.Identity.Api.Test.Controllers
 #pragma warning disable 169
         Behaves_like<LoggingBehaviors<UserController>> correct_logging;
 #pragma warning restore 169
-
-        It should_log_correct_information_messages = () =>
-           loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), IT.IsAny<ModelStateDictionary>()), Times.Once);
-
-        It should_log_correct_events = () =>
-            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventId>(), IT.IsAny<string>(), IT.IsAny<UserLoginModel>()), Times.Once);
 
         It should_return_correct_result_type = () =>
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -147,7 +146,18 @@ namespace BellRichM.Identity.Api.Test.Controllers
 
         Establish context = () =>
         {
-            informationTimes = 1;
+            loggingData = new LoggingData
+            {
+                InformationTimes = 1,
+                EventLoggingData = new List<EventLoggingData>
+                {
+                    new EventLoggingData(
+                        EventId.UserController_Login,
+                        "{@userLogin}")
+                },
+                ErrorLoggingMessages = new List<string>()
+            };
+
             userLogin.UserName = string.Empty;
         };
 
@@ -160,12 +170,6 @@ namespace BellRichM.Identity.Api.Test.Controllers
 #pragma warning disable 169
         Behaves_like<LoggingBehaviors<UserController>> correct_logging;
 #pragma warning restore 169
-
-        It should_log_correct_information_messages = () =>
-          loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), IT.IsAny<ModelStateDictionary>()), Times.Once);
-
-        It should_log_correct_events = () =>
-            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventId>(), IT.IsAny<string>(), IT.IsAny<UserLoginModel>()), Times.Once);
 
         It should_return_correct_result_type = () =>
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -181,15 +185,26 @@ namespace BellRichM.Identity.Api.Test.Controllers
     {
         private static ObjectResult result;
 
+        Establish context = () =>
+        {
+            loggingData = new LoggingData
+            {
+                EventLoggingData = new List<EventLoggingData>
+                {
+                    new EventLoggingData(
+                        EventId.UserController_Login,
+                        "{@userLogin}")
+                },
+                ErrorLoggingMessages = new List<string>()
+            };
+        };
+
         Because of = () =>
             result = (ObjectResult)userController.Login(userLogin).Await();
 
 #pragma warning disable 169
         Behaves_like<LoggingBehaviors<UserController>> correct_logging;
 #pragma warning restore 169
-
-        It should_log_correct_events = () =>
-            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventId>(), IT.IsAny<string>(), IT.IsAny<UserLoginModel>()), Times.Once);
 
         It should_return_correct_result_type = () =>
             result.Should().BeOfType<OkObjectResult>();
@@ -211,15 +226,26 @@ namespace BellRichM.Identity.Api.Test.Controllers
     {
         private static ObjectResult result;
 
+        Establish context = () =>
+        {
+            loggingData = new LoggingData
+            {
+                EventLoggingData = new List<EventLoggingData>
+                {
+                    new EventLoggingData(
+                        EventId.UserController_GetById,
+                        "{@id}")
+                },
+                ErrorLoggingMessages = new List<string>()
+            };
+        };
+
         Because of = () =>
             result = (ObjectResult)userController.GetById(userModel.Id).Await();
 
 #pragma warning disable 169
         Behaves_like<LoggingBehaviors<UserController>> correct_logging;
 #pragma warning restore 169
-
-        It should_log_correct_events = () =>
-            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventId>(), IT.IsAny<string>(), IT.IsAny<string>()), Times.Once);
 
         It should_return_success_status_code = () =>
             result.StatusCode.ShouldEqual(200);
@@ -241,15 +267,26 @@ namespace BellRichM.Identity.Api.Test.Controllers
     {
         private static NotFoundResult result;
 
+        Establish context = () =>
+        {
+            loggingData = new LoggingData
+            {
+                EventLoggingData = new List<EventLoggingData>
+                {
+                    new EventLoggingData(
+                        EventId.UserController_GetById,
+                        "{@id}")
+                },
+                ErrorLoggingMessages = new List<string>()
+            };
+        };
+
         Because of = () =>
             result = (NotFoundResult)userController.GetById(string.Empty).Await();
 
 #pragma warning disable 169
         Behaves_like<LoggingBehaviors<UserController>> correct_logging;
 #pragma warning restore 169
-
-        It should_log_correct_events = () =>
-            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventId>(), IT.IsAny<string>(), IT.IsAny<string>()), Times.Once);
 
         It should_return_not_found_status_code = () =>
             result.StatusCode.ShouldEqual(404);
@@ -275,7 +312,18 @@ namespace BellRichM.Identity.Api.Test.Controllers
 
         Establish context = () =>
         {
-            informationTimes = 1;
+            loggingData = new LoggingData
+            {
+                InformationTimes = 1,
+                EventLoggingData = new List<EventLoggingData>
+                {
+                    new EventLoggingData(
+                        EventId.UserController_Create,
+                        "{@userCreate}")
+                },
+                ErrorLoggingMessages = new List<string>()
+            };
+
             userController.ModelState.AddModelError(ErrorCode, ErrorMessage);
         };
 
@@ -288,12 +336,6 @@ namespace BellRichM.Identity.Api.Test.Controllers
 #pragma warning disable 169
         Behaves_like<LoggingBehaviors<UserController>> correct_logging;
 #pragma warning restore 169
-
-        It should_log_correct_information_messages = () =>
-           loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), IT.IsAny<ModelStateDictionary>()), Times.Once);
-
-        It should_log_correct_events = () =>
-            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventId>(), IT.IsAny<string>(), IT.IsAny<UserCreateModel>()), Times.Once);
 
         It should_return_correct_result_type = () =>
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -311,7 +353,18 @@ namespace BellRichM.Identity.Api.Test.Controllers
 
         Establish context = () =>
         {
-            informationTimes = 1;
+            loggingData = new LoggingData
+            {
+                InformationTimes = 1,
+                EventLoggingData = new List<EventLoggingData>
+                {
+                    new EventLoggingData(
+                        EventId.UserController_Create,
+                        "{@userCreate}")
+                },
+                ErrorLoggingMessages = new List<string>()
+            };
+
             userCreate.Password = string.Empty;
         };
 
@@ -324,12 +377,6 @@ namespace BellRichM.Identity.Api.Test.Controllers
 #pragma warning disable 169
         Behaves_like<LoggingBehaviors<UserController>> correct_logging;
 #pragma warning restore 169
-
-        It should_log_correct_information_messages = () =>
-           loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), IT.IsAny<CreateUserException>()), Times.Once);
-
-        It should_log_correct_events = () =>
-            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventId>(), IT.IsAny<string>(), IT.IsAny<UserCreateModel>()), Times.Once);
 
         It should_return_correct_result_type = () =>
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -347,6 +394,17 @@ namespace BellRichM.Identity.Api.Test.Controllers
 
         Establish context = () =>
         {
+            loggingData = new LoggingData
+            {
+                EventLoggingData = new List<EventLoggingData>
+                {
+                    new EventLoggingData(
+                        EventId.UserController_Create,
+                        "{@userCreate}")
+                },
+                ErrorLoggingMessages = new List<string>()
+            };
+
             userCreate.UserName = UserName;
             userCreate.Password = Password;
             userRepositoryMock.Setup(x => x.Create(IT.IsAny<User>(), userCreate.Password)).ReturnsAsync(user);
@@ -358,9 +416,6 @@ namespace BellRichM.Identity.Api.Test.Controllers
 #pragma warning disable 169
         Behaves_like<LoggingBehaviors<UserController>> correct_logging;
 #pragma warning restore 169
-
-        It should_log_correct_events = () =>
-            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventId>(), IT.IsAny<string>(), IT.IsAny<UserCreateModel>()), Times.Once);
 
         It should_return_success_status_code = () =>
             result.StatusCode.ShouldEqual(200);
@@ -399,21 +454,29 @@ namespace BellRichM.Identity.Api.Test.Controllers
         Cleanup after = () =>
             userController.ModelState.Clear();
 
+        Establish context = () =>
+        {
+            loggingData = new LoggingData
+            {
+                InformationTimes = 1,
+                EventLoggingData = new List<EventLoggingData>
+                {
+                    new EventLoggingData(
+                        EventId.UserController_Delete,
+                        "{@id}")
+                },
+                ErrorLoggingMessages = new List<string>()
+            };
+        };
+
         Because of = () =>
         {
-            informationTimes = 1;
             result = (ObjectResult)userController.Delete(string.Empty).Await();
         };
 
 #pragma warning disable 169
         Behaves_like<LoggingBehaviors<UserController>> correct_logging;
 #pragma warning restore 169
-
-        It should_log_correct_information_messages = () =>
-           loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), IT.IsAny<DeleteUserException>()), Times.Once);
-
-        It should_log_correct_events = () =>
-            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventId>(), IT.IsAny<string>(), IT.IsAny<string>()), Times.Once);
 
         It should_return_correct_result_type = () =>
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -429,15 +492,26 @@ namespace BellRichM.Identity.Api.Test.Controllers
     {
         protected static NoContentResult result;
 
+        Establish context = () =>
+        {
+            loggingData = new LoggingData
+            {
+                EventLoggingData = new List<EventLoggingData>
+                {
+                    new EventLoggingData(
+                        EventId.UserController_Delete,
+                        "{@id}")
+                },
+                ErrorLoggingMessages = new List<string>()
+            };
+        };
+
         Because of = () =>
             result = (NoContentResult)userController.Delete("id").Await();
 
 #pragma warning disable 169
         Behaves_like<LoggingBehaviors<UserController>> correct_logging;
 #pragma warning restore 169
-
-        It should_log_correct_events = () =>
-            loggerMock.Verify(x => x.LogEvent(IT.IsAny<EventId>(), IT.IsAny<string>(), IT.IsAny<string>()), Times.Once);
 
         It should_return_success_status_code = () =>
             result.StatusCode.ShouldEqual(204);
