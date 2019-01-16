@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace BellRichM.Weather.Api.Repositories
 {
     /// <summary>
-    /// The weather repository.
+    /// The condition repository.
     /// </summary>
     public interface IConditionRepository
     {

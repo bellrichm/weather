@@ -3,7 +3,7 @@ using BellRichM.Weather.Api.Data;
 namespace BellRichM.Weather.Api.Services
 {
     /// <summary>
-    /// The weather service.
+    /// The condition service.
     /// </summary>
     public interface IConditionService
     {
