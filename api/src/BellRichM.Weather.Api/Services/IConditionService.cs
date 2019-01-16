@@ -5,7 +5,7 @@ namespace BellRichM.Weather.Api.Services
     /// <summary>
     /// The weather service.
     /// </summary>
-    public interface IWeatherService
+    public interface IConditionService
     {
         /// <summary>
         /// Get the condition page for years.

@@ -5,15 +5,15 @@ using BellRichM.Weather.Api.Repositories;
 namespace BellRichM.Weather.Api.Services
 {
     /// <inheritdoc/>
-    public class WeatherService : IWeatherService
+    public class ConditionService : IConditionService
     {
         private readonly IConditionRepository _conditionRepository;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WeatherService"/> class.
+        /// Initializes a new instance of the <see cref="ConditionService"/> class.
         /// </summary>
         /// <param name="conditionRepository">The <see cref="IConditionRepository"/>.</param>
-        public WeatherService(IConditionRepository conditionRepository)
+        public ConditionService(IConditionRepository conditionRepository)
         {
             _conditionRepository = conditionRepository;
         }

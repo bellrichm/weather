@@ -28,7 +28,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
 
     protected static Mock<ILoggerAdapter<ConditionsController>> loggerMock;
     protected static Mock<IMapper> mapperMock;
-    protected static Mock<IWeatherService> weatherServiceMock;
+    protected static Mock<IConditionService> conditionServiceMock;
 
     Establish context = () =>
     {
@@ -49,8 +49,8 @@ namespace BellRichM.Weather.Api.Test.Controllers
 
       loggerMock = new Mock<ILoggerAdapter<ConditionsController>>();
       mapperMock = new Mock<IMapper>();
-      weatherServiceMock = new Mock<IWeatherService>();
-      conditionsController = new ConditionsController(loggerMock.Object, mapperMock.Object, weatherServiceMock.Object);
+      conditionServiceMock = new Mock<IConditionService>();
+      conditionsController = new ConditionsController(loggerMock.Object, mapperMock.Object, conditionServiceMock.Object);
     };
 
     Cleanup after = () =>

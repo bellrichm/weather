@@ -20,19 +20,19 @@ namespace BellRichM.Weather.Api.Controllers
     {
         private readonly ILoggerAdapter<ConditionsController> _logger;
         private readonly IMapper _mapper;
-        private readonly IWeatherService _weatherService;
+        private readonly IConditionService _conditionService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConditionsController"/> class.
         /// </summary>
         /// <param name="logger">The <see cref="ILoggerAdapter{T}"/>.</param>
         /// <param name="mapper">The <see cref="IMapper"/>.</param>
-        /// <param name="weatherService">The <see cref="IWeatherService"/>.</param>
-        public ConditionsController(ILoggerAdapter<ConditionsController> logger, IMapper mapper, IWeatherService weatherService)
+        /// <param name="conditionService">The <see cref="IConditionService"/>.</param>
+        public ConditionsController(ILoggerAdapter<ConditionsController> logger, IMapper mapper, IConditionService conditionService)
         {
             _logger = logger;
             _mapper = mapper;
-            _weatherService = weatherService;
+            _conditionService = conditionService;
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace BellRichM.Weather.Api.Controllers
         {
             _logger.LogEvent(EventId.ConditionsController_GetYearsConditionPage, "{@offset} {@limit}", offset, limit);
 
-            var conditionPage = _weatherService.GetYearWeatherPage(offset, limit);
+            var conditionPage = _conditionService.GetYearWeatherPage(offset, limit);
             var conditionPageModel = _mapper.Map<ConditionPageModel>(conditionPage);
             conditionPageModel.Links = GetNavigationLinks("GetYearsConditionPage", conditionPageModel.Paging);
             return conditionPageModel;

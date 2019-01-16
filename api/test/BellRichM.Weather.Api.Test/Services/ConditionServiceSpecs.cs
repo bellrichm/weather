@@ -20,16 +20,16 @@ using It = Machine.Specifications.It;
 
 namespace BellRichM.Weather.Api.Services.Test
 {
-    public class WeatherServiceSpecs
+    public class ConditionServiceSpecs
     {
         protected const int Offset = 0;
         protected const int Limit = 5;
         protected static LoggingData loggingData;
 
-        protected static Mock<ILoggerAdapter<WeatherService>> loggerMock;
+        protected static Mock<ILoggerAdapter<ConditionService>> loggerMock;
         protected static Mock<IConditionRepository> conditionRepositoryMock;
 
-        protected static WeatherService weatherService;
+        protected static ConditionService conditionService;
         protected static ConditionPage conditionPage;
 
         protected static List<Condition> conditions;
@@ -72,17 +72,17 @@ namespace BellRichM.Weather.Api.Services.Test
                 }
             };
 
-            loggerMock = new Mock<ILoggerAdapter<WeatherService>>();
+            loggerMock = new Mock<ILoggerAdapter<ConditionService>>();
             conditionRepositoryMock = new Mock<IConditionRepository>();
 
             conditionRepositoryMock.Setup(x => x.GetYearCount()).Returns(conditions.Count);
             conditionRepositoryMock.Setup(x => x.GetYear(Offset, Limit)).Returns(conditions);
 
-            weatherService = new WeatherService(conditionRepositoryMock.Object);
+            conditionService = new ConditionService(conditionRepositoryMock.Object);
         };
     }
 
-    internal class When_creating_page_of_year_weather_conditions : WeatherServiceSpecs
+    internal class When_creating_page_of_year_weather_conditions : ConditionServiceSpecs
     {
         Cleanup after = () =>
         {
@@ -94,11 +94,11 @@ namespace BellRichM.Weather.Api.Services.Test
 
         Because of = () =>
         {
-            conditionPage = weatherService.GetYearWeatherPage(Offset, Limit);
+            conditionPage = conditionService.GetYearWeatherPage(Offset, Limit);
         };
 
 #pragma warning disable 169
-        Behaves_like<LoggingBehaviors<WeatherService>> correct_logging;
+        Behaves_like<LoggingBehaviors<ConditionService>> correct_logging;
 #pragma warning restore 169
 
         It should_have_correct_total_count = () =>
