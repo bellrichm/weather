@@ -22,7 +22,7 @@ using It = Machine.Specifications.It;
 
 namespace BellRichM
 {
-    internal class WeatherRepositorySpecs
+    internal class ConditionRepositorySpecs
     {
         protected const int Offset = 0;
         protected const int Limit = 5;
@@ -30,10 +30,10 @@ namespace BellRichM
         protected static LoggingData loggingData;
 
         protected static Condition testCondition;
-        protected static Mock<ILoggerAdapter<WeatherRepository>> loggerMock;
-        protected static WeatherRepository weatherRepository;
-        protected static WeatherRepositoryDbProviderFactory weatherRepositoryDbProviderFactory;
-        protected static WeatherRepositoryConfiguration weatherRepositoryConfiguration;
+        protected static Mock<ILoggerAdapter<ConditionRepository>> loggerMock;
+        protected static ConditionRepository conditionRepository;
+        protected static ConditionRepositoryDbProviderFactory conditionRepositoryDbProviderFactory;
+        protected static ConditionRepositoryConfiguration conditionRepositoryConfiguration;
 
         Establish context = () =>
         {
@@ -71,17 +71,17 @@ namespace BellRichM
             };
 
             var dbProviderFactory = SqliteFactory.Instance;
-            weatherRepositoryDbProviderFactory = new WeatherRepositoryDbProviderFactory(dbProviderFactory);
-            weatherRepositoryConfiguration = new WeatherRepositoryConfiguration
+            conditionRepositoryDbProviderFactory = new ConditionRepositoryDbProviderFactory(dbProviderFactory);
+            conditionRepositoryConfiguration = new ConditionRepositoryConfiguration
             {
                 ConnectionString = "Data Source=../../../testData.db"
             };
 
-            loggerMock = new Mock<ILoggerAdapter<WeatherRepository>>();
+            loggerMock = new Mock<ILoggerAdapter<ConditionRepository>>();
         };
     }
 
-    internal class When_retrieving_condition_for_years : WeatherRepositorySpecs
+    internal class When_retrieving_condition_for_years : ConditionRepositorySpecs
     {
         protected static IEnumerable<Condition> conditions;
 
@@ -94,14 +94,14 @@ namespace BellRichM
                 ErrorLoggingMessages = new List<string>()
             };
 
-            weatherRepository = new WeatherRepository(loggerMock.Object, weatherRepositoryDbProviderFactory, weatherRepositoryConfiguration);
+            conditionRepository = new ConditionRepository(loggerMock.Object, conditionRepositoryDbProviderFactory, conditionRepositoryConfiguration);
         };
 
         Because of = () =>
-            conditions = weatherRepository.GetYear(Offset, Limit);
+            conditions = conditionRepository.GetYear(Offset, Limit);
 
 #pragma warning disable 169
-        Behaves_like<LoggingBehaviors<WeatherRepository>> correct_logging;
+        Behaves_like<LoggingBehaviors<ConditionRepository>> correct_logging;
 #pragma warning restore 169
 
         It should_have_correct_number_of_records = () =>
@@ -117,7 +117,7 @@ namespace BellRichM
             conditions.Should().Contain(c => c.Hour == null);
     }
 
-    internal class When_retrieving_condition_for_years_fails : WeatherRepositorySpecs
+    internal class When_retrieving_condition_for_years_fails : ConditionRepositorySpecs
     {
         protected static IEnumerable<Condition> conditions;
 
@@ -130,21 +130,21 @@ namespace BellRichM
                 ErrorLoggingMessages = new List<string>()
             };
 
-            weatherRepository = new WeatherRepository(loggerMock.Object, weatherRepositoryDbProviderFactory, weatherRepositoryConfiguration);
+            conditionRepository = new ConditionRepository(loggerMock.Object, conditionRepositoryDbProviderFactory, conditionRepositoryConfiguration);
         };
 
         Because of = () =>
-            conditions = weatherRepository.GetYear(4, Limit);
+            conditions = conditionRepository.GetYear(4, Limit);
 
 #pragma warning disable 169
-        Behaves_like<LoggingBehaviors<WeatherRepository>> correct_logging;
+        Behaves_like<LoggingBehaviors<ConditionRepository>> correct_logging;
 #pragma warning restore 169
 
         It should_have_correct_number_of_records = () =>
             conditions.ShouldBeEmpty();
     }
 
-    internal class When_retrieving_condition_detail_for_an_hour : WeatherRepositorySpecs
+    internal class When_retrieving_condition_detail_for_an_hour : ConditionRepositorySpecs
     {
         protected static Condition condition;
 
@@ -157,21 +157,21 @@ namespace BellRichM
                 ErrorLoggingMessages = new List<string>()
             };
 
-            weatherRepository = new WeatherRepository(loggerMock.Object, weatherRepositoryDbProviderFactory, weatherRepositoryConfiguration);
+            conditionRepository = new ConditionRepository(loggerMock.Object, conditionRepositoryDbProviderFactory, conditionRepositoryConfiguration);
         };
 
         Because of = () =>
-            condition = weatherRepository.GetHourDetail(2018, 9, 1, 1);
+            condition = conditionRepository.GetHourDetail(2018, 9, 1, 1);
 
 #pragma warning disable 169
-        Behaves_like<LoggingBehaviors<WeatherRepository>> correct_logging;
+        Behaves_like<LoggingBehaviors<ConditionRepository>> correct_logging;
 #pragma warning restore 169
 
         It should_return_the_correct_data = () =>
             condition.Should().BeEquivalentTo(testCondition);
     }
 
-    internal class When_retrieving_condition_detail_for_an_hour_fails : WeatherRepositorySpecs
+    internal class When_retrieving_condition_detail_for_an_hour_fails : ConditionRepositorySpecs
     {
         protected static Condition condition;
 
@@ -184,21 +184,21 @@ namespace BellRichM
                 ErrorLoggingMessages = new List<string>()
             };
 
-            weatherRepository = new WeatherRepository(loggerMock.Object, weatherRepositoryDbProviderFactory, weatherRepositoryConfiguration);
+            conditionRepository = new ConditionRepository(loggerMock.Object, conditionRepositoryDbProviderFactory, conditionRepositoryConfiguration);
         };
 
         Because of = () =>
-            condition = weatherRepository.GetHourDetail(1900, 9, 1, 1);
+            condition = conditionRepository.GetHourDetail(1900, 9, 1, 1);
 
 #pragma warning disable 169
-        Behaves_like<LoggingBehaviors<WeatherRepository>> correct_logging;
+        Behaves_like<LoggingBehaviors<ConditionRepository>> correct_logging;
 #pragma warning restore 169
 
         It should_return_the_correct_data = () =>
             condition.ShouldBeNull();
     }
 
-    internal class When_retrieving_year_count : WeatherRepositorySpecs
+    internal class When_retrieving_year_count : ConditionRepositorySpecs
     {
         protected static int count;
 
@@ -211,14 +211,14 @@ namespace BellRichM
                 ErrorLoggingMessages = new List<string>()
             };
 
-            weatherRepository = new WeatherRepository(loggerMock.Object, weatherRepositoryDbProviderFactory, weatherRepositoryConfiguration);
+            conditionRepository = new ConditionRepository(loggerMock.Object, conditionRepositoryDbProviderFactory, conditionRepositoryConfiguration);
         };
 
         Because of = () =>
-            count = weatherRepository.GetYearCount();
+            count = conditionRepository.GetYearCount();
 
 #pragma warning disable 169
-        Behaves_like<LoggingBehaviors<WeatherRepository>> correct_logging;
+        Behaves_like<LoggingBehaviors<ConditionRepository>> correct_logging;
 #pragma warning restore 169
 
         It should_return_the_correct_count = () =>

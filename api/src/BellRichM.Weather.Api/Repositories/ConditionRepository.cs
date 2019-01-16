@@ -8,7 +8,7 @@ using System.Globalization;
 namespace BellRichM.Weather.Api.Repositories
 {
     /// <inheritdoc/>
-    public class WeatherRepository : IWeatherRepository
+    public class ConditionRepository : IConditionRepository
     {
         private const string DataFields = @"
   , MAX(outTemp) as maxTemp
@@ -34,21 +34,21 @@ namespace BellRichM.Weather.Api.Repositories
 FROM v_condition
         ";
 
-        private readonly ILoggerAdapter<WeatherRepository> _logger;
+        private readonly ILoggerAdapter<ConditionRepository> _logger;
         private readonly string _connectionString;
-        private readonly DbProviderFactory _weatherDbProviderFactory;
+        private readonly DbProviderFactory _conditionDbProviderFactory;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WeatherRepository"/> class.
+        /// Initializes a new instance of the <see cref="ConditionRepository"/> class.
         /// </summary>
         /// <param name="logger">The <see cref="ILoggerAdapter{T}"/>.</param>
-        /// <param name="weatherDbProviderFactory">The <see cref="WeatherRepositoryDbProviderFactory"/>.</param>
-        /// <param name="weatherRepositoryConfiguration">The config.</param>
-        public WeatherRepository(ILoggerAdapter<WeatherRepository> logger, WeatherRepositoryDbProviderFactory weatherDbProviderFactory, IWeatherRepositoryConfiguration weatherRepositoryConfiguration)
+        /// <param name="conditionDbProviderFactory">The <see cref="ConditionRepositoryDbProviderFactory"/>.</param>
+        /// <param name="conditionRepositoryConfiguration">The config.</param>
+        public ConditionRepository(ILoggerAdapter<ConditionRepository> logger, ConditionRepositoryDbProviderFactory conditionDbProviderFactory, IConditionRepositoryConfiguration conditionRepositoryConfiguration)
         {
             _logger = logger;
-            _weatherDbProviderFactory = weatherDbProviderFactory.WeatherDbProviderFactory;
-            _connectionString = weatherRepositoryConfiguration.ConnectionString;
+            _conditionDbProviderFactory = conditionDbProviderFactory.ConditionDbProviderFactory;
+            _connectionString = conditionRepositoryConfiguration.ConnectionString;
         }
 
         /// <inheritdoc/>
@@ -68,7 +68,7 @@ OFFSET @offset
 
             var records = new List<Condition>();
 
-            var dbConnection = _weatherDbProviderFactory.CreateConnection();
+            var dbConnection = _conditionDbProviderFactory.CreateConnection();
             dbConnection.ConnectionString = _connectionString;
             using (dbConnection)
             {
@@ -121,7 +121,7 @@ GROUP BY year, month, day, hour
 
             Condition condition = null;
 
-            var dbConnection = _weatherDbProviderFactory.CreateConnection();
+            var dbConnection = _conditionDbProviderFactory.CreateConnection();
             dbConnection.ConnectionString = _connectionString;
             using (dbConnection)
             {
@@ -167,7 +167,7 @@ SELECT COUNT(DISTINCT year) as yearCount
 
             int yearCount = 0;
 
-            var dbConnection = _weatherDbProviderFactory.CreateConnection();
+            var dbConnection = _conditionDbProviderFactory.CreateConnection();
             dbConnection.ConnectionString = _connectionString;
             using (dbConnection)
             {

@@ -6,7 +6,7 @@ namespace BellRichM.Weather.Api.Repositories
     /// <summary>
     /// The weather repository.
     /// </summary>
-    public interface IWeatherRepository
+    public interface IConditionRepository
     {
         /// <summary>
         /// Get the condition for years.

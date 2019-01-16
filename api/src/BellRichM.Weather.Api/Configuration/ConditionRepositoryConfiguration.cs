@@ -4,7 +4,7 @@ namespace BellRichM.Weather.Api.Configuration
 {
     /// <inheritdoc/>
     [ExcludeFromCodeCoverage]
-    public class WeatherRepositoryConfiguration : IWeatherRepositoryConfiguration
+    public class ConditionRepositoryConfiguration : IConditionRepositoryConfiguration
     {
         /// <inheritdoc/>
         public string Name { get; set; }

@@ -27,7 +27,7 @@ namespace BellRichM.Weather.Api.Services.Test
         protected static LoggingData loggingData;
 
         protected static Mock<ILoggerAdapter<WeatherService>> loggerMock;
-        protected static Mock<IWeatherRepository> weatherRepositoryMock;
+        protected static Mock<IConditionRepository> conditionRepositoryMock;
 
         protected static WeatherService weatherService;
         protected static ConditionPage conditionPage;
@@ -73,12 +73,12 @@ namespace BellRichM.Weather.Api.Services.Test
             };
 
             loggerMock = new Mock<ILoggerAdapter<WeatherService>>();
-            weatherRepositoryMock = new Mock<IWeatherRepository>();
+            conditionRepositoryMock = new Mock<IConditionRepository>();
 
-            weatherRepositoryMock.Setup(x => x.GetYearCount()).Returns(conditions.Count);
-            weatherRepositoryMock.Setup(x => x.GetYear(Offset, Limit)).Returns(conditions);
+            conditionRepositoryMock.Setup(x => x.GetYearCount()).Returns(conditions.Count);
+            conditionRepositoryMock.Setup(x => x.GetYear(Offset, Limit)).Returns(conditions);
 
-            weatherService = new WeatherService(weatherRepositoryMock.Object);
+            weatherService = new WeatherService(conditionRepositoryMock.Object);
         };
     }
 

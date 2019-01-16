@@ -3,7 +3,7 @@ namespace BellRichM.Weather.Api.Configuration
     /// <summary>
     /// The weathwe db configuration.
     /// </summary>
-    public interface IWeatherRepositoryConfiguration
+    public interface IConditionRepositoryConfiguration
     {
         /// <summary>
         /// Gets or sets the database name.

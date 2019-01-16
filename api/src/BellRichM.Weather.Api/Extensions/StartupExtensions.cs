@@ -25,26 +25,26 @@ namespace BellRichM.Weather.Api.Extensions
         /// <param name="configuration">The <see cref="IConfiguration"/>.</param>
         public static void AddWeatherServices(this IServiceCollection services, IConfiguration configuration)
         {
-            var weatherRepositoryConfiguration = new WeatherRepositoryConfiguration();
-            var weatherRepositoryConfigurationSection = configuration.GetSection("WeatherApi:Repository");
-            new ConfigureFromConfigurationOptions<WeatherRepositoryConfiguration>(weatherRepositoryConfigurationSection)
-                .Configure(weatherRepositoryConfiguration);
+            var conditionRepositoryConfiguration = new ConditionRepositoryConfiguration();
+            var conditionRepositoryConfigurationSection = configuration.GetSection("WeatherApi:Repository");
+            new ConfigureFromConfigurationOptions<ConditionRepositoryConfiguration>(conditionRepositoryConfigurationSection)
+                .Configure(conditionRepositoryConfiguration);
 
-            services.AddSingleton<IWeatherRepositoryConfiguration>(weatherRepositoryConfiguration);
+            services.AddSingleton<IConditionRepositoryConfiguration>(conditionRepositoryConfiguration);
 
             using (LogContext.PushProperty("Type", "INFORMATION"))
             {
-                Log.Information("*** Starting: weatherRepositoryConfiguration.Provider {weatherRepositoryConfiguration.Provider}", weatherRepositoryConfiguration.Provider);
-                Log.Information("*** Starting: weatherRepositoryConfiguration.MaximumConditions {weatherRepositoryConfiguration.MaximumConditions}", weatherRepositoryConfiguration.MaximumConditions);
+                Log.Information("*** Starting: conditionRepositoryConfiguration.Provider {conditionRepositoryConfiguration.Provider}", conditionRepositoryConfiguration.Provider);
+                Log.Information("*** Starting: conditionRepositoryConfiguration.MaximumConditions {conditionRepositoryConfiguration.MaximumConditions}", conditionRepositoryConfiguration.MaximumConditions);
             }
 
             // Get the DbProviderFactory early so that any errors are found at start up
-            var dbProviderFactory = DbProviderFactories.GetFactory(weatherRepositoryConfiguration.Provider);
-            var weatherDbProviderFactory = new WeatherRepositoryDbProviderFactory(dbProviderFactory);
-            services.AddSingleton(weatherDbProviderFactory);
+            var dbProviderFactory = DbProviderFactories.GetFactory(conditionRepositoryConfiguration.Provider);
+            var conditionDbProviderFactory = new ConditionRepositoryDbProviderFactory(dbProviderFactory);
+            services.AddSingleton(conditionDbProviderFactory);
 
             services.AddScoped<IWeatherService, WeatherService>();
-            services.AddScoped<IWeatherRepository, WeatherRepository>();
+            services.AddScoped<IConditionRepository, ConditionRepository>();
         }
     }
 }
