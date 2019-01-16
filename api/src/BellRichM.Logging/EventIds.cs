@@ -5,7 +5,7 @@ namespace BellRichM.Logging
     /// The ids of the events being logged.
     /// </summary>
     public enum EventId
-{
+    {
     /// <summary>
     /// The request end event id.
     /// </summary>
@@ -85,6 +85,66 @@ namespace BellRichM.Logging
     /// The logging filter  controller update event id.
     /// </summary>
     LoggingFilterController_Update,
-}
+
+    /// <summary>
+    /// The conditions controller event id.
+    /// </summary>
+    ConditionsController = 4000,
+
+    /// <summary>
+    /// The conditions controller GetYearsConditionPage event id.
+    /// </summary>
+    ConditionsController_GetYearsConditionPage,
+
+    /// <summary>
+    /// The conditions controller GetYearDetail event id.
+    /// </summary>
+    ConditionsController_GetYearDetail,
+
+    /// <summary>
+    /// The conditions controller GetMonthsConditionPage event id.
+    /// </summary>
+    ConditionsController_GetMonthsConditionPage,
+
+    /// <summary>
+    /// The conditions controller GetMonthDetail event id.
+    /// </summary>
+    ConditionsController_GetMonthDetail,
+
+    /// <summary>
+    /// The conditions controller GetDaysConditionPage event id.
+    /// </summary>
+    ConditionsController_GetDaysConditionPage,
+
+    /// <summary>
+    /// The conditions controller GetDayDetail event id.
+    /// </summary>
+    ConditionsController_GetDayDetail,
+
+    /// <summary>
+    /// The conditions controller GetHoursConditionPage event id.
+    /// </summary>
+    ConditionsController_GetHoursConditionPage,
+
+    /// <summary>
+    /// The conditions controller GetHourDetail event id.
+    /// </summary>
+    ConditionsController_GetHourDetail,
+
+    /// <summary>
+    /// The conditions controller GetYearsMonthConditionPage event id.
+    /// </summary>
+    ConditionsController_GetYearsMonthConditionPage,
+
+    /// <summary>
+    /// The conditions controller GetYearsDayConditionPage event id.
+    /// </summary>
+    ConditionsController_GetYearsDayConditionPage,
+
+    /// <summary>
+    /// The conditions controller GetYearsHourConditionPage event id.
+    /// </summary>
+    ConditionsController_GetYearsHourConditionPage,
+    }
 }
 #pragma warning restore CA1707

@@ -46,12 +46,11 @@ namespace BellRichM.Weather.Api.Controllers
         [HttpGet("/api/[controller]/years", Name="GetYearsConditionPage")]
         public ConditionPageModel GetYearsConditionPage([FromQuery] int offset, [FromQuery] int limit)
         {
-            var routeName = "GetYearsConditionPage";
-            _logger.LogDiagnosticInformation("{GetYearsConditionPage} called.", routeName);
+            _logger.LogEvent(EventId.ConditionsController_GetYearsConditionPage, "{@offset} {@limit}", offset, limit);
 
             var conditionPage = _weatherService.GetYearWeatherPage(offset, limit);
             var conditionPageModel = _mapper.Map<ConditionPageModel>(conditionPage);
-            conditionPageModel.Links = GetNavigationLinks(routeName, conditionPageModel.Paging);
+            conditionPageModel.Links = GetNavigationLinks("GetYearsConditionPage", conditionPageModel.Paging);
             return conditionPageModel;
         }
 
@@ -65,7 +64,7 @@ namespace BellRichM.Weather.Api.Controllers
         [HttpGet("/api/[controller]/years/{year}", Name="GetYearDetail")]
         public ConditionModel GetYearDetail([FromRoute] int year)
         {
-            _logger.LogDiagnosticInformation("GetYearDetail called with {year}.", year);
+            _logger.LogEvent(EventId.ConditionsController_GetYearDetail, "{@year}", year);
 
             throw new NotImplementedException();
         }
@@ -74,12 +73,14 @@ namespace BellRichM.Weather.Api.Controllers
         /// Gets the monthly mininimum and maximum weather conditions for the year.
         /// </summary>
         /// <param name="year">The year.</param>
+        /// <param name="offset">The starting offset.</param>
+        /// <param name="limit">The maximum number of years to return.</param>
         /// <returns>The <see cref="ConditionPageModel"/>.</returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         [HttpGet("/api/[controller]/years/{year}/months", Name="GetMonthsConditionPage")]
-        public ConditionPageModel GetMonthsConditionPage([FromRoute] int year)
+        public ConditionPageModel GetMonthsConditionPage([FromRoute] int year, [FromQuery] int offset, [FromQuery] int limit)
         {
-            _logger.LogDiagnosticInformation("GetMonthsConditionPage called with {year}.", year);
+            _logger.LogEvent(EventId.ConditionsController_GetMonthsConditionPage, "{@year} {@offset} {@limit}", year, offset, limit);
 
             throw new NotImplementedException();
         }
@@ -94,7 +95,7 @@ namespace BellRichM.Weather.Api.Controllers
         [HttpGet("/api/[controller]/years/{year}/months/{month}", Name="GetMonthDetail")]
         public ConditionModel GetMonthDetail([FromRoute] int year, [FromRoute] int month)
         {
-            _logger.LogDiagnosticInformation("GetMonthDetail called with {year} {month}.", year, month);
+            _logger.LogEvent(EventId.ConditionsController_GetMonthDetail, "{@year} {@month}", year, month);
 
             throw new NotImplementedException();
         }
@@ -104,12 +105,14 @@ namespace BellRichM.Weather.Api.Controllers
         /// </summary>
         /// <param name="year">The year.</param>
         /// <param name="month">The month.</param>
+        /// <param name="offset">The starting offset.</param>
+        /// <param name="limit">The maximum number of years to return.</param>
         /// <returns>The <see cref="ConditionPageModel"/>.</returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         [HttpGet("/api/[controller]/years/{year}/months/{month}/days", Name="GetDaysConditionPage")]
-        public ConditionPageModel GetDaysConditionPage([FromRoute] int year, [FromRoute] int month)
+        public ConditionPageModel GetDaysConditionPage([FromRoute] int year, [FromRoute] int month, [FromQuery] int offset, [FromQuery] int limit)
         {
-            _logger.LogDiagnosticInformation("GetDaysConditionPage called with {year} {month}.", year, month);
+            _logger.LogEvent(EventId.ConditionsController_GetDaysConditionPage, "{@year} {@month} {@offset} {@limit}", year, month, offset, limit);
 
             throw new NotImplementedException();
         }
@@ -125,7 +128,7 @@ namespace BellRichM.Weather.Api.Controllers
         [HttpGet("/api/[controller]/years/{year}/months/{month}/days/{day}", Name="GetDayDetail")]
         public ConditionModel GetDayDetail([FromRoute] int year, [FromRoute] int month, [FromRoute] int day)
         {
-            _logger.LogDiagnosticInformation("GetDayDetail called with {year} {month} {day}.", year, month, day);
+            _logger.LogEvent(EventId.ConditionsController_GetDayDetail, "{@year} {@month} {@day}", year, month, day);
 
             throw new NotImplementedException();
         }
@@ -136,12 +139,14 @@ namespace BellRichM.Weather.Api.Controllers
         /// <param name="year">The year.</param>
         /// <param name="month">The month.</param>
         /// <param name="day">The day.</param>
+        /// <param name="offset">The starting offset.</param>
+        /// <param name="limit">The maximum number of years to return.</param>
         /// <returns>The <see cref="ConditionPageModel"/>.</returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         [HttpGet("/api/[controller]/years/{year}/months/{month}/days/{day}/hours", Name="GetHoursConditionPage")]
-        public ConditionPageModel GetHoursConditionPage([FromRoute] int year, [FromRoute] int month, [FromRoute] int day)
+        public ConditionPageModel GetHoursConditionPage([FromRoute] int year, [FromRoute] int month, [FromRoute] int day, [FromQuery] int offset, [FromQuery] int limit)
         {
-            _logger.LogDiagnosticInformation("GetHoursConditionPage called with {year} {month} {day}.", year, month, day);
+            _logger.LogEvent(EventId.ConditionsController_GetHoursConditionPage, "{@year} {@month} {@day} {@offset} {@limit}", year, month, day, offset, limit);
 
             throw new NotImplementedException();
         }
@@ -158,7 +163,7 @@ namespace BellRichM.Weather.Api.Controllers
         [HttpGet("/api/[controller]/years/{year}/months/{month}/days/{day}/hours/{hour}", Name="GetHourDetail")]
         public ConditionModel GetHourDetail([FromRoute] int year, [FromRoute] int month, [FromRoute] int day, [FromRoute] int hour)
         {
-            _logger.LogDiagnosticInformation("GetHourDetail called with {year} {month} {day} {hour}.", year, month, day, hour);
+            _logger.LogEvent(EventId.ConditionsController_GetHourDetail, "{@year} {@month} {@day} {@hour}", year, month, day, hour);
 
             throw new NotImplementedException();
         }
@@ -167,12 +172,14 @@ namespace BellRichM.Weather.Api.Controllers
         /// Gets minimum and maximimum weather conditions for the month across all years.
         /// </summary>
         /// <param name="month">The month.</param>
+        /// <param name="offset">The starting offset.</param>
+        /// <param name="limit">The maximum number of years to return.</param>
         /// <returns>The <see cref="ConditionPageModel"/>.</returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         [HttpGet("/api/[controller]/years/months/{month}", Name="GetYearsMonthConditionPage")]
-        public ConditionPageModel GetYearsMonthConditionPage([FromRoute] int month)
+        public ConditionPageModel GetYearsMonthConditionPage([FromRoute] int month, [FromQuery] int offset, [FromQuery] int limit)
         {
-            _logger.LogDiagnosticInformation("GetYearsMonthConditionPage called with {month}.", month);
+            _logger.LogEvent(EventId.ConditionsController_GetYearsMonthConditionPage, "{@month} {@offset} {@limit}", month, offset, limit);
 
             throw new NotImplementedException();
         }
@@ -182,12 +189,14 @@ namespace BellRichM.Weather.Api.Controllers
         /// </summary>
         /// <param name="month">The month.</param>
         /// <param name="day">The day.</param>
+        /// <param name="offset">The starting offset.</param>
+        /// <param name="limit">The maximum number of years to return.</param>
         /// <returns>The <see cref="ConditionPageModel"/>.</returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         [HttpGet("/api/[controller]/years/months/{month}/days/{day}", Name="GetYearsDayConditionPage")]
-        public ConditionPageModel GetYearsDayConditionPage([FromRoute] int month, [FromRoute] int day)
+        public ConditionPageModel GetYearsDayConditionPage([FromRoute] int month, [FromRoute] int day, [FromQuery] int offset, [FromQuery] int limit)
         {
-            _logger.LogDiagnosticInformation("GetYearsDayConditionPage called with {month} {day}.", month, day);
+            _logger.LogEvent(EventId.ConditionsController_GetYearsDayConditionPage, "{@month} {@day} {@offset} {@limit}", month, day, offset, limit);
 
             throw new NotImplementedException();
         }
@@ -198,12 +207,14 @@ namespace BellRichM.Weather.Api.Controllers
         /// <param name="month">The month.</param>
         /// <param name="day">The day.</param>
         /// <param name="hour">The hour.</param>
+        /// <param name="offset">The starting offset.</param>
+        /// <param name="limit">The maximum number of years to return.</param>
         /// <returns>The <see cref="ConditionPageModel"/>.</returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         [HttpGet("/api/[controller]/years/months/{month}/days/{day}/hours/{hour}", Name="GetYearsHourConditionPage")]
-        public ConditionPageModel GetYearsHourConditionPage([FromRoute] int month, [FromRoute] int day, [FromRoute] int hour)
+        public ConditionPageModel GetYearsHourConditionPage([FromRoute] int month, [FromRoute] int day, [FromRoute] int hour, [FromQuery] int offset, [FromQuery] int limit)
         {
-            _logger.LogDiagnosticInformation("GetYearsHourConditionPage called with {month} {day} {hour}.", month, day, hour);
+            _logger.LogEvent(EventId.ConditionsController_GetYearsHourConditionPage, "{@month} {@day} {@hour} {@offset} {@limit}", month, day, hour, offset, limit);
 
             throw new NotImplementedException();
         }
