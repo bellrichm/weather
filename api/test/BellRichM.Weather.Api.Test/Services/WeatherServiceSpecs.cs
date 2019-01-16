@@ -115,6 +115,7 @@ namespace BellRichM.Weather.Api.Services.Test
         {
             conditionPage.Paging.Limit.Should().Equals(Limit);
         };
+
         It should_have_correct_condition_data = () =>
         {
             conditionPage.Conditions.Should().BeEquivalentTo(conditions);
