@@ -1,3 +1,4 @@
+using BellRichM.Helpers.Test;
 using BellRichM.Logging;
 using BellRichM.Weather.Api.Configuration;
 using BellRichM.Weather.Api.Data;
@@ -26,6 +27,8 @@ namespace BellRichM
         protected const int Offset = 0;
         protected const int Limit = 5;
 
+        protected static LoggingData loggingData;
+
         protected static Condition testCondition;
         protected static Mock<ILoggerAdapter<WeatherRepository>> loggerMock;
         protected static WeatherRepository weatherRepository;
@@ -34,6 +37,13 @@ namespace BellRichM
 
         Establish context = () =>
         {
+            // default to no logging
+            loggingData = new LoggingData
+            {
+                EventLoggingData = new List<EventLoggingData>(),
+                ErrorLoggingMessages = new List<string>()
+            };
+
             testCondition = new Condition
             {
                 Year = 2018,
@@ -76,10 +86,23 @@ namespace BellRichM
         protected static IEnumerable<Condition> conditions;
 
         Establish context = () =>
+        {
+            loggingData = new LoggingData
+            {
+                DebugTimes = 1,
+                EventLoggingData = new List<EventLoggingData>(),
+                ErrorLoggingMessages = new List<string>()
+            };
+
             weatherRepository = new WeatherRepository(loggerMock.Object, weatherRepositoryDbProviderFactory, weatherRepositoryConfiguration);
+        };
 
         Because of = () =>
             conditions = weatherRepository.GetYear(Offset, Limit);
+
+#pragma warning disable 169
+        Behaves_like<LoggingBehaviors<WeatherRepository>> correct_logging;
+#pragma warning restore 169
 
         It should_have_correct_number_of_records = () =>
             conditions.Count().ShouldEqual(3);
@@ -99,10 +122,23 @@ namespace BellRichM
         protected static IEnumerable<Condition> conditions;
 
         Establish context = () =>
+        {
+            loggingData = new LoggingData
+            {
+                DebugTimes = 1,
+                EventLoggingData = new List<EventLoggingData>(),
+                ErrorLoggingMessages = new List<string>()
+            };
+
             weatherRepository = new WeatherRepository(loggerMock.Object, weatherRepositoryDbProviderFactory, weatherRepositoryConfiguration);
+        };
 
         Because of = () =>
             conditions = weatherRepository.GetYear(4, Limit);
+
+#pragma warning disable 169
+        Behaves_like<LoggingBehaviors<WeatherRepository>> correct_logging;
+#pragma warning restore 169
 
         It should_have_correct_number_of_records = () =>
             conditions.ShouldBeEmpty();
@@ -113,10 +149,23 @@ namespace BellRichM
         protected static Condition condition;
 
         Establish context = () =>
+        {
+            loggingData = new LoggingData
+            {
+                DebugTimes = 1,
+                EventLoggingData = new List<EventLoggingData>(),
+                ErrorLoggingMessages = new List<string>()
+            };
+
             weatherRepository = new WeatherRepository(loggerMock.Object, weatherRepositoryDbProviderFactory, weatherRepositoryConfiguration);
+        };
 
         Because of = () =>
             condition = weatherRepository.GetHourDetail(2018, 9, 1, 1);
+
+#pragma warning disable 169
+        Behaves_like<LoggingBehaviors<WeatherRepository>> correct_logging;
+#pragma warning restore 169
 
         It should_return_the_correct_data = () =>
             condition.Should().BeEquivalentTo(testCondition);
@@ -127,10 +176,23 @@ namespace BellRichM
         protected static Condition condition;
 
         Establish context = () =>
+        {
+            loggingData = new LoggingData
+            {
+                DebugTimes = 1,
+                EventLoggingData = new List<EventLoggingData>(),
+                ErrorLoggingMessages = new List<string>()
+            };
+
             weatherRepository = new WeatherRepository(loggerMock.Object, weatherRepositoryDbProviderFactory, weatherRepositoryConfiguration);
+        };
 
         Because of = () =>
             condition = weatherRepository.GetHourDetail(1900, 9, 1, 1);
+
+#pragma warning disable 169
+        Behaves_like<LoggingBehaviors<WeatherRepository>> correct_logging;
+#pragma warning restore 169
 
         It should_return_the_correct_data = () =>
             condition.ShouldBeNull();
@@ -141,10 +203,23 @@ namespace BellRichM
         protected static int count;
 
         Establish context = () =>
+        {
+            loggingData = new LoggingData
+            {
+                DebugTimes = 1,
+                EventLoggingData = new List<EventLoggingData>(),
+                ErrorLoggingMessages = new List<string>()
+            };
+
             weatherRepository = new WeatherRepository(loggerMock.Object, weatherRepositoryDbProviderFactory, weatherRepositoryConfiguration);
+        };
 
         Because of = () =>
             count = weatherRepository.GetYearCount();
+
+#pragma warning disable 169
+        Behaves_like<LoggingBehaviors<WeatherRepository>> correct_logging;
+#pragma warning restore 169
 
         It should_return_the_correct_count = () =>
             count.ShouldEqual(3);

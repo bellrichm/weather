@@ -54,6 +54,8 @@ FROM v_condition
         /// <inheritdoc/>
         public IEnumerable<Condition> GetYear(int offset, int limit)
         {
+            _logger.LogDiagnosticDebug("GetYear: {@offset} {@limit}", offset, limit);
+
             var statement = "SELECT year"
             + DataFields
             + @"
@@ -97,6 +99,8 @@ OFFSET @offset
         /// <inheritdoc/>
         public Condition GetHourDetail(int year, int month, int day, int hour)
         {
+            _logger.LogDiagnosticDebug("GetHourDetail: {@year} {@month} {@day} {@hour}", year, month, day, hour);
+
             var statement = @"
 SELECT
   year, month, day, hour"
@@ -153,6 +157,8 @@ GROUP BY year, month, day, hour
         /// <inheritdoc/>
         public int GetYearCount()
         {
+            _logger.LogDiagnosticDebug("GetYearCount");
+
             var statement = @"
 SELECT COUNT(DISTINCT year) as yearCount
   FROM v_condition
