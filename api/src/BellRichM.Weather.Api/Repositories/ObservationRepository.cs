@@ -35,6 +35,8 @@ namespace BellRichM.Weather.Api.Repositories
         /// <inheritdoc/>
         public Observation GetObservation(int dateTime)
         {
+            _logger.LogDiagnosticDebug("GetObservation: {@dateTime}", dateTime);
+
             var statement = @"
 SELECT
      year, month, day, hour, minute, dateTime, usUnits, interval,
@@ -129,6 +131,7 @@ WHERE
         /// <inheritdoc/>
         public int CreateObservation(Observation observation)
         {
+            _logger.LogDiagnosticDebug("CreateObservation: {@observation}", observation);
             var statement = @"
 INSERT INTO condition
     (
@@ -184,6 +187,8 @@ INSERT INTO condition
         /// <inheritdoc/>
         public int UpdateObservation(Observation observation)
         {
+            _logger.LogDiagnosticDebug("UpdateObservation: {@observation}", observation);
+
             var statement = @"
 UPDATE condition
     SET
@@ -257,6 +262,8 @@ UPDATE condition
         /// <inheritdoc/>
         public int DeleteObservation(int dateTime)
         {
+            _logger.LogDiagnosticDebug("DeleteObservation: {@dateTime}", dateTime);
+
             var statement = @"
 DELETE FROM condition
     WHERE

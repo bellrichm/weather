@@ -119,7 +119,7 @@ namespace BellRichM.Dummy
         {
             loggingData = new LoggingData
             {
-                DebugTimes = 0,
+                DebugTimes = 2, // because also calling GetObservation method
                 EventLoggingData = new List<EventLoggingData>(),
                 ErrorLoggingMessages = new List<string>()
             };
@@ -149,7 +149,7 @@ namespace BellRichM.Dummy
         {
             loggingData = new LoggingData
             {
-                DebugTimes = 0,
+                DebugTimes = 1,
                 EventLoggingData = new List<EventLoggingData>(),
                 ErrorLoggingMessages = new List<string>()
             };
@@ -173,7 +173,7 @@ namespace BellRichM.Dummy
         {
             loggingData = new LoggingData
             {
-                DebugTimes = 0,
+                DebugTimes = 2, // because also calling GetObservation method
                 EventLoggingData = new List<EventLoggingData>(),
                 ErrorLoggingMessages = new List<string>()
             };
@@ -203,7 +203,7 @@ namespace BellRichM.Dummy
         {
             loggingData = new LoggingData
             {
-                DebugTimes = 0,
+                DebugTimes = 2, // because also calling GetObservation method
                 EventLoggingData = new List<EventLoggingData>(),
                 ErrorLoggingMessages = new List<string>()
             };
