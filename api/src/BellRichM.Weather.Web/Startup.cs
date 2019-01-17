@@ -99,7 +99,7 @@ namespace BellRichM.Weather.Web
             DbProviderFactories.RegisterFactory("Sqlite", SqliteFactory.Instance);
             DbProviderFactories.RegisterFactory("SqlServer", SqlClientFactory.Instance);
             services.AddIdentityServices(Configuration);
-            services.AddConditionServices(Configuration);
+            services.AddWeatherServices(Configuration);
 
             // needed for testserver to find controllers
             services.AddMvc()

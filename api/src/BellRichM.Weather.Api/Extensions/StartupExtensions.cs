@@ -23,7 +23,7 @@ namespace BellRichM.Weather.Api.Extensions
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/>.</param>
         /// <param name="configuration">The <see cref="IConfiguration"/>.</param>
-        public static void AddConditionServices(this IServiceCollection services, IConfiguration configuration)
+        public static void AddWeatherServices(this IServiceCollection services, IConfiguration configuration)
         {
             var conditionRepositoryConfiguration = new ConditionRepositoryConfiguration();
             var conditionRepositoryConfigurationSection = configuration.GetSection("WeatherApi:ConditionRepository");
