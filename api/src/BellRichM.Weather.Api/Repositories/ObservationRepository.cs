@@ -55,7 +55,6 @@ WHERE
 ";
 
             Observation observation = null;
-            var startUnixTime = DateTimeOffset.Now.ToUnixTimeSeconds() - (7 * 24 * 60 * 60);
 
             var dbConnection = _observationDbProviderFactory.CreateConnection();
             dbConnection.ConnectionString = _connectionString;
