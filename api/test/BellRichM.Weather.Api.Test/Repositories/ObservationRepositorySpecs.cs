@@ -126,7 +126,7 @@ namespace BellRichM.Dummy
         };
 
         Because of = () =>
-            rowCount = observationRepository.CreateObservation(originalObservation);
+            rowCount = observationRepository.CreateObservation(originalObservation).Result;
 
 #pragma warning disable 169
         Behaves_like<LoggingBehaviors<ObservationRepository>> correct_logging;
@@ -137,7 +137,7 @@ namespace BellRichM.Dummy
 
         It should_persist_the_data = () =>
         {
-            var obs = observationRepository.GetObservation(originalObservation.DateTime);
+            var obs = observationRepository.GetObservation(originalObservation.DateTime).Result;
             obs.Should().BeEquivalentTo(originalObservation);
         };
     }
@@ -156,7 +156,7 @@ namespace BellRichM.Dummy
         };
 
         Because of = () =>
-            observation = observationRepository.GetObservation(originalObservation.DateTime);
+            observation = observationRepository.GetObservation(originalObservation.DateTime).Result;
 
 #pragma warning disable 169
         Behaves_like<LoggingBehaviors<ObservationRepository>> correct_logging;
@@ -180,7 +180,7 @@ namespace BellRichM.Dummy
         };
 
         Because of = () =>
-            rowCount = observationRepository.UpdateObservation(updatedObservation);
+            rowCount = observationRepository.UpdateObservation(updatedObservation).Result;
 
 #pragma warning disable 169
         Behaves_like<LoggingBehaviors<ObservationRepository>> correct_logging;
@@ -191,7 +191,7 @@ namespace BellRichM.Dummy
 
         It should_persist_the_data = () =>
         {
-            var observation = observationRepository.GetObservation(updatedObservation.DateTime);
+            var observation = observationRepository.GetObservation(updatedObservation.DateTime).Result;
             observation.Should().BeEquivalentTo(updatedObservation);
         };
     }
@@ -210,7 +210,7 @@ namespace BellRichM.Dummy
         };
 
         Because of = () =>
-            rowCount = observationRepository.DeleteObservation(originalObservation.DateTime);
+            rowCount = observationRepository.DeleteObservation(originalObservation.DateTime).Result;
 
 #pragma warning disable 169
         Behaves_like<LoggingBehaviors<ObservationRepository>> correct_logging;
@@ -221,7 +221,7 @@ namespace BellRichM.Dummy
 
         It should_persist_the_data = () =>
         {
-            var observation = observationRepository.GetObservation(originalObservation.DateTime);
+            var observation = observationRepository.GetObservation(originalObservation.DateTime).Result;
             observation.Should().BeNull();
         };
     }

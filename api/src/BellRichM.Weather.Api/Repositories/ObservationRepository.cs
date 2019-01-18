@@ -9,6 +9,7 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Threading.Tasks;
 
 namespace BellRichM.Weather.Api.Repositories
 {
@@ -33,7 +34,7 @@ namespace BellRichM.Weather.Api.Repositories
         }
 
         /// <inheritdoc/>
-        public Observation GetObservation(int dateTime)
+        public async Task<Observation> GetObservation(int dateTime)
         {
             _logger.LogDiagnosticDebug("GetObservation: {@dateTime}", dateTime);
 
@@ -72,7 +73,7 @@ WHERE
 
                     using (var rdr = dbCommand.ExecuteReader())
                     {
-                        if (rdr.Read())
+                        if (await rdr.ReadAsync())
                         {
                             observation =
                                 new Observation
@@ -129,7 +130,7 @@ WHERE
         }
 
         /// <inheritdoc/>
-        public int CreateObservation(Observation observation)
+        public async Task<int> CreateObservation(Observation observation)
         {
             _logger.LogDiagnosticDebug("CreateObservation: {@observation}", observation);
             var statement = @"
@@ -174,7 +175,7 @@ INSERT INTO condition
                     AddParms(dbCommand, observation);
 
                     dbConnection.Open();
-                    rowCount = dbCommand.ExecuteNonQuery();
+                    rowCount = await dbCommand.ExecuteNonQueryAsync();
                     dbCommand.Parameters.Clear();
                 }
 
@@ -185,7 +186,7 @@ INSERT INTO condition
         }
 
         /// <inheritdoc/>
-        public int UpdateObservation(Observation observation)
+        public async Task<int> UpdateObservation(Observation observation)
         {
             _logger.LogDiagnosticDebug("UpdateObservation: {@observation}", observation);
 
@@ -249,7 +250,7 @@ UPDATE condition
                 {
                     AddParms(dbCommand, observation);
                     dbConnection.Open();
-                    rowCount = dbCommand.ExecuteNonQuery();
+                    rowCount = await dbCommand.ExecuteNonQueryAsync();
                     dbCommand.Parameters.Clear();
                 }
 
@@ -260,7 +261,7 @@ UPDATE condition
         }
 
         /// <inheritdoc/>
-        public int DeleteObservation(int dateTime)
+        public async Task<int> DeleteObservation(int dateTime)
         {
             _logger.LogDiagnosticDebug("DeleteObservation: {@dateTime}", dateTime);
 
@@ -282,7 +283,7 @@ DELETE FROM condition
                     dbCommand.AddParamWithValue("@dateTime", dateTime);
 
                     dbConnection.Open();
-                    rowCount = dbCommand.ExecuteNonQuery();
+                    rowCount = await dbCommand.ExecuteNonQueryAsync();
                     dbCommand.Parameters.Clear();
                 }
 
