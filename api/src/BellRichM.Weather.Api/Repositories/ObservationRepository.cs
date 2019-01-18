@@ -73,7 +73,7 @@ WHERE
 
                     using (var rdr = dbCommand.ExecuteReader())
                     {
-                        if (await rdr.ReadAsync())
+                        if (await rdr.ReadAsync().ConfigureAwait(true))
                         {
                             observation =
                                 new Observation
@@ -175,7 +175,7 @@ INSERT INTO condition
                     AddParms(dbCommand, observation);
 
                     dbConnection.Open();
-                    rowCount = await dbCommand.ExecuteNonQueryAsync();
+                    rowCount = await dbCommand.ExecuteNonQueryAsync().ConfigureAwait(true);
                     dbCommand.Parameters.Clear();
                 }
 
@@ -250,7 +250,7 @@ UPDATE condition
                 {
                     AddParms(dbCommand, observation);
                     dbConnection.Open();
-                    rowCount = await dbCommand.ExecuteNonQueryAsync();
+                    rowCount = await dbCommand.ExecuteNonQueryAsync().ConfigureAwait(true);
                     dbCommand.Parameters.Clear();
                 }
 
@@ -283,7 +283,7 @@ DELETE FROM condition
                     dbCommand.AddParamWithValue("@dateTime", dateTime);
 
                     dbConnection.Open();
-                    rowCount = await dbCommand.ExecuteNonQueryAsync();
+                    rowCount = await dbCommand.ExecuteNonQueryAsync().ConfigureAwait(true);
                     dbCommand.Parameters.Clear();
                 }
 
