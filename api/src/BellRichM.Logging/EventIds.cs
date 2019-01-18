@@ -145,6 +145,32 @@ namespace BellRichM.Logging
     /// The conditions controller GetYearsHourConditionPage event id.
     /// </summary>
     ConditionsController_GetYearsHourConditionPage,
+
+    /// <summary>
+    /// The observation controller event id.
+    /// </summary>
+    ObservationsController = 5000,
+
+    /// <summary>
+    /// The observation controller get event id.
+    /// </summary>
+    ObservationsController_Get,
+
+    /// <summary>
+    /// The observation controller create event id.
+    /// </summary>
+    ObservationsController_Create,
+
+    /// <summary>
+    /// The observation controller create event id.
+    /// </summary>
+    ObservationsController_Update,
+
+    /// <summary>
+    /// The observation controller delete event id.
+    /// </summary>
+    ObservationsController_Delete,
+
     }
 }
 #pragma warning restore CA1707
