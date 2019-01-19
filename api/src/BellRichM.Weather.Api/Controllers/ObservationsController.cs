@@ -82,27 +82,33 @@ namespace BellRichM.Weather.Api.Controllers
 
             var observationModel = _mapper.Map<ObservationModel>(observation);
             return Ok(observationModel);
-
-            throw new NotImplementedException();
         }
 
         /// <summary>
         /// Updates the specified observation.
         /// </summary>
-        /// <param name="observationUpdate">The observation to update.</param>
+        /// <param name="observationUpdateModel">The observation to update.</param>
         /// <returns>The <see cref="Task{IActionResult}"/>containing the <see cref="ObservationModel"/>.</returns>
-        [Authorize(Policy = "CanUpdateObservations")]
+        //[Authorize(Policy = "CanUpdateObservations")]
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] ObservationModel observationUpdate)
+        public async Task<IActionResult> Update([FromBody] ObservationModel observationUpdateModel)
         {
-            _logger.LogEvent(EventId.ObservationsController_Update, "{@observationUpdate}", observationUpdate);
+            _logger.LogEvent(EventId.ObservationsController_Update, "{@observationUpdateModel}", observationUpdateModel);
 
-            throw new NotImplementedException();
+            var observationUpdate = _mapper.Map<Observation>(observationUpdateModel);
+            var observation = await _observationService.UpdateObservation(observationUpdate).ConfigureAwait(true);
+            if (observation == null)
+            {
+                return NotFound();
+            }
+
+            var observationModel = _mapper.Map<ObservationModel>(observation);
+            return Ok(observationModel);
         }
 
         /// <summary>
         /// Deletes the observation.
-        /// </summary>
+        /// /// </summary>
         /// <param name="dateTime">The identifier.</param>
         /// <returns>A <see cref="Task{IActionResult}"/>.</returns>
         [Authorize(Policy = "CanDeleteObservations")]

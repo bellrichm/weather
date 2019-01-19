@@ -129,6 +129,9 @@ namespace BellRichM.Weather.Api.TestControllers.Test
             observationServiceMock.Setup(x => x.CreateObservation(notFoundObservation)).Returns(Task.FromResult<Observation>(null));
             observationServiceMock.Setup(x => x.CreateObservation(observation)).Returns(Task.FromResult(observation));
 
+            observationServiceMock.Setup(x => x.UpdateObservation(notFoundObservation)).Returns(Task.FromResult<Observation>(null));
+            observationServiceMock.Setup(x => x.UpdateObservation(observation)).Returns(Task.FromResult(observation));
+
             observationsController = new ObservationsController(loggerMock.Object, mapperMock.Object, observationServiceMock.Object);
         };
     }
@@ -289,9 +292,9 @@ namespace BellRichM.Weather.Api.TestControllers.Test
             .BeDecoratedWith<AuthorizeAttribute>(a => a.Policy == "CanCreateObservations");
     }
 
-    internal class When_updating_an_observation : ObservationsControllerSpecs
+    internal class When_updating_an_observation_succeeds : ObservationsControllerSpecs
     {
-        private static Exception exception;
+        private static ObjectResult result;
 
         Establish context = () =>
         {
@@ -301,25 +304,56 @@ namespace BellRichM.Weather.Api.TestControllers.Test
                 {
                     new EventLoggingData(
                         EventId.ObservationsController_Update,
-                        "{@observationUpdate}")
+                        "{@observationUpdateModel}")
                 },
                 ErrorLoggingMessages = new List<string>()
             };
         };
 
         Because of = () =>
-        {
-            exception = Catch.Exception(() => observationsController.Update(observationModel).Await());
-        };
+            result = (ObjectResult)observationsController.Update(observationModel).Await();
 
 #pragma warning disable 169
         Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging;
 #pragma warning restore 169
 
-        It should_throw_not_implemented = () =>
+        It should_return_success_status_code = () =>
+            result.StatusCode.Should().Equals(200);
+
+        It should_return_the_observation_model = () =>
         {
-            exception.ShouldBeOfExactType<NotImplementedException>();
+            var retrievedObservationModel = (ObservationModel)result.Value;
+            retrievedObservationModel.Should().BeEquivalentTo(observationModel);
         };
+    }
+
+    internal class When_updating_an_observation_fails : ObservationsControllerSpecs
+    {
+        private static NotFoundResult result;
+
+        Establish context = () =>
+        {
+            loggingData = new LoggingData
+            {
+                EventLoggingData = new List<EventLoggingData>
+                {
+                    new EventLoggingData(
+                        EventId.ObservationsController_Update,
+                        "{@observationUpdateModel}")
+                },
+                ErrorLoggingMessages = new List<string>()
+            };
+        };
+
+        Because of = () =>
+            result = (NotFoundResult)observationsController.Update(notFoundObservationModel).Await();
+
+#pragma warning disable 169
+        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging;
+#pragma warning restore 169
+
+        It should_return_not_found_status_code = () =>
+            result.StatusCode.Should().Equals(404);
     }
 
     internal class When_decorating_Observation_Update_method : ObservationsControllerSpecs
