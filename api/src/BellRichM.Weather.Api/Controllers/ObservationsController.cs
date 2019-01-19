@@ -89,7 +89,7 @@ namespace BellRichM.Weather.Api.Controllers
         /// </summary>
         /// <param name="observationUpdateModel">The observation to update.</param>
         /// <returns>The <see cref="Task{IActionResult}"/>containing the <see cref="ObservationModel"/>.</returns>
-        //[Authorize(Policy = "CanUpdateObservations")]
+        [Authorize(Policy = "CanUpdateObservations")]
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] ObservationModel observationUpdateModel)
         {
