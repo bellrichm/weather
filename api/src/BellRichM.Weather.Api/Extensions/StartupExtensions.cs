@@ -55,6 +55,15 @@ namespace BellRichM.Weather.Api.Extensions
             services.AddScoped<IConditionService, ConditionService>();
             services.AddScoped<IConditionRepository, ConditionRepository>();
 
+            if (observationRepositoryConfiguration.Provider == "Sqlite")
+            {
+                services.AddScoped<IObservationService, ObservationSqliteService>();
+            }
+            else
+            {
+                throw new NotSupportedException(observationRepositoryConfiguration.Provider + " database is not supported for the observation repository.");
+            }
+
             services.AddScoped<IObservationRepository, ObservationRepository>();
         }
     }
