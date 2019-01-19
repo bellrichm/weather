@@ -1,10 +1,14 @@
+using AutoMapper;
 using BellRichM.Helpers.Test;
 using BellRichM.Logging;
 using BellRichM.Weather.Api.Controllers;
+using BellRichM.Weather.Api.Data;
 using BellRichM.Weather.Api.Models;
+using BellRichM.Weather.Api.Services;
 using FluentAssertions;
 using Machine.Specifications;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Newtonsoft.Json;
 using System;
@@ -19,17 +23,21 @@ using System.Threading.Tasks;
 using IT = Moq.It;
 using It = Machine.Specifications.It;
 
-namespace BellRichM.Weather.Api.Test
+namespace BellRichM.Weather.Api.TestControllers.Test
 {
-    public class DummySpecs
+    public class ObservationsControllerSpecs
     {
-        protected static int dateTime;
+        protected static int dateTime; // todo delete
         protected static LoggingData loggingData;
 
         protected static ObservationModel observationModel;
+        protected static Observation observation;
+        protected static ObservationModel notFoundObservationModel;
 
         protected static ObservationsController observationsController;
         protected static Mock<ILoggerAdapter<ObservationsController>> loggerMock;
+        protected static Mock<IMapper> mapperMock;
+        protected static Mock<IObservationService> observationServiceMock;
 
         Establish context = () =>
         {
@@ -66,15 +74,56 @@ namespace BellRichM.Weather.Api.Test
                 Ultraviolet = 0.0
             };
 
-            loggerMock = new Mock<ILoggerAdapter<ObservationsController>>();
+            observation = new Observation
+            {
+                Year = 2001,
+                Month = 9,
+                Day = 1,
+                Hour = 1,
+                Minute = 5,
+                DateTime = 999306300,
+                USUnits = 1,
+                Interval = 5,
+                Barometer = 29.688,
+                Pressure = 29.172642123245641,
+                Altimeter = 29.686688005475741,
+                OutsideTemperature = 67.0,
+                OutsideHumidity = 80.0,
+                WindSpeed = 1.0000024854909466,
+                WindDirection = 135.0,
+                WindGust = 2.0000049709818932,
+                WindGustDirection = 135.0,
+                RainRate = 0.0,
+                Rain = 0.0,
+                DewPoint = 60.619405344958267,
+                Windchill = 67.0,
+                HeatIndex = 67.0,
+                Evapotranspiration = 0.0,
+                Radiation = 0.0,
+                Ultraviolet = 0.0
+            };
 
-            observationsController = new ObservationsController(loggerMock.Object);
+            notFoundObservationModel = new ObservationModel
+            {
+                DateTime = 0
+            };
+
+            loggerMock = new Mock<ILoggerAdapter<ObservationsController>>();
+            mapperMock = new Mock<IMapper>();
+            observationServiceMock = new Mock<IObservationService>();
+
+            mapperMock.Setup(x => x.Map<ObservationModel>(observation)).Returns(observationModel);
+
+            observationServiceMock.Setup(x => x.GetObservation(notFoundObservationModel.DateTime)).Returns(Task.FromResult<Observation>(null));
+            observationServiceMock.Setup(x => x.GetObservation(observationModel.DateTime)).Returns(Task.FromResult(observation));
+
+            observationsController = new ObservationsController(loggerMock.Object, mapperMock.Object, observationServiceMock.Object);
         };
     }
 
-    internal class When_getting_an_observation : DummySpecs
+    internal class When_getting_an_Existing_observation : ObservationsControllerSpecs
     {
-        private static Exception exception;
+        private static ObjectResult result;
 
         Establish context = () =>
         {
@@ -91,21 +140,52 @@ namespace BellRichM.Weather.Api.Test
         };
 
         Because of = () =>
-        {
-            exception = Catch.Exception(() => observationsController.GetObservation(dateTime).Await());
-        };
+            result = (ObjectResult)observationsController.GetObservation(observationModel.DateTime).Await();
 
 #pragma warning disable 169
         Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging;
 #pragma warning restore 169
 
-        It should_throw_not_implemented = () =>
+        It should_return_success_status_code = () =>
+            result.StatusCode.Should().Equals(200);
+
+        It should_return_the_observation_model = () =>
         {
-            exception.ShouldBeOfExactType<NotImplementedException>();
+            var retrievedObservationModel = (ObservationModel)result.Value;
+            retrievedObservationModel.Should().BeEquivalentTo(observationModel);
         };
     }
 
-    internal class When_decorating_Observation_GetObservation_method : DummySpecs
+    internal class When_getting_a_nonexisting_observation_model : ObservationsControllerSpecs
+    {
+        private static NotFoundResult result;
+
+        Establish context = () =>
+        {
+            loggingData = new LoggingData
+            {
+                EventLoggingData = new List<EventLoggingData>
+                {
+                    new EventLoggingData(
+                        EventId.ObservationsController_Get,
+                        "{@dateTime}")
+                },
+                ErrorLoggingMessages = new List<string>()
+            };
+        };
+
+        Because of = () =>
+            result = (NotFoundResult)observationsController.GetObservation(notFoundObservationModel.DateTime).Await();
+
+#pragma warning disable 169
+        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging;
+#pragma warning restore 169
+
+        It should_return_not_found_status_code = () =>
+            result.StatusCode.Should().Equals(404);
+    }
+
+    internal class When_decorating_Observation_GetObservation_method : ObservationsControllerSpecs
     {
         private static MethodInfo methodInfo;
 
@@ -119,7 +199,7 @@ namespace BellRichM.Weather.Api.Test
             .BeDecoratedWith<AuthorizeAttribute>(a => a.Policy == "CanViewObservations");
     }
 
-    internal class When_creating_an_observation : DummySpecs
+    internal class When_creating_an_observation : ObservationsControllerSpecs
     {
         private static Exception exception;
 
@@ -152,7 +232,7 @@ namespace BellRichM.Weather.Api.Test
         };
     }
 
-    internal class When_decorating_Observation_Create_method : DummySpecs
+    internal class When_decorating_Observation_Create_method : ObservationsControllerSpecs
     {
         private static MethodInfo methodInfo;
 
@@ -166,7 +246,7 @@ namespace BellRichM.Weather.Api.Test
             .BeDecoratedWith<AuthorizeAttribute>(a => a.Policy == "CanCreateObservations");
     }
 
-    internal class When_updating_an_observation : DummySpecs
+    internal class When_updating_an_observation : ObservationsControllerSpecs
     {
         private static Exception exception;
 
@@ -199,7 +279,7 @@ namespace BellRichM.Weather.Api.Test
         };
     }
 
-    internal class When_decorating_Observation_Update_method : DummySpecs
+    internal class When_decorating_Observation_Update_method : ObservationsControllerSpecs
     {
         private static MethodInfo methodInfo;
 
@@ -213,7 +293,7 @@ namespace BellRichM.Weather.Api.Test
             .BeDecoratedWith<AuthorizeAttribute>(a => a.Policy == "CanUpdateObservations");
     }
 
-    internal class When_deleting_an_observation : DummySpecs
+    internal class When_deleting_an_observation : ObservationsControllerSpecs
     {
         private static Exception exception;
 
@@ -246,7 +326,7 @@ namespace BellRichM.Weather.Api.Test
         };
     }
 
-    internal class When_decorating_Observation_Delete_method : DummySpecs
+    internal class When_decorating_Observation_Delete_method : ObservationsControllerSpecs
     {
         private static MethodInfo methodInfo;
 
