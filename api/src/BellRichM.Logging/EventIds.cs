@@ -170,7 +170,6 @@ namespace BellRichM.Logging
     /// The observation controller delete event id.
     /// </summary>
     ObservationsController_Delete,
-
     }
 }
 #pragma warning restore CA1707
