@@ -140,7 +140,6 @@ GROUP BY year, month, day, hour
                     {
                         while (rdr.Read())
                         {
-                            System.Console.WriteLine("reading");
                             condition = ReadDataFields(rdr);
                             condition.Year = System.Convert.ToInt32(rdr["year"], CultureInfo.InvariantCulture);
                             condition.Month = System.Convert.ToInt32(rdr["month"], CultureInfo.InvariantCulture);
