@@ -211,39 +211,6 @@ namespace BellRichM.Weather.Api.TestControllers.Test
             .BeDecoratedWith<AuthorizeAttribute>(a => a.Policy == "CanViewObservations");
     }
 
-    internal class When_creating_an_observation : ObservationsControllerSpecs
-    {
-        private static Exception exception;
-
-        Establish context = () =>
-        {
-            loggingData = new LoggingData
-            {
-                EventLoggingData = new List<EventLoggingData>
-                {
-                    new EventLoggingData(
-                        EventId.ObservationsController_Create,
-                        "{@observationCreate}")
-                },
-                ErrorLoggingMessages = new List<string>()
-            };
-        };
-
-        Because of = () =>
-        {
-            exception = Catch.Exception(() => observationsController.Create(observationModel).Await());
-        };
-
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging;
-#pragma warning restore 169
-
-        It should_throw_not_implemented = () =>
-        {
-            exception.Should().BeNull();
-        };
-    }
-
     internal class When_creating_an_observation_succeeds : ObservationsControllerSpecs
     {
         private static ObjectResult result;
