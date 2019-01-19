@@ -108,16 +108,22 @@ namespace BellRichM.Weather.Api.Controllers
 
         /// <summary>
         /// Deletes the observation.
-        /// /// </summary>
+        /// </summary>
         /// <param name="dateTime">The identifier.</param>
         /// <returns>A <see cref="Task{IActionResult}"/>.</returns>
         [Authorize(Policy = "CanDeleteObservations")]
-        [HttpDelete("{id}")]
+        [HttpDelete("{dateTime}")]
         public async Task<IActionResult> Delete(int dateTime)
         {
             _logger.LogEvent(EventId.ObservationsController_Delete, "{@dateTime}", dateTime);
 
-            throw new NotImplementedException();
+            var count = await _observationService.DeleteObservation(dateTime).ConfigureAwait(true);
+            if (count == 0)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
         }
     }
 }

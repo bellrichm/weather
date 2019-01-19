@@ -114,7 +114,6 @@ namespace BellRichM.Weather.Api.TestControllers.Test
                 DateTime = 0
             };
 
-
             loggerMock = new Mock<ILoggerAdapter<ObservationsController>>();
             mapperMock = new Mock<IMapper>();
             observationServiceMock = new Mock<IObservationService>();
@@ -131,6 +130,9 @@ namespace BellRichM.Weather.Api.TestControllers.Test
 
             observationServiceMock.Setup(x => x.UpdateObservation(notFoundObservation)).Returns(Task.FromResult<Observation>(null));
             observationServiceMock.Setup(x => x.UpdateObservation(observation)).Returns(Task.FromResult(observation));
+
+            observationServiceMock.Setup(x => x.DeleteObservation(notFoundObservationModel.DateTime)).Returns(Task.FromResult(0));
+            observationServiceMock.Setup(x => x.DeleteObservation(observationModel.DateTime)).Returns(Task.FromResult(1));
 
             observationsController = new ObservationsController(loggerMock.Object, mapperMock.Object, observationServiceMock.Object);
         };
@@ -370,9 +372,9 @@ namespace BellRichM.Weather.Api.TestControllers.Test
             .BeDecoratedWith<AuthorizeAttribute>(a => a.Policy == "CanUpdateObservations");
     }
 
-    internal class When_deleting_an_observation : ObservationsControllerSpecs
+    internal class When_deleting_an_observation_succeeds : ObservationsControllerSpecs
     {
-        private static Exception exception;
+        private static NoContentResult result;
 
         Establish context = () =>
         {
@@ -389,18 +391,43 @@ namespace BellRichM.Weather.Api.TestControllers.Test
         };
 
         Because of = () =>
-        {
-            exception = Catch.Exception(() => observationsController.Delete(dateTime).Await());
-        };
+            result = (NoContentResult)observationsController.Delete(observationModel.DateTime).Await();
 
 #pragma warning disable 169
         Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging;
 #pragma warning restore 169
 
-        It should_throw_not_implemented = () =>
+        It should_return_no_content_code = () =>
+            result.StatusCode.ShouldEqual(204);
+    }
+
+    internal class When_deleting_an_observation_fails : ObservationsControllerSpecs
+    {
+        private static NotFoundResult result;
+
+        Establish context = () =>
         {
-            exception.ShouldBeOfExactType<NotImplementedException>();
+            loggingData = new LoggingData
+            {
+                EventLoggingData = new List<EventLoggingData>
+                {
+                    new EventLoggingData(
+                        EventId.ObservationsController_Delete,
+                        "{@dateTime}")
+                },
+                ErrorLoggingMessages = new List<string>()
+            };
         };
+
+        Because of = () =>
+            result = (NotFoundResult)observationsController.Delete(notFoundObservationModel.DateTime).Await();
+
+#pragma warning disable 169
+        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging;
+#pragma warning restore 169
+
+        It should_return_not_found_status_code = () =>
+            result.StatusCode.Should().Equals(404);
     }
 
     internal class When_decorating_Observation_Delete_method : ObservationsControllerSpecs
