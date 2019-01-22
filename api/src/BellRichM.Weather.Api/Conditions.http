@@ -1,6 +1,0 @@
-GET http://localhost:5000/api/conditions
-
-###
-POST http://localhost:5000/api/conditions
-
-###
