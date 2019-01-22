@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using BellRichM.Api.Controllers;
 using BellRichM.Logging;
@@ -62,10 +63,12 @@ namespace BellRichM.Weather.Api.Controllers
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         /// <remarks>Not yet implemented.</remarks>
         [HttpGet("/api/[controller]/years/{year}", Name="GetYearDetail")]
-        public ConditionModel GetYearDetail([FromRoute] int year)
+        public async Task<IActionResult> GetYearDetail([FromRoute] int year)
         {
             _logger.LogEvent(EventId.ConditionsController_GetYearDetail, "{@year}", year);
 
+            // This is to get rid of warning CS1998, remove when implementing this method.
+            await Task.CompletedTask.ConfigureAwait(true);
             throw new NotImplementedException();
         }
 
@@ -78,10 +81,12 @@ namespace BellRichM.Weather.Api.Controllers
         /// <returns>The <see cref="ConditionPageModel"/>.</returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         [HttpGet("/api/[controller]/years/{year}/months", Name="GetMonthsConditionPage")]
-        public ConditionPageModel GetMonthsConditionPage([FromRoute] int year, [FromQuery] int offset, [FromQuery] int limit)
+        public async Task<IActionResult> GetMonthsConditionPage([FromRoute] int year, [FromQuery] int offset, [FromQuery] int limit)
         {
             _logger.LogEvent(EventId.ConditionsController_GetMonthsConditionPage, "{@year} {@offset} {@limit}", year, offset, limit);
 
+            // This is to get rid of warning CS1998, remove when implementing this method.
+            await Task.CompletedTask.ConfigureAwait(true);
             throw new NotImplementedException();
         }
 
@@ -93,10 +98,12 @@ namespace BellRichM.Weather.Api.Controllers
         /// <returns>The <see cref="ConditionModel"/>.</returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         [HttpGet("/api/[controller]/years/{year}/months/{month}", Name="GetMonthDetail")]
-        public ConditionModel GetMonthDetail([FromRoute] int year, [FromRoute] int month)
+        public async Task<IActionResult> GetMonthDetail([FromRoute] int year, [FromRoute] int month)
         {
             _logger.LogEvent(EventId.ConditionsController_GetMonthDetail, "{@year} {@month}", year, month);
 
+            // This is to get rid of warning CS1998, remove when implementing this method.
+            await Task.CompletedTask.ConfigureAwait(true);
             throw new NotImplementedException();
         }
 
@@ -110,10 +117,12 @@ namespace BellRichM.Weather.Api.Controllers
         /// <returns>The <see cref="ConditionPageModel"/>.</returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         [HttpGet("/api/[controller]/years/{year}/months/{month}/days", Name="GetDaysConditionPage")]
-        public ConditionPageModel GetDaysConditionPage([FromRoute] int year, [FromRoute] int month, [FromQuery] int offset, [FromQuery] int limit)
+        public async Task<IActionResult> GetDaysConditionPage([FromRoute] int year, [FromRoute] int month, [FromQuery] int offset, [FromQuery] int limit)
         {
             _logger.LogEvent(EventId.ConditionsController_GetDaysConditionPage, "{@year} {@month} {@offset} {@limit}", year, month, offset, limit);
 
+            // This is to get rid of warning CS1998, remove when implementing this method.
+            await Task.CompletedTask.ConfigureAwait(true);
             throw new NotImplementedException();
         }
 
@@ -126,10 +135,12 @@ namespace BellRichM.Weather.Api.Controllers
         /// <returns>The <see cref="ConditionModel"/>.</returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         [HttpGet("/api/[controller]/years/{year}/months/{month}/days/{day}", Name="GetDayDetail")]
-        public ConditionModel GetDayDetail([FromRoute] int year, [FromRoute] int month, [FromRoute] int day)
+        public async Task<IActionResult> GetDayDetail([FromRoute] int year, [FromRoute] int month, [FromRoute] int day)
         {
             _logger.LogEvent(EventId.ConditionsController_GetDayDetail, "{@year} {@month} {@day}", year, month, day);
 
+            // This is to get rid of warning CS1998, remove when implementing this method.
+            await Task.CompletedTask.ConfigureAwait(true);
             throw new NotImplementedException();
         }
 
@@ -144,10 +155,12 @@ namespace BellRichM.Weather.Api.Controllers
         /// <returns>The <see cref="ConditionPageModel"/>.</returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         [HttpGet("/api/[controller]/years/{year}/months/{month}/days/{day}/hours", Name="GetHoursConditionPage")]
-        public ConditionPageModel GetHoursConditionPage([FromRoute] int year, [FromRoute] int month, [FromRoute] int day, [FromQuery] int offset, [FromQuery] int limit)
+        public async Task<IActionResult> GetHoursConditionPage([FromRoute] int year, [FromRoute] int month, [FromRoute] int day, [FromQuery] int offset, [FromQuery] int limit)
         {
             _logger.LogEvent(EventId.ConditionsController_GetHoursConditionPage, "{@year} {@month} {@day} {@offset} {@limit}", year, month, day, offset, limit);
-
+            
+            // This is to get rid of warning CS1998, remove when implementing this method.
+            await Task.CompletedTask.ConfigureAwait(true);
             throw new NotImplementedException();
         }
 
@@ -161,10 +174,12 @@ namespace BellRichM.Weather.Api.Controllers
         /// <returns>The <see cref="ConditionModel"/>.</returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         [HttpGet("/api/[controller]/years/{year}/months/{month}/days/{day}/hours/{hour}", Name="GetHourDetail")]
-        public ConditionModel GetHourDetail([FromRoute] int year, [FromRoute] int month, [FromRoute] int day, [FromRoute] int hour)
+        public async Task<IActionResult> GetHourDetail([FromRoute] int year, [FromRoute] int month, [FromRoute] int day, [FromRoute] int hour)
         {
             _logger.LogEvent(EventId.ConditionsController_GetHourDetail, "{@year} {@month} {@day} {@hour}", year, month, day, hour);
-
+           
+            // This is to get rid of warning CS1998, remove when implementing this method.
+            await Task.CompletedTask.ConfigureAwait(true);
             throw new NotImplementedException();
         }
 
@@ -177,10 +192,12 @@ namespace BellRichM.Weather.Api.Controllers
         /// <returns>The <see cref="ConditionPageModel"/>.</returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         [HttpGet("/api/[controller]/years/months/{month}", Name="GetYearsMonthConditionPage")]
-        public ConditionPageModel GetYearsMonthConditionPage([FromRoute] int month, [FromQuery] int offset, [FromQuery] int limit)
+        public async Task<IActionResult> GetYearsMonthConditionPage([FromRoute] int month, [FromQuery] int offset, [FromQuery] int limit)
         {
             _logger.LogEvent(EventId.ConditionsController_GetYearsMonthConditionPage, "{@month} {@offset} {@limit}", month, offset, limit);
 
+            // This is to get rid of warning CS1998, remove when implementing this method.
+            await Task.CompletedTask.ConfigureAwait(true);
             throw new NotImplementedException();
         }
 
@@ -194,10 +211,12 @@ namespace BellRichM.Weather.Api.Controllers
         /// <returns>The <see cref="ConditionPageModel"/>.</returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         [HttpGet("/api/[controller]/years/months/{month}/days/{day}", Name="GetYearsDayConditionPage")]
-        public ConditionPageModel GetYearsDayConditionPage([FromRoute] int month, [FromRoute] int day, [FromQuery] int offset, [FromQuery] int limit)
+        public async Task<IActionResult> GetYearsDayConditionPage([FromRoute] int month, [FromRoute] int day, [FromQuery] int offset, [FromQuery] int limit)
         {
             _logger.LogEvent(EventId.ConditionsController_GetYearsDayConditionPage, "{@month} {@day} {@offset} {@limit}", month, day, offset, limit);
 
+            // This is to get rid of warning CS1998, remove when implementing this method.
+            await Task.CompletedTask.ConfigureAwait(true);
             throw new NotImplementedException();
         }
 
@@ -212,10 +231,12 @@ namespace BellRichM.Weather.Api.Controllers
         /// <returns>The <see cref="ConditionPageModel"/>.</returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         [HttpGet("/api/[controller]/years/months/{month}/days/{day}/hours/{hour}", Name="GetYearsHourConditionPage")]
-        public ConditionPageModel GetYearsHourConditionPage([FromRoute] int month, [FromRoute] int day, [FromRoute] int hour, [FromQuery] int offset, [FromQuery] int limit)
+        public async Task<IActionResult> GetYearsHourConditionPage([FromRoute] int month, [FromRoute] int day, [FromRoute] int hour, [FromQuery] int offset, [FromQuery] int limit)
         {
             _logger.LogEvent(EventId.ConditionsController_GetYearsHourConditionPage, "{@month} {@day} {@hour} {@offset} {@limit}", month, day, hour, offset, limit);
 
+            // This is to get rid of warning CS1998, remove when implementing this method.
+            await Task.CompletedTask.ConfigureAwait(true);
             throw new NotImplementedException();
         }
     }

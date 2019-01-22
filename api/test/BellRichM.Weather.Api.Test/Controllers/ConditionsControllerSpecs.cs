@@ -105,7 +105,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
     };
 
     Because of = () =>
-      exception = Catch.Exception(() => conditionsController.GetYearDetail(year));
+      exception = Catch.Exception(() => conditionsController.GetYearDetail(year).Await());
 
 #pragma warning disable 169
     Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging;
@@ -134,7 +134,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
     };
 
     Because of = () =>
-      exception = Catch.Exception(() => conditionsController.GetMonthsConditionPage(year, offset, limit));
+      exception = Catch.Exception(() => conditionsController.GetMonthsConditionPage(year, offset, limit).Await());
 
 #pragma warning disable 169
     Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging;
@@ -163,7 +163,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
     };
 
     Because of = () =>
-      exception = Catch.Exception(() => conditionsController.GetMonthDetail(year, month));
+      exception = Catch.Exception(() => conditionsController.GetMonthDetail(year, month).Await());
 
 #pragma warning disable 169
     Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging;
@@ -192,7 +192,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
     };
 
     Because of = () =>
-      exception = Catch.Exception(() => conditionsController.GetDaysConditionPage(year, month, offset, limit));
+      exception = Catch.Exception(() => conditionsController.GetDaysConditionPage(year, month, offset, limit).Await());
 
 #pragma warning disable 169
     Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging;
@@ -221,7 +221,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
     };
 
     Because of = () =>
-      exception = Catch.Exception(() => conditionsController.GetDayDetail(year, month, day));
+      exception = Catch.Exception(() => conditionsController.GetDayDetail(year, month, day).Await());
 
 #pragma warning disable 169
     Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging;
@@ -250,7 +250,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
     };
 
     Because of = () =>
-      exception = Catch.Exception(() => conditionsController.GetHoursConditionPage(year, month, day, offset, limit));
+      exception = Catch.Exception(() => conditionsController.GetHoursConditionPage(year, month, day, offset, limit).Await());
 
 #pragma warning disable 169
     Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging;
@@ -279,7 +279,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
     };
 
     Because of = () =>
-      exception = Catch.Exception(() => conditionsController.GetHourDetail(year, month, day, hour));
+      exception = Catch.Exception(() => conditionsController.GetHourDetail(year, month, day, hour).Await());
 
 #pragma warning disable 169
     Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging;
@@ -308,7 +308,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
     };
 
     Because of = () =>
-      exception = Catch.Exception(() => conditionsController.GetYearsMonthConditionPage(month, offset, limit));
+      exception = Catch.Exception(() => conditionsController.GetYearsMonthConditionPage(month, offset, limit).Await());
 
 #pragma warning disable 169
     Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging;
@@ -337,7 +337,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
     };
 
     Because of = () =>
-      exception = Catch.Exception(() => conditionsController.GetYearsDayConditionPage(month, day, offset, limit));
+      exception = Catch.Exception(() => conditionsController.GetYearsDayConditionPage(month, day, offset, limit).Await());
 
 #pragma warning disable 169
     Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging;
@@ -366,7 +366,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
     };
 
     Because of = () =>
-      exception = Catch.Exception(() => conditionsController.GetYearsHourConditionPage(month, day, hour, offset, limit));
+      exception = Catch.Exception(() => conditionsController.GetYearsHourConditionPage(month, day, hour, offset, limit).Await());
 
 #pragma warning disable 169
     Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging;
