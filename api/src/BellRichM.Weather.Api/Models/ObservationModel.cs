@@ -1,4 +1,5 @@
 using BellRichM.Attribute.CodeCoverage;
+using System.ComponentModel.DataAnnotations;
 
 namespace BellRichM.Weather.Api.Models
 {
@@ -14,6 +15,7 @@ namespace BellRichM.Weather.Api.Models
         /// <value>
         /// The date time.
         /// </value>
+        [Range(1, int.MaxValue)]
         public int DateTime { get; set; }
 
         /// <summary>

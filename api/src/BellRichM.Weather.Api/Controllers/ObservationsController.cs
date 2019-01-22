@@ -7,6 +7,7 @@ using BellRichM.Weather.Api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace BellRichM.Weather.Api.Controllers
@@ -42,7 +43,7 @@ namespace BellRichM.Weather.Api.Controllers
         /// <returns>The <see cref="Task{IActionResult}"/>containing the <see cref="ObservationModel"/>.</returns>
         [Authorize(Policy = "CanViewObservations")]
         [HttpGet("{dateTime}")]
-        public async Task<IActionResult> GetObservation(int dateTime)
+        public async Task<IActionResult> GetObservation([Range(1, int.MaxValue)] int dateTime)
         {
             _logger.LogEvent(EventId.ObservationsController_Get, "{@dateTime}", dateTime);
             if (!ModelState.IsValid)
@@ -72,6 +73,12 @@ namespace BellRichM.Weather.Api.Controllers
         public async Task<IActionResult> Create([FromBody] ObservationModel observationCreateModel)
         {
             _logger.LogEvent(EventId.ObservationsController_Create, "{@observationCreate}", observationCreateModel);
+            if (!ModelState.IsValid)
+            {
+                _logger.LogDiagnosticInformation("{@ModelState}", ModelState);
+                var errorResponseModel = CreateModel();
+                return BadRequest(errorResponseModel);
+            }
 
             var observationCreate = _mapper.Map<Observation>(observationCreateModel);
             var observation = await _observationService.CreateObservation(observationCreate).ConfigureAwait(true);
@@ -94,6 +101,12 @@ namespace BellRichM.Weather.Api.Controllers
         public async Task<IActionResult> Update([FromBody] ObservationModel observationUpdateModel)
         {
             _logger.LogEvent(EventId.ObservationsController_Update, "{@observationUpdateModel}", observationUpdateModel);
+            if (!ModelState.IsValid)
+            {
+                _logger.LogDiagnosticInformation("{@ModelState}", ModelState);
+                var errorResponseModel = CreateModel();
+                return BadRequest(errorResponseModel);
+            }
 
             var observationUpdate = _mapper.Map<Observation>(observationUpdateModel);
             var observation = await _observationService.UpdateObservation(observationUpdate).ConfigureAwait(true);
@@ -113,9 +126,15 @@ namespace BellRichM.Weather.Api.Controllers
         /// <returns>A <see cref="Task{IActionResult}"/>.</returns>
         [Authorize(Policy = "CanDeleteObservations")]
         [HttpDelete("{dateTime}")]
-        public async Task<IActionResult> Delete(int dateTime)
+        public async Task<IActionResult> Delete([Range(1, int.MaxValue)] int dateTime)
         {
             _logger.LogEvent(EventId.ObservationsController_Delete, "{@dateTime}", dateTime);
+            if (!ModelState.IsValid)
+            {
+                _logger.LogDiagnosticInformation("{@ModelState}", ModelState);
+                var errorResponseModel = CreateModel();
+                return BadRequest(errorResponseModel);
+            }
 
             var count = await _observationService.DeleteObservation(dateTime).ConfigureAwait(true);
             if (count == 0)

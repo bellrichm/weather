@@ -1,4 +1,5 @@
 using AutoMapper;
+using BellRichM.Api.Models;
 using BellRichM.Helpers.Test;
 using BellRichM.Logging;
 using BellRichM.Weather.Api.Controllers;
@@ -8,6 +9,7 @@ using BellRichM.Weather.Api.Services;
 using FluentAssertions;
 using Machine.Specifications;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Newtonsoft.Json;
@@ -27,13 +29,17 @@ namespace BellRichM.Weather.Api.TestControllers.Test
 {
     public class ObservationsControllerSpecs
     {
-        protected static int dateTime; // todo delete
+        protected const string ErrorCode = "errorCode";
+        protected const string ErrorMessage = "errorMessage";
+        protected const int InvalidDateTime = 0;
+
         protected static LoggingData loggingData;
 
         protected static ObservationModel observationModel;
         protected static Observation observation;
         protected static ObservationModel notFoundObservationModel;
         protected static Observation notFoundObservation;
+        protected static ObservationModel invalidObservationModel;
 
         protected static ObservationsController observationsController;
         protected static Mock<ILoggerAdapter<ObservationsController>> loggerMock;
@@ -48,8 +54,6 @@ namespace BellRichM.Weather.Api.TestControllers.Test
                 EventLoggingData = new List<EventLoggingData>(),
                 ErrorLoggingMessages = new List<string>()
             };
-
-            dateTime = 999306300;
 
             observationModel = new ObservationModel
             {
@@ -106,13 +110,15 @@ namespace BellRichM.Weather.Api.TestControllers.Test
 
             notFoundObservationModel = new ObservationModel
             {
-                DateTime = 0
+                DateTime = 1
             };
 
             notFoundObservation = new Observation
             {
-                DateTime = 0
+                DateTime = 1
             };
+
+            invalidObservationModel = new ObservationModel();
 
             loggerMock = new Mock<ILoggerAdapter<ObservationsController>>();
             mapperMock = new Mock<IMapper>();
@@ -135,6 +141,8 @@ namespace BellRichM.Weather.Api.TestControllers.Test
             observationServiceMock.Setup(x => x.DeleteObservation(observationModel.DateTime)).Returns(Task.FromResult(1));
 
             observationsController = new ObservationsController(loggerMock.Object, mapperMock.Object, observationServiceMock.Object);
+            observationsController.ControllerContext.HttpContext = new DefaultHttpContext();
+            observationsController.ControllerContext.HttpContext.TraceIdentifier = "traceIdentifier";
         };
     }
 
@@ -200,6 +208,46 @@ namespace BellRichM.Weather.Api.TestControllers.Test
 
         It should_return_not_found_status_code = () =>
             result.StatusCode.Should().Equals(404);
+    }
+
+    internal class When_getting_an_observation_with_an_invalid_modelState : ObservationsControllerSpecs
+    {
+        private static ObjectResult result;
+
+        Establish context = () =>
+        {
+            loggingData = new LoggingData
+            {
+                InformationTimes = 1,
+                EventLoggingData = new List<EventLoggingData>
+                {
+                    new EventLoggingData(
+                        EventId.ObservationsController_Get,
+                        "{@dateTime}")
+                },
+                ErrorLoggingMessages = new List<string>()
+            };
+            observationsController.ModelState.AddModelError(ErrorCode, ErrorMessage);
+        };
+
+#pragma warning disable 169
+        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging;
+#pragma warning restore 169
+
+        Cleanup after = () =>
+            observationsController.ModelState.Clear();
+
+        Because of = () =>
+            result = (ObjectResult)observationsController.GetObservation(InvalidDateTime).Await();
+
+        It should_return_correct_result_type = () =>
+            result.Should().BeOfType<BadRequestObjectResult>();
+
+        It should_return_correct_status_code = () =>
+            result.StatusCode.ShouldEqual(400);
+
+        It should_return_a_ErrorResponseModel = () =>
+            result.Value.Should().BeOfType<ErrorResponseModel>();
     }
 
     internal class When_decorating_Observation_GetObservation_method : ObservationsControllerSpecs
@@ -280,6 +328,46 @@ namespace BellRichM.Weather.Api.TestControllers.Test
             result.StatusCode.Should().Equals(404);
     }
 
+    internal class When_vreating_an_observation_with_an_invalid_modelState : ObservationsControllerSpecs
+    {
+        private static ObjectResult result;
+
+        Establish context = () =>
+        {
+            loggingData = new LoggingData
+            {
+                InformationTimes = 1,
+                EventLoggingData = new List<EventLoggingData>
+                {
+                    new EventLoggingData(
+                        EventId.ObservationsController_Create,
+                        "{@observationCreate}")
+                },
+                ErrorLoggingMessages = new List<string>()
+            };
+            observationsController.ModelState.AddModelError(ErrorCode, ErrorMessage);
+        };
+
+#pragma warning disable 169
+        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging;
+#pragma warning restore 169
+
+        Cleanup after = () =>
+            observationsController.ModelState.Clear();
+
+        Because of = () =>
+            result = (ObjectResult)observationsController.Create(invalidObservationModel).Await();
+
+        It should_return_correct_result_type = () =>
+            result.Should().BeOfType<BadRequestObjectResult>();
+
+        It should_return_correct_status_code = () =>
+            result.StatusCode.ShouldEqual(400);
+
+        It should_return_a_ErrorResponseModel = () =>
+            result.Value.Should().BeOfType<ErrorResponseModel>();
+    }
+
     internal class When_decorating_Observation_Create_method : ObservationsControllerSpecs
     {
         private static MethodInfo methodInfo;
@@ -358,6 +446,46 @@ namespace BellRichM.Weather.Api.TestControllers.Test
             result.StatusCode.Should().Equals(404);
     }
 
+    internal class When_updating_an_observation_with_an_invalid_modelState : ObservationsControllerSpecs
+    {
+        private static ObjectResult result;
+
+        Establish context = () =>
+        {
+            loggingData = new LoggingData
+            {
+                InformationTimes = 1,
+                EventLoggingData = new List<EventLoggingData>
+                {
+                    new EventLoggingData(
+                        EventId.ObservationsController_Update,
+                        "{@observationUpdateModel}")
+                },
+                ErrorLoggingMessages = new List<string>()
+            };
+            observationsController.ModelState.AddModelError(ErrorCode, ErrorMessage);
+        };
+
+#pragma warning disable 169
+        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging;
+#pragma warning restore 169
+
+        Cleanup after = () =>
+            observationsController.ModelState.Clear();
+
+        Because of = () =>
+            result = (ObjectResult)observationsController.Update(invalidObservationModel).Await();
+
+        It should_return_correct_result_type = () =>
+            result.Should().BeOfType<BadRequestObjectResult>();
+
+        It should_return_correct_status_code = () =>
+            result.StatusCode.ShouldEqual(400);
+
+        It should_return_a_ErrorResponseModel = () =>
+            result.Value.Should().BeOfType<ErrorResponseModel>();
+    }
+
     internal class When_decorating_Observation_Update_method : ObservationsControllerSpecs
     {
         private static MethodInfo methodInfo;
@@ -428,6 +556,46 @@ namespace BellRichM.Weather.Api.TestControllers.Test
 
         It should_return_not_found_status_code = () =>
             result.StatusCode.Should().Equals(404);
+    }
+
+    internal class When_deleting_an_observation_with_an_invalid_modelState : ObservationsControllerSpecs
+    {
+        private static ObjectResult result;
+
+        Establish context = () =>
+        {
+            loggingData = new LoggingData
+            {
+                InformationTimes = 1,
+                EventLoggingData = new List<EventLoggingData>
+                {
+                    new EventLoggingData(
+                        EventId.ObservationsController_Delete,
+                        "{@dateTime}")
+                },
+                ErrorLoggingMessages = new List<string>()
+            };
+            observationsController.ModelState.AddModelError(ErrorCode, ErrorMessage);
+        };
+
+#pragma warning disable 169
+        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging;
+#pragma warning restore 169
+
+        Cleanup after = () =>
+            observationsController.ModelState.Clear();
+
+        Because of = () =>
+            result = (ObjectResult)observationsController.Delete(InvalidDateTime).Await();
+
+        It should_return_correct_result_type = () =>
+            result.Should().BeOfType<BadRequestObjectResult>();
+
+        It should_return_correct_status_code = () =>
+            result.StatusCode.ShouldEqual(400);
+
+        It should_return_a_ErrorResponseModel = () =>
+            result.Value.Should().BeOfType<ErrorResponseModel>();
     }
 
     internal class When_decorating_Observation_Delete_method : ObservationsControllerSpecs
