@@ -49,6 +49,7 @@ namespace BellRichM.Weather.Api.Mapping.Test
 
         It should_have_correct_year = () =>
             observation.Year.Should().Equals(Year);
+
         It should_have_correct_month = () =>
             observation.Year.Should().Equals(Month);
 

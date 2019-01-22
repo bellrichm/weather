@@ -16,17 +16,17 @@ namespace BellRichM.Weather.Api.Mapping
         /// <summary>
         /// Converts the unix time on the observation model to a date and time on the observation.
         /// </summary>
-        /// <param name="observationModel">The observation model.</param>
-        /// <param name="observation">The observation.</param>
-        public void Process(ObservationModel observationModel, Observation observation)
+        /// <param name="source">The observation model.</param>
+        /// <param name="destination">The observation.</param>
+        public void Process(ObservationModel source, Observation destination)
         {
             var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc); // UTC vs Eastern...???
-            var dateTime = epoch.AddSeconds(observation.DateTime);
-            observation.Year = dateTime.Year;
-            observation.Month = dateTime.Month;
-            observation.Day = dateTime.Day;
-            observation.Hour = dateTime.Hour;
-            observation.Minute = dateTime.Minute;
+            var dateTime = epoch.AddSeconds(destination.DateTime);
+            destination.Year = dateTime.Year;
+            destination.Month = dateTime.Month;
+            destination.Day = dateTime.Day;
+            destination.Hour = dateTime.Hour;
+            destination.Minute = dateTime.Minute;
         }
     }
 }
