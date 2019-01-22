@@ -23,16 +23,7 @@ namespace BellRichM.Weather.Api.Mapping
                 .ForMember(dest => dest.Day, opt => opt.Ignore())
                 .ForMember(dest => dest.Hour, opt => opt.Ignore())
                 .ForMember(dest => dest.Minute, opt => opt.Ignore())
-                .AfterMap((src, dest) =>
-                {
-                    var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc); // UTC vs Eastern...???
-                    var dateTime = epoch.AddSeconds(src.DateTime);
-                    dest.Year = dateTime.Year;
-                    dest.Month = dateTime.Month;
-                    dest.Day = dateTime.Day;
-                    dest.Hour = dateTime.Hour;
-                    dest.Minute = dateTime.Minute;
-                });
+                .AfterMap<ConvertEpochTime>();
         }
     }
 }
