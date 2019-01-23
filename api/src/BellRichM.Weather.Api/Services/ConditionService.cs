@@ -1,6 +1,7 @@
 using BellRichM.Service.Data;
 using BellRichM.Weather.Api.Data;
 using BellRichM.Weather.Api.Repositories;
+using System.Threading.Tasks;
 
 namespace BellRichM.Weather.Api.Services
 {
@@ -19,13 +20,13 @@ namespace BellRichM.Weather.Api.Services
         }
 
         /// <inheritdoc/>
-        public ConditionPage GetYearWeatherPage(int offset, int limit)
+        public async Task<ConditionPage> GetYearWeatherPage(int offset, int limit)
         {
-            var conditions = _conditionRepository.GetYear(offset, limit);
+            var conditions = await _conditionRepository.GetYear(offset, limit).ConfigureAwait(true);
 
             var paging = new Paging
             {
-                TotalCount = _conditionRepository.GetYearCount(),
+                TotalCount = await _conditionRepository.GetYearCount().ConfigureAwait(true),
                 Offset = offset,
                 Limit = limit
             };

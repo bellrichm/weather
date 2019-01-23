@@ -1,4 +1,5 @@
 using BellRichM.Weather.Api.Data;
+using System.Threading.Tasks;
 
 namespace BellRichM.Weather.Api.Services
 {
@@ -13,6 +14,6 @@ namespace BellRichM.Weather.Api.Services
         /// <param name="offset">The starting offset.</param>
         /// <param name="limit">The maximum number of years to return.</param>
         /// <returns>The <see cref="ConditionPage"/>.</returns>
-         ConditionPage GetYearWeatherPage(int offset, int limit);
+         Task<ConditionPage> GetYearWeatherPage(int offset, int limit);
     }
 }

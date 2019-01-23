@@ -32,7 +32,7 @@ namespace BellRichM.Weather.Api.Services.Test
         protected static ConditionService conditionService;
         protected static ConditionPage conditionPage;
 
-        protected static List<Condition> conditions;
+        protected static IEnumerable<Condition> conditions;
 
         Establish context = () =>
         {
@@ -75,8 +75,8 @@ namespace BellRichM.Weather.Api.Services.Test
             loggerMock = new Mock<ILoggerAdapter<ConditionService>>();
             conditionRepositoryMock = new Mock<IConditionRepository>();
 
-            conditionRepositoryMock.Setup(x => x.GetYearCount()).Returns(conditions.Count);
-            conditionRepositoryMock.Setup(x => x.GetYear(Offset, Limit)).Returns(conditions);
+            conditionRepositoryMock.Setup(x => x.GetYearCount()).Returns(Task.FromResult(conditions.Count()));
+            conditionRepositoryMock.Setup(x => x.GetYear(Offset, Limit)).Returns(Task.FromResult(conditions));
 
             conditionService = new ConditionService(conditionRepositoryMock.Object);
         };
@@ -94,7 +94,7 @@ namespace BellRichM.Weather.Api.Services.Test
 
         Because of = () =>
         {
-            conditionPage = conditionService.GetYearWeatherPage(Offset, Limit);
+            conditionPage = conditionService.GetYearWeatherPage(Offset, Limit).Result;
         };
 
 #pragma warning disable 169
@@ -103,7 +103,7 @@ namespace BellRichM.Weather.Api.Services.Test
 
         It should_have_correct_total_count = () =>
         {
-            conditionPage.Paging.TotalCount.Should().Equals(conditions.Count);
+            conditionPage.Paging.TotalCount.Should().Equals(conditions.Count());
         };
 
         It should_have_correct_offset = () =>
