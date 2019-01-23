@@ -4,6 +4,7 @@ using BellRichM.Weather.Api.Data;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Globalization;
+using System.Threading.Tasks;
 
 namespace BellRichM.Weather.Api.Repositories
 {
@@ -52,7 +53,7 @@ FROM v_condition
         }
 
         /// <inheritdoc/>
-        public IEnumerable<Condition> GetYear(int offset, int limit)
+        public async Task<IEnumerable<Condition>> GetYear(int offset, int limit)
         {
             _logger.LogDiagnosticDebug("GetYear: {@offset} {@limit}", offset, limit);
 
@@ -83,7 +84,7 @@ OFFSET @offset
 
                     using (var rdr = dbCommand.ExecuteReader())
                     {
-                        while (rdr.Read())
+                        while (await rdr.ReadAsync().ConfigureAwait(true))
                         {
                             var condition = ReadDataFields(rdr);
                             condition.Year = System.Convert.ToInt32(rdr["year"], CultureInfo.InvariantCulture);
@@ -97,7 +98,7 @@ OFFSET @offset
         }
 
         /// <inheritdoc/>
-        public Condition GetHourDetail(int year, int month, int day, int hour)
+        public async Task<Condition> GetHourDetail(int year, int month, int day, int hour)
         {
             _logger.LogDiagnosticDebug("GetHourDetail: {@year} {@month} {@day} {@hour}", year, month, day, hour);
 
@@ -138,7 +139,7 @@ GROUP BY year, month, day, hour
 
                     using (var rdr = dbCommand.ExecuteReader())
                     {
-                        while (rdr.Read())
+                        while (await rdr.ReadAsync().ConfigureAwait(true))
                         {
                             condition = ReadDataFields(rdr);
                             condition.Year = System.Convert.ToInt32(rdr["year"], CultureInfo.InvariantCulture);
@@ -154,7 +155,7 @@ GROUP BY year, month, day, hour
         }
 
         /// <inheritdoc/>
-        public int GetYearCount()
+        public async Task<int> GetYearCount()
         {
             _logger.LogDiagnosticDebug("GetYearCount");
 
@@ -178,7 +179,7 @@ SELECT COUNT(DISTINCT year) as yearCount
 
                     using (var rdr = dbCommand.ExecuteReader())
                     {
-                        if (rdr.Read())
+                        if (await rdr.ReadAsync().ConfigureAwait(true))
                         {
                             yearCount = System.Convert.ToInt32(rdr["yearCount"], CultureInfo.InvariantCulture);
                         }
