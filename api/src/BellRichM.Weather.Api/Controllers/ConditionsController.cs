@@ -45,14 +45,14 @@ namespace BellRichM.Weather.Api.Controllers
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         /// <remarks>Not yet implemented.</remarks>
         [HttpGet("/api/[controller]/years", Name="GetYearsConditionPage")]
-        public ConditionPageModel GetYearsConditionPage([FromQuery] int offset, [FromQuery] int limit)
+        public async Task<IActionResult> GetYearsConditionPage([FromQuery] int offset, [FromQuery] int limit)
         {
             _logger.LogEvent(EventId.ConditionsController_GetYearsConditionPage, "{@offset} {@limit}", offset, limit);
 
-            var conditionPage = _conditionService.GetYearWeatherPage(offset, limit);
+            var conditionPage = await _conditionService.GetYearWeatherPage(offset, limit).ConfigureAwait(true);
             var conditionPageModel = _mapper.Map<ConditionPageModel>(conditionPage);
             conditionPageModel.Links = GetNavigationLinks("GetYearsConditionPage", conditionPageModel.Paging);
-            return conditionPageModel;
+            return Ok(conditionPageModel);
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace BellRichM.Weather.Api.Controllers
         public async Task<IActionResult> GetHoursConditionPage([FromRoute] int year, [FromRoute] int month, [FromRoute] int day, [FromQuery] int offset, [FromQuery] int limit)
         {
             _logger.LogEvent(EventId.ConditionsController_GetHoursConditionPage, "{@year} {@month} {@day} {@offset} {@limit}", year, month, day, offset, limit);
-            
+
             // This is to get rid of warning CS1998, remove when implementing this method.
             await Task.CompletedTask.ConfigureAwait(true);
             throw new NotImplementedException();
@@ -177,7 +177,7 @@ namespace BellRichM.Weather.Api.Controllers
         public async Task<IActionResult> GetHourDetail([FromRoute] int year, [FromRoute] int month, [FromRoute] int day, [FromRoute] int hour)
         {
             _logger.LogEvent(EventId.ConditionsController_GetHourDetail, "{@year} {@month} {@day} {@hour}", year, month, day, hour);
-           
+
             // This is to get rid of warning CS1998, remove when implementing this method.
             await Task.CompletedTask.ConfigureAwait(true);
             throw new NotImplementedException();

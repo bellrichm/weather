@@ -76,7 +76,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
     };
 
     Because of = () =>
-      exception = Catch.Exception(() => conditionsController.GetYearsConditionPage(offset, limit));
+      exception = Catch.Exception(() => conditionsController.GetYearsConditionPage(offset, limit).Await());
 
 #pragma warning disable 169
     Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging;
