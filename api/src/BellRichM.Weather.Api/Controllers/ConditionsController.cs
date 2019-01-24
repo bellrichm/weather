@@ -5,6 +5,7 @@ using AutoMapper;
 using BellRichM.Api.Controllers;
 using BellRichM.Logging;
 using BellRichM.Weather.Api.Data;
+using BellRichM.Weather.Api.Filters;
 using BellRichM.Weather.Api.Models;
 using BellRichM.Weather.Api.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -44,10 +45,17 @@ namespace BellRichM.Weather.Api.Controllers
         /// <returns>The <see cref="ConditionPageModel"/>.</returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         /// <remarks>Not yet implemented.</remarks>
+        [ValidateConditionLimit]
         [HttpGet("/api/[controller]/years", Name="GetYearsConditionPage")]
         public async Task<IActionResult> GetYearsConditionPage([FromQuery] int offset, [FromQuery] int limit)
         {
             _logger.LogEvent(EventId.ConditionsController_GetYearsConditionPage, "{@offset} {@limit}", offset, limit);
+            if (!ModelState.IsValid)
+            {
+                _logger.LogDiagnosticInformation("{@ModelState}", ModelState);
+                var errorResponseModel = CreateModel();
+                return BadRequest(errorResponseModel);
+            }
 
             var conditionPage = await _conditionService.GetYearWeatherPage(offset, limit).ConfigureAwait(true);
             var conditionPageModel = _mapper.Map<ConditionPageModel>(conditionPage);
