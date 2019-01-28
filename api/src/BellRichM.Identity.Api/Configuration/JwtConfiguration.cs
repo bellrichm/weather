@@ -1,16 +1,21 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
+using BellRichM.Attribute.CodeCoverage;
 using Destructurama.Attributed;
 
 namespace BellRichM.Identity.Api.Configuration
 {
     /// <inheritdoc/>
+    [ExcludeFromCodeCoverage]
     public class JwtConfiguration : IJwtConfiguration
     {
         /// <inheritdoc/>
+        [Required]
         public string Issuer { get; set; }
 
         /// <inheritdoc/>
+        [Required]
         public string Audience { get; set; }
 
         /// <inheritdoc/>
@@ -18,27 +23,7 @@ namespace BellRichM.Identity.Api.Configuration
 
         /// <inheritdoc/>
         [NotLogged]
+        [Required]
         public string SecretKey { get; set; }
-
-        /// <inheritdoc/>
-        #pragma warning disable S3928,CA2208
-        public void Validate()
-        {
-            if (string.IsNullOrEmpty(Issuer))
-            {
-                throw new ArgumentNullException(nameof(Issuer));
-            }
-
-            if (string.IsNullOrEmpty(Audience))
-            {
-                throw new ArgumentNullException(nameof(Audience));
-            }
-
-            if (string.IsNullOrEmpty(SecretKey))
-            {
-                throw new ArgumentNullException(nameof(SecretKey));
-            }
-        }
-        #pragma warning restore S3928,CA2208
     }
 }

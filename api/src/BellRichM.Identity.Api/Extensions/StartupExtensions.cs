@@ -1,6 +1,7 @@
 using System;
 using System.Security.Claims;
 using System.Text;
+using BellRichM.Attribute.Extensions;
 using BellRichM.Identity.Api.Configuration;
 using BellRichM.Identity.Api.Data;
 using BellRichM.Identity.Api.Repositories;
@@ -49,7 +50,7 @@ namespace BellRichM.Identity.Api.Extensions
                 Log.Information("*** Starting: {@jwtConfiguration}", jwtConfiguration);
             }
 
-            jwtConfiguration.Validate();
+            jwtConfiguration.ValidateObject();
             services.AddSingleton<IJwtConfiguration>(jwtConfiguration);
 
             services.AddAuthorization(options =>

@@ -38,10 +38,5 @@ namespace BellRichM.Identity.Api.Configuration
         /// The secret key.
         /// </value>
         string SecretKey { get; set; }
-
-        /// <summary>
-        /// Validates this instance.
-        /// </summary>
-        void Validate();
     }
 }
