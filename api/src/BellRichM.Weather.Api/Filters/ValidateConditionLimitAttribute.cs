@@ -19,6 +19,7 @@ namespace BellRichM.Weather.Api.Filters
       {
       }
 
+#pragma warning disable S1144, S3376
       private class ValidateConditionLimitAttributeImplementation : ActionFilterAttribute
       {
           private readonly string limitMissingMessage = "The query paramenter limit is required.";
@@ -67,5 +68,6 @@ namespace BellRichM.Weather.Api.Filters
             await base.OnActionExecutionAsync(context, next).ConfigureAwait(true);
           }
       }
+#pragma warning restore S1144, S3376      
     }
 }
