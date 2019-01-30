@@ -1,4 +1,6 @@
 using BellRichM.Attribute.CodeCoverage;
+using BellRichM.Attribute.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace BellRichM.Logging.Switches
 {
@@ -15,6 +17,7 @@ namespace BellRichM.Logging.Switches
         /// <value>
         /// The filter switch expression.
         /// </value>
+        [ValidateFilterExpression]
         public string Expression { get; set; }
     }
 }

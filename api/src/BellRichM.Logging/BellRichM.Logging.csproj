@@ -30,4 +30,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BellRichM.Attribute\BellRichM.Attribute.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.ComponentModel.DataAnnotations"/>
+  </ItemGroup>
 </Project>

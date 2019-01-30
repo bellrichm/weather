@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using BellRichM.Attribute.Extensions;
 using Destructurama;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -28,6 +29,7 @@ namespace BellRichM.Logging
             _loggingConfiguration = new LoggingConfiguration();
             new ConfigureFromConfigurationOptions<LoggingConfiguration>(loggingSection)
                 .Configure(_loggingConfiguration);
+            _loggingConfiguration.ValidateObject();
 
             LoggingLevelSwitches = new LoggingLevelSwitches();
             LoggingLevelSwitches.DefaultLoggingLevelSwitch = new LoggingLevelSwitch(_loggingConfiguration.LevelSwitches.Default.Level);
