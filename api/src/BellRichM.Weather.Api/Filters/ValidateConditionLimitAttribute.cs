@@ -68,6 +68,6 @@ namespace BellRichM.Weather.Api.Filters
             await base.OnActionExecutionAsync(context, next).ConfigureAwait(true);
           }
       }
-#pragma warning restore S1144, S3376      
+#pragma warning restore S1144, S3376
     }
 }
