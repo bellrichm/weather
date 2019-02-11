@@ -12,10 +12,9 @@ $cmd = $cmd + '--no-restore '
 $cmd = $cmd + '-f netcoreapp2.1 '
 RunCmd $cmd
 
-$parms = '-x "Data/*" "logs/*" '
-
 if ($env:BUILD_PLATFORM -eq "Windows")
 {
+  $parms = '-xr!"Data" -xr!"logs" '
   $parms = $parms + 'a $env:APPVEYOR_BUILD_FOLDER/$env:ARTIFACT_NAME.zip $env:APPVEYOR_BUILD_FOLDER/dist/*'
   $cmd = "7z $parms"
   RunCmd $cmd
@@ -23,6 +22,7 @@ if ($env:BUILD_PLATFORM -eq "Windows")
 
 if ($env:BUILD_PLATFORM -eq "Unix")
 {
+  $parms = '-x "Data/*" "logs/*" '
   $parms = $parms + '-r ../$env:ARTIFACT_NAME.zip *'
   Push-Location $env:APPVEYOR_BUILD_FOLDER/dist
   $cmd = "zip $parms"
