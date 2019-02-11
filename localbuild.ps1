@@ -3,6 +3,8 @@ Import-Module ./appveyor/utils
 "******************************** " + $MyInvocation.InvocationName + " ********************************"
 $error.Clear()
 
+$env:BUILDTYPE = "LOCAL"
+
 $env:APPVEYOR_BUILD_VERSION = "local"
 $env:APPVEYOR_BUILD_FOLDER =  Split-Path $MyInvocation.MyCommand.Path
 
