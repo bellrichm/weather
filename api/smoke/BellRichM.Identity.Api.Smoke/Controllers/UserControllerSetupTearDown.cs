@@ -9,9 +9,26 @@ namespace BellRichM.Identity.Api.Smoke.Controllers
     {
     public void OnAssemblyStart()
     {
-        UserControllerSmoke.Client = new HttpClient();
+        var baseURL = Environment.GetEnvironmentVariable("SMOKE_BASEURL");
+        if (baseURL != null)
+        {
+            var spHandler = new HttpClientHandler()
+            {
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) =>
+                {
+                    return true;
+                }
+            };
+            UserControllerSmoke.Client = new HttpClient(spHandler);
+        }
+        else
+        {
+            baseURL = "http://bellrichm-weather.azurewebsites.net";
+            UserControllerSmoke.Client = new HttpClient();
+        }
+
         #pragma warning disable S1075
-        UserControllerSmoke.Client.BaseAddress = new Uri("http://bellrichm-weather.azurewebsites.net");
+        UserControllerSmoke.Client.BaseAddress = new Uri(baseURL);
         #pragma warning disable S1075
     }
 
