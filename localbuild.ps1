@@ -67,7 +67,9 @@ $env:UNIT_TEST_APP = "YES"
 $env:INTEGRATION_TEST_API = "YES"
 $env:INTEGRATION_TEST_APP = "unused"
 $env:BUILD_ARTIFACT = "YES"
+$env:SMOKE_TEST = "YES"
 # Unless testing the process, these should usually be set to NO
+# If APPVEYOR_REPO_BRANCH is set to "buildexperiments", then it is safe to have these set to "YES"
 $env:UPLOAD_COVERALLS_API = "YES"
 $env:UPLOAD_COVERALLS_APP = "NO" # todo - until parallel build support implemented
 $env:UPLOAD_SONARQUBE_API = "YES"
@@ -75,7 +77,6 @@ $env:UPLOAD_SONARQUBE_APP = "YES"
 
 $env:UPLOAD_ARTIFACT = "NO"
 $env:DEPLOY = "NO"
-$env:SMOKE_TEST = "NO"
 
 # appveyor install
 RunCmd " ./appveyor/init.ps1"
@@ -105,7 +106,21 @@ RunCmd "./appveyor/before_deploy_api.ps1"
 RunCmd "./appveyor/deploy.ps1"
 
 # appveyor after-deploy
-RunCmd "./appveyor/after_deploy_smoke.ps1"
+# set up smoke test environmen
+$env:ASPNETCORE_ENVIRONMENT = "Production"
+$env:IDENTITY__SECRETKEY = "DevelopmentSecretKey"
+$process = Start-Process -Passthru -FilePath dotnet -ArgumentList BellRichM.Weather.Web.dll -WorkingDirectory dist
+
+Try
+{
+  $env:SMOKE_BASEURL = "https://localhost:5001"
+  RunCmd "./appveyor/after_deploy_smoke.ps1"
+}
+Finally
+{
+  Stop-Process $process
+}
+
 
 if ($postClean -ne "NO")
 {

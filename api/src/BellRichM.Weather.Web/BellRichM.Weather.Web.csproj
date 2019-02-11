@@ -7,11 +7,8 @@
     <ProjectGuid>2A9BDDDF-41F8-4E9B-A187-65DF096FED7B</ProjectGuid>
   </PropertyGroup>
   <ItemGroup>
-    <Content Update="appsettings*.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
+    <Content Update="appsettings*.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Data\Identity.db" CopyToPublishDirectory="PreserveNewest" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
   <ItemGroup>
