@@ -19,6 +19,7 @@
 
   # cannot be a script, because this is before the pull of the code
   # just trying to short circuit a build if not for expected branch
+  # Blank lines are important!
   init:
     - ps: >-
         Write-Host "******************************** Init ********************************"
