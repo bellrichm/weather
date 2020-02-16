@@ -11,7 +11,7 @@ if ($env:UNIT_TEST_API -eq "NO" `
 if ($env:BUILD_PLATFORM -eq "Unix" `
   -And $env:UNIT_TEST_API -ne "NO")
 {
-  $cmd = "dotnet test --no-restore --no-build -f netcoreapp2.1 api/test/BellRichM.Weather.Test.sln"
+  $cmd = "dotnet test --no-restore --no-build -f netcoreapp3.1 api/test/BellRichM.Weather.Test.sln"
   RunCmd $cmd
 }
 

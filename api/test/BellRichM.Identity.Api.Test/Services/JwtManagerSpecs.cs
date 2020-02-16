@@ -53,7 +53,7 @@ namespace BellRichM.Identity.Api.Test.Services
         userRepositoryMock = new Mock<IUserRepository>();
         userStoreMock = new Mock<IUserStore<User>>();
         userManagerMock = new Mock<UserManager<User>>(userStoreMock.Object, null, null, null, null, null, null, null, null);
-        signInManagerMock = new Mock<SignInManager<User>>(userManagerMock.Object, new Mock<IHttpContextAccessor>().Object, new Mock<IUserClaimsPrincipalFactory<User>>().Object, null, null, null);
+        signInManagerMock = new Mock<SignInManager<User>>(userManagerMock.Object, new Mock<IHttpContextAccessor>().Object, new Mock<IUserClaimsPrincipalFactory<User>>().Object, null, null, null, null);
 
         signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
 

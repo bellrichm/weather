@@ -11,8 +11,8 @@ if ($env:BUILD_PLATFORM -eq "Windows")
 }
 else
 {
-    $unitTestFramework = '-f netcoreapp2.1 '
-    $buildFramework = '-f netcoreapp2.1 '
+    $unitTestFramework = '-f netcoreapp3.1 '
+    $buildFramework = '-f netcoreapp3.1 '
 }
 
 if ($env:BUILD_PLATFORM-eq "Windows" `

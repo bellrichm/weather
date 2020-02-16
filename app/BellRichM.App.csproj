@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <OutputType>Library</OutputType>
     <ProjectGuid>18c4fe83-1c6f-40b4-a0e6-e7f15112a58c</ProjectGuid>
   </PropertyGroup>

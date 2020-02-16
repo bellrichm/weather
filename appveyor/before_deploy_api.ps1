@@ -9,7 +9,7 @@ if ($env:BUILD_ARTIFACT -eq "NO")
 $cmd = 'dotnet publish api/src/BellRichM.Weather.Web/BellRichM.Weather.Web.csproj '
 $cmd = $cmd + '--output $env:APPVEYOR_BUILD_FOLDER/dist '
 $cmd = $cmd + '--no-restore '
-$cmd = $cmd + '-f netcoreapp2.1 '
+$cmd = $cmd + '-f netcoreapp3.1 '
 RunCmd $cmd
 
 if ($env:BUILD_PLATFORM -eq "Windows")
