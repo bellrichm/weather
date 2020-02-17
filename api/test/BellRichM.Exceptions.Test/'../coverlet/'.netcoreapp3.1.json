@@ -1,0 +1,188 @@
+{
+  "BellRichM.Attribute.dll": {
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Attribute/Validation/ValidateFilterExpressionAttribute.cs": {
+      "BellRichM.Attribute.Validation.ValidateFilterExpressionAttribute": {
+        "System.ComponentModel.DataAnnotations.ValidationResult BellRichM.Attribute.Validation.ValidateFilterExpressionAttribute::IsValid(System.Object,System.ComponentModel.DataAnnotations.ValidationContext)": {
+          "Lines": {
+            "14": 0,
+            "15": 0,
+            "16": 0,
+            "17": 0,
+            "18": 0,
+            "21": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "26": 0,
+            "27": 0
+          },
+          "Branches": [
+            {
+              "Line": 16,
+              "Offset": 20,
+              "EndOffset": 22,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 16,
+              "Offset": 20,
+              "EndOffset": 36,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 16,
+              "Offset": 39,
+              "EndOffset": 41,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 16,
+              "Offset": 39,
+              "EndOffset": 50,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    },
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Attribute/Extensions/ValidateObjectExtension.cs": {
+      "BellRichM.Attribute.Extensions.ValidateObjectExtension": {
+        "System.Void BellRichM.Attribute.Extensions.ValidateObjectExtension::ValidateObject(System.Object)": {
+          "Lines": {
+            "17": 0,
+            "18": 0,
+            "19": 0,
+            "21": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "26": 0,
+            "27": 0,
+            "28": 0,
+            "30": 0,
+            "32": 0
+          },
+          "Branches": [
+            {
+              "Line": 22,
+              "Offset": 34,
+              "EndOffset": 36,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 25,
+              "Offset": 86,
+              "EndOffset": 54,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 25,
+              "Offset": 86,
+              "EndOffset": 88,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 22,
+              "Offset": 34,
+              "EndOffset": 117,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    }
+  },
+  "BellRichM.Exceptions.dll": {
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Exceptions/BusinessException.cs": {
+      "BellRichM.Exceptions.BusinessException": {
+        "System.String BellRichM.Exceptions.BusinessException::get_Code()": {
+          "Lines": {
+            "127": 9
+          },
+          "Branches": []
+        },
+        "System.Collections.Generic.IEnumerable`1<BellRichM.Exceptions.ExceptionDetail> BellRichM.Exceptions.BusinessException::get_ErrorDetails()": {
+          "Lines": {
+            "138": 3
+          },
+          "Branches": []
+        },
+        "System.Void BellRichM.Exceptions.BusinessException::GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)": {
+          "Lines": {
+            "148": 2,
+            "149": 2,
+            "150": 1,
+            "151": 1,
+            "154": 1,
+            "155": 1,
+            "156": 1,
+            "157": 1
+          },
+          "Branches": [
+            {
+              "Line": 149,
+              "Offset": 7,
+              "EndOffset": 9,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 149,
+              "Offset": 7,
+              "EndOffset": 21,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 1
+            }
+          ]
+        },
+        "System.Void BellRichM.Exceptions.BusinessException::.ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)": {
+          "Lines": {
+            "112": 1,
+            "113": 1,
+            "114": 1,
+            "115": 1,
+            "116": 1,
+            "117": 1
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Exceptions/ExceptionDetail.cs": {
+      "BellRichM.Exceptions.ExceptionDetail": {
+        "System.String BellRichM.Exceptions.ExceptionDetail::get_Code()": {
+          "Lines": {
+            "20": 0
+          },
+          "Branches": []
+        },
+        "System.String BellRichM.Exceptions.ExceptionDetail::get_Text()": {
+          "Lines": {
+            "28": 0
+          },
+          "Branches": []
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,622 @@
+{
+  "BellRichM.Attribute.dll": {
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Attribute/Validation/ValidateFilterExpressionAttribute.cs": {
+      "BellRichM.Attribute.Validation.ValidateFilterExpressionAttribute": {
+        "System.ComponentModel.DataAnnotations.ValidationResult BellRichM.Attribute.Validation.ValidateFilterExpressionAttribute::IsValid(System.Object,System.ComponentModel.DataAnnotations.ValidationContext)": {
+          "Lines": {
+            "14": 2,
+            "15": 2,
+            "16": 2,
+            "17": 2,
+            "18": 2,
+            "21": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "26": 0,
+            "27": 2
+          },
+          "Branches": [
+            {
+              "Line": 16,
+              "Offset": 20,
+              "EndOffset": 22,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 2
+            },
+            {
+              "Line": 16,
+              "Offset": 20,
+              "EndOffset": 36,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 16,
+              "Offset": 39,
+              "EndOffset": 41,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 2
+            },
+            {
+              "Line": 16,
+              "Offset": 39,
+              "EndOffset": 50,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    },
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Attribute/Extensions/ValidateObjectExtension.cs": {
+      "BellRichM.Attribute.Extensions.ValidateObjectExtension": {
+        "System.Void BellRichM.Attribute.Extensions.ValidateObjectExtension::ValidateObject(System.Object)": {
+          "Lines": {
+            "17": 2,
+            "18": 2,
+            "19": 2,
+            "21": 2,
+            "22": 2,
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "26": 0,
+            "27": 0,
+            "28": 0,
+            "30": 0,
+            "32": 2
+          },
+          "Branches": [
+            {
+              "Line": 22,
+              "Offset": 34,
+              "EndOffset": 36,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 25,
+              "Offset": 86,
+              "EndOffset": 54,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 25,
+              "Offset": 86,
+              "EndOffset": 88,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 22,
+              "Offset": 34,
+              "EndOffset": 117,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 2
+            }
+          ]
+        }
+      }
+    }
+  },
+  "BellRichM.Logging.dll": {
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Logging/LoggerAdapter.cs": {
+      "BellRichM.Logging.LoggerAdapter`1": {
+        "System.Void BellRichM.Logging.LoggerAdapter`1::LogDiagnosticTrace(System.String,System.Object[])": {
+          "Lines": {
+            "22": 1,
+            "23": 1,
+            "24": 1,
+            "25": 1,
+            "26": 1,
+            "27": 1
+          },
+          "Branches": []
+        },
+        "System.Void BellRichM.Logging.LoggerAdapter`1::LogDiagnosticDebug(System.String,System.Object[])": {
+          "Lines": {
+            "31": 1,
+            "32": 1,
+            "33": 1,
+            "34": 1,
+            "35": 1,
+            "36": 1
+          },
+          "Branches": []
+        },
+        "System.Void BellRichM.Logging.LoggerAdapter`1::LogDiagnosticInformation(System.String,System.Object[])": {
+          "Lines": {
+            "40": 2,
+            "41": 2,
+            "42": 2,
+            "43": 2,
+            "44": 2,
+            "45": 2
+          },
+          "Branches": []
+        },
+        "System.Void BellRichM.Logging.LoggerAdapter`1::LogDiagnosticWarning(System.String,System.Object[])": {
+          "Lines": {
+            "49": 1,
+            "50": 1,
+            "51": 1,
+            "52": 1,
+            "53": 1,
+            "54": 1
+          },
+          "Branches": []
+        },
+        "System.Void BellRichM.Logging.LoggerAdapter`1::LogDiagnosticCritical(System.String,System.Object[])": {
+          "Lines": {
+            "58": 1,
+            "59": 1,
+            "60": 1,
+            "61": 1,
+            "62": 1,
+            "63": 1
+          },
+          "Branches": []
+        },
+        "System.Void BellRichM.Logging.LoggerAdapter`1::LogDiagnosticError(System.String,System.Object[])": {
+          "Lines": {
+            "67": 1,
+            "68": 1,
+            "69": 1,
+            "70": 1,
+            "71": 1,
+            "72": 1
+          },
+          "Branches": []
+        },
+        "System.Void BellRichM.Logging.LoggerAdapter`1::LogEvent(BellRichM.Logging.EventId,System.String,System.Object[])": {
+          "Lines": {
+            "76": 1,
+            "77": 1,
+            "79": 1,
+            "80": 1,
+            "81": 1,
+            "82": 1,
+            "83": 1
+          },
+          "Branches": []
+        },
+        "System.Void BellRichM.Logging.LoggerAdapter`1::.ctor()": {
+          "Lines": {
+            "15": 7,
+            "16": 7,
+            "17": 7,
+            "18": 7
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Logging/LogManager.cs": {
+      "BellRichM.Logging.LogManager": {
+        "BellRichM.Logging.LoggingLevelSwitches BellRichM.Logging.LogManager::get_LoggingLevelSwitches()": {
+          "Lines": {
+            "50": 17
+          },
+          "Branches": []
+        },
+        "BellRichM.Logging.LoggingFilterSwitches BellRichM.Logging.LogManager::get_LoggingFilterSwitches()": {
+          "Lines": {
+            "58": 6
+          },
+          "Branches": []
+        },
+        "Serilog.Core.Logger BellRichM.Logging.LogManager::Create()": {
+          "Lines": {
+            "62": 1,
+            "63": 1,
+            "64": 1,
+            "65": 1,
+            "66": 1,
+            "67": 1,
+            "68": 1,
+            "69": 2,
+            "70": 3,
+            "71": 2,
+            "72": 2,
+            "73": 2,
+            "74": 2,
+            "75": 2,
+            "76": 2,
+            "77": 2,
+            "78": 2,
+            "79": 3,
+            "80": 2,
+            "81": 2,
+            "82": 2,
+            "83": 2,
+            "84": 2,
+            "85": 2,
+            "86": 2,
+            "87": 2,
+            "88": 2,
+            "89": 0,
+            "90": 2,
+            "91": 2,
+            "92": 2,
+            "93": 2,
+            "94": 2,
+            "95": 2,
+            "96": 2,
+            "97": 1,
+            "98": 1,
+            "99": 1,
+            "100": 1,
+            "101": 1,
+            "103": 1,
+            "104": 1
+          },
+          "Branches": []
+        },
+        "System.Void BellRichM.Logging.LogManager::.ctor(Microsoft.Extensions.Configuration.IConfiguration)": {
+          "Lines": {
+            "26": 2,
+            "27": 2,
+            "28": 2,
+            "29": 2,
+            "30": 2,
+            "31": 2,
+            "32": 2,
+            "34": 2,
+            "35": 2,
+            "36": 2,
+            "37": 2,
+            "38": 2,
+            "40": 2,
+            "41": 2,
+            "42": 2
+          },
+          "Branches": []
+        },
+        "System.Void BellRichM.Logging.LogManager::<Create>b__10_0(Serilog.LoggerConfiguration)": {
+          "Lines": {},
+          "Branches": [
+            {
+              "Line": 69,
+              "Offset": 17,
+              "EndOffset": 19,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 69,
+              "Offset": 17,
+              "EndOffset": 42,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 1
+            }
+          ]
+        },
+        "System.Void BellRichM.Logging.LogManager::<Create>b__10_1(Serilog.LoggerConfiguration)": {
+          "Lines": {},
+          "Branches": [
+            {
+              "Line": 78,
+              "Offset": 17,
+              "EndOffset": 19,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 78,
+              "Offset": 17,
+              "EndOffset": 42,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 1
+            }
+          ]
+        },
+        "System.Void BellRichM.Logging.LogManager::<Create>b__10_2(Serilog.LoggerConfiguration)": {
+          "Lines": {},
+          "Branches": [
+            {
+              "Line": 87,
+              "Offset": 38,
+              "EndOffset": 40,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 87,
+              "Offset": 38,
+              "EndOffset": 63,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 1
+            }
+          ]
+        }
+      }
+    }
+  },
+  "BellRichM.Helpers.Test.dll": {
+    "/home/richbell/weather/core3.1/api/test/BellRichM.Helpers.Test/LoggingBehaviors.cs": {
+      "BellRichM.Logging.LoggingBehaviors`1": {
+        "System.Void BellRichM.Logging.LoggingBehaviors`1::.ctor()": {
+          "Lines": {
+            "20": 0,
+            "21": 0,
+            "23": 0,
+            "24": 0,
+            "26": 0,
+            "27": 0,
+            "29": 0,
+            "30": 0,
+            "32": 0,
+            "33": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0,
+            "39": 0,
+            "40": 0,
+            "41": 0,
+            "43": 0,
+            "44": 0,
+            "46": 0,
+            "47": 0,
+            "48": 0,
+            "49": 0,
+            "50": 0,
+            "51": 0,
+            "52": 0,
+            "54": 0,
+            "55": 0
+          },
+          "Branches": [
+            {
+              "Line": 20,
+              "Offset": 7,
+              "EndOffset": 9,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 20,
+              "Offset": 7,
+              "EndOffset": 32,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 23,
+              "Offset": 44,
+              "EndOffset": 46,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 23,
+              "Offset": 44,
+              "EndOffset": 69,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 26,
+              "Offset": 81,
+              "EndOffset": 83,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 0
+            },
+            {
+              "Line": 26,
+              "Offset": 81,
+              "EndOffset": 106,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 0
+            },
+            {
+              "Line": 29,
+              "Offset": 118,
+              "EndOffset": 120,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 0
+            },
+            {
+              "Line": 29,
+              "Offset": 118,
+              "EndOffset": 143,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 0
+            },
+            {
+              "Line": 32,
+              "Offset": 155,
+              "EndOffset": 157,
+              "Path": 0,
+              "Ordinal": 8,
+              "Hits": 0
+            },
+            {
+              "Line": 32,
+              "Offset": 155,
+              "EndOffset": 180,
+              "Path": 1,
+              "Ordinal": 9,
+              "Hits": 0
+            },
+            {
+              "Line": 35,
+              "Offset": 192,
+              "EndOffset": 194,
+              "Path": 0,
+              "Ordinal": 10,
+              "Hits": 0
+            },
+            {
+              "Line": 35,
+              "Offset": 192,
+              "EndOffset": 217,
+              "Path": 1,
+              "Ordinal": 11,
+              "Hits": 0
+            },
+            {
+              "Line": 43,
+              "Offset": 229,
+              "EndOffset": 231,
+              "Path": 0,
+              "Ordinal": 12,
+              "Hits": 0
+            },
+            {
+              "Line": 43,
+              "Offset": 229,
+              "EndOffset": 254,
+              "Path": 1,
+              "Ordinal": 13,
+              "Hits": 0
+            },
+            {
+              "Line": 46,
+              "Offset": 266,
+              "EndOffset": 268,
+              "Path": 0,
+              "Ordinal": 14,
+              "Hits": 0
+            },
+            {
+              "Line": 46,
+              "Offset": 266,
+              "EndOffset": 291,
+              "Path": 1,
+              "Ordinal": 15,
+              "Hits": 0
+            },
+            {
+              "Line": 54,
+              "Offset": 303,
+              "EndOffset": 305,
+              "Path": 0,
+              "Ordinal": 16,
+              "Hits": 0
+            },
+            {
+              "Line": 54,
+              "Offset": 303,
+              "EndOffset": 328,
+              "Path": 1,
+              "Ordinal": 17,
+              "Hits": 0
+            },
+            {
+              "Line": 37,
+              "Offset": 208,
+              "EndOffset": 23,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 37,
+              "Offset": 208,
+              "EndOffset": 213,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 48,
+              "Offset": 287,
+              "EndOffset": 23,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 48,
+              "Offset": 287,
+              "EndOffset": 292,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    },
+    "/home/richbell/weather/core3.1/api/test/BellRichM.Helpers.Test/EventLoggingData.cs": {
+      "BellRichM.Helpers.Test.EventLoggingData": {
+        "BellRichM.Logging.EventId BellRichM.Helpers.Test.EventLoggingData::get_Id()": {
+          "Lines": {
+            "13": 0
+          },
+          "Branches": []
+        },
+        "System.String BellRichM.Helpers.Test.EventLoggingData::get_Message()": {
+          "Lines": {
+            "15": 0
+          },
+          "Branches": []
+        },
+        "System.Void BellRichM.Helpers.Test.EventLoggingData::.ctor(BellRichM.Logging.EventId,System.String)": {
+          "Lines": {
+            "7": 0,
+            "8": 0,
+            "9": 0,
+            "10": 0,
+            "11": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/home/richbell/weather/core3.1/api/test/BellRichM.Helpers.Test/LoggingData.cs": {
+      "BellRichM.Helpers.Test.LoggingData": {
+        "System.Int32 BellRichM.Helpers.Test.LoggingData::get_DebugTimes()": {
+          "Lines": {
+            "7": 0
+          },
+          "Branches": []
+        },
+        "System.Int32 BellRichM.Helpers.Test.LoggingData::get_InformationTimes()": {
+          "Lines": {
+            "9": 0
+          },
+          "Branches": []
+        },
+        "System.Collections.Generic.IEnumerable`1<BellRichM.Helpers.Test.EventLoggingData> BellRichM.Helpers.Test.LoggingData::get_EventLoggingData()": {
+          "Lines": {
+            "11": 0
+          },
+          "Branches": []
+        },
+        "System.Collections.Generic.IEnumerable`1<System.String> BellRichM.Helpers.Test.LoggingData::get_ErrorLoggingMessages()": {
+          "Lines": {
+            "13": 0
+          },
+          "Branches": []
+        }
+      }
+    }
+  }
+}

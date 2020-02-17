@@ -10,6 +10,7 @@
     <ProjectGuid>83A33CFB-F6B9-4BCA-90C0-C40F485F0B7A</ProjectGuid>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="coverlet.msbuild" Version="2.8.0" />
     <PackageReference Include="FluentAssertions" Version="5.5.0" />
     <PackageReference Include="Machine.Specifications" Version="0.12.0" />
     <PackageReference Include="Machine.Specifications.Runner.VisualStudio" Version="2.7.0" />

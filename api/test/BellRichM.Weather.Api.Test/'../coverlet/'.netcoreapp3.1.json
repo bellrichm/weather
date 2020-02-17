@@ -1,0 +1,3048 @@
+{
+  "BellRichM.Attribute.dll": {
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Attribute/Validation/ValidateFilterExpressionAttribute.cs": {
+      "BellRichM.Attribute.Validation.ValidateFilterExpressionAttribute": {
+        "System.ComponentModel.DataAnnotations.ValidationResult BellRichM.Attribute.Validation.ValidateFilterExpressionAttribute::IsValid(System.Object,System.ComponentModel.DataAnnotations.ValidationContext)": {
+          "Lines": {
+            "14": 0,
+            "15": 0,
+            "16": 0,
+            "17": 0,
+            "18": 0,
+            "21": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "26": 0,
+            "27": 0
+          },
+          "Branches": [
+            {
+              "Line": 16,
+              "Offset": 20,
+              "EndOffset": 22,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 16,
+              "Offset": 20,
+              "EndOffset": 36,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 16,
+              "Offset": 39,
+              "EndOffset": 41,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 16,
+              "Offset": 39,
+              "EndOffset": 50,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    },
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Attribute/Extensions/ValidateObjectExtension.cs": {
+      "BellRichM.Attribute.Extensions.ValidateObjectExtension": {
+        "System.Void BellRichM.Attribute.Extensions.ValidateObjectExtension::ValidateObject(System.Object)": {
+          "Lines": {
+            "17": 0,
+            "18": 0,
+            "19": 0,
+            "21": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "26": 0,
+            "27": 0,
+            "28": 0,
+            "30": 0,
+            "32": 0
+          },
+          "Branches": [
+            {
+              "Line": 22,
+              "Offset": 34,
+              "EndOffset": 36,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 25,
+              "Offset": 86,
+              "EndOffset": 54,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 25,
+              "Offset": 86,
+              "EndOffset": 88,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 22,
+              "Offset": 34,
+              "EndOffset": 117,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    }
+  },
+  "BellRichM.Exceptions.dll": {
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Exceptions/BusinessException.cs": {
+      "BellRichM.Exceptions.BusinessException": {
+        "System.String BellRichM.Exceptions.BusinessException::get_Code()": {
+          "Lines": {
+            "127": 0
+          },
+          "Branches": []
+        },
+        "System.Collections.Generic.IEnumerable`1<BellRichM.Exceptions.ExceptionDetail> BellRichM.Exceptions.BusinessException::get_ErrorDetails()": {
+          "Lines": {
+            "138": 0
+          },
+          "Branches": []
+        },
+        "System.Void BellRichM.Exceptions.BusinessException::GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)": {
+          "Lines": {
+            "148": 0,
+            "149": 0,
+            "150": 0,
+            "151": 0,
+            "154": 0,
+            "155": 0,
+            "156": 0,
+            "157": 0
+          },
+          "Branches": [
+            {
+              "Line": 149,
+              "Offset": 7,
+              "EndOffset": 9,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 149,
+              "Offset": 7,
+              "EndOffset": 21,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        },
+        "System.Void BellRichM.Exceptions.BusinessException::.ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)": {
+          "Lines": {
+            "112": 0,
+            "113": 0,
+            "114": 0,
+            "115": 0,
+            "116": 0,
+            "117": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Exceptions/ExceptionDetail.cs": {
+      "BellRichM.Exceptions.ExceptionDetail": {
+        "System.String BellRichM.Exceptions.ExceptionDetail::get_Code()": {
+          "Lines": {
+            "20": 0
+          },
+          "Branches": []
+        },
+        "System.String BellRichM.Exceptions.ExceptionDetail::get_Text()": {
+          "Lines": {
+            "28": 0
+          },
+          "Branches": []
+        }
+      }
+    }
+  },
+  "BellRichM.Weather.Api.dll": {
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Weather.Api/Services/ConditionService.cs": {
+      "BellRichM.Weather.Api.Services.ConditionService": {
+        "System.Void BellRichM.Weather.Api.Services.ConditionService::.ctor(BellRichM.Weather.Api.Repositories.IConditionRepository)": {
+          "Lines": {
+            "17": 1,
+            "18": 1,
+            "19": 1,
+            "20": 1
+          },
+          "Branches": []
+        }
+      },
+      "BellRichM.Weather.Api.Services.ConditionService/<GetYearWeatherPage>d__2": {
+        "System.Void BellRichM.Weather.Api.Services.ConditionService/<GetYearWeatherPage>d__2::MoveNext()": {
+          "Lines": {
+            "24": 1,
+            "25": 1,
+            "27": 1,
+            "28": 1,
+            "29": 1,
+            "30": 1,
+            "31": 1,
+            "32": 1,
+            "34": 1,
+            "35": 1,
+            "36": 1,
+            "37": 1,
+            "38": 1,
+            "40": 1,
+            "41": 1
+          },
+          "Branches": [
+            {
+              "Line": 24,
+              "Offset": 14,
+              "EndOffset": 25,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 24,
+              "Offset": 14,
+              "EndOffset": 284,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    },
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Weather.Api/Services/ObservationSqliteService.cs": {
+      "BellRichM.Weather.Api.Services.ObservationSqliteService": {
+        "System.Threading.Tasks.Task`1<System.Int32> BellRichM.Weather.Api.Services.ObservationSqliteService::DeleteObservation(System.Int32)": {
+          "Lines": {
+            "38": 2,
+            "39": 2,
+            "40": 2
+          },
+          "Branches": []
+        },
+        "System.Threading.Tasks.Task`1<BellRichM.Weather.Api.Data.Observation> BellRichM.Weather.Api.Services.ObservationSqliteService::GetObservation(System.Int32)": {
+          "Lines": {
+            "44": 2,
+            "45": 2,
+            "46": 2
+          },
+          "Branches": []
+        },
+        "System.Void BellRichM.Weather.Api.Services.ObservationSqliteService::.ctor(BellRichM.Weather.Api.Repositories.IObservationRepository)": {
+          "Lines": {
+            "18": 8,
+            "19": 8,
+            "20": 8,
+            "21": 8
+          },
+          "Branches": []
+        }
+      },
+      "BellRichM.Weather.Api.Services.ObservationSqliteService/<CreateObservation>d__2": {
+        "System.Void BellRichM.Weather.Api.Services.ObservationSqliteService/<CreateObservation>d__2::MoveNext()": {
+          "Lines": {
+            "25": 2,
+            "26": 2,
+            "27": 2,
+            "28": 1,
+            "29": 1,
+            "32": 1,
+            "33": 1,
+            "34": 2
+          },
+          "Branches": [
+            {
+              "Line": 25,
+              "Offset": 14,
+              "EndOffset": 25,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 2
+            },
+            {
+              "Line": 27,
+              "Offset": 178,
+              "EndOffset": 180,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 1
+            },
+            {
+              "Line": 27,
+              "Offset": 178,
+              "EndOffset": 188,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 1
+            },
+            {
+              "Line": 25,
+              "Offset": 14,
+              "EndOffset": 279,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      },
+      "BellRichM.Weather.Api.Services.ObservationSqliteService/<UpdateObservation>d__5": {
+        "System.Void BellRichM.Weather.Api.Services.ObservationSqliteService/<UpdateObservation>d__5::MoveNext()": {
+          "Lines": {
+            "50": 2,
+            "51": 2,
+            "52": 2,
+            "53": 1,
+            "54": 1,
+            "57": 1,
+            "58": 1,
+            "59": 2
+          },
+          "Branches": [
+            {
+              "Line": 50,
+              "Offset": 14,
+              "EndOffset": 25,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 2
+            },
+            {
+              "Line": 52,
+              "Offset": 178,
+              "EndOffset": 180,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 1
+            },
+            {
+              "Line": 52,
+              "Offset": 178,
+              "EndOffset": 188,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 1
+            },
+            {
+              "Line": 50,
+              "Offset": 14,
+              "EndOffset": 279,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    },
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Weather.Api/Repositories/ConditionRepository.cs": {
+      "BellRichM.Weather.Api.Repositories.ConditionRepository": {
+        "BellRichM.Weather.Api.Data.Condition BellRichM.Weather.Api.Repositories.ConditionRepository::ReadDataFields(System.Data.Common.DbDataReader)": {
+          "Lines": {
+            "194": 4,
+            "195": 4,
+            "196": 4,
+            "197": 4,
+            "198": 4,
+            "199": 4,
+            "200": 4,
+            "201": 4,
+            "202": 4,
+            "203": 4,
+            "204": 4,
+            "205": 4,
+            "206": 4,
+            "207": 4,
+            "208": 4,
+            "209": 4,
+            "210": 4,
+            "211": 4,
+            "212": 4,
+            "213": 4,
+            "214": 4,
+            "215": 4,
+            "216": 4,
+            "217": 4,
+            "218": 4,
+            "219": 4
+          },
+          "Branches": []
+        },
+        "System.Void BellRichM.Weather.Api.Repositories.ConditionRepository::.ctor(BellRichM.Logging.ILoggerAdapter`1<BellRichM.Weather.Api.Repositories.ConditionRepository>,BellRichM.Weather.Api.Repositories.ConditionRepositoryDbProviderFactory,BellRichM.Weather.Api.Configuration.IConditionRepositoryConfiguration)": {
+          "Lines": {
+            "48": 5,
+            "49": 5,
+            "50": 5,
+            "51": 5,
+            "52": 5,
+            "53": 5
+          },
+          "Branches": []
+        }
+      },
+      "BellRichM.Weather.Api.Repositories.ConditionRepository/<GetYear>d__5": {
+        "System.Void BellRichM.Weather.Api.Repositories.ConditionRepository/<GetYear>d__5::MoveNext()": {
+          "Lines": {
+            "57": 2,
+            "58": 2,
+            "60": 2,
+            "61": 2,
+            "62": 2,
+            "63": 2,
+            "64": 2,
+            "65": 2,
+            "66": 2,
+            "67": 2,
+            "68": 2,
+            "70": 2,
+            "72": 2,
+            "73": 2,
+            "74": 2,
+            "75": 2,
+            "76": 2,
+            "77": 2,
+            "78": 2,
+            "79": 2,
+            "80": 2,
+            "81": 2,
+            "83": 2,
+            "85": 2,
+            "86": 2,
+            "87": 5,
+            "88": 3,
+            "89": 3,
+            "90": 3,
+            "91": 3,
+            "92": 3,
+            "93": 2,
+            "94": 2,
+            "95": 2,
+            "97": 2,
+            "98": 2
+          },
+          "Branches": [
+            {
+              "Line": 74,
+              "Offset": 155,
+              "EndOffset": 161,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 2
+            },
+            {
+              "Line": 74,
+              "Offset": 155,
+              "EndOffset": 209,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 2
+            },
+            {
+              "Line": 78,
+              "Offset": 211,
+              "EndOffset": 217,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 2
+            },
+            {
+              "Line": 78,
+              "Offset": 211,
+              "EndOffset": 303,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 2
+            },
+            {
+              "Line": 85,
+              "Offset": 305,
+              "EndOffset": 314,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 2
+            },
+            {
+              "Line": 87,
+              "Offset": 530,
+              "EndOffset": 317,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 3
+            },
+            {
+              "Line": 85,
+              "Offset": 305,
+              "EndOffset": 481,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 0
+            },
+            {
+              "Line": 87,
+              "Offset": 530,
+              "EndOffset": 535,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 2
+            }
+          ]
+        }
+      },
+      "BellRichM.Weather.Api.Repositories.ConditionRepository/<GetHourDetail>d__6": {
+        "System.Void BellRichM.Weather.Api.Repositories.ConditionRepository/<GetHourDetail>d__6::MoveNext()": {
+          "Lines": {
+            "102": 2,
+            "103": 2,
+            "105": 2,
+            "106": 2,
+            "107": 2,
+            "108": 2,
+            "109": 2,
+            "110": 2,
+            "111": 2,
+            "112": 2,
+            "113": 2,
+            "114": 2,
+            "115": 2,
+            "116": 2,
+            "117": 2,
+            "118": 2,
+            "119": 2,
+            "120": 2,
+            "121": 2,
+            "123": 2,
+            "125": 2,
+            "126": 2,
+            "127": 2,
+            "128": 2,
+            "129": 2,
+            "130": 2,
+            "131": 2,
+            "132": 2,
+            "133": 2,
+            "134": 2,
+            "135": 2,
+            "136": 2,
+            "138": 2,
+            "140": 2,
+            "141": 2,
+            "142": 3,
+            "143": 1,
+            "144": 1,
+            "145": 1,
+            "146": 1,
+            "147": 1,
+            "148": 1,
+            "149": 1,
+            "150": 2,
+            "151": 2,
+            "152": 2,
+            "154": 2,
+            "155": 2
+          },
+          "Branches": [
+            {
+              "Line": 127,
+              "Offset": 179,
+              "EndOffset": 185,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 2
+            },
+            {
+              "Line": 127,
+              "Offset": 179,
+              "EndOffset": 233,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 2
+            },
+            {
+              "Line": 131,
+              "Offset": 235,
+              "EndOffset": 244,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 2
+            },
+            {
+              "Line": 131,
+              "Offset": 235,
+              "EndOffset": 386,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 2
+            },
+            {
+              "Line": 140,
+              "Offset": 388,
+              "EndOffset": 397,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 2
+            },
+            {
+              "Line": 142,
+              "Offset": 720,
+              "EndOffset": 403,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 1
+            },
+            {
+              "Line": 140,
+              "Offset": 388,
+              "EndOffset": 671,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 0
+            },
+            {
+              "Line": 142,
+              "Offset": 720,
+              "EndOffset": 725,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 2
+            }
+          ]
+        }
+      },
+      "BellRichM.Weather.Api.Repositories.ConditionRepository/<GetYearCount>d__7": {
+        "System.Void BellRichM.Weather.Api.Repositories.ConditionRepository/<GetYearCount>d__7::MoveNext()": {
+          "Lines": {
+            "159": 1,
+            "160": 1,
+            "162": 1,
+            "163": 1,
+            "164": 1,
+            "165": 1,
+            "166": 1,
+            "168": 1,
+            "170": 1,
+            "171": 1,
+            "172": 1,
+            "173": 1,
+            "174": 1,
+            "175": 1,
+            "176": 1,
+            "177": 1,
+            "178": 1,
+            "180": 1,
+            "181": 1,
+            "182": 1,
+            "183": 1,
+            "184": 1,
+            "185": 1,
+            "186": 1,
+            "187": 1,
+            "189": 1,
+            "191": 1
+          },
+          "Branches": [
+            {
+              "Line": 172,
+              "Offset": 119,
+              "EndOffset": 125,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 172,
+              "Offset": 119,
+              "EndOffset": 173,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 1
+            },
+            {
+              "Line": 176,
+              "Offset": 175,
+              "EndOffset": 181,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 1
+            },
+            {
+              "Line": 176,
+              "Offset": 175,
+              "EndOffset": 211,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 1
+            },
+            {
+              "Line": 180,
+              "Offset": 213,
+              "EndOffset": 219,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 1
+            },
+            {
+              "Line": 180,
+              "Offset": 213,
+              "EndOffset": 296,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 0
+            },
+            {
+              "Line": 182,
+              "Offset": 345,
+              "EndOffset": 347,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 1
+            },
+            {
+              "Line": 182,
+              "Offset": 345,
+              "EndOffset": 381,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 1
+            }
+          ]
+        }
+      }
+    },
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Weather.Api/Repositories/ConditionRepositoryDbProviderFactory.cs": {
+      "BellRichM.Weather.Api.Repositories.ConditionRepositoryDbProviderFactory": {
+        "System.Data.Common.DbProviderFactory BellRichM.Weather.Api.Repositories.ConditionRepositoryDbProviderFactory::get_ConditionDbProviderFactory()": {
+          "Lines": {
+            "23": 5
+          },
+          "Branches": []
+        },
+        "System.Void BellRichM.Weather.Api.Repositories.ConditionRepositoryDbProviderFactory::.ctor(System.Data.Common.DbProviderFactory)": {
+          "Lines": {
+            "14": 5,
+            "15": 5,
+            "16": 5,
+            "17": 5
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Weather.Api/Repositories/ObservationRepository.cs": {
+      "BellRichM.Weather.Api.Repositories.ObservationRepository": {
+        "System.Void BellRichM.Weather.Api.Repositories.ObservationRepository::.ctor(BellRichM.Logging.ILoggerAdapter`1<BellRichM.Weather.Api.Repositories.ObservationRepository>,BellRichM.Weather.Api.Repositories.ObservationRepositoryDbProviderFactory,BellRichM.Weather.Api.Configuration.IObservationRepositoryConfiguration)": {
+          "Lines": {
+            "29": 4,
+            "30": 4,
+            "31": 4,
+            "32": 4,
+            "33": 4,
+            "34": 4
+          },
+          "Branches": []
+        }
+      },
+      "BellRichM.Weather.Api.Repositories.ObservationRepository/<GetObservation>d__4": {
+        "System.Void BellRichM.Weather.Api.Repositories.ObservationRepository/<GetObservation>d__4::MoveNext()": {
+          "Lines": {
+            "38": 4,
+            "39": 4,
+            "41": 4,
+            "42": 4,
+            "43": 4,
+            "44": 4,
+            "45": 4,
+            "46": 4,
+            "47": 4,
+            "48": 4,
+            "49": 4,
+            "50": 4,
+            "51": 4,
+            "52": 4,
+            "53": 4,
+            "54": 4,
+            "55": 4,
+            "56": 4,
+            "57": 4,
+            "58": 4,
+            "60": 4,
+            "62": 4,
+            "63": 4,
+            "64": 4,
+            "65": 4,
+            "66": 4,
+            "67": 4,
+            "68": 4,
+            "69": 4,
+            "70": 4,
+            "72": 4,
+            "74": 4,
+            "75": 4,
+            "76": 4,
+            "77": 3,
+            "78": 3,
+            "79": 3,
+            "80": 3,
+            "81": 3,
+            "82": 3,
+            "83": 3,
+            "84": 3,
+            "85": 3,
+            "86": 3,
+            "87": 3,
+            "88": 3,
+            "89": 3,
+            "90": 3,
+            "91": 3,
+            "92": 3,
+            "93": 3,
+            "94": 3,
+            "95": 3,
+            "96": 3,
+            "97": 3,
+            "98": 3,
+            "99": 3,
+            "100": 3,
+            "101": 3,
+            "102": 3,
+            "103": 3,
+            "104": 3,
+            "105": 3,
+            "106": 3,
+            "107": 3,
+            "108": 3,
+            "109": 3,
+            "110": 3,
+            "111": 3,
+            "112": 3,
+            "113": 3,
+            "114": 3,
+            "115": 3,
+            "116": 3,
+            "117": 3,
+            "118": 3,
+            "119": 3,
+            "120": 3,
+            "121": 3,
+            "122": 3,
+            "123": 3,
+            "124": 3,
+            "125": 4,
+            "126": 4,
+            "127": 4,
+            "129": 4,
+            "130": 4
+          },
+          "Branches": [
+            {
+              "Line": 64,
+              "Offset": 134,
+              "EndOffset": 140,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 4
+            },
+            {
+              "Line": 64,
+              "Offset": 134,
+              "EndOffset": 188,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 4
+            },
+            {
+              "Line": 68,
+              "Offset": 190,
+              "EndOffset": 196,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 4
+            },
+            {
+              "Line": 68,
+              "Offset": 190,
+              "EndOffset": 254,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 4
+            },
+            {
+              "Line": 74,
+              "Offset": 256,
+              "EndOffset": 262,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 4
+            },
+            {
+              "Line": 74,
+              "Offset": 256,
+              "EndOffset": 339,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 0
+            },
+            {
+              "Line": 76,
+              "Offset": 388,
+              "EndOffset": 393,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 3
+            },
+            {
+              "Line": 76,
+              "Offset": 388,
+              "EndOffset": 1452,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 4
+            }
+          ]
+        }
+      },
+      "BellRichM.Weather.Api.Repositories.ObservationRepository/<CreateObservation>d__5": {
+        "System.Void BellRichM.Weather.Api.Repositories.ObservationRepository/<CreateObservation>d__5::MoveNext()": {
+          "Lines": {
+            "134": 1,
+            "135": 1,
+            "136": 1,
+            "137": 1,
+            "138": 1,
+            "139": 1,
+            "140": 1,
+            "141": 1,
+            "142": 1,
+            "143": 1,
+            "144": 1,
+            "145": 1,
+            "146": 1,
+            "147": 1,
+            "148": 1,
+            "149": 1,
+            "150": 1,
+            "151": 1,
+            "152": 1,
+            "153": 1,
+            "154": 1,
+            "155": 1,
+            "156": 1,
+            "157": 1,
+            "158": 1,
+            "159": 1,
+            "160": 1,
+            "161": 1,
+            "162": 1,
+            "163": 1,
+            "164": 1,
+            "166": 1,
+            "167": 1
+          },
+          "Branches": []
+        }
+      },
+      "BellRichM.Weather.Api.Repositories.ObservationRepository/<UpdateObservation>d__6": {
+        "System.Void BellRichM.Weather.Api.Repositories.ObservationRepository/<UpdateObservation>d__6::MoveNext()": {
+          "Lines": {
+            "171": 1,
+            "172": 1,
+            "174": 1,
+            "175": 1,
+            "176": 1,
+            "177": 1,
+            "178": 1,
+            "179": 1,
+            "180": 1,
+            "181": 1,
+            "182": 1,
+            "183": 1,
+            "184": 1,
+            "185": 1,
+            "186": 1,
+            "187": 1,
+            "188": 1,
+            "189": 1,
+            "190": 1,
+            "191": 1,
+            "192": 1,
+            "193": 1,
+            "194": 1,
+            "195": 1,
+            "196": 1,
+            "197": 1,
+            "198": 1,
+            "199": 1,
+            "200": 1,
+            "201": 1,
+            "202": 1,
+            "203": 1,
+            "204": 1,
+            "205": 1,
+            "206": 1,
+            "207": 1,
+            "208": 1,
+            "209": 1,
+            "210": 1,
+            "211": 1,
+            "212": 1,
+            "213": 1,
+            "214": 1,
+            "215": 1,
+            "216": 1,
+            "217": 1,
+            "218": 1,
+            "219": 1,
+            "220": 1,
+            "221": 1,
+            "223": 1,
+            "224": 1
+          },
+          "Branches": []
+        }
+      },
+      "BellRichM.Weather.Api.Repositories.ObservationRepository/<DeleteObservation>d__7": {
+        "System.Void BellRichM.Weather.Api.Repositories.ObservationRepository/<DeleteObservation>d__7::MoveNext()": {
+          "Lines": {
+            "228": 1,
+            "229": 1,
+            "231": 1,
+            "232": 1,
+            "233": 1,
+            "234": 1,
+            "235": 1,
+            "238": 1,
+            "239": 1,
+            "240": 1,
+            "241": 1,
+            "242": 1,
+            "243": 1,
+            "244": 1,
+            "245": 1,
+            "246": 1,
+            "248": 1,
+            "249": 1,
+            "250": 1,
+            "251": 1,
+            "253": 1,
+            "254": 1,
+            "256": 1,
+            "257": 1
+          },
+          "Branches": [
+            {
+              "Line": 240,
+              "Offset": 127,
+              "EndOffset": 133,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 240,
+              "Offset": 127,
+              "EndOffset": 181,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 1
+            },
+            {
+              "Line": 244,
+              "Offset": 183,
+              "EndOffset": 189,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 1
+            },
+            {
+              "Line": 244,
+              "Offset": 183,
+              "EndOffset": 305,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            }
+          ]
+        }
+      },
+      "BellRichM.Weather.Api.Repositories.ObservationRepository/<ExecuteNonQuery>d__8": {
+        "System.Void BellRichM.Weather.Api.Repositories.ObservationRepository/<ExecuteNonQuery>d__8::MoveNext()": {
+          "Lines": {
+            "260": 2,
+            "262": 2,
+            "263": 2,
+            "264": 2,
+            "265": 2,
+            "266": 2,
+            "267": 2,
+            "268": 2,
+            "269": 2,
+            "270": 2,
+            "271": 2,
+            "272": 2,
+            "273": 2,
+            "274": 2,
+            "275": 2,
+            "276": 2,
+            "277": 2,
+            "278": 2,
+            "279": 2,
+            "280": 2,
+            "281": 2,
+            "282": 2,
+            "283": 2,
+            "284": 2,
+            "285": 2,
+            "286": 2,
+            "287": 2,
+            "288": 2,
+            "289": 2,
+            "290": 2,
+            "291": 2,
+            "292": 2,
+            "293": 2,
+            "294": 2,
+            "295": 2,
+            "296": 2,
+            "297": 2,
+            "298": 2,
+            "299": 2,
+            "300": 2,
+            "301": 2,
+            "302": 2,
+            "303": 2,
+            "304": 2,
+            "305": 2,
+            "306": 2,
+            "307": 2,
+            "308": 2,
+            "309": 2,
+            "310": 2,
+            "311": 2,
+            "313": 2,
+            "314": 2,
+            "315": 2,
+            "316": 2,
+            "318": 2,
+            "319": 2,
+            "321": 2,
+            "322": 2
+          },
+          "Branches": [
+            {
+              "Line": 264,
+              "Offset": 74,
+              "EndOffset": 80,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 2
+            },
+            {
+              "Line": 264,
+              "Offset": 74,
+              "EndOffset": 128,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 2
+            },
+            {
+              "Line": 268,
+              "Offset": 130,
+              "EndOffset": 139,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 2
+            },
+            {
+              "Line": 268,
+              "Offset": 130,
+              "EndOffset": 1613,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    },
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Weather.Api/Repositories/ObservationRepositoryDbProviderFactory.cs": {
+      "BellRichM.Weather.Api.Repositories.ObservationRepositoryDbProviderFactory": {
+        "System.Data.Common.DbProviderFactory BellRichM.Weather.Api.Repositories.ObservationRepositoryDbProviderFactory::get_ObservationDbProviderFactory()": {
+          "Lines": {
+            "23": 4
+          },
+          "Branches": []
+        },
+        "System.Void BellRichM.Weather.Api.Repositories.ObservationRepositoryDbProviderFactory::.ctor(System.Data.Common.DbProviderFactory)": {
+          "Lines": {
+            "14": 4,
+            "15": 4,
+            "16": 4,
+            "17": 4
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Weather.Api/Mapping/ConditionProfile.cs": {
+      "BellRichM.Weather.Api.Mapping.ConditionProfile": {
+        "System.Void BellRichM.Weather.Api.Mapping.ConditionProfile::.ctor()": {
+          "Lines": {
+            "17": 1,
+            "18": 1,
+            "19": 1,
+            "20": 2,
+            "21": 1
+          },
+          "Branches": [
+            {
+              "Line": 19,
+              "Offset": 77,
+              "EndOffset": 79,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 19,
+              "Offset": 77,
+              "EndOffset": 102,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 1
+            }
+          ]
+        }
+      }
+    },
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Weather.Api/Mapping/ConvertEpochTime.cs": {
+      "BellRichM.Weather.Api.Mapping.ConvertEpochTime": {
+        "System.Void BellRichM.Weather.Api.Mapping.ConvertEpochTime::Process(BellRichM.Weather.Api.Models.ObservationModel,BellRichM.Weather.Api.Data.Observation)": {
+          "Lines": {
+            "22": 1,
+            "23": 1,
+            "24": 1,
+            "25": 1,
+            "26": 1,
+            "27": 1,
+            "28": 1,
+            "29": 1,
+            "30": 1
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Weather.Api/Mapping/ObservationProfile.cs": {
+      "BellRichM.Weather.Api.Mapping.ObservationProfile": {
+        "System.Void BellRichM.Weather.Api.Mapping.ObservationProfile::.ctor()": {
+          "Lines": {
+            "17": 1,
+            "18": 1,
+            "19": 1,
+            "20": 1,
+            "21": 2,
+            "22": 2,
+            "23": 2,
+            "24": 2,
+            "25": 2,
+            "26": 1,
+            "27": 1
+          },
+          "Branches": [
+            {
+              "Line": 20,
+              "Offset": 84,
+              "EndOffset": 86,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 20,
+              "Offset": 84,
+              "EndOffset": 109,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 1
+            },
+            {
+              "Line": 20,
+              "Offset": 177,
+              "EndOffset": 179,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 1
+            },
+            {
+              "Line": 20,
+              "Offset": 177,
+              "EndOffset": 202,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 1
+            },
+            {
+              "Line": 20,
+              "Offset": 270,
+              "EndOffset": 272,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 1
+            },
+            {
+              "Line": 20,
+              "Offset": 270,
+              "EndOffset": 295,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 1
+            },
+            {
+              "Line": 20,
+              "Offset": 363,
+              "EndOffset": 365,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 1
+            },
+            {
+              "Line": 20,
+              "Offset": 363,
+              "EndOffset": 388,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 1
+            },
+            {
+              "Line": 20,
+              "Offset": 456,
+              "EndOffset": 458,
+              "Path": 0,
+              "Ordinal": 8,
+              "Hits": 1
+            },
+            {
+              "Line": 20,
+              "Offset": 456,
+              "EndOffset": 481,
+              "Path": 1,
+              "Ordinal": 9,
+              "Hits": 1
+            }
+          ]
+        }
+      }
+    },
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Weather.Api/Filters/ValidateConditionLimitAttribute.cs": {
+      "BellRichM.Weather.Api.Filters.ValidateConditionLimitAttribute": {
+        "System.Void BellRichM.Weather.Api.Filters.ValidateConditionLimitAttribute::.ctor()": {
+          "Lines": {
+            "18": 1,
+            "19": 1,
+            "20": 1
+          },
+          "Branches": []
+        }
+      },
+      "BellRichM.Weather.Api.Filters.ValidateConditionLimitAttribute/ValidateConditionLimitAttributeImplementation": {
+        "System.Void BellRichM.Weather.Api.Filters.ValidateConditionLimitAttribute/ValidateConditionLimitAttributeImplementation::.ctor(BellRichM.Weather.Api.Configuration.IConditionRepositoryConfiguration)": {
+          "Lines": {
+            "25": 4,
+            "26": 4,
+            "27": 4,
+            "29": 4,
+            "30": 4,
+            "31": 4,
+            "39": 4,
+            "40": 4,
+            "41": 4,
+            "42": 4
+          },
+          "Branches": []
+        }
+      },
+      "BellRichM.Weather.Api.Filters.ValidateConditionLimitAttribute/ValidateConditionLimitAttributeImplementation/<OnActionExecutionAsync>d__8": {
+        "System.Void BellRichM.Weather.Api.Filters.ValidateConditionLimitAttribute/ValidateConditionLimitAttributeImplementation/<OnActionExecutionAsync>d__8::MoveNext()": {
+          "Lines": {
+            "46": 4,
+            "47": 4,
+            "48": 4,
+            "49": 3,
+            "50": 3,
+            "51": 3,
+            "53": 4,
+            "54": 1,
+            "55": 1,
+            "56": 1,
+            "58": 4,
+            "59": 1,
+            "60": 1,
+            "61": 1,
+            "63": 4,
+            "64": 1,
+            "65": 1,
+            "66": 1,
+            "68": 4,
+            "69": 4
+          },
+          "Branches": [
+            {
+              "Line": 48,
+              "Offset": 53,
+              "EndOffset": 55,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 3
+            },
+            {
+              "Line": 48,
+              "Offset": 53,
+              "EndOffset": 94,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 4
+            },
+            {
+              "Line": 53,
+              "Offset": 110,
+              "EndOffset": 112,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 1
+            },
+            {
+              "Line": 53,
+              "Offset": 110,
+              "EndOffset": 153,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 4
+            },
+            {
+              "Line": 58,
+              "Offset": 188,
+              "EndOffset": 190,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 1
+            },
+            {
+              "Line": 58,
+              "Offset": 188,
+              "EndOffset": 231,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 4
+            },
+            {
+              "Line": 63,
+              "Offset": 280,
+              "EndOffset": 282,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 1
+            },
+            {
+              "Line": 63,
+              "Offset": 280,
+              "EndOffset": 354,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 4
+            }
+          ]
+        }
+      }
+    },
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Weather.Api/Extensions/StartupExtensions.cs": {
+      "BellRichM.Weather.Api.Extensions.StartupExtensions": {
+        "System.Void BellRichM.Weather.Api.Extensions.StartupExtensions::AddWeatherServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)": {
+          "Lines": {
+            "27": 0,
+            "28": 0,
+            "29": 0,
+            "30": 0,
+            "31": 0,
+            "32": 0,
+            "34": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0,
+            "40": 0,
+            "41": 0,
+            "42": 0,
+            "43": 0,
+            "44": 0,
+            "45": 0,
+            "46": 0,
+            "49": 0,
+            "50": 0,
+            "52": 0,
+            "53": 0,
+            "55": 0,
+            "56": 0,
+            "58": 0,
+            "59": 0,
+            "60": 0,
+            "61": 0,
+            "63": 0,
+            "64": 0,
+            "67": 0,
+            "68": 0
+          },
+          "Branches": [
+            {
+              "Line": 58,
+              "Offset": 270,
+              "EndOffset": 272,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 58,
+              "Offset": 270,
+              "EndOffset": 283,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    },
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Weather.Api/Controllers/ConditionsController.cs": {
+      "BellRichM.Weather.Api.Controllers.ConditionsController": {
+        "System.Void BellRichM.Weather.Api.Controllers.ConditionsController::.ctor(BellRichM.Logging.ILoggerAdapter`1<BellRichM.Weather.Api.Controllers.ConditionsController>,AutoMapper.IMapper,BellRichM.Weather.Api.Services.IConditionService)": {
+          "Lines": {
+            "33": 13,
+            "34": 13,
+            "35": 13,
+            "36": 13,
+            "37": 13,
+            "38": 13
+          },
+          "Branches": []
+        }
+      },
+      "BellRichM.Weather.Api.Controllers.ConditionsController/<GetYearsConditionPage>d__4": {
+        "System.Void BellRichM.Weather.Api.Controllers.ConditionsController/<GetYearsConditionPage>d__4::MoveNext()": {
+          "Lines": {
+            "51": 2,
+            "52": 2,
+            "53": 2,
+            "54": 1,
+            "55": 1,
+            "56": 1,
+            "57": 1,
+            "60": 1,
+            "61": 1,
+            "62": 1,
+            "63": 1,
+            "64": 2
+          },
+          "Branches": [
+            {
+              "Line": 53,
+              "Offset": 100,
+              "EndOffset": 102,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 53,
+              "Offset": 100,
+              "EndOffset": 185,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 1
+            }
+          ]
+        }
+      },
+      "BellRichM.Weather.Api.Controllers.ConditionsController/<GetYearDetail>d__5": {
+        "System.Void BellRichM.Weather.Api.Controllers.ConditionsController/<GetYearDetail>d__5::MoveNext()": {
+          "Lines": {
+            "75": 1,
+            "76": 1,
+            "79": 1,
+            "80": 1
+          },
+          "Branches": []
+        }
+      },
+      "BellRichM.Weather.Api.Controllers.ConditionsController/<GetMonthsConditionPage>d__6": {
+        "System.Void BellRichM.Weather.Api.Controllers.ConditionsController/<GetMonthsConditionPage>d__6::MoveNext()": {
+          "Lines": {
+            "93": 1,
+            "94": 1,
+            "97": 1,
+            "98": 1
+          },
+          "Branches": []
+        }
+      },
+      "BellRichM.Weather.Api.Controllers.ConditionsController/<GetMonthDetail>d__7": {
+        "System.Void BellRichM.Weather.Api.Controllers.ConditionsController/<GetMonthDetail>d__7::MoveNext()": {
+          "Lines": {
+            "110": 1,
+            "111": 1,
+            "114": 1,
+            "115": 1
+          },
+          "Branches": []
+        }
+      },
+      "BellRichM.Weather.Api.Controllers.ConditionsController/<GetDaysConditionPage>d__8": {
+        "System.Void BellRichM.Weather.Api.Controllers.ConditionsController/<GetDaysConditionPage>d__8::MoveNext()": {
+          "Lines": {
+            "129": 1,
+            "130": 1,
+            "133": 1,
+            "134": 1
+          },
+          "Branches": []
+        }
+      },
+      "BellRichM.Weather.Api.Controllers.ConditionsController/<GetDayDetail>d__9": {
+        "System.Void BellRichM.Weather.Api.Controllers.ConditionsController/<GetDayDetail>d__9::MoveNext()": {
+          "Lines": {
+            "147": 1,
+            "148": 1,
+            "151": 1,
+            "152": 1
+          },
+          "Branches": []
+        }
+      },
+      "BellRichM.Weather.Api.Controllers.ConditionsController/<GetHoursConditionPage>d__10": {
+        "System.Void BellRichM.Weather.Api.Controllers.ConditionsController/<GetHoursConditionPage>d__10::MoveNext()": {
+          "Lines": {
+            "167": 1,
+            "168": 1,
+            "171": 1,
+            "172": 1
+          },
+          "Branches": []
+        }
+      },
+      "BellRichM.Weather.Api.Controllers.ConditionsController/<GetHourDetail>d__11": {
+        "System.Void BellRichM.Weather.Api.Controllers.ConditionsController/<GetHourDetail>d__11::MoveNext()": {
+          "Lines": {
+            "186": 1,
+            "187": 1,
+            "190": 1,
+            "191": 1
+          },
+          "Branches": []
+        }
+      },
+      "BellRichM.Weather.Api.Controllers.ConditionsController/<GetYearsMonthConditionPage>d__12": {
+        "System.Void BellRichM.Weather.Api.Controllers.ConditionsController/<GetYearsMonthConditionPage>d__12::MoveNext()": {
+          "Lines": {
+            "204": 1,
+            "205": 1,
+            "208": 1,
+            "209": 1
+          },
+          "Branches": []
+        }
+      },
+      "BellRichM.Weather.Api.Controllers.ConditionsController/<GetYearsDayConditionPage>d__13": {
+        "System.Void BellRichM.Weather.Api.Controllers.ConditionsController/<GetYearsDayConditionPage>d__13::MoveNext()": {
+          "Lines": {
+            "223": 1,
+            "224": 1,
+            "227": 1,
+            "228": 1
+          },
+          "Branches": []
+        }
+      },
+      "BellRichM.Weather.Api.Controllers.ConditionsController/<GetYearsHourConditionPage>d__14": {
+        "System.Void BellRichM.Weather.Api.Controllers.ConditionsController/<GetYearsHourConditionPage>d__14::MoveNext()": {
+          "Lines": {
+            "243": 1,
+            "244": 1,
+            "247": 1,
+            "248": 1
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Weather.Api/Controllers/ObservationsController.cs": {
+      "BellRichM.Weather.Api.Controllers.ObservationsController": {
+        "System.Void BellRichM.Weather.Api.Controllers.ObservationsController::.ctor(BellRichM.Logging.ILoggerAdapter`1<BellRichM.Weather.Api.Controllers.ObservationsController>,AutoMapper.IMapper,BellRichM.Weather.Api.Services.IObservationService)": {
+          "Lines": {
+            "32": 16,
+            "33": 16,
+            "34": 16,
+            "35": 16,
+            "36": 16,
+            "37": 16
+          },
+          "Branches": []
+        }
+      },
+      "BellRichM.Weather.Api.Controllers.ObservationsController/<GetObservation>d__4": {
+        "System.Void BellRichM.Weather.Api.Controllers.ObservationsController/<GetObservation>d__4::MoveNext()": {
+          "Lines": {
+            "47": 3,
+            "48": 3,
+            "49": 3,
+            "50": 1,
+            "51": 1,
+            "52": 1,
+            "53": 1,
+            "56": 2,
+            "57": 2,
+            "58": 1,
+            "59": 1,
+            "62": 1,
+            "63": 1,
+            "64": 3
+          },
+          "Branches": [
+            {
+              "Line": 49,
+              "Offset": 86,
+              "EndOffset": 88,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 49,
+              "Offset": 86,
+              "EndOffset": 171,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 2
+            },
+            {
+              "Line": 57,
+              "Offset": 331,
+              "EndOffset": 333,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 1
+            },
+            {
+              "Line": 57,
+              "Offset": 331,
+              "EndOffset": 348,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 1
+            }
+          ]
+        }
+      },
+      "BellRichM.Weather.Api.Controllers.ObservationsController/<Create>d__5": {
+        "System.Void BellRichM.Weather.Api.Controllers.ObservationsController/<Create>d__5::MoveNext()": {
+          "Lines": {
+            "74": 3,
+            "75": 3,
+            "76": 3,
+            "77": 1,
+            "78": 1,
+            "79": 1,
+            "80": 1,
+            "83": 2,
+            "84": 2,
+            "85": 2,
+            "86": 1,
+            "87": 1,
+            "90": 1,
+            "91": 1,
+            "92": 3
+          },
+          "Branches": [
+            {
+              "Line": 76,
+              "Offset": 81,
+              "EndOffset": 83,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 76,
+              "Offset": 81,
+              "EndOffset": 166,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 2
+            },
+            {
+              "Line": 85,
+              "Offset": 354,
+              "EndOffset": 356,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 1
+            },
+            {
+              "Line": 85,
+              "Offset": 354,
+              "EndOffset": 371,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 1
+            }
+          ]
+        }
+      },
+      "BellRichM.Weather.Api.Controllers.ObservationsController/<Update>d__6": {
+        "System.Void BellRichM.Weather.Api.Controllers.ObservationsController/<Update>d__6::MoveNext()": {
+          "Lines": {
+            "102": 3,
+            "103": 3,
+            "104": 3,
+            "105": 1,
+            "106": 1,
+            "107": 1,
+            "108": 1,
+            "111": 2,
+            "112": 2,
+            "113": 2,
+            "114": 1,
+            "115": 1,
+            "118": 1,
+            "119": 1,
+            "120": 3
+          },
+          "Branches": [
+            {
+              "Line": 104,
+              "Offset": 81,
+              "EndOffset": 83,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 104,
+              "Offset": 81,
+              "EndOffset": 166,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 2
+            },
+            {
+              "Line": 113,
+              "Offset": 354,
+              "EndOffset": 356,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 1
+            },
+            {
+              "Line": 113,
+              "Offset": 354,
+              "EndOffset": 371,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 1
+            }
+          ]
+        }
+      },
+      "BellRichM.Weather.Api.Controllers.ObservationsController/<Delete>d__7": {
+        "System.Void BellRichM.Weather.Api.Controllers.ObservationsController/<Delete>d__7::MoveNext()": {
+          "Lines": {
+            "130": 3,
+            "131": 3,
+            "132": 3,
+            "133": 1,
+            "134": 1,
+            "135": 1,
+            "136": 1,
+            "139": 2,
+            "140": 2,
+            "141": 1,
+            "142": 1,
+            "145": 1,
+            "146": 3
+          },
+          "Branches": [
+            {
+              "Line": 132,
+              "Offset": 86,
+              "EndOffset": 88,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 132,
+              "Offset": 86,
+              "EndOffset": 171,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 2
+            },
+            {
+              "Line": 140,
+              "Offset": 324,
+              "EndOffset": 326,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 1
+            },
+            {
+              "Line": 140,
+              "Offset": 324,
+              "EndOffset": 341,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 1
+            }
+          ]
+        }
+      }
+    }
+  },
+  "BellRichM.Logging.dll": {
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Logging/LoggerAdapter.cs": {
+      "BellRichM.Logging.LoggerAdapter`1": {
+        "System.Void BellRichM.Logging.LoggerAdapter`1::LogDiagnosticTrace(System.String,System.Object[])": {
+          "Lines": {
+            "22": 0,
+            "23": 0,
+            "24": 0,
+            "25": 0,
+            "26": 0,
+            "27": 0
+          },
+          "Branches": []
+        },
+        "System.Void BellRichM.Logging.LoggerAdapter`1::LogDiagnosticDebug(System.String,System.Object[])": {
+          "Lines": {
+            "31": 0,
+            "32": 0,
+            "33": 0,
+            "34": 0,
+            "35": 0,
+            "36": 0
+          },
+          "Branches": []
+        },
+        "System.Void BellRichM.Logging.LoggerAdapter`1::LogDiagnosticInformation(System.String,System.Object[])": {
+          "Lines": {
+            "40": 0,
+            "41": 0,
+            "42": 0,
+            "43": 0,
+            "44": 0,
+            "45": 0
+          },
+          "Branches": []
+        },
+        "System.Void BellRichM.Logging.LoggerAdapter`1::LogDiagnosticWarning(System.String,System.Object[])": {
+          "Lines": {
+            "49": 0,
+            "50": 0,
+            "51": 0,
+            "52": 0,
+            "53": 0,
+            "54": 0
+          },
+          "Branches": []
+        },
+        "System.Void BellRichM.Logging.LoggerAdapter`1::LogDiagnosticCritical(System.String,System.Object[])": {
+          "Lines": {
+            "58": 0,
+            "59": 0,
+            "60": 0,
+            "61": 0,
+            "62": 0,
+            "63": 0
+          },
+          "Branches": []
+        },
+        "System.Void BellRichM.Logging.LoggerAdapter`1::LogDiagnosticError(System.String,System.Object[])": {
+          "Lines": {
+            "67": 0,
+            "68": 0,
+            "69": 0,
+            "70": 0,
+            "71": 0,
+            "72": 0
+          },
+          "Branches": []
+        },
+        "System.Void BellRichM.Logging.LoggerAdapter`1::LogEvent(BellRichM.Logging.EventId,System.String,System.Object[])": {
+          "Lines": {
+            "76": 0,
+            "77": 0,
+            "79": 0,
+            "80": 0,
+            "81": 0,
+            "82": 0,
+            "83": 0
+          },
+          "Branches": []
+        },
+        "System.Void BellRichM.Logging.LoggerAdapter`1::.ctor()": {
+          "Lines": {
+            "15": 0,
+            "16": 0,
+            "17": 0,
+            "18": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Logging/LogManager.cs": {
+      "BellRichM.Logging.LogManager": {
+        "BellRichM.Logging.LoggingLevelSwitches BellRichM.Logging.LogManager::get_LoggingLevelSwitches()": {
+          "Lines": {
+            "50": 0
+          },
+          "Branches": []
+        },
+        "BellRichM.Logging.LoggingFilterSwitches BellRichM.Logging.LogManager::get_LoggingFilterSwitches()": {
+          "Lines": {
+            "58": 0
+          },
+          "Branches": []
+        },
+        "Serilog.Core.Logger BellRichM.Logging.LogManager::Create()": {
+          "Lines": {
+            "62": 0,
+            "63": 0,
+            "64": 0,
+            "65": 0,
+            "66": 0,
+            "67": 0,
+            "68": 0,
+            "69": 0,
+            "70": 0,
+            "71": 0,
+            "72": 0,
+            "73": 0,
+            "74": 0,
+            "75": 0,
+            "76": 0,
+            "77": 0,
+            "78": 0,
+            "79": 0,
+            "80": 0,
+            "81": 0,
+            "82": 0,
+            "83": 0,
+            "84": 0,
+            "85": 0,
+            "86": 0,
+            "87": 0,
+            "88": 0,
+            "89": 0,
+            "90": 0,
+            "91": 0,
+            "92": 0,
+            "93": 0,
+            "94": 0,
+            "95": 0,
+            "96": 0,
+            "97": 0,
+            "98": 0,
+            "99": 0,
+            "100": 0,
+            "101": 0,
+            "103": 0,
+            "104": 0
+          },
+          "Branches": []
+        },
+        "System.Void BellRichM.Logging.LogManager::.ctor(Microsoft.Extensions.Configuration.IConfiguration)": {
+          "Lines": {
+            "26": 0,
+            "27": 0,
+            "28": 0,
+            "29": 0,
+            "30": 0,
+            "31": 0,
+            "32": 0,
+            "34": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0,
+            "40": 0,
+            "41": 0,
+            "42": 0
+          },
+          "Branches": []
+        },
+        "System.Void BellRichM.Logging.LogManager::<Create>b__10_0(Serilog.LoggerConfiguration)": {
+          "Lines": {},
+          "Branches": [
+            {
+              "Line": 69,
+              "Offset": 17,
+              "EndOffset": 19,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 69,
+              "Offset": 17,
+              "EndOffset": 42,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        },
+        "System.Void BellRichM.Logging.LogManager::<Create>b__10_1(Serilog.LoggerConfiguration)": {
+          "Lines": {},
+          "Branches": [
+            {
+              "Line": 78,
+              "Offset": 17,
+              "EndOffset": 19,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 78,
+              "Offset": 17,
+              "EndOffset": 42,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        },
+        "System.Void BellRichM.Logging.LogManager::<Create>b__10_2(Serilog.LoggerConfiguration)": {
+          "Lines": {},
+          "Branches": [
+            {
+              "Line": 87,
+              "Offset": 38,
+              "EndOffset": 40,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 87,
+              "Offset": 38,
+              "EndOffset": 63,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    }
+  },
+  "BellRichM.Repository.dll": {
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Repository/Extensions/DbCommandExtensions.cs": {
+      "System.Data.Common.DbCommandExtensions": {
+        "System.Void System.Data.Common.DbCommandExtensions::AddParamWithValue(System.Data.Common.DbCommand,System.String,System.Object)": {
+          "Lines": {
+            "15": 101,
+            "16": 101,
+            "17": 101,
+            "18": 101,
+            "19": 101,
+            "20": 101
+          },
+          "Branches": [
+            {
+              "Line": 18,
+              "Offset": 19,
+              "EndOffset": 21,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 34
+            },
+            {
+              "Line": 18,
+              "Offset": 19,
+              "EndOffset": 27,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 101
+            }
+          ]
+        },
+        "System.Nullable`1<T> System.Data.Common.DbCommandExtensions::GetValue(System.Data.Common.DbDataReader,System.String)": {
+          "Lines": {
+            "31": 102,
+            "32": 102,
+            "33": 102
+          },
+          "Branches": [
+            {
+              "Line": 32,
+              "Offset": 13,
+              "EndOffset": 15,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 51
+            },
+            {
+              "Line": 32,
+              "Offset": 13,
+              "EndOffset": 34,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 51
+            }
+          ]
+        },
+        "System.String System.Data.Common.DbCommandExtensions::GetStringValue(System.Data.Common.DbDataReader,System.String)": {
+          "Lines": {
+            "42": 80,
+            "43": 80,
+            "44": 80
+          },
+          "Branches": [
+            {
+              "Line": 43,
+              "Offset": 13,
+              "EndOffset": 15,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 80
+            },
+            {
+              "Line": 43,
+              "Offset": 13,
+              "EndOffset": 29,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    }
+  },
+  "BellRichM.Helpers.Test.dll": {
+    "/home/richbell/weather/core3.1/api/test/BellRichM.Helpers.Test/LoggingBehaviors.cs": {
+      "BellRichM.Logging.LoggingBehaviors`1": {
+        "System.Void BellRichM.Logging.LoggingBehaviors`1::.ctor()": {
+          "Lines": {
+            "20": 47,
+            "21": 93,
+            "23": 47,
+            "24": 93,
+            "26": 47,
+            "27": 93,
+            "29": 47,
+            "30": 93,
+            "32": 47,
+            "33": 93,
+            "35": 47,
+            "36": 93,
+            "37": 0,
+            "38": 0,
+            "39": 0,
+            "40": 0,
+            "41": 93,
+            "43": 47,
+            "44": 93,
+            "46": 47,
+            "47": 93,
+            "48": 233,
+            "49": 71,
+            "50": 71,
+            "51": 71,
+            "52": 93,
+            "54": 47,
+            "55": 93
+          },
+          "Branches": [
+            {
+              "Line": 20,
+              "Offset": 7,
+              "EndOffset": 9,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 7
+            },
+            {
+              "Line": 20,
+              "Offset": 7,
+              "EndOffset": 32,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 47
+            },
+            {
+              "Line": 23,
+              "Offset": 44,
+              "EndOffset": 46,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 7
+            },
+            {
+              "Line": 23,
+              "Offset": 44,
+              "EndOffset": 69,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 47
+            },
+            {
+              "Line": 26,
+              "Offset": 81,
+              "EndOffset": 83,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 7
+            },
+            {
+              "Line": 26,
+              "Offset": 81,
+              "EndOffset": 106,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 47
+            },
+            {
+              "Line": 29,
+              "Offset": 118,
+              "EndOffset": 120,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 7
+            },
+            {
+              "Line": 29,
+              "Offset": 118,
+              "EndOffset": 143,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 47
+            },
+            {
+              "Line": 32,
+              "Offset": 155,
+              "EndOffset": 157,
+              "Path": 0,
+              "Ordinal": 8,
+              "Hits": 7
+            },
+            {
+              "Line": 32,
+              "Offset": 155,
+              "EndOffset": 180,
+              "Path": 1,
+              "Ordinal": 9,
+              "Hits": 47
+            },
+            {
+              "Line": 35,
+              "Offset": 192,
+              "EndOffset": 194,
+              "Path": 0,
+              "Ordinal": 10,
+              "Hits": 7
+            },
+            {
+              "Line": 35,
+              "Offset": 192,
+              "EndOffset": 217,
+              "Path": 1,
+              "Ordinal": 11,
+              "Hits": 47
+            },
+            {
+              "Line": 43,
+              "Offset": 229,
+              "EndOffset": 231,
+              "Path": 0,
+              "Ordinal": 12,
+              "Hits": 7
+            },
+            {
+              "Line": 43,
+              "Offset": 229,
+              "EndOffset": 254,
+              "Path": 1,
+              "Ordinal": 13,
+              "Hits": 47
+            },
+            {
+              "Line": 46,
+              "Offset": 266,
+              "EndOffset": 268,
+              "Path": 0,
+              "Ordinal": 14,
+              "Hits": 7
+            },
+            {
+              "Line": 46,
+              "Offset": 266,
+              "EndOffset": 291,
+              "Path": 1,
+              "Ordinal": 15,
+              "Hits": 47
+            },
+            {
+              "Line": 54,
+              "Offset": 303,
+              "EndOffset": 305,
+              "Path": 0,
+              "Ordinal": 16,
+              "Hits": 7
+            },
+            {
+              "Line": 54,
+              "Offset": 303,
+              "EndOffset": 328,
+              "Path": 1,
+              "Ordinal": 17,
+              "Hits": 47
+            },
+            {
+              "Line": 37,
+              "Offset": 208,
+              "EndOffset": 23,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 37,
+              "Offset": 208,
+              "EndOffset": 213,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 46
+            },
+            {
+              "Line": 48,
+              "Offset": 287,
+              "EndOffset": 23,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 24
+            },
+            {
+              "Line": 48,
+              "Offset": 287,
+              "EndOffset": 292,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 46
+            }
+          ]
+        }
+      }
+    },
+    "/home/richbell/weather/core3.1/api/test/BellRichM.Helpers.Test/EventLoggingData.cs": {
+      "BellRichM.Helpers.Test.EventLoggingData": {
+        "BellRichM.Logging.EventId BellRichM.Helpers.Test.EventLoggingData::get_Id()": {
+          "Lines": {
+            "13": 48
+          },
+          "Branches": []
+        },
+        "System.String BellRichM.Helpers.Test.EventLoggingData::get_Message()": {
+          "Lines": {
+            "15": 48
+          },
+          "Branches": []
+        },
+        "System.Void BellRichM.Helpers.Test.EventLoggingData::.ctor(BellRichM.Logging.EventId,System.String)": {
+          "Lines": {
+            "7": 24,
+            "8": 24,
+            "9": 24,
+            "10": 24,
+            "11": 24
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/home/richbell/weather/core3.1/api/test/BellRichM.Helpers.Test/LoggingData.cs": {
+      "BellRichM.Helpers.Test.LoggingData": {
+        "System.Int32 BellRichM.Helpers.Test.LoggingData::get_DebugTimes()": {
+          "Lines": {
+            "7": 55
+          },
+          "Branches": []
+        },
+        "System.Int32 BellRichM.Helpers.Test.LoggingData::get_InformationTimes()": {
+          "Lines": {
+            "9": 51
+          },
+          "Branches": []
+        },
+        "System.Collections.Generic.IEnumerable`1<BellRichM.Helpers.Test.EventLoggingData> BellRichM.Helpers.Test.LoggingData::get_EventLoggingData()": {
+          "Lines": {
+            "11": 176
+          },
+          "Branches": []
+        },
+        "System.Collections.Generic.IEnumerable`1<System.String> BellRichM.Helpers.Test.LoggingData::get_ErrorLoggingMessages()": {
+          "Lines": {
+            "13": 176
+          },
+          "Branches": []
+        }
+      }
+    }
+  },
+  "BellRichM.Api.dll": {
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Api/Extensions/ExceptionLoggingMiddleWareExtension.cs": {
+      "Microsoft.AspNetCore.Builder.ExceptionLoggingMiddlewareExtension": {
+        "Microsoft.AspNetCore.Builder.IApplicationBuilder Microsoft.AspNetCore.Builder.ExceptionLoggingMiddlewareExtension::UseExceptionLoggingMiddleware(Microsoft.AspNetCore.Builder.IApplicationBuilder)": {
+          "Lines": {
+            "16": 0,
+            "17": 0,
+            "18": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Api/Middleware/ExceptionLoggingMiddleware.cs": {
+      "BellRichM.Api.Middleware.ExceptionLoggingMiddleware": {
+        "System.Tuple`2<System.String,System.String> BellRichM.Api.Middleware.ExceptionLoggingMiddleware::GetAuthData(Microsoft.AspNetCore.Http.HttpContext)": {
+          "Lines": {
+            "130": 0,
+            "131": 0,
+            "132": 0,
+            "133": 0,
+            "134": 0,
+            "135": 0,
+            "136": 0,
+            "137": 0,
+            "138": 0,
+            "139": 0,
+            "140": 0,
+            "141": 0,
+            "142": 0,
+            "144": 0,
+            "145": 0
+          },
+          "Branches": [
+            {
+              "Line": 134,
+              "Offset": 51,
+              "EndOffset": 53,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 138,
+              "Offset": 93,
+              "EndOffset": 95,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 138,
+              "Offset": 93,
+              "EndOffset": 102,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 134,
+              "Offset": 51,
+              "EndOffset": 103,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        },
+        "System.Void BellRichM.Api.Middleware.ExceptionLoggingMiddleware::.ctor(Microsoft.AspNetCore.Http.RequestDelegate,BellRichM.Logging.ILoggerAdapter`1<BellRichM.Api.Middleware.ExceptionLoggingMiddleware>)": {
+          "Lines": {
+            "27": 0,
+            "28": 0,
+            "29": 0,
+            "30": 0,
+            "31": 0
+          },
+          "Branches": []
+        }
+      },
+      "BellRichM.Api.Middleware.ExceptionLoggingMiddleware/<Invoke>d__3": {
+        "System.Void BellRichM.Api.Middleware.ExceptionLoggingMiddleware/<Invoke>d__3::MoveNext()": {
+          "Lines": {
+            "39": 0,
+            "42": 0,
+            "43": 0,
+            "46": 0,
+            "47": 0,
+            "49": 0,
+            "50": 0,
+            "51": 0,
+            "52": 0,
+            "53": 0,
+            "54": 0,
+            "56": 0,
+            "57": 0,
+            "58": 0,
+            "60": 0,
+            "62": 0,
+            "63": 0,
+            "64": 0,
+            "65": 0,
+            "66": 0,
+            "67": 0,
+            "68": 0,
+            "69": 0,
+            "71": 0,
+            "72": 0,
+            "73": 0,
+            "74": 0,
+            "75": 0,
+            "77": 0,
+            "78": 0,
+            "79": 0,
+            "80": 0,
+            "81": 0,
+            "82": 0,
+            "84": 0,
+            "86": 0,
+            "87": 0,
+            "89": 0,
+            "90": 0,
+            "91": 0,
+            "92": 0,
+            "93": 0,
+            "95": 0,
+            "96": 0,
+            "97": 0,
+            "98": 0,
+            "99": 0,
+            "101": 0,
+            "102": 0,
+            "103": 0,
+            "104": 0,
+            "105": 0,
+            "107": 0,
+            "108": 0,
+            "109": 0,
+            "110": 0,
+            "111": 0,
+            "112": 0,
+            "114": 0,
+            "116": 0,
+            "117": 0,
+            "119": 0,
+            "120": 0,
+            "121": 0,
+            "122": 0,
+            "124": 0,
+            "125": 0,
+            "126": 0,
+            "127": 0
+          },
+          "Branches": [
+            {
+              "Line": 43,
+              "Offset": 81,
+              "EndOffset": 87,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 43,
+              "Offset": 81,
+              "EndOffset": 204,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 56,
+              "Offset": 206,
+              "EndOffset": 215,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 56,
+              "Offset": 206,
+              "EndOffset": 396,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 63,
+              "Offset": 524,
+              "EndOffset": 526,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 0
+            },
+            {
+              "Line": 63,
+              "Offset": 524,
+              "EndOffset": 539,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 0
+            },
+            {
+              "Line": 97,
+              "Offset": 730,
+              "EndOffset": 734,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 0
+            },
+            {
+              "Line": 97,
+              "Offset": 730,
+              "EndOffset": 747,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 0
+            },
+            {
+              "Line": 91,
+              "Offset": 1012,
+              "EndOffset": 1014,
+              "Path": 0,
+              "Ordinal": 10,
+              "Hits": 0
+            },
+            {
+              "Line": 91,
+              "Offset": 1012,
+              "EndOffset": 1027,
+              "Path": 1,
+              "Ordinal": 11,
+              "Hits": 0
+            },
+            {
+              "Line": 97,
+              "Offset": 737,
+              "EndOffset": 1320,
+              "Path": 1,
+              "Ordinal": 9,
+              "Hits": 0
+            },
+            {
+              "Line": 119,
+              "Offset": 1524,
+              "EndOffset": 1533,
+              "Path": 0,
+              "Ordinal": 12,
+              "Hits": 0
+            },
+            {
+              "Line": 121,
+              "Offset": 1614,
+              "EndOffset": 1616,
+              "Path": 0,
+              "Ordinal": 14,
+              "Hits": 0
+            },
+            {
+              "Line": 121,
+              "Offset": 1614,
+              "EndOffset": 1629,
+              "Path": 1,
+              "Ordinal": 15,
+              "Hits": 0
+            },
+            {
+              "Line": 119,
+              "Offset": 1524,
+              "EndOffset": 1832,
+              "Path": 1,
+              "Ordinal": 13,
+              "Hits": 0
+            },
+            {
+              "Line": 97,
+              "Offset": 737,
+              "EndOffset": 1935,
+              "Path": 0,
+              "Ordinal": 8,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    },
+    "/home/richbell/weather/core3.1/api/src/BellRichM.Api/Controllers/ApiController.cs": {
+      "BellRichM.Api.Controllers.ApiController": {
+        "System.Collections.Generic.IEnumerable`1<BellRichM.Api.Models.LinkModel> BellRichM.Api.Controllers.ApiController::GetNavigationLinks(System.String,BellRichM.Api.Models.PagingModel)": {
+          "Lines": {
+            "22": 1,
+            "23": 1,
+            "25": 1,
+            "26": 0,
+            "27": 0,
+            "28": 0,
+            "29": 0,
+            "30": 0,
+            "31": 0,
+            "32": 0,
+            "33": 0,
+            "34": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0,
+            "39": 0,
+            "40": 0,
+            "41": 0,
+            "42": 0,
+            "43": 0,
+            "44": 0,
+            "45": 0,
+            "46": 0,
+            "47": 0,
+            "49": 0,
+            "50": 0,
+            "51": 0,
+            "52": 0,
+            "53": 0,
+            "54": 0,
+            "55": 0,
+            "56": 0,
+            "57": 0,
+            "58": 0,
+            "59": 0,
+            "60": 0,
+            "63": 0,
+            "64": 0,
+            "65": 0,
+            "66": 0,
+            "68": 0,
+            "69": 0,
+            "70": 0,
+            "72": 0,
+            "73": 0,
+            "74": 0,
+            "75": 0,
+            "76": 0,
+            "77": 0,
+            "78": 0,
+            "79": 0,
+            "80": 0,
+            "82": 1,
+            "83": 1
+          },
+          "Branches": [
+            {
+              "Line": 25,
+              "Offset": 23,
+              "EndOffset": 28,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 37,
+              "Offset": 123,
+              "EndOffset": 125,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 37,
+              "Offset": 123,
+              "EndOffset": 196,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            },
+            {
+              "Line": 50,
+              "Offset": 223,
+              "EndOffset": 225,
+              "Path": 0,
+              "Ordinal": 4,
+              "Hits": 0
+            },
+            {
+              "Line": 50,
+              "Offset": 223,
+              "EndOffset": 296,
+              "Path": 1,
+              "Ordinal": 5,
+              "Hits": 0
+            },
+            {
+              "Line": 63,
+              "Offset": 316,
+              "EndOffset": 318,
+              "Path": 0,
+              "Ordinal": 6,
+              "Hits": 0
+            },
+            {
+              "Line": 63,
+              "Offset": 316,
+              "EndOffset": 337,
+              "Path": 1,
+              "Ordinal": 7,
+              "Hits": 0
+            },
+            {
+              "Line": 25,
+              "Offset": 23,
+              "EndOffset": 432,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 1
+            }
+          ]
+        },
+        "BellRichM.Api.Models.ErrorResponseModel BellRichM.Api.Controllers.ApiController::CreateModel()": {
+          "Lines": {
+            "90": 5,
+            "91": 5,
+            "92": 25,
+            "93": 5,
+            "94": 5,
+            "95": 25,
+            "96": 5,
+            "97": 5,
+            "98": 5,
+            "99": 5,
+            "100": 5,
+            "101": 5,
+            "102": 5,
+            "103": 5,
+            "104": 5,
+            "106": 5,
+            "107": 5,
+            "108": 5,
+            "109": 5,
+            "110": 5,
+            "111": 5,
+            "112": 5,
+            "114": 5,
+            "115": 5
+          },
+          "Branches": [
+            {
+              "Line": 92,
+              "Offset": 150,
+              "EndOffset": 22,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 5
+            },
+            {
+              "Line": 95,
+              "Offset": 125,
+              "EndOffset": 57,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 5
+            },
+            {
+              "Line": 95,
+              "Offset": 125,
+              "EndOffset": 127,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 5
+            },
+            {
+              "Line": 92,
+              "Offset": 150,
+              "EndOffset": 155,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 5
+            }
+          ]
+        },
+        "BellRichM.Api.Models.ErrorResponseModel BellRichM.Api.Controllers.ApiController::CreateModel(BellRichM.Exceptions.BusinessException)": {
+          "Lines": {
+            "123": 0,
+            "124": 0,
+            "125": 0,
+            "126": 0,
+            "127": 0,
+            "128": 0,
+            "129": 0,
+            "130": 0,
+            "131": 0,
+            "132": 0,
+            "133": 0,
+            "135": 0,
+            "136": 0,
+            "137": 0,
+            "138": 0,
+            "139": 0,
+            "140": 0,
+            "141": 0,
+            "143": 0,
+            "144": 0
+          },
+          "Branches": [
+            {
+              "Line": 125,
+              "Offset": 75,
+              "EndOffset": 22,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 125,
+              "Offset": 75,
+              "EndOffset": 77,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            }
+          ]
+        }
+      }
+    }
+  },
+  "BellRichM.Service.dll": {}
+}
