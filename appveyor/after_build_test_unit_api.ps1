@@ -16,6 +16,14 @@ if ($env:BUILD_PLATFORM -eq "Unix" `
   $cmd = "dotnet test --no-restore --no-build -f netcoreapp3.1 api/test/BellRichM.Weather.Test.sln" + $coverlet_parms
   RunCmd $cmd
 
+  $parms = ''
+  $parms = $parms + '"-reporttypes:Html;XmlSummary;Xml" '
+  $parms = $parms + '"-reports:api/test/coverlet/coverage.netcoreapp3.1.opencover.xml" '
+  $parms = $parms + '"-targetdir:coverage/report" '
+  $parms = $parms + '"-historydir:coverage/report/history" '
+  $cmd = "reportgenerator $parms"
+  RunCmd $cmd
+
   Write-Host $env:PATH
   $cmd = "csmacnz.Coveralls --opencover -i api/test/coverlet/coverage.netcoreapp3.1.opencover.xml --useRelativePaths"
   #RunCmd $cmd  

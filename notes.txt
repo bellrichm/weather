@@ -1,0 +1,22 @@
+# install globally
+dotnet tool install -g coveralls.net --version 1.0.0
+
+# install into a local folder
+dotnet tool install coveralls.net --version 1.0.0 --tool-path tools
+
+dotnet tool install --global dotnet-sonarscanner --version 4.3.1
+dotnet tool install --global dotnet-sonarscanner
+
+
+sudo apt install default-jre      
+
+
+Use this package if your project is based on .NET Core and you want to use ReportGenerator as a (global) 'DotnetTool'.
+
+Installation
+dotnet tool install -g dotnet-reportgenerator-globaltool
+dotnet tool install dotnet-reportgenerator-globaltool --tool-path tools
+
+Usage
+reportgenerator [options]
+tools\reportgenerator.exe [options]
