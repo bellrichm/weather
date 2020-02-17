@@ -2,4 +2,8 @@
 "******************************** " + $MyInvocation.InvocationName + " ********************************"
 
 #choco upgrade "msbuild-sonarqube-runner" -y
-dotnet tool install dotnet-reportgenerator-globaltool --tool-path buildtools
+if ($env:BUILDTYPE -ne "LOCAL")
+{
+    $env:TOOLDIR = "buildtools/"
+    #dotnet tool install dotnet-reportgenerator-globaltool --tool-path buildtools
+}

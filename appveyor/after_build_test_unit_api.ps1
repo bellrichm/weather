@@ -8,17 +8,17 @@ if ($env:UNIT_TEST_API -eq "NO" `
   return
 }
 
-  #Remove-Item api/test/coverlet -Force -Recurse -ErrorAction Ignore
+  Remove-Item api/test/coverlet -Force -Recurse -ErrorAction Ignore
   $coverlet_parms = " --% /p:CollectCoverage=true /p:CoverletOutputFormat=\`"json,opencover\`" /p:CoverletOutput=../coverlet/ /p:MergeWith=../coverlet/coverage.netcoreapp3.1.json"
   $cmd = "dotnet test --no-restore --no-build -f netcoreapp3.1 api/test/BellRichM.Weather.Test.sln" + $coverlet_parms
-  #RunCmd $cmd
+  RunCmd $cmd
 
   $parms = ''
   $parms = $parms + '"-reporttypes:Html;XmlSummary;Xml" '
   $parms = $parms + '"-reports:api/test/coverlet/coverage.netcoreapp3.1.opencover.xml" '
   $parms = $parms + '"-targetdir:coverage/report" '
   $parms = $parms + '"-historydir:coverage/report/history" '
-  $cmd = "buildtools/reportgenerator $parms"
+  $cmd = $env:TOOLDIR + "reportgenerator $parms"
   RunCmd $cmd
 
   $cmd = "csmacnz.Coveralls --opencover -i api/test/coverlet/coverage.netcoreapp3.1.opencover.xml --useRelativePaths"
