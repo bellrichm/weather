@@ -15,6 +15,10 @@ if ($env:BUILD_PLATFORM -eq "Unix" `
   $coverlet_parms = " --% /p:CollectCoverage=true /p:CoverletOutputFormat=\`"json,opencover\`" /p:CoverletOutput=../coverlet/ /p:MergeWith=../coverlet/coverage.netcoreapp3.1.json"
   $cmd = "dotnet test --no-restore --no-build -f netcoreapp3.1 api/test/BellRichM.Weather.Test.sln" + $coverlet_parms
   RunCmd $cmd
+
+  Write-Host $env:PATH
+  $cmd = "csmacnz.Coveralls --opencover -i api/test/coverlet/coverage.netcoreapp3.1.opencover.xml --useRelativePaths"
+  RunCmd $cmd  
 }
 
 if ($env:BUILD_PLATFORM-eq "Windows")
