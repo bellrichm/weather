@@ -18,7 +18,7 @@ if ($env:UNIT_TEST_API -eq "NO" `
   $parms = $parms + '"-reports:api/test/coverlet/coverage.netcoreapp3.1.opencover.xml" '
   $parms = $parms + '"-targetdir:coverage/report" '
   $parms = $parms + '"-historydir:coverage/report/history" '
-  $cmd = "reportgenerator $parms"
+  $cmd = "buildtools/reportgenerator $parms"
   RunCmd $cmd
 
   $cmd = "csmacnz.Coveralls --opencover -i api/test/coverlet/coverage.netcoreapp3.1.opencover.xml --useRelativePaths"
