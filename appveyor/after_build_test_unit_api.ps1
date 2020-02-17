@@ -18,7 +18,7 @@ if ($env:BUILD_PLATFORM -eq "Unix" `
 
   Write-Host $env:PATH
   $cmd = "csmacnz.Coveralls --opencover -i api/test/coverlet/coverage.netcoreapp3.1.opencover.xml --useRelativePaths"
-  RunCmd $cmd  
+  #RunCmd $cmd  
 }
 
 if ($env:BUILD_PLATFORM-eq "Windows")
@@ -54,13 +54,6 @@ if ($env:BUILD_PLATFORM-eq "Windows")
     RunCmd $cmd
   }
 
-  if ($env:UPLOAD_SONARQUBE_API -ne 'NO')
-  {
-    $parms = '/d:sonar.login=$env:SONARQUBE_REPO_TOKEN'
-    $cmd = "SonarScanner.MSBuild.exe end $parms"
-    RunCmd $cmd
-  }
-
   if ($env:COVERAGE_REPORT -eq 'YES')
   {
     $parms = ''
@@ -71,4 +64,11 @@ if ($env:BUILD_PLATFORM-eq "Windows")
 	  $cmd = "ReportGenerator.exe $parms"
 	  RunCmd $cmd
   }
+}
+
+if ($env:UPLOAD_SONARQUBE_API -ne 'NO')
+{
+  $parms = '/d:sonar.login=$env:SONARQUBE_REPO_TOKEN'
+  $cmd = "dotnet-sonarscanner end $parms"
+  RunCmd $cmd
 }

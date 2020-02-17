@@ -15,8 +15,7 @@ else
     $buildFramework = '-f netcoreapp3.1 '
 }
 
-if ($env:BUILD_PLATFORM-eq "Windows" `
-  -And $env:UPLOAD_SONARQUBE_API -ne 'NO')
+if ($env:UPLOAD_SONARQUBE_API -ne 'NO')
 {
   $parms = ''
   $parms = $parms + 'begin '
@@ -29,11 +28,11 @@ if ($env:BUILD_PLATFORM-eq "Windows" `
   $parms = $parms + '/d:sonar.exclusions="**/Migrations/*, **/obj/**/*, **/*.conf.*, **/e2e/**/*, **/coverage/**/*, **/*spec*" '
   $parms = $parms + '/d:sonar.cpd.exclusions="**/Models/*" '
   $parms = $parms + '/d:sonar.test.exclusions="**/obj/**/*" '
-  $parms = $parms + '/d:sonar.cs.opencover.reportsPaths="opencover.xml" '
+  $parms = $parms + '/d:sonar.cs.opencover.reportsPaths="api/test/coverlet/coverage.netcoreapp3.1.opencover.xml" '
   $parms = $parms + '/d:sonar.typescript.lcov.reportPaths="../app/coverage/lcov.info" '
   # $parms = $parms + '/d:sonar.verbose=true '
 
-  $cmd = "SonarScanner.MSBuild.exe $parms"
+  $cmd = "dotnet-sonarscanner $parms"
   RunCmd $cmd
 }
 
