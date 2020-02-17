@@ -5,15 +5,8 @@ if ($env:BUILD_API -eq "NO")
   return
 }
 
-if ($env:BUILD_PLATFORM -eq "Windows")
-{
-  $unitTestFramework = '-f net472 '
-}
-else
-{
-    $unitTestFramework = '-f netcoreapp3.1 '
-    $buildFramework = '-f netcoreapp3.1 '
-}
+$unitTestFramework = '-f netcoreapp3.1 '
+$buildFramework = '-f netcoreapp3.1 '
 
 if ($env:UPLOAD_SONARQUBE_API -ne 'NO')
 {
