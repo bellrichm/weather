@@ -9,6 +9,7 @@ if ($env:BUILD_API -eq "NO")
 $unitTestFramework = '-f netcoreapp3.1 '
 $buildFramework = '-f netcoreapp3.1 '
 
+# ToDo - option to run, but not upload?
 if ($env:UPLOAD_SONARQUBE_API -ne 'NO')
 {
   $parms = ''

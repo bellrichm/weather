@@ -10,8 +10,13 @@ if ($env:UNIT_TEST_API -eq "NO" `
 
   # ToDo - fix indentatiom
   Remove-Item api/test/coverlet -Force -Recurse -ErrorAction Ignore
-  $coverlet_parms = " --% /p:CollectCoverage=true /p:CoverletOutputFormat=\`"json,opencover\`" /p:CoverletOutput=../coverlet/ /p:MergeWith=../coverlet/coverage.netcoreapp3.1.json"
-  $cmd = "dotnet test --no-restore --no-build -f netcoreapp3.1 api/test/BellRichM.Weather.Test.sln" + $coverlet_parms
+  $parms = ' --% '
+  $parms = $parms + '/p:CollectCoverage=true '
+  $parms = $parms + '/p:CoverletOutputFormat=\"json,opencover\" '
+  $parms = $parms + '/p:CoverletOutput=../coverlet/ '
+  $parms = $parms + '/p:MergeWith=../coverlet/coverage.netcoreapp3.1.json '
+  $parms = $parms + '/p:Exclude=\"[*]*.Migrations.*,[*.Test]*\" '
+  $cmd = "dotnet test --no-restore --no-build -f netcoreapp3.1 api/test/BellRichM.Weather.Test.sln" + $parms
   RunCmd $cmd
 
   # ToDo - don't hardcode coverlet filename
@@ -22,6 +27,7 @@ if ($env:UNIT_TEST_API -eq "NO" `
     $parms = $parms + '"-reports:api/test/coverlet/coverage.netcoreapp3.1.opencover.xml" '
     $parms = $parms + '"-targetdir:coverage/report" '
     $parms = $parms + '"-historydir:coverage/report/history" '
+    $parms = $parms + '-verbosity:Warning '
     $cmd = $env:TOOLDIR + "reportgenerator $parms"
     RunCmd $cmd
   }
@@ -32,6 +38,7 @@ if ($env:UNIT_TEST_API -eq "NO" `
     RunCmd $cmd  
   }
 
+  # ToDo - option to run, but not upload?
   if ($env:UPLOAD_SONARQUBE_API -ne 'NO')
   {
     $parms = '/d:sonar.login=$env:SONARQUBE_REPO_TOKEN'
