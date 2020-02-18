@@ -16,11 +16,11 @@ Function RunCmd {
 "******************************** " + $MyInvocation.InvocationName + " ********************************"
 $env:COVERAGE_REPORT = "YES"
 
-$env:BUILDPATH = "C:\Program Files\7-Zip;C:\RMBData\sonar-scanner-msbuild;$env:HOMEPATH\.nuget\packages\ReportGenerator\3.0.2\tools;"
-$env:PATH = $env:PATH + $env:BUILDPATH
+##$env:BUILDPATH = "C:\Program Files\7-Zip;C:\RMBData\sonar-scanner-msbuild;$env:HOMEPATH\.nuget\packages\ReportGenerator\3.0.2\tools;"
+##$env:PATH = $env:PATH + $env:BUILDPATH
 
 $env:UNIT_TEST_API = "YES"
-$env:UPLOAD_COVERALLS = "NO"
-$env:UPLOAD_SONARQUBE = "NO"
+$env:UPLOAD_COVERALLS_API = "NO"
+$env:UPLOAD_SONARQUBE_API = "NO"
 
-RunCmd "./appveyor/after_build.ps1"
+RunCmd "./appveyor/after_build_test_unit_api.ps1"
