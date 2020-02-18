@@ -30,7 +30,7 @@ if ($env:UNIT_TEST_API -eq "NO" `
   if ($env:UPLOAD_SONARQUBE_API -ne 'NO')
   {
     $parms = '/d:sonar.login=$env:SONARQUBE_REPO_TOKEN'
-    $cmd = "dotnet-sonarscanner end $parms"
+    $cmd = $env:TOOLDIR + "dotnet-sonarscanner end $parms"
     RunCmd $cmd
   }
 
