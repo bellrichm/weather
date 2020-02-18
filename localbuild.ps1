@@ -27,8 +27,8 @@ $env:COVERAGE_REPORT = "YES"
 $env:BUILDPATH = ";C:\Program Files\7-Zip;C:\RMBData\sonar-scanner-msbuild;$env:HOMEPATH\.nuget\packages\ReportGenerator\3.0.2\tools;"
 #$env:PATH = $env:PATH + $env:BUILDPATH
 
-$preClean = "NO"
-$postClean = "NO"
+$preClean = "YES"
+$postClean = "YES"
 
 RunCmd "dotnet build-server shutdown"
 
@@ -60,16 +60,16 @@ if ($preClean -ne "NO")
 $env:ARTIFACT_NAME = "weather-branch"
 $env:BRANCH_NAME = "buildexperiments"
 
-$env:RESTORE_API = "NO"
-$env:RESTORE_APP = "NO"
-$env:BUILD_API = "NO"
-$env:BUILD_APP = "NO"
+$env:RESTORE_API = "YES"
+$env:RESTORE_APP = "YES"
+$env:BUILD_API = "YES"
+$env:BUILD_APP = "YES"
 $env:UNIT_TEST_API = "YES"
-$env:UNIT_TEST_APP = "NO"
-$env:INTEGRATION_TEST_API = "NO"
+$env:UNIT_TEST_APP = "YES"
+$env:INTEGRATION_TEST_API = "YES"
 $env:INTEGRATION_TEST_APP = "unused"
-$env:BUILD_ARTIFACT = "NO"
-$env:SMOKE_TEST = "NO"
+$env:BUILD_ARTIFACT = "YES"
+$env:SMOKE_TEST = "YES"
 # Unless testing the process, these should usually be set to NO
 # If APPVEYOR_REPO_BRANCH is set to "buildexperiments", then it is safe to have these set to "YES"
 $env:UPLOAD_COVERALLS_API = "YES"
