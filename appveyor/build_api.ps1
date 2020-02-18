@@ -5,6 +5,7 @@ if ($env:BUILD_API -eq "NO")
   return
 }
 
+# ToDo - move to env var
 $unitTestFramework = '-f netcoreapp3.1 '
 $buildFramework = '-f netcoreapp3.1 '
 
