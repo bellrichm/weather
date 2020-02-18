@@ -25,7 +25,7 @@ if ($env:UPLOAD_SONARQUBE_API -ne 'NO')
   $parms = $parms + '/d:sonar.typescript.lcov.reportPaths="../app/coverage/lcov.info" '
   # $parms = $parms + '/d:sonar.verbose=true '
 
-  $cmd = "dotnet-sonarscanner $parms"
+  $cmd =  $env:TOOLDIR + "dotnet-sonarscanner $parms"
   RunCmd $cmd
 }
 
