@@ -14,11 +14,13 @@ if ($env:UNIT_TEST_APP -ne "NO")
   # stderr on appveyor workaround
   $cmd = "npm run-script ng build -- --progress=false --aot=true --prod=true 2>t.txt"
   RunCmd $cmd
+  "t.txt content is:"
   Get-Content t.txt
 
   # stderr on appveyor workaround
   $cmd = "npm run-script ng test -- --progress=false --watch=false --browsers ChromeHeadless --code-coverage 2>t.txt"
   RunCmd $cmd
+  "t.txt content is:"
   Get-Content t.txt
   set-location ..
 }
