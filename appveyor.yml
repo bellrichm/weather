@@ -5,9 +5,11 @@
 
   branches:
     only:
-      - master
+      - core3.1
 
   version: 1.0.{build}
+
+  image: Previous Visual Studio 2019
 
   environment:
     COVERALLS_REPO_TOKEN: ${COVERALLS_REPO_TOKEN}
@@ -19,12 +21,18 @@
 
   # cannot be a script, because this is before the pull of the code
   # just trying to short circuit a build if not for expected branch
+  # Blank lines are important!
   init:
     - ps: >-
-        Write-Host "******************************** Init ********************************";
+        Write-Host "******************************** Init ********************************"
+
+        Write-Host "BRANCH_NAME:           $env:BRANCH_NAME"
+
+        Write-Host "APPVEYOR_REPO_BRANCH:  $env:APPVEYOR_REPO_BRANCH"
+
         If ($env:APPVEYOR_REPO_BRANCH -ne $env:BRANCH_NAME)
         {
-          $env:APPVEYOR_SKIP_FINALIZE_ON_EXIT = true;
+          $env:APPVEYOR_SKIP_FINALIZE_ON_EXIT = true
           Exit-AppVeyorBuild
         }
 

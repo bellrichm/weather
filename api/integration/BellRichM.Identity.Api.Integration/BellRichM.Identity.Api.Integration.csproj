@@ -2,7 +2,7 @@
   <PropertyGroup>
     <ProjectGuid>{21949364-076f-4825-95bd-fe101594dbee}</ProjectGuid>
     <GenerateFullPaths>true</GenerateFullPaths>
-    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <OutputType>Library</OutputType>
     <SonarQubeExclude>true</SonarQubeExclude>
     <CodeAnalysisRuleSet>$(ProjectDir)..\StyleCop.Analyzers.ruleset</CodeAnalysisRuleSet>
@@ -20,7 +20,7 @@
     <PackageReference Include="Machine.Specifications.Runner.VisualStudio" Version="2.7.0" />
     <PackageReference Include="Machine.Specifications.Should" Version="0.11.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.0.0" />
     <PackageReference Include="Moq" Version="4.10.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.2" />
     <PackageReference Include="StyleCop" Version="5.0.0">

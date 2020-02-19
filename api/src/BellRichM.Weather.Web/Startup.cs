@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Context;
 using System;
@@ -29,9 +30,9 @@ namespace BellRichM.Weather.Web
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// </summary>
-        /// <param name="env">The <see cref="IHostingEnvironment"/>.</param>
+        /// <param name="env">The <see cref="IHostEnvironment"/>.</param>
         /// <param name="configuration">The <see cref="IConfiguration"/>.</param>
-        public Startup(IHostingEnvironment env, IConfiguration configuration)
+        public Startup(IHostEnvironment env, IConfiguration configuration)
         {
             Configuration = configuration;
             var identityConnectionString = Configuration.GetSection("ConnectionStrings:(identityDb)");
@@ -57,8 +58,8 @@ namespace BellRichM.Weather.Web
         /// Called by the rutntime to configure the HTTP request pipeline.
         /// </summary>
         /// <param name="app">The <see cref="IApplicationBuilder"/>.</param>
-        /// <param name="env">The <see cref="IHostingEnvironment"/>.</param>
-        public static void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        /// <param name="env">The <see cref="IHostEnvironment"/>.</param>
+        public static void Configure(IApplicationBuilder app, IHostEnvironment env)
         {
             app.UseExceptionLoggingMiddleware();
 
@@ -66,13 +67,14 @@ namespace BellRichM.Weather.Web
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
+            app.UseRouting();
             app.UseAuthentication();
-
-            app.UseMvc(routes =>
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
+                    pattern: "{controller}/{action=Index}/{id?}");
             });
 
             app.UseSpa(spa =>
@@ -84,8 +86,6 @@ namespace BellRichM.Weather.Web
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
-
-            app.UseAuthentication();
         }
 
         /// <summary>
@@ -103,8 +103,8 @@ namespace BellRichM.Weather.Web
 
             // needed for testserver to find controllers
             services.AddMvc()
-                .AddApplicationPart(Assembly.Load(new AssemblyName("BellRichM.Identity.Api")))
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1); // todo what is this
+                .AddApplicationPart(Assembly.Load(new AssemblyName("BellRichM.Identity.Api")));
+                /*.SetCompatibilityVersion(CompatibilityVersion.Version_2_1); // todo what is this*/
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -112,10 +112,10 @@ namespace BellRichM.Weather.Web
                 configuration.RootPath = "app"; // todo fix
             });
 
-            using (LogContext.PushProperty("Type", "INFORMATION"))
+            /*using (LogContext.PushProperty("Type", "INFORMATION"))
             {
                 Log.Information("*** Starting: {@services}", services);
-            }
+            }*/
         }
     }
 }

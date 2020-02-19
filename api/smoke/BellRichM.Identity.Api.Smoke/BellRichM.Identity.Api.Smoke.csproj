@@ -2,7 +2,7 @@
   <PropertyGroup>
     <ProjectGuid>{f29f1d37-d897-4fac-b07b-1472e9fae125}</ProjectGuid>
     <GenerateFullPaths>true</GenerateFullPaths>    
-    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <OutputType>Library</OutputType>
     <SonarQubeExclude>true</SonarQubeExclude>
     <CodeAnalysisRuleSet>$(ProjectDir)..\StyleCop.Analyzers.ruleset</CodeAnalysisRuleSet>

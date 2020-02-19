@@ -19,3 +19,4 @@ mspec.xml
 opencover.xml
 
 **/node_modules
+**/coverlet
