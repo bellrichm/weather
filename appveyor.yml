@@ -5,7 +5,7 @@
 
   branches:
     only:
-      - core3.1
+      - master
 
   version: 1.0.{build}
 
