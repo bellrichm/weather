@@ -96,7 +96,7 @@
               "src/assets"
             ],
             "codeCoverageExclude": [
-                "src/pollyfills.ts",
+                "src/polyfills.ts",
                 "src/test.ts"
             ]       
           }
