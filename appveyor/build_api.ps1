@@ -25,6 +25,7 @@ if ($env:UPLOAD_SONARQUBE_API -ne 'NO')
   $parms = $parms + '/d:sonar.test.exclusions="**/obj/**/*" '
   $parms = $parms + '/d:sonar.cs.opencover.reportsPaths="api/test/coverlet/coverage.netcoreapp3.1.opencover.xml" '
   $parms = $parms + '/d:sonar.typescript.lcov.reportPaths="../app/coverage/lcov.info" '
+  $parms = $parms + '/d:sonar.log.level=WARN '
   # $parms = $parms + '/d:sonar.verbose=true '
 
   $cmd =  $env:TOOLDIR + "dotnet-sonarscanner $parms"

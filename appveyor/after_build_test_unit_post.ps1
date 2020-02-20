@@ -54,7 +54,8 @@ if ($env:UPLOAD_COVERALLS_API -ne "NO")
 # ToDo - option to run, but not upload?
 if ($env:UPLOAD_SONARQUBE_API -ne 'NO')
 {
-  $parms = '/d:sonar.login=$env:SONARQUBE_REPO_TOKEN'
+  $parms = '/d:sonar.login=$env:SONARQUBE_REPO_TOKEN '
+  # $parms = $parms + '/d:sonar.log.level=WARN ' # - not valid on end phase
   $cmd = $env:TOOLDIR + "dotnet-sonarscanner end $parms"
   RunCmd $cmd
 }
