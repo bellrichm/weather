@@ -73,7 +73,7 @@ $env:SMOKE_TEST = "YES"
 # Unless testing the process, these should usually be set to NO
 # If APPVEYOR_REPO_BRANCH is set to "buildexperiments", then it is safe to have these set to "YES"
 $env:UPLOAD_COVERALLS_API = "YES"
-$env:UPLOAD_COVERALLS_APP = "NO" # todo - until parallel build support implemented
+$env:UPLOAD_COVERALLS_APP = "YES" 
 $env:UPLOAD_SONARQUBE_API = "YES"
 $env:UPLOAD_SONARQUBE_APP = "YES"
 

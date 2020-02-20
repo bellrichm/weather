@@ -27,7 +27,3 @@ if ($env:UNIT_TEST_APP -ne "NO")
   set-location ..
 }
 
-if ($env:UPLOAD_COVERALLS_APP -ne "NO")
-{
-  Get-Content app/coverage/lcov.info | & node ./app/node_modules/coveralls/bin/coveralls.js
-}
