@@ -94,7 +94,11 @@
             "assets": [
               "src/favicon.ico",
               "src/assets"
-            ]
+            ],
+            "codeCoverageExclude": [
+                "src/pollyfills.ts",
+                "src/test.ts"
+            ]       
           }
         },
         "lint": {
