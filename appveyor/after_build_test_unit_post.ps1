@@ -2,11 +2,32 @@
 "******************************** " + $MyInvocation.InvocationName + " ********************************"
 
 # ToDo - don't hardcode coverlet filename
-if ($env:COVERAGE_REPORT -eq 'YES')
+if ($env:COVERAGE_REPORT_API -eq 'YES' `
+  -Or $env:COVERAGE_REPORT_APP -eq 'YES')
 {  
+  $coverage_files = @()
+  if ($env:COVERAGE_REPORT_API -ne "NO")
+  {
+    $coverage_files += 'api/test/coverlet/coverage.netcoreapp3.1.opencover.xml'
+  }
+  
+  if ($env:COVERAGE_REPORT_APP -ne "NO")
+  {
+    $coverage_files += 'app/coverage/lcov.info'
+  }
+
+  $coverage_list = ''
+  for ($i = 0; $i -le ($coverage_files.length - 1); $i += 1) {
+    $coverage_list += $coverage_files[$i] + ';'
+  }
+  
+  if ($coverage_list -ge 0) {
+    $coverage_list = '"-reports:' + $coverage_list.Substring(0,$coverage_list.Length-1) + '" '
+  }
+
   $parms = ''
   $parms = $parms + '"-reporttypes:Html;XmlSummary;Xml" '
-  $parms = $parms + '"-reports:api/test/coverlet/coverage.netcoreapp3.1.opencover.xml;app/coverage/lcov.info" '
+  $parms = $parms + $coverage_list
   $parms = $parms + '"-targetdir:coverage/report" '
   $parms = $parms + '"-historydir:coverage/report/history" '
   $parms = $parms + '-verbosity:Warning '

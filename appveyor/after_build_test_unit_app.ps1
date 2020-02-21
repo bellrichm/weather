@@ -3,7 +3,8 @@
 
 if ($env:UNIT_TEST_APP -EQ "NO" `
 -And $env:UPLOAD_COVERALLS_APP -eq "NO" `
--And $env:UPLOAD_SONARQUBE_APP -EQ 'NO')
+-And $env:UPLOAD_SONARQUBE_APP -EQ "NO" `
+-And $env:COVERAGE_REPORT_APP -eq "NO")
 {
   return
 }

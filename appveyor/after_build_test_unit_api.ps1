@@ -3,7 +3,8 @@
 
 if ($env:UNIT_TEST_API -eq "NO" `
   -And $env:UPLOAD_COVERALLS_API -eq "NO" `
-  -And $env:UPLOAD_SONARQUBE_API -EQ 'NO')
+  -And $env:UPLOAD_SONARQUBE_API -eq "NO" `
+  -And $env:COVERAGE_REPORT_API -eq "NO")
 {
   return
 }
