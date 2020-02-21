@@ -37,12 +37,19 @@
           
           if ($env:BRANCH_NAME -eq 'master')
           {
-            $guid =  New-Guid
-
-            $guid
-            
-            Update-AppveyorBuild -Version "$guid"       
-          }
+            $guid =  New-Guid;
+            Update-AppveyorBuild -Version "$guid";
+            $headers = @{
+              "Authorization" = "Bearer $env:APPVEYOR_TOKEN";
+              "Content-type" = "application/json";
+              "Accept" = "application/json";
+            }
+            $build = @{
+              nextBuildNumber = 1
+            }
+            $json = $build | ConvertTo-Json;
+            Invoke-RestMethod -Method Put "https://ci.appveyor.com/api/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/settings/build-number" -Body $json -Headers $headers
+}          }
           
           Exit-AppVeyorBuild
         }
