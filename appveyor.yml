@@ -35,13 +35,13 @@
         {
           $env:APPVEYOR_SKIP_FINALIZE_ON_EXIT = true
           
-          if ($env:APPVEYOR_REPO_BRANCH -eq 'master')
+          if ($env:BRANCH_NAME -eq 'master')
           {
             $guid =  New-Guid
 
             $guid
             
-            Update-AppveyorBuild -Version $guid       
+            Update-AppveyorBuild -Version "$guid"       
           }
           
           Exit-AppVeyorBuild
