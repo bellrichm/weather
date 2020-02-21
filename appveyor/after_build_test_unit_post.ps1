@@ -14,11 +14,9 @@ if ($env:COVERAGE_REPORT -eq 'YES')
   RunCmd $cmd
 }
 
-if ($env:UPLOAD_COVERALLS_API -eq "NO" `
-  -And $env:UPLOAD_COVERALLS_APP -eq "NO")
+if ($env:UPLOAD_COVERALLS_API -ne "NO" `
+  -And $env:UPLOAD_COVERALLS_APP -ne "NO")
 {
-  return
-}
 
 $coverage_files = @()
 if ($env:UPLOAD_COVERALLS_API -ne "NO")
@@ -50,9 +48,39 @@ if ($env:UPLOAD_COVERALLS_API -ne "NO")
   $cmd = $env:TOOLDIR + "csmacnz.Coveralls " + $parms
   RunCmd $cmd  
 }
+}
+
+if ($env:UPLOAD_SONARQUBE_API -eq 'NO' `
+-And $env:UPLOAD_SONARQUBE_APP -ne 'NO')
+{
+  $parms = ''
+  $parms = $parms + 'begin '
+  $parms = $parms + '/k:"weather" '
+  $parms = $parms + '/o:"bellrichm" '
+  $parms = $parms + '/v:$env:APPVEYOR_BUILD_VERSION '
+  $parms = $parms + '/d:sonar.branch.name=$env:BRANCH_NAME '
+  $parms = $parms + '/d:sonar.host.url="https://sonarcloud.io" '
+  $parms = $parms + '/d:sonar.login=$env:SONARQUBE_REPO_TOKEN '
+  $parms = $parms + '/d:sonar.exclusions="**/Migrations/*, **/obj/**/*, **/*.conf.*, **/e2e/**/*, **/coverage/**/*, **/*spec*" '
+  $parms = $parms + '/d:sonar.cpd.exclusions="**/Models/*" '
+  $parms = $parms + '/d:sonar.test.exclusions="**/obj/**/*" '
+  $parms = $parms + '/d:sonar.typescript.lcov.reportPaths="../app/coverage/lcov.info" '
+  $parms = $parms + '/d:sonar.log.level=WARN '
+  # $parms = $parms + '/d:sonar.verbose=true '
+
+  $cmd =  $env:TOOLDIR + "dotnet-sonarscanner $parms"
+  RunCmd $cmd
+}
+
+if ($env:UPLOAD_SONARQUBE_APP -ne 'NO') 
+{
+  $cmd = "dotnet build app\BellRichM.App.csproj --no-restore"
+  RunCmd $cmd
+}  
 
 # ToDo - option to run, but not upload?
-if ($env:UPLOAD_SONARQUBE_API -ne 'NO')
+if ($env:UPLOAD_SONARQUBE_API -ne 'NO' `
+  -Or $env:UPLOAD_SONARQUBE_APP -ne 'NO')
 {
   $parms = '/d:sonar.login=$env:SONARQUBE_REPO_TOKEN '
   # $parms = $parms + '/d:sonar.log.level=WARN ' # - not valid on end phase
@@ -60,26 +88,3 @@ if ($env:UPLOAD_SONARQUBE_API -ne 'NO')
   RunCmd $cmd
 }
 
-# todo - upload to sonar if only frontend
-<#
-$parms = ''
-
-#$parms = $parms + '"-Dsonar.projectKey=RmbTest" '
-$parms = $parms + '"-Dsonar.projectKey=weather" '
-
-$parms = $parms + '"-Dsonar.branch.name=buildexperiments" '
-$parms = $parms + '"-Dsonar.organization=bellrichm" '
-$parms = $parms + '"-Dsonar.sources=app/src" '
-$parms = $parms + '"-Dsonar.host.url=https://sonarcloud.io" '
-$parms = $parms + '"-Dsonar.typescript.lcov.reportPaths=app/coverage/lcov.info" '
-#$parms = $parms + '"-Dsonar.projectVersion=local "'
-$parms = $parms + '"-Dsonar.login=?????" '
-
-$parms = $parms + '"-X" '
-
-$cmd = 'c:\RMBData\sonar-scanner-cli-3.2.0.1227-windows\sonar-scanner-3.2.0.1227-windows\bin\sonar-scanner '
-
-$cmd = $cmd + $parms
-Write-Host $cmd
-Invoke-Expression $cmd
-#>
