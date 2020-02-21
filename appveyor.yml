@@ -38,6 +38,8 @@
           if ($env:APPVEYOR_REPO_BRANCH -eq 'master')
           {
             $guid =  New-Guid
+
+            $guid
             
             Update-AppveyorBuild -Version $guid       
           }
