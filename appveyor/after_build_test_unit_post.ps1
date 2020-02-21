@@ -38,26 +38,25 @@ if ($env:COVERAGE_REPORT_API -eq 'YES' `
 if ($env:UPLOAD_COVERALLS_API -ne "NO" `
   -Or $env:UPLOAD_COVERALLS_APP -ne "NO")
 {
+  $coverage_files = @()
+  if ($env:UPLOAD_COVERALLS_API -ne "NO")
+  {
+    $coverage_files += 'opencover=api/test/coverlet/coverage.netcoreapp3.1.opencover.xml'
+  }
 
-$coverage_files = @()
-if ($env:UPLOAD_COVERALLS_API -ne "NO")
-{
-  $coverage_files += 'opencover=api/test/coverlet/coverage.netcoreapp3.1.opencover.xml'
-}
+  if ($env:UPLOAD_COVERALLS_APP -ne "NO")
+  {
+    $coverage_files += 'lcov=app/coverage/lcov.info'
+  }  
 
-if ($env:UPLOAD_COVERALLS_APP -ne "NO")
-{
-  $coverage_files += 'lcov=app/coverage/lcov.info'
-}  
+  $coverage_list = ''
+  for ($i = 0; $i -le ($coverage_files.length - 1); $i += 1) {
+    $coverage_list += $coverage_files[$i] + ';'
+  }
 
-$coverage_list = ''
-for ($i = 0; $i -le ($coverage_files.length - 1); $i += 1) {
-  $coverage_list += $coverage_files[$i] + ';'
-}
-
-if ($coverage_list -ge 0) {
-  $coverage_list = '-i "' + $coverage_list.Substring(0,$coverage_list.Length-1) + '" '
-}
+  if ($coverage_list -ge 0) {
+    $coverage_list = '-i "' + $coverage_list.Substring(0,$coverage_list.Length-1) + '" '
+  }
 
   $parms = ''
   $parms = $parms + '--multiple '

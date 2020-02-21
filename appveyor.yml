@@ -22,23 +22,19 @@
 
   # cannot be a script, because this is before the pull of the code
   # just trying to short circuit a build if not for expected branch
-  # Blank lines are important!
+  # Blank lines are important! (and/or semicolons)
   init:
     - ps: >-
-        Write-Host "******************************** Init ********************************"
-
-        Write-Host "BRANCH_NAME:           $env:BRANCH_NAME"
-
-        Write-Host "APPVEYOR_REPO_BRANCH:  $env:APPVEYOR_REPO_BRANCH"
+        Write-Host "******************************** Init ********************************";
+        Write-Host "BRANCH_NAME:           $env:BRANCH_NAME";
+        Write-Host "APPVEYOR_REPO_BRANCH:  $env:APPVEYOR_REPO_BRANCH";
 
         If ($env:APPVEYOR_REPO_BRANCH -ne $env:BRANCH_NAME)
         {
-          $env:APPVEYOR_SKIP_FINALIZE_ON_EXIT = true
-          
           if ($env:BRANCH_NAME -eq 'master')
           {
             $guid =  New-Guid;
-            Update-AppveyorBuild -Version "$guid";
+            Update-AppveyorBuild -Version New-Guid;
             $headers = @{
               "Authorization" = "Bearer $env:APPVEYOR_TOKEN";
               "Content-type" = "application/json";
@@ -53,7 +49,8 @@
             Invoke-RestMethod -Method Put "https://ci.appveyor.com/api/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/settings/build-number" -Body $json -Headers $headers
           }
           
-          Exit-AppVeyorBuild
+          $env:APPVEYOR_SKIP_FINALIZE_ON_EXIT = true;
+          Exit-AppVeyorBuild;
         }
 
   install:
@@ -66,6 +63,7 @@
     - ps: appveyor/before_build_app.ps1
 
   build_script:
+    - ps: appveyor/build_pre.ps1
     - ps: appveyor/build_api.ps1
     - ps: appveyor/build_app.ps1
 

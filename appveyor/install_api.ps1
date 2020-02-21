@@ -2,6 +2,7 @@
 "******************************** " + $MyInvocation.InvocationName + " ********************************"
 $env:TOOLDIR = "buildtools/"
 
+# ToDo - move these to an app/api agnostic install
 if ($env:COVERAGE_REPORT_API -eq 'YES' `
   -Or $env:COVERAGE_REPORT_APP -eq 'YES')
 {

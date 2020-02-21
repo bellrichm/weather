@@ -89,6 +89,7 @@ RunCmd "./appveyor/before_build_api.ps1"
 RunCmd "./appveyor/before_build_app.ps1"
 
 # appveyor build-script
+RunCmd "./appveyor/build_pre.ps1"
 RunCmd "./appveyor/build_api.ps1"
 RunCmd "./appveyor/build_app.ps1"
 
