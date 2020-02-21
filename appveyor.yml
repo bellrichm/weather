@@ -39,7 +39,7 @@
           {
             $guid =  New-Guid
             
-            Update-AppveyorBuild -Version          
+            Update-AppveyorBuild -Version $guid       
           }
           
           Exit-AppVeyorBuild
