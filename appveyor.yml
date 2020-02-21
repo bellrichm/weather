@@ -2,7 +2,7 @@
   # still looking for a good way to handle branches
   branches:
     except:
-    - master
+      - master
 
   cache:
     - C:\ProgramData\chocolatey\bin
