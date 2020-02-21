@@ -15,7 +15,7 @@ if ($env:COVERAGE_REPORT -eq 'YES')
 }
 
 if ($env:UPLOAD_COVERALLS_API -ne "NO" `
-  -And $env:UPLOAD_COVERALLS_APP -ne "NO")
+  -Or $env:UPLOAD_COVERALLS_APP -ne "NO")
 {
 
 $coverage_files = @()
@@ -38,16 +38,12 @@ if ($coverage_list -ge 0) {
   $coverage_list = '-i "' + $coverage_list.Substring(0,$coverage_list.Length-1) + '" '
 }
 
-if ($env:UPLOAD_COVERALLS_API -ne "NO")
-{
-
   $parms = ''
   $parms = $parms + '--multiple '
   $parms = $parms + '--useRelativePaths '
   $parms = $parms + $coverage_list
   $cmd = $env:TOOLDIR + "csmacnz.Coveralls " + $parms
   RunCmd $cmd  
-}
 }
 
 if ($env:UPLOAD_SONARQUBE_API -eq 'NO' `
