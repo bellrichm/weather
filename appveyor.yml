@@ -46,7 +46,7 @@
             }
             
             $build = @{
-              nextBuildNumber = 1
+              nextBuildNumber = $env:APPVEYOR_BUILD_NUMBER
             }
             
             $json = $build | ConvertTo-Json;
