@@ -1,9 +1,4 @@
 -
-  # still looking for a good way to handle branches
-  #branches:
-  #  except:
-  #    - master
-
   cache:
     - C:\ProgramData\chocolatey\bin
     - C:\ProgramData\chocolatey\lib
@@ -38,8 +33,11 @@
         {
           if ($env:BRANCH_NAME -eq 'master')
           {
+            # if 'master' build project, set build version to a guid
             $guid =  New-Guid;
             Update-AppveyorBuild -Version "$guid";
+            
+            # then reset build number
             $headers = @{
               "Authorization" = "Bearer $env:APPVEYOR_TOKEN";
               "Content-type" = "application/json";
