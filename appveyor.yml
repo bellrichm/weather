@@ -34,6 +34,14 @@
         If ($env:APPVEYOR_REPO_BRANCH -ne $env:BRANCH_NAME)
         {
           $env:APPVEYOR_SKIP_FINALIZE_ON_EXIT = true
+          
+          if ($env:APPVEYOR_REPO_BRANCH -eq 'master')
+          {
+            $guid =  New-Guid
+            
+            Update-AppveyorBuild -Version          
+          }
+          
           Exit-AppVeyorBuild
         }
 
