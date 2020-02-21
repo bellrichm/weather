@@ -50,7 +50,7 @@
             }
             
             $json = $build | ConvertTo-Json;
-            Invoke-RestMethod -Method Put "$env:APPVEYOR_API_URL/api/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/settings/build-number" -Body $json -Headers $headers
+            Invoke-RestMethod -Method Put "$env:APPVEYOR_API_URL/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/settings/build-number" -Body $json -Headers $headers
           }
           
           $env:APPVEYOR_SKIP_FINALIZE_ON_EXIT = true;
