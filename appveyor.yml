@@ -29,6 +29,7 @@
         Write-Host "BRANCH_NAME:                    $env:BRANCH_NAME";
         Write-Host "APPVEYOR_REPO_BRANCH:           $env:APPVEYOR_REPO_BRANCH";
         Write-Host "APPVEYOR_BUILD_NUMBER:          $env:APPVEYOR_BUILD_NUMBER";
+        Write-Host "APPVEYOR_URL:                   $env:APPVEYOR_URL";
         Write-Host "APPVEYOR_API_URL:               $env:APPVEYOR_API_URL";
         Write-Host "APPVEYOR_ACCOUNT_NAME:          $env:APPVEYOR_ACCOUNT_NAME";
         Write-Host "APPVEYOR_APPVEYOR_PROJECT_SLUG: $env:APPVEYOR_APPVEYOR_PROJECT_SLUG";
@@ -50,7 +51,7 @@
             }
             
             $json = $build | ConvertTo-Json;
-            Invoke-RestMethod -Method Put "https://ci.appveyor.com/api/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/settings/build-number" -Body $json -Headers $headers
+            Invoke-RestMethod -Method Put "$env:APPVEYOR_URL/api/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/settings/build-number" -Body $json -Headers $headers
           }
           
           $env:APPVEYOR_SKIP_FINALIZE_ON_EXIT = true;
