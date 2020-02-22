@@ -37,6 +37,11 @@ namespace BellRichM.Api.Middleware
       /// <returns>The <see cref="Task"/> that represents the completion of request processing.</returns>
     public async Task Invoke(HttpContext httpContext)
     {
+      if (httpContext == null)
+      {
+        throw new ArgumentNullException(nameof(httpContext));
+      }
+
       const string MessageTemplate =
         "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms";
       Tuple<string, string> authData = Tuple.Create(string.Empty, string.Empty);

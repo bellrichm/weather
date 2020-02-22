@@ -20,6 +20,11 @@ namespace BellRichM.Weather.Api.Mapping
         /// <param name="destination">The observation.</param>
         public void Process(ObservationModel source, Observation destination)
         {
+            if (destination == null)
+            {
+                throw new ArgumentNullException(nameof(destination));
+            }
+
             var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc); // UTC vs Eastern...???
             var dateTime = epoch.AddSeconds(destination.DateTime);
             destination.Year = dateTime.Year;

@@ -34,6 +34,11 @@ namespace BellRichM.Weather.Web
         /// <param name="configuration">The <see cref="IConfiguration"/>.</param>
         public Startup(IHostEnvironment env, IConfiguration configuration)
         {
+            if (configuration == null)
+            {
+                throw new ArgumentNullException(nameof(configuration));
+            }
+
             Configuration = configuration;
             var identityConnectionString = Configuration.GetSection("ConnectionStrings:(identityDb)");
 

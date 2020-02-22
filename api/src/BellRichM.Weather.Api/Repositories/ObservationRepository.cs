@@ -28,6 +28,16 @@ namespace BellRichM.Weather.Api.Repositories
         /// <param name="observationRepositoryConfiguration">The config.</param>
         public ObservationRepository(ILoggerAdapter<ObservationRepository> logger, ObservationRepositoryDbProviderFactory observationDbProviderFactory, IObservationRepositoryConfiguration observationRepositoryConfiguration)
         {
+            if (observationDbProviderFactory == null)
+            {
+                throw new ArgumentNullException(nameof(observationDbProviderFactory));
+            }
+
+            if (observationRepositoryConfiguration == null)
+            {
+                throw new ArgumentNullException(nameof(observationRepositoryConfiguration));
+            }
+
             _logger = logger;
             _observationDbProviderFactory = observationDbProviderFactory.ObservationDbProviderFactory;
             _connectionString = observationRepositoryConfiguration.ConnectionString;
@@ -133,6 +143,11 @@ WHERE
         public async Task<int> CreateObservation(Observation observation)
         {
             _logger.LogDiagnosticDebug("CreateObservation: {@observation}", observation);
+            if (observation == null)
+            {
+                throw new ArgumentNullException(nameof(observation));
+            }
+
             var statement = @"
 INSERT INTO condition
     (
@@ -170,6 +185,10 @@ INSERT INTO condition
         public async Task<int> UpdateObservation(Observation observation)
         {
             _logger.LogDiagnosticDebug("UpdateObservation: {@observation}", observation);
+            if (observation == null)
+            {
+                throw new ArgumentNullException(nameof(observation));
+            }
 
             var statement = @"
 UPDATE condition

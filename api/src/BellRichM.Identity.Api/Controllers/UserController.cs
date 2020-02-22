@@ -71,6 +71,11 @@ namespace BellRichM.Identity.Api.Controllers
         public async Task<IActionResult> Create([FromBody] UserCreateModel userCreate)
         {
             _logger.LogEvent(EventId.UserController_Create, "{@userCreate}", userCreate);
+            if (userCreate == null)
+            {
+                return null;
+            }
+
             User newUser;
             if (!ModelState.IsValid)
             {
@@ -126,6 +131,11 @@ namespace BellRichM.Identity.Api.Controllers
         public async Task<IActionResult> Login([FromBody] UserLoginModel userLogin)
         {
             _logger.LogEvent(EventId.UserController_Login, "{@userLogin}", userLogin);
+            if (userLogin == null)
+            {
+                return null;
+            }
+
             if (!ModelState.IsValid)
             {
                 _logger.LogDiagnosticInformation("{@ModelState}", ModelState);

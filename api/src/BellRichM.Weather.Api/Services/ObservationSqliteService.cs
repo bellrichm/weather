@@ -1,5 +1,6 @@
 using BellRichM.Weather.Api.Data;
 using BellRichM.Weather.Api.Repositories;
+using System;
 using System.Threading.Tasks;
 
 namespace BellRichM.Weather.Api.Services
@@ -23,6 +24,11 @@ namespace BellRichM.Weather.Api.Services
         /// <inheritdoc/>
         public async Task<Observation> CreateObservation(Observation observation)
         {
+            if (observation == null)
+            {
+                throw new ArgumentNullException(nameof(observation));
+            }
+
             var count = await _observationRepository.CreateObservation(observation).ConfigureAwait(true);
             if (count == 0)
             {
@@ -48,6 +54,11 @@ namespace BellRichM.Weather.Api.Services
         /// <inheritdoc/>
         public async Task<Observation> UpdateObservation(Observation observation)
         {
+            if (observation == null)
+            {
+                throw new ArgumentNullException(nameof(observation));
+            }
+
             var count = await _observationRepository.UpdateObservation(observation).ConfigureAwait(true);
             if (count == 0)
             {

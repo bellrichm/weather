@@ -5,7 +5,7 @@
     <OutputType>Library</OutputType>
     <CodeAnalysisRuleSet>$(ProjectDir)..\StyleCop.Analyzers.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
-    <NoWarn>NU1603,CA1062</NoWarn>
+    <NoWarn>NU1603</NoWarn>
     <ProjectGuid>20D3B5C5-609C-4B4A-8B22-8AA2E8598100</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net472'">

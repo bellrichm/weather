@@ -9,6 +9,7 @@ namespace BellRichM.Identity.Api.Smoke.Controllers
     public class UserControllerSetupTearDown : IAssemblyContext
     {
     private HttpClientHandler _spHandler;
+
     public void OnAssemblyStart()
     {
         var baseURL = Environment.GetEnvironmentVariable("SMOKE_BASEURL");
