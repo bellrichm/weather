@@ -16,6 +16,7 @@ using Serilog;
 
 namespace BellRichM.Identity.Api.Integration.Controllers
 {
+    #pragma warning disable CA1001
     public class UserControllerSetupAndCleanup : IAssemblyContext
     {
         private IServiceProvider _serviceProvider;
@@ -24,6 +25,8 @@ namespace BellRichM.Identity.Api.Integration.Controllers
         private User _testUser;
         private Role _adminRole;
         private User _adminUser;
+
+        private TestServer _server;
 
         public UserControllerSetupAndCleanup()
         {
@@ -63,14 +66,14 @@ namespace BellRichM.Identity.Api.Integration.Controllers
             var saveSeriloLogger = Log.Logger;
             Log.Logger = logger;
 
-            var server = new TestServer(
+            _server = new TestServer(
                 new WebHostBuilder()
                 .UseStartup<StartupIntegration>()
                 .ConfigureServices(s => s.AddSingleton(Log.Logger))
                 .ConfigureServices(s => s.AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>)))
                 .UseConfiguration(configuration)
                 .UseSerilog());
-            UserControllerTests.Client = server.CreateClient();
+            UserControllerTests.Client = _server.CreateClient();
 
             Log.Logger = saveSeriloLogger;
         }
@@ -182,4 +185,5 @@ namespace BellRichM.Identity.Api.Integration.Controllers
             return jwtManager.GenerateToken(userName, userPw).Result;
         }
     }
+    #pragma warning restore CA1001
 }

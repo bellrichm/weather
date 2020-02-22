@@ -99,7 +99,7 @@ namespace BellRichM.Api.Middleware.Test
             errorResponse.CorrelationId.ShouldEqual(httpContext.TraceIdentifier);
             errorResponse.ErrorDetails.ShouldBeNull();
             errorResponse.Code.ShouldEqual(errorCode);
-            errorResponse.Text.ShouldEqual(errorText);
+            errorResponse.ErrorMsg.ShouldEqual(errorText);
         };
     }
 
@@ -149,7 +149,7 @@ namespace BellRichM.Api.Middleware.Test
             errorResponse.CorrelationId.ShouldEqual(httpContext.TraceIdentifier);
             errorResponse.ErrorDetails.ShouldBeNull();
             errorResponse.Code.ShouldEqual(notImplementedCode);
-            errorResponse.Text.ShouldEqual(notImplementedText);
+            errorResponse.ErrorMsg.ShouldEqual(notImplementedText);
         };
     }
 

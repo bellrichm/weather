@@ -107,7 +107,7 @@ namespace BellRichM.Api.Controllers
             {
                 CorrelationId = HttpContext.TraceIdentifier,
                 Code = "InvalidInput",
-                Text = "Invalid input",
+                ErrorMsg = "Invalid input",
                 ErrorDetails = errorDetails
             };
 
@@ -136,7 +136,7 @@ namespace BellRichM.Api.Controllers
             {
                 CorrelationId = HttpContext.TraceIdentifier,
                 Code = businessException.Code,
-                Text = businessException.Message,
+                ErrorMsg = businessException.Message,
                 ErrorDetails = errorDetails
             };
 

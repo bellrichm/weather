@@ -4,7 +4,7 @@
     <TargetFrameworks>netcoreapp3.1;net472</TargetFrameworks>
     <CodeAnalysisRuleSet>$(ProjectDir)..\StyleCop.Analyzers.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
-    <NoWarn>NU1603</NoWarn>
+    <NoWarn>NU1603,CA1062</NoWarn>
     <ProjectGuid>4E60CBD7-F1EB-417E-B838-FC583681F085</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup>
@@ -19,7 +19,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.1.6" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.1.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.4" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.2" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8" />
     <PackageReference Include="StyleCop" Version="6.1.0">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>

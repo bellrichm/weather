@@ -5,14 +5,14 @@
     <OutputType>Library</OutputType>
     <CodeAnalysisRuleSet>$(ProjectDir)..\StyleCop.Analyzers.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
-    <NoWarn>NU1603</NoWarn>
+    <NoWarn>NU1603,CA1062</NoWarn>
     <ProjectGuid>a4de76d2-67a5-48c3-af35-14aa4305b223</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net472'">
     <DebugType>full</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.2" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8" />
     <PackageReference Include="StyleCop" Version="6.1.0">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>

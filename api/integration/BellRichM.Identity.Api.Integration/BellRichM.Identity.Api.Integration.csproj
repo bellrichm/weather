@@ -6,7 +6,7 @@
     <OutputType>Library</OutputType>
     <SonarQubeExclude>true</SonarQubeExclude>
     <CodeAnalysisRuleSet>$(ProjectDir)..\StyleCop.Analyzers.ruleset</CodeAnalysisRuleSet>
-    <NoWarn>NU1603;S101;S1144;S2223;S2933</NoWarn>
+    <NoWarn>NU1603;S101;S1144;S2223;S2933,CA1062</NoWarn>
     <ProjectGuid>84EE82D1-0184-4FB5-BF5A-8A20C17EDDB3</ProjectGuid>
   </PropertyGroup>
   <ItemGroup>
@@ -22,7 +22,7 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.0.0" />
     <PackageReference Include="Moq" Version="4.10.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.2" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8" />
     <PackageReference Include="StyleCop" Version="6.1.0">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>

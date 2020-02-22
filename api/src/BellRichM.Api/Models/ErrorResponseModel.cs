@@ -30,9 +30,9 @@ namespace BellRichM.Api.Models
         /// Gets or sets the text.
         /// </summary>
         /// <value>
-        /// The human readable error text.
+        /// The human readable error message.
         /// </value>
-        public string Text { get; set; }
+        public string ErrorMsg { get; set; }
 
         /// <summary>
         /// Gets or sets the errors details.

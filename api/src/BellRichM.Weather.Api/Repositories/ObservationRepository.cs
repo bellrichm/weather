@@ -264,7 +264,9 @@ DELETE FROM condition
             using (dbConnection)
             {
                 var dbCommand = dbConnection.CreateCommand();
+                #pragma warning disable CA2100
                 dbCommand.CommandText = statement;
+                #pragma warning disable CA2100
                 using (dbCommand)
                 {
                     dbCommand.AddParamWithValue("@year", observation.Year);

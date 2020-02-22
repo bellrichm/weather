@@ -12,7 +12,7 @@
     <DebugType>full</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.2" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8" />
     <PackageReference Include="StyleCop" Version="6.1.0">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>

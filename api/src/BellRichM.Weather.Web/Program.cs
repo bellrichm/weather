@@ -39,7 +39,9 @@ namespace BellRichM.Weather.Web
                 BuildWebHost(args, logManager, configuration).Run();
                 return 0;
             }
+            #pragma warning disable CA1031
             catch (Exception ex)
+            #pragma warning restore CA1031
             {
                 using (LogContext.PushProperty("Type", "CRITICAL"))
                 {

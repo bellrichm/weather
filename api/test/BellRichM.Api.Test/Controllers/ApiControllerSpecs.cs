@@ -75,7 +75,7 @@ namespace BellRichM.Api.Test
             errorResponseModel.Code.ShouldEqual(errorResponseCode);
 
         It should_have_correct_text = () =>
-            errorResponseModel.Text.ShouldEqual(errorResponseText);
+            errorResponseModel.ErrorMsg.ShouldEqual(errorResponseText);
 
         It should_have_correct_number_of_error_details = () =>
             errorResponseModel.ErrorDetails.Count().ShouldEqual(3);
@@ -144,7 +144,7 @@ namespace BellRichM.Api.Test
             errorResponseModel.Code.ShouldEqual(exceptionCode);
 
         It should_have_correct_text = () =>
-            errorResponseModel.Text.ShouldEqual(exceptionMessage);
+            errorResponseModel.ErrorMsg.ShouldEqual(exceptionMessage);
 
         It should_have_correct_number_of_error_details = () =>
             errorResponseModel.ErrorDetails.Count().ShouldEqual(testException.ErrorDetails.Count());

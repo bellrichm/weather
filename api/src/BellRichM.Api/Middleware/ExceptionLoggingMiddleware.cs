@@ -77,7 +77,7 @@ namespace BellRichM.Api.Middleware
           var errorResponse = new ErrorResponseModel
           {
             CorrelationId = httpContext.TraceIdentifier,
-            Text = "Call is not implemented",
+            ErrorMsg = "Call is not implemented",
             Code = "NotImplemented"
           };
 
@@ -94,7 +94,9 @@ namespace BellRichM.Api.Middleware
 
           await httpContext.Response.WriteAsync(jsonResponse).ConfigureAwait(false);
       }
+      #pragma warning disable CA1031
       catch (Exception ex)
+      #pragma warning restore CA1031
       {
         sw.Stop();
 
@@ -107,7 +109,7 @@ namespace BellRichM.Api.Middleware
         var errorResponse = new ErrorResponseModel
         {
           CorrelationId = httpContext.TraceIdentifier,
-          Text = "Severe error. Please contact support.",
+          ErrorMsg = "Severe error. Please contact support.",
           Code = "SevereError"
         };
 
