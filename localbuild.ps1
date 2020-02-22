@@ -22,7 +22,8 @@ $env:APPVEYOR_REPO_BRANCH = "buildexperiments"
 
 Invoke-Expression -Command ./localtools/init.ps1
 
-$env:COVERAGE_REPORT = "YES"
+$env:COVERAGE_REPORT_API = "YES"
+$env:COVERAGE_REPORT_APP = "YES"
 
 ##$env:BUILDPATH = ";C:\Program Files\7-Zip;C:\RMBData\sonar-scanner-msbuild;$env:HOMEPATH\.nuget\packages\ReportGenerator\3.0.2\tools;"
 ##$env:PATH = $env:PATH + $env:BUILDPATH
@@ -48,7 +49,7 @@ if ($preClean -ne "NO")
   RunCmd "git clean -xdf app/*/*/obj"
   RunCmd "git clean -xdf api/*/*/obj"
   RunCmd "git clean -xdf api/*/*/bin"
-  RunCmd "dotnet clean -v m app/BellRichM.App.csproj" ToDo - uncomment when app developed
+  ##RunCmd "dotnet clean -v m app/BellRichM.App.csproj" ToDo - uncomment when app developed
   RunCmd "dotnet clean -v m api/test/BellRichM.Weather.Test.sln"
   RunCmd "dotnet clean -v m api/src/BellRichM.Weather.sln"
   RunCmd "dotnet clean -v m api/integration/BellRichM.Identity.Api.Integration/BellRichM.Identity.Api.Integration.csproj"
@@ -88,6 +89,7 @@ RunCmd "./appveyor/before_build_api.ps1"
 RunCmd "./appveyor/before_build_app.ps1"
 
 # appveyor build-script
+RunCmd "./appveyor/build_pre.ps1"
 RunCmd "./appveyor/build_api.ps1"
 RunCmd "./appveyor/build_app.ps1"
 
