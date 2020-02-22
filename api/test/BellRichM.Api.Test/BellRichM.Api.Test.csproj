@@ -24,11 +24,6 @@
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta009" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
-    <DotNetCliToolReference Include="Machine.Specifications.Runner.Console" Version="0.9.3" />
-    <DotNetCliToolReference Include="OpenCover" Version="4.6.519" />
-    <DotNetCliToolReference Include="ReportGenerator" Version="3.0.2" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\src\BellRichM.Api\BellRichM.Api.csproj" />
     <ProjectReference Include="..\..\src\BellRichM.Logging\BellRichM.Logging.csproj" />
     <ProjectReference Include="..\BellRichM.Helpers.Test\BellRichM.Helpers.Test.csproj" />
