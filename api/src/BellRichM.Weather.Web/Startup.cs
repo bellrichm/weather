@@ -99,7 +99,7 @@ namespace BellRichM.Weather.Web
         /// <param name="services">The <see cref="IServiceCollection"/>.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAutoMapper();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             DbProviderFactories.RegisterFactory("Sqlite", SqliteFactory.Instance);
             DbProviderFactories.RegisterFactory("SqlServer", SqlClientFactory.Instance);
