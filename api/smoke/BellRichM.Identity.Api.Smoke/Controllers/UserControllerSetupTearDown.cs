@@ -5,21 +5,24 @@ using System.Net.Http;
 
 namespace BellRichM.Identity.Api.Smoke.Controllers
 {
+    #pragma warning disable CA1001
     public class UserControllerSetupTearDown : IAssemblyContext
     {
+    private HttpClientHandler _spHandler;
+
     public void OnAssemblyStart()
     {
         var baseURL = Environment.GetEnvironmentVariable("SMOKE_BASEURL");
         if (baseURL != null)
         {
-            var spHandler = new HttpClientHandler()
+            _spHandler = new HttpClientHandler()
             {
                 ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) =>
                 {
                     return true;
                 }
             };
-            UserControllerSmoke.Client = new HttpClient(spHandler);
+            UserControllerSmoke.Client = new HttpClient(_spHandler);
         }
         else
         {
@@ -37,4 +40,5 @@ namespace BellRichM.Identity.Api.Smoke.Controllers
         UserControllerSmoke.Client.Dispose();
     }
     }
+    #pragma warning restore CA1001
 }

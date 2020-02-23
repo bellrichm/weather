@@ -73,7 +73,7 @@ namespace BellRichM.Logging.Test
             foreach (var logEvent in logEvents)
             {
                 var count = contextPropertiesCount[logEvent.Properties["Type"].ToString()];
-                logEvent.Properties.Count().ShouldEqual(parameters.Count() + count);
+                logEvent.Properties.Count().ShouldEqual(parameters.Length + count);
             }
         };
 

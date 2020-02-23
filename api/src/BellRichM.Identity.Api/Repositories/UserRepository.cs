@@ -74,6 +74,11 @@ namespace BellRichM.Identity.Api.Repositories
         public async Task<User> Create(User user, string password)
         {
             _logger.LogDiagnosticDebug("Create: {@user}", user);
+            if (user == null)
+            {
+                return null;
+            }
+
             using (var identitydbContextTransaction = _context.BeginTransaction())
             {
                 IdentityResult userResult = await _userManager.CreateAsync(user, password).ConfigureAwait(true);

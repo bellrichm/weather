@@ -15,14 +15,13 @@ namespace BellRichM.Weather.Api.Test.Mapping
     {
         private static Exception exception;
 
-        Establish context = () =>
-            Mapper.Initialize(x => x.AddProfile<ConditionProfile>());
+        private static MapperConfiguration mapperConfiguration;
 
-        Cleanup after = () =>
-            AutoMapper.Mapper.Reset();
+        Establish context = () =>
+            mapperConfiguration = new MapperConfiguration(c => c.AddProfile<ConditionProfile>());
 
         Because of = () =>
-            exception = Catch.Exception(() => Mapper.AssertConfigurationIsValid());
+            exception = Catch.Exception(() => mapperConfiguration.AssertConfigurationIsValid());
 
         It should_pass_validation = () =>
             exception.ShouldBeNull();

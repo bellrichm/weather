@@ -12,6 +12,16 @@ namespace BellRichM.Attribute.Validation
         /// <inheritdoc/>
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            if (validationContext == null)
+            {
+                throw new ArgumentNullException(nameof(validationContext));
+            }
+
             string filterExpression = value.ToString();
             if (filterExpression.Equals("true", StringComparison.Ordinal) || filterExpression.Equals("false", StringComparison.Ordinal))
             {

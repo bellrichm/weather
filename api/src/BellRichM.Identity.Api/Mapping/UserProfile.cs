@@ -15,6 +15,12 @@ namespace BellRichM.Identity.Api.Mapping
         /// </summary>
         public UserProfile()
         {
+            CreateMap<ClaimValue, ClaimValueModel>();
+            CreateMap<ClaimValueModel, ClaimValue>();
+            CreateMap<Role, RoleModel>();
+            CreateMap<RoleModel, Role>()
+                .ForMember(dest => dest.NormalizedName, dest => dest.Ignore())
+                .ForMember(dest => dest.ConcurrencyStamp, dest => dest.Ignore());
             CreateMap<User, UserModel>();
             CreateMap<UserCreateModel, User>()
                 .ForMember(dest => dest.NormalizedUserName, dest => dest.Ignore())

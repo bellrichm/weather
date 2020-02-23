@@ -1,6 +1,7 @@
 using BellRichM.Logging;
 using BellRichM.Weather.Api.Configuration;
 using BellRichM.Weather.Api.Data;
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Globalization;
@@ -47,6 +48,16 @@ FROM v_condition
         /// <param name="conditionRepositoryConfiguration">The config.</param>
         public ConditionRepository(ILoggerAdapter<ConditionRepository> logger, ConditionRepositoryDbProviderFactory conditionDbProviderFactory, IConditionRepositoryConfiguration conditionRepositoryConfiguration)
         {
+            if (conditionRepositoryConfiguration == null)
+            {
+                throw new ArgumentNullException(nameof(conditionRepositoryConfiguration));
+            }
+
+            if (conditionDbProviderFactory == null)
+            {
+                throw new ArgumentNullException(nameof(conditionDbProviderFactory));
+            }
+
             _logger = logger;
             _conditionDbProviderFactory = conditionDbProviderFactory.ConditionDbProviderFactory;
             _connectionString = conditionRepositoryConfiguration.ConnectionString;

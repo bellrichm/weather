@@ -6,7 +6,7 @@
     <OutputType>Library</OutputType>
     <SonarQubeExclude>true</SonarQubeExclude>
     <CodeAnalysisRuleSet>$(ProjectDir)..\StyleCop.Analyzers.ruleset</CodeAnalysisRuleSet>
-    <NoWarn>NU1603;S101;S1144;S2223;S2933</NoWarn>
+    <NoWarn>NU1603;S101;S1144;S2223;S2933,CA1062</NoWarn>
     <ProjectGuid>84EE82D1-0184-4FB5-BF5A-8A20C17EDDB3</ProjectGuid>
   </PropertyGroup>
   <ItemGroup>
@@ -22,17 +22,12 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.0.0" />
     <PackageReference Include="Moq" Version="4.10.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.2" />
-    <PackageReference Include="StyleCop" Version="5.0.0">
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8" />
+    <PackageReference Include="StyleCop" Version="6.1.0">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta009" PrivateAssets="All" />
-    <PackageReference Include="Serilog.AspNetCore" Version="2.1.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <DotNetCliToolReference Include="Machine.Specifications.Runner.Console" Version="0.9.3" />
-    <DotNetCliToolReference Include="OpenCover" Version="4.6.519" />
-    <DotNetCliToolReference Include="ReportGenerator" Version="3.0.2" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="All" />
+    <PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\BellRichM.Weather.Web\BellRichM.Weather.Web.csproj" />

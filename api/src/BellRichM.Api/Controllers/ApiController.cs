@@ -21,6 +21,10 @@ namespace BellRichM.Api.Controllers
         protected IEnumerable<LinkModel> GetNavigationLinks(string routeName, PagingModel paging)
         {
             var links = new List<LinkModel>();
+            if (paging is null)
+            {
+                return links;
+            }
 
             if (paging.TotalCount > paging.Limit)
             {
@@ -107,7 +111,7 @@ namespace BellRichM.Api.Controllers
             {
                 CorrelationId = HttpContext.TraceIdentifier,
                 Code = "InvalidInput",
-                Text = "Invalid input",
+                ErrorMsg = "Invalid input",
                 ErrorDetails = errorDetails
             };
 
@@ -122,21 +126,28 @@ namespace BellRichM.Api.Controllers
         protected ErrorResponseModel CreateModel(BusinessException businessException)
         {
             var errorDetails = new List<ErrorDetailModel>();
-            foreach (var errorDetail in businessException.ErrorDetails)
+            string code = string.Empty;
+            string message = string.Empty;
+            if (businessException != null)
             {
-                errorDetails.Add(
-                    new ErrorDetailModel
-                    {
-                        Code = errorDetail.Code,
-                        Text = errorDetail.Text
-                    });
+                code = businessException.Code;
+                message = businessException.Message;
+                foreach (var errorDetail in businessException.ErrorDetails)
+                {
+                    errorDetails.Add(
+                        new ErrorDetailModel
+                        {
+                            Code = errorDetail.Code,
+                            Text = errorDetail.Text
+                        });
+                }
             }
 
             var errrorResponseModel = new ErrorResponseModel
             {
                 CorrelationId = HttpContext.TraceIdentifier,
-                Code = businessException.Code,
-                Text = businessException.Message,
+                Code = code,
+                ErrorMsg = message,
                 ErrorDetails = errorDetails
             };
 

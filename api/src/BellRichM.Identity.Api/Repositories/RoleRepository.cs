@@ -72,6 +72,11 @@ namespace BellRichM.Identity.Api.Repositories
         public async Task<Role> Create(Role role)
         {
             _logger.LogDiagnosticDebug("Create: {@role}", role);
+            if (role == null)
+            {
+                return null;
+            }
+
             using (var identitydbContextTransaction = _context.BeginTransaction())
             {
                 IdentityResult roleResult = await _roleManager.CreateAsync(role).ConfigureAwait(true);
