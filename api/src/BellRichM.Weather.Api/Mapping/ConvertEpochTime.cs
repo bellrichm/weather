@@ -18,7 +18,8 @@ namespace BellRichM.Weather.Api.Mapping
         /// </summary>
         /// <param name="source">The observation model.</param>
         /// <param name="destination">The observation.</param>
-        public void Process(ObservationModel source, Observation destination)
+        /// <param name="context">The context.</param>
+        public void Process(ObservationModel source, Observation destination, ResolutionContext context)
         {
             if (destination == null)
             {

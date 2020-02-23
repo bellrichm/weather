@@ -45,7 +45,7 @@ namespace BellRichM.Weather.Api.Mapping.Test
     internal class When_converting_epoch_fime : ConvertEpochTimeSpecs
     {
         Because of = () =>
-            convertEpochTime.Process(observationModel, observation);
+            convertEpochTime.Process(observationModel, observation, null);
 
         It should_have_correct_year = () =>
             observation.Year.Should().Equals(Year);

@@ -15,6 +15,8 @@ namespace BellRichM.Identity.Api.Mapping
         /// </summary>
         public RoleProfile()
         {
+            CreateMap<ClaimValue, ClaimValueModel>();
+            CreateMap<ClaimValueModel, ClaimValue>();
             CreateMap<Role, RoleModel>();
             CreateMap<RoleModel, Role>()
                 .ForMember(dest => dest.NormalizedName, dest => dest.Ignore())
