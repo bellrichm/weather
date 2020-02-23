@@ -10,7 +10,7 @@
     <ProjectGuid>D7DCE70D-B1D4-4E9F-B519-B4A8C87C23DE</ProjectGuid>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Machine.Specifications" Version="0.12.0" />
+    <PackageReference Include="Machine.Specifications" Version="1.0.0" />
     <PackageReference Include="Moq" Version="4.13.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8" />
     <PackageReference Include="StyleCop" Version="6.1.0">
