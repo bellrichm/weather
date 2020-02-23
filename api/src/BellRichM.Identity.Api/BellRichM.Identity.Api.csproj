@@ -10,9 +10,6 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net472'">
-    <DebugType>full</DebugType>
-  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspnetCore.Authentication.JwtBearer" Version="2.1.2" />
