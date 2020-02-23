@@ -1,7 +1,8 @@
 ""
 "******************************** " + $MyInvocation.InvocationName + " ********************************"
 
-if ($env:UPLOAD_SONARQUBE_API -ne 'NO')
+if ($env:UPLOAD_SONARQUBE_API -ne 'NO' `
+-Or $env:RUNONLY_SONARQUBE_API -eq 'YES')
 {
   $parms = ''
   $parms = $parms + 'begin '
@@ -17,7 +18,8 @@ if ($env:UPLOAD_SONARQUBE_API -ne 'NO')
   $parms = $parms + '/d:sonar.cs.opencover.reportsPaths="api/test/coverlet/coverage.netcoreapp3.1.opencover.xml" '
   $parms = $parms + '/d:sonar.log.level=WARN '
   # $parms = $parms + '/d:sonar.verbose=true '
-  if ($env:UPLOAD_SONARQUBE_APP -ne 'NO')
+  if ($env:UPLOAD_SONARQUBE_APP -ne 'NO' `
+  -Or $env:RUNONLY_SONARQUBE_API -eq 'YES')
   {
     $parms = $parms + '/d:sonar.typescript.lcov.reportPaths="../app/coverage/lcov.info" '
   }

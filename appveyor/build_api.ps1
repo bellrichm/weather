@@ -1,7 +1,8 @@
 ""
 "******************************** " + $MyInvocation.InvocationName + " ********************************"
 if ($env:BUILD_API -eq "NO" `
-  -And $env:UPLOAD_SONARQUBE_API -eq 'NO')
+  -And $env:UPLOAD_SONARQUBE_API -eq 'NO' `
+  -And $env:RUNONLY_SONARQUBE_API -ne 'YES')
 {
   return
 }

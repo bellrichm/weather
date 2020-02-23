@@ -17,8 +17,10 @@ if ($env:UPLOAD_COVERALLS_API -ne 'NE' `
     RunCmd $cmd    
 }
 
-if ($env:UPLOAD_SONARQUBE_API -ne 'NO' `
-  -And $env:UPLOAD_SONARQUBE_APP -ne 'NO')
+if (($env:UPLOAD_SONARQUBE_API -ne 'NO' `
+  -And $env:UPLOAD_SONARQUBE_APP -ne 'NO') `
+  -Or $env:RUNONLY_SONARQUBE_API -eq 'YES' `
+  -Or $env:RUNONLY_SONARQUBE_APP -eq 'YES')
 {
     $cmd = "dotnet tool install dotnet-sonarscanner --tool-path buildtools/"
     RunCmd $cmd    
