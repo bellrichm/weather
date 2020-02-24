@@ -12,7 +12,7 @@ $env:APPVEYOR_BUILD_FOLDER =  Split-Path $MyInvocation.MyCommand.Path
 $env:APPVEYOR = "true"
 $env:APPVEYOR_JOB_ID = get-random
 
-$env:APPVEYOR_REPO_BRANCH = "buildexperiments"
+$env:APPVEYOR_REPO_BRANCH = "local"
 # $env:APPVEYOR_REPO_COMMIT=
 # $env:APPVEYOR_REPO_COMMIT_MESSAGE =
 # $env:APPVEYOR_REPO_COMMIT_AUTHOR =
@@ -47,8 +47,8 @@ $env:INTEGRATION_TEST_APP = "unused"
 $env:BUILD_ARTIFACT = "NO"
 $env:SMOKE_TEST = "NO"
 # Unless testing the process, these should usually be set to NO
-# If APPVEYOR_REPO_BRANCH is set to "buildexperiments", then it is safe to have these set to "YES"
-$env:UPLOAD_COVERALLS_API = "NO"
+# If APPVEYOR_REPO_BRANCH is set to "local", then it is safe to have these set to "YES"
+$env:UPLOAD_COVERALLS_API = "YES"
 $env:UPLOAD_COVERALLS_APP = "NO" 
 $env:UPLOAD_SONARQUBE_API = "NO"
 $env:UPLOAD_SONARQUBE_APP = "NO"
