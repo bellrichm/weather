@@ -34,7 +34,7 @@ $env:PRECLEAN = "YES"
 $env:POSTCLEAN = "YES"
 
 $env:ARTIFACT_NAME = "weather-branch"
-$env:BRANCH_NAME = "buildexperiments"
+$env:BRANCH_NAME = "local"
 
 $env:RESTORE_API = "YES"
 $env:RESTORE_APP = "YES"
