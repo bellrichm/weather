@@ -1,0 +1,12 @@
+[1m[31mHandlebars: Access has been denied to resolve the property "statements" because it is not an "own property" of its parent.[39m[22m
+[1m[31mYou can add a runtime option to disable the check or this warning:[39m[22m
+[1m[31mSee https://handlebarsjs.com/api-reference/runtime-options.html#options-to-control-prototype-access for details[39m[22m
+[1m[31mHandlebars: Access has been denied to resolve the property "branches" because it is not an "own property" of its parent.[39m[22m
+[1m[31mYou can add a runtime option to disable the check or this warning:[39m[22m
+[1m[31mSee https://handlebarsjs.com/api-reference/runtime-options.html#options-to-control-prototype-access for details[39m[22m
+[1m[31mHandlebars: Access has been denied to resolve the property "functions" because it is not an "own property" of its parent.[39m[22m
+[1m[31mYou can add a runtime option to disable the check or this warning:[39m[22m
+[1m[31mSee https://handlebarsjs.com/api-reference/runtime-options.html#options-to-control-prototype-access for details[39m[22m
+[1m[31mHandlebars: Access has been denied to resolve the property "lines" because it is not an "own property" of its parent.[39m[22m
+[1m[31mYou can add a runtime option to disable the check or this warning:[39m[22m
+[1m[31mSee https://handlebarsjs.com/api-reference/runtime-options.html#options-to-control-prototype-access for details[39m[22m
