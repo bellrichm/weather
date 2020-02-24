@@ -44,7 +44,9 @@ namespace BellRichM.Api.Middleware
 
       const string MessageTemplate =
         "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms";
+      #pragma warning disable S1854 // TODO: Investigate, seems to be a false positive
       Tuple<string, string> authData = Tuple.Create(string.Empty, string.Empty);
+      #pragma warning restore S1854
       var sw = Stopwatch.StartNew();
 
       try
