@@ -1,18 +1,10 @@
-using BellRichM.Logging;
-using FluentAssertions;
 using Machine.Specifications;
-using Microsoft.AspNetCore.Http;
-using Moq;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.TestCorrelator;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
-using IT = Moq.It;
 using It = Machine.Specifications.It;
 
 namespace BellRichM.Logging.Test

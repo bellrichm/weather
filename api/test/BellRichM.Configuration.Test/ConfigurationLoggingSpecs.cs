@@ -1,13 +1,8 @@
-using BellRichM.Configuration;
-using FluentAssertions;
 using Machine.Specifications;
 using Microsoft.Extensions.Configuration;
-using Moq;
-using System;
 using System.IO;
 using System.Linq;
 
-using IT = Moq.It;
 using It = Machine.Specifications.It;
 
 namespace BellRichM.ConfigurationManager.Test

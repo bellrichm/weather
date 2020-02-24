@@ -1,21 +1,17 @@
-using BellRichM.Api.Middleware;
+
 using BellRichM.Api.Models;
 using BellRichM.Helpers.Test;
 using BellRichM.Logging;
-using FluentAssertions;
 using Machine.Specifications;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-using IT = Moq.It;
 using It = Machine.Specifications.It;
 
 namespace BellRichM.Api.Middleware.Test

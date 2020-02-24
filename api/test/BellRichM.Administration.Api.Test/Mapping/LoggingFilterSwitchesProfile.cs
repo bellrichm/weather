@@ -1,12 +1,8 @@
 using AutoMapper;
 using BellRichM.Administration.Api.Mapping;
-using BellRichM.Administration.Api.Models;
-using FluentAssertions;
 using Machine.Specifications;
-using Moq;
 using System;
 
-using IT = Moq.It;
 using It = Machine.Specifications.It;
 
 #pragma warning disable SA1649 // File name should match first type name

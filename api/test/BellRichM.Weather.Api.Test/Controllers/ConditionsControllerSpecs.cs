@@ -17,7 +17,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
-using IT = Moq.It;
 using It = Machine.Specifications.It;
 
 namespace BellRichM.Weather.Api.Test.Controllers

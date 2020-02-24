@@ -5,16 +5,9 @@ using FluentAssertions;
 using Machine.Specifications;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Moq;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
 
 using IT = Moq.It;
 using It = Machine.Specifications.It;

@@ -2,20 +2,13 @@ using BellRichM.Helpers.Test;
 using BellRichM.Logging;
 using BellRichM.Weather.Api.Data;
 using BellRichM.Weather.Api.Repositories;
-using BellRichM.Weather.Api.Services;
 using FluentAssertions;
 using Machine.Specifications;
 using Moq;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 
-using IT = Moq.It;
 using It = Machine.Specifications.It;
 
 namespace BellRichM.Weather.Api.Services.Test
