@@ -1,16 +1,12 @@
 using BellRichM.Identity.Api.Data;
 using BellRichM.Identity.Api.Models;
-using FluentAssertions;
 using Machine.Specifications;
-using Microsoft.AspNetCore.TestHost;
-using Moq;
 using Newtonsoft.Json;
 using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 
-using IT = Moq.It;
 using It = Machine.Specifications.It;
 
 namespace BellRichM.Identity.Api.Integration
