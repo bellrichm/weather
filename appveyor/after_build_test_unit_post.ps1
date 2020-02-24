@@ -76,7 +76,7 @@ if (($env:UPLOAD_SONARQUBE_API -eq 'NO' `
   $parms = $parms + '/k:"weather" '
   $parms = $parms + '/o:"bellrichm" '
   $parms = $parms + '/v:$env:APPVEYOR_BUILD_VERSION '
-  $parms = $parms + '/d:sonar.branch.name=$env:BRANCH_NAME '
+  $parms = $parms + '/d:sonar.branch.name=$env:APPVEYOR_REPO_BRANCH '
   $parms = $parms + '/d:sonar.host.url="https://sonarcloud.io" '
   $parms = $parms + '/d:sonar.login=$env:SONARQUBE_REPO_TOKEN '
   $parms = $parms + '/d:sonar.exclusions="**/Migrations/*, **/obj/**/*, **/*.conf.*, **/e2e/**/*, **/coverage/**/*, **/*spec*" '
