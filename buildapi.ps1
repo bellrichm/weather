@@ -48,7 +48,7 @@ $env:BUILD_ARTIFACT = "NO"
 $env:SMOKE_TEST = "NO"
 # Unless testing the process, these should usually be set to NO
 # If APPVEYOR_REPO_BRANCH is set to "local", then it is safe to have these set to "YES"
-$env:UPLOAD_COVERALLS_API = "YES"
+$env:UPLOAD_COVERALLS_API = "NO"
 $env:UPLOAD_COVERALLS_APP = "NO" 
 $env:UPLOAD_SONARQUBE_API = "NO"
 $env:UPLOAD_SONARQUBE_APP = "NO"
