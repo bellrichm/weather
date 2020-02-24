@@ -31,7 +31,7 @@
 
         If ($env:APPVEYOR_REPO_BRANCH -ne $env:BRANCH_NAME)
         {
-          if ($env:BRANCH_NAME -eq 'master' -or $env:APPVEYOR_REPO_BRANCH -eq 'master')
+          if ($env:BRANCH_NAME -eq 'master')
           {
             # if 'master' build project, set build version to a guid
             $guid =  New-Guid;
@@ -50,10 +50,10 @@
             
             $json = $build | ConvertTo-Json;
             Invoke-RestMethod -Method Put "$env:APPVEYOR_URL/api/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/settings/build-number" -Body $json -Headers $headers
-
-            $env:APPVEYOR_SKIP_FINALIZE_ON_EXIT = true;
-            Exit-AppVeyorBuild;
           }
+
+          $env:APPVEYOR_SKIP_FINALIZE_ON_EXIT = true;
+          Exit-AppVeyorBuild;          
         }
 
   install:
