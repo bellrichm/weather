@@ -4,7 +4,6 @@ using Microsoft.Extensions.Options;
 using Serilog.Core;
 using System;
 
-
 using It = Machine.Specifications.It;
 
 namespace BellRichM.Logging.Test
