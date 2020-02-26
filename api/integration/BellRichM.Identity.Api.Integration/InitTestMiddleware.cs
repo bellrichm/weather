@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -16,6 +17,11 @@ namespace BellRichM.Identity.Api.Integration
 
         public async Task Invoke(HttpContext httpContext)
         {
+            if (httpContext == null)
+            {
+                throw new ArgumentNullException(nameof(httpContext));
+            }
+
             httpContext.Connection.RemoteIpAddress = fakeIpAddress;
 
             await this.next(httpContext).ConfigureAwait(true);
