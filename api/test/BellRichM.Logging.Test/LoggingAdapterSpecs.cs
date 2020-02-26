@@ -96,9 +96,7 @@ namespace BellRichM.Logging.Test
             logEvents.First()
                 .Properties["Type"].ToString().ShouldEqual<string>("\"TRACE\"");
 
-#pragma warning disable 169
-        Behaves_like<LogEventBehaviors> a_event_log;
-#pragma warning restore 169
+        Behaves_like<LogEventBehaviors> a_event_log = () => { };
     }
 
     public class When_logging_debug_message : LoggingAdapterSpecs
@@ -119,10 +117,7 @@ namespace BellRichM.Logging.Test
             logEvents.First()
                 .Properties["Type"].ToString().ShouldEqual<string>("\"DEBUG\"");
 
-#pragma warning disable 169
-        Behaves_like<LogEventBehaviors> a_event_log;
-#pragma warning restore 169
-
+        Behaves_like<LogEventBehaviors> a_event_log = () => { };
     }
 
     public class When_logging_informational_message : LoggingAdapterSpecs
@@ -143,10 +138,7 @@ namespace BellRichM.Logging.Test
             logEvents.First()
                 .Properties["Type"].ToString().ShouldEqual<string>("\"INFORMATION\"");
 
-#pragma warning disable 169
-        Behaves_like<LogEventBehaviors> a_event_log;
-#pragma warning restore 169
-
+        Behaves_like<LogEventBehaviors> a_event_log = () => { };
     }
 
     public class When_logging_warning_message : LoggingAdapterSpecs
@@ -167,9 +159,7 @@ namespace BellRichM.Logging.Test
             logEvents.First()
                 .Properties["Type"].ToString().ShouldEqual<string>("\"WARNING\"");
 
-#pragma warning disable 169
-        Behaves_like<LogEventBehaviors> a_event_log;
-#pragma warning restore 169
+        Behaves_like<LogEventBehaviors> a_event_log = () => { };
     }
 
     public class When_logging_critical_message : LoggingAdapterSpecs
@@ -190,9 +180,7 @@ namespace BellRichM.Logging.Test
             logEvents.First()
                 .Properties["Type"].ToString().ShouldEqual<string>("\"CRITICAL\"");
 
-#pragma warning disable 169
-        Behaves_like<LogEventBehaviors> a_event_log;
-#pragma warning restore 169
+        Behaves_like<LogEventBehaviors> a_event_log = () => { };
     }
 
     public class When_logging_error_message : LoggingAdapterSpecs
@@ -215,9 +203,7 @@ namespace BellRichM.Logging.Test
             logEvent.Properties["Type"].ToString().ShouldEqual<string>("\"ERROR\"");
         };
 
-#pragma warning disable 169
-        Behaves_like<LogEventBehaviors> a_event_log;
-#pragma warning restore 169
+        Behaves_like<LogEventBehaviors> a_event_log = () => { };
     }
 
     public class When_logging_event_message : LoggingAdapterSpecs
@@ -260,9 +246,6 @@ namespace BellRichM.Logging.Test
             logEvents.Where(logEvent => logEvent.Properties["Type"].ToString() == "\"INFORMATION\"")
                 .Count().ShouldEqual(1);
 
-#pragma warning disable 169
-        Behaves_like<LogEventBehaviors> a_event_log;
-#pragma warning restore 169
-
+        Behaves_like<LogEventBehaviors> a_event_log = () => { };
     }
 }

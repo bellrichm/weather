@@ -160,9 +160,7 @@ namespace BellRichM.Weather.Api.TestControllers.Test
         Because of = () =>
             result = (ObjectResult)observationsController.GetObservation(observationModel.DateTime).Await();
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
 
         It should_return_success_status_code = () =>
             result.StatusCode.Should().Equals(200);
@@ -195,9 +193,7 @@ namespace BellRichM.Weather.Api.TestControllers.Test
         Because of = () =>
             result = (NotFoundResult)observationsController.GetObservation(notFoundObservationModel.DateTime).Await();
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
 
         It should_return_not_found_status_code = () =>
             result.StatusCode.Should().Equals(404);
@@ -223,9 +219,7 @@ namespace BellRichM.Weather.Api.TestControllers.Test
             observationsController.ModelState.AddModelError(ErrorCode, ErrorMessage);
         };
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
 
         Cleanup after = () =>
             observationsController.ModelState.Clear();
@@ -278,9 +272,7 @@ namespace BellRichM.Weather.Api.TestControllers.Test
         Because of = () =>
             result = (ObjectResult)observationsController.Create(observationModel).Await();
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
 
         It should_return_success_status_code = () =>
             result.StatusCode.Should().Equals(200);
@@ -313,9 +305,7 @@ namespace BellRichM.Weather.Api.TestControllers.Test
         Because of = () =>
             result = (NotFoundResult)observationsController.Create(notFoundObservationModel).Await();
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
 
         It should_return_not_found_status_code = () =>
             result.StatusCode.Should().Equals(404);
@@ -341,9 +331,7 @@ namespace BellRichM.Weather.Api.TestControllers.Test
             observationsController.ModelState.AddModelError(ErrorCode, ErrorMessage);
         };
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
 
         Cleanup after = () =>
             observationsController.ModelState.Clear();
@@ -396,9 +384,7 @@ namespace BellRichM.Weather.Api.TestControllers.Test
         Because of = () =>
             result = (ObjectResult)observationsController.Update(observationModel).Await();
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
 
         It should_return_success_status_code = () =>
             result.StatusCode.Should().Equals(200);
@@ -431,9 +417,7 @@ namespace BellRichM.Weather.Api.TestControllers.Test
         Because of = () =>
             result = (NotFoundResult)observationsController.Update(notFoundObservationModel).Await();
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
 
         It should_return_not_found_status_code = () =>
             result.StatusCode.Should().Equals(404);
@@ -459,9 +443,7 @@ namespace BellRichM.Weather.Api.TestControllers.Test
             observationsController.ModelState.AddModelError(ErrorCode, ErrorMessage);
         };
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
 
         Cleanup after = () =>
             observationsController.ModelState.Clear();
@@ -514,9 +496,7 @@ namespace BellRichM.Weather.Api.TestControllers.Test
         Because of = () =>
             result = (NoContentResult)observationsController.Delete(observationModel.DateTime).Await();
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
 
         It should_return_no_content_code = () =>
             result.StatusCode.ShouldEqual(204);
@@ -543,9 +523,7 @@ namespace BellRichM.Weather.Api.TestControllers.Test
         Because of = () =>
             result = (NotFoundResult)observationsController.Delete(notFoundObservationModel.DateTime).Await();
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
 
         It should_return_not_found_status_code = () =>
             result.StatusCode.Should().Equals(404);
@@ -571,9 +549,7 @@ namespace BellRichM.Weather.Api.TestControllers.Test
             observationsController.ModelState.AddModelError(ErrorCode, ErrorMessage);
         };
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
 
         Cleanup after = () =>
             observationsController.ModelState.Clear();

@@ -72,9 +72,7 @@ namespace BellRichM.Administration.Test.Controllers
             };
         };
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<LoggingLevelController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<LoggingLevelController>> correct_logging = () => { };
 
         Cleanup after = () =>
             loggingLevelController.ModelState.Clear();
@@ -113,9 +111,7 @@ namespace BellRichM.Administration.Test.Controllers
         Because of = () =>
             result = (ObjectResult)loggingLevelController.Update(loggingLevelSwitchesModel);
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<LoggingLevelController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<LoggingLevelController>> correct_logging = () => { };
 
         It should_return_success_status_code = () =>
             result.StatusCode.ShouldEqual(200);
@@ -166,9 +162,7 @@ namespace BellRichM.Administration.Test.Controllers
         Because of = () =>
             result = (ObjectResult)loggingLevelController.Get();
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<LoggingLevelController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<LoggingLevelController>> correct_logging = () => { };
 
         It should_return_success_status_code = () =>
             result.StatusCode.ShouldEqual(200);

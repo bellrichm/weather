@@ -77,9 +77,7 @@ namespace BellRichM.Api.Middleware.Test
         Because of = () =>
           exceptionLoggingMiddleware.Invoke(httpContext).Await();
 
- #pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ExceptionLoggingMiddleware>> correct_logging;
- #pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ExceptionLoggingMiddleware>> correct_logging = () => { };
 
         It should_add_identifer_header = () =>
             httpContext.Response.Headers["X-Request-Id"].ToString().ShouldEqual(httpContext.TraceIdentifier);
@@ -127,9 +125,7 @@ namespace BellRichM.Api.Middleware.Test
         Because of = () =>
           exceptionLoggingMiddleware.Invoke(httpContext).Await();
 
- #pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ExceptionLoggingMiddleware>> correct_logging;
- #pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ExceptionLoggingMiddleware>> correct_logging = () => { };
 
         It should_add_identifer_header = () =>
             httpContext.Response.Headers["X-Request-Id"].ToString().ShouldEqual(httpContext.TraceIdentifier);
@@ -177,9 +173,7 @@ namespace BellRichM.Api.Middleware.Test
         Because of = () =>
           exceptionLoggingMiddleware.Invoke(httpContext).Await();
 
- #pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ExceptionLoggingMiddleware>> correct_logging;
- #pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ExceptionLoggingMiddleware>> correct_logging = () => { };
 
         It should_add_identifer_header = () =>
             httpContext.Response.Headers["X-Request-Id"].ToString().ShouldEqual(httpContext.TraceIdentifier);

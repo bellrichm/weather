@@ -92,9 +92,7 @@ namespace BellRichM
         Because of = () =>
             conditions = conditionRepository.GetYear(Offset, Limit).Result;
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ConditionRepository>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ConditionRepository>> correct_logging = () => { };
 
         It should_have_correct_number_of_records = () =>
             conditions.Count().ShouldEqual(3);
@@ -128,9 +126,7 @@ namespace BellRichM
         Because of = () =>
             conditions = conditionRepository.GetYear(4, Limit).Result;
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ConditionRepository>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ConditionRepository>> correct_logging = () => { };
 
         It should_have_correct_number_of_records = () =>
             conditions.ShouldBeEmpty();
@@ -155,9 +151,7 @@ namespace BellRichM
         Because of = () =>
             condition = conditionRepository.GetHourDetail(2018, 9, 1, 1).Result;
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ConditionRepository>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ConditionRepository>> correct_logging = () => { };
 
         It should_return_the_correct_data = () =>
             condition.Should().BeEquivalentTo(testCondition);
@@ -182,9 +176,7 @@ namespace BellRichM
         Because of = () =>
             condition = conditionRepository.GetHourDetail(1900, 9, 1, 1).Result;
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ConditionRepository>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ConditionRepository>> correct_logging = () => { };
 
         It should_return_the_correct_data = () =>
             condition.ShouldBeNull();
@@ -209,9 +201,7 @@ namespace BellRichM
         Because of = () =>
             count = conditionRepository.GetYearCount().Result;
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ConditionRepository>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ConditionRepository>> correct_logging = () => { };
 
         It should_return_the_correct_count = () =>
             count.ShouldEqual(3);

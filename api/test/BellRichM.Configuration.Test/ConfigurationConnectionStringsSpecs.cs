@@ -62,9 +62,7 @@ namespace BellRichM.ConfigurationConnectionStrings.Test
         Setup();
     };
 
-#pragma warning disable 169
-    Behaves_like<ConfigurationConnectionStringsBehaviors> a_production_configuration;
-#pragma warning restore 169
+    Behaves_like<ConfigurationConnectionStringsBehaviors> a_production_configuration = () => { };
     }
 
     public class When_getting_a_development_configuration : ConfigurationConnectionStringsSpecs
@@ -77,8 +75,6 @@ namespace BellRichM.ConfigurationConnectionStrings.Test
         Setup();
     };
 
-#pragma warning disable 169
-    Behaves_like<ConfigurationConnectionStringsBehaviors> a_development_configuration;
-#pragma warning restore 169
+    Behaves_like<ConfigurationConnectionStringsBehaviors> a_development_configuration = () => { };
   }
 }

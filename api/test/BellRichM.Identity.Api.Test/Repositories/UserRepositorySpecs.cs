@@ -96,8 +96,7 @@ namespace BellRichM.Identity.Api.Test.Repositories
     Because of = () =>
       userResult = userRepository.GetByName(user.UserName).Result;
 
-#pragma warning disable 169
-    Behaves_like<LoggingBehaviors<UserRepository>> correct_logging;
+    Behaves_like<LoggingBehaviors<UserRepository>> correct_logging = () => { };
 #pragma warning restore
 
     It should_return_null_user = () =>
@@ -121,8 +120,7 @@ namespace BellRichM.Identity.Api.Test.Repositories
     Because of = () =>
       userResult = userRepository.GetByName(user.UserName).Result;
 
-#pragma warning disable 169
-    Behaves_like<LoggingBehaviors<UserRepository>> correct_logging;
+    Behaves_like<LoggingBehaviors<UserRepository>> correct_logging = () => { };
 #pragma warning restore
 
     It should_return_correct_user = () =>
@@ -151,8 +149,7 @@ namespace BellRichM.Identity.Api.Test.Repositories
     Because of = () =>
       userResult = userRepository.GetByName(user.UserName).Result;
 
-#pragma warning disable 169
-    Behaves_like<LoggingBehaviors<UserRepository>> correct_logging;
+    Behaves_like<LoggingBehaviors<UserRepository>> correct_logging = () => { };
 #pragma warning restore
 
     It should_return_correct_role = () =>
@@ -185,8 +182,7 @@ namespace BellRichM.Identity.Api.Test.Repositories
     Because of = () =>
       userResult = userRepository.GetById(user.Id).Result;
 
-#pragma warning disable 169
-    Behaves_like<LoggingBehaviors<UserRepository>> correct_logging;
+    Behaves_like<LoggingBehaviors<UserRepository>> correct_logging = () => { };
 #pragma warning restore
 
     It should_return_null_user = () =>
@@ -210,8 +206,7 @@ namespace BellRichM.Identity.Api.Test.Repositories
     Because of = () =>
       userResult = userRepository.GetById(user.Id).Result;
 
-#pragma warning disable 169
-    Behaves_like<LoggingBehaviors<UserRepository>> correct_logging;
+    Behaves_like<LoggingBehaviors<UserRepository>> correct_logging = () => { };
 #pragma warning restore
 
     It should_return_correct_user = () =>
@@ -240,8 +235,7 @@ namespace BellRichM.Identity.Api.Test.Repositories
     Because of = () =>
       userResult = userRepository.GetById(user.Id).Result;
 
-#pragma warning disable 169
-    Behaves_like<LoggingBehaviors<UserRepository>> correct_logging;
+    Behaves_like<LoggingBehaviors<UserRepository>> correct_logging = () => { };
 #pragma warning restore
 
     It should_return_correct_role = () =>
@@ -276,8 +270,7 @@ namespace BellRichM.Identity.Api.Test.Repositories
     Because of = () =>
       exception = Catch.Exception(() => userResult = userRepository.Create(user, "P@ssw0rd").Await());
 
-#pragma warning disable 169
-    Behaves_like<LoggingBehaviors<UserRepository>> correct_logging;
+    Behaves_like<LoggingBehaviors<UserRepository>> correct_logging = () => { };
 #pragma warning restore
 
     It should_throw_correct_exception_type = () =>
@@ -322,8 +315,7 @@ namespace BellRichM.Identity.Api.Test.Repositories
     Because of = () =>
       exception = Catch.Exception(() => userResult = userRepository.Create(user, "P@ssw0rd").Await());
 
-#pragma warning disable 169
-    Behaves_like<LoggingBehaviors<UserRepository>> correct_logging;
+    Behaves_like<LoggingBehaviors<UserRepository>> correct_logging = () => { };
 #pragma warning restore
 
     It should_throw_correct_exception_type = () =>
@@ -369,8 +361,7 @@ namespace BellRichM.Identity.Api.Test.Repositories
     Because of = () =>
       exception = Catch.Exception(() => userResult = userRepository.Create(user, "P@ssw0rd").Await());
 
-#pragma warning disable 169
-    Behaves_like<LoggingBehaviors<UserRepository>> correct_logging;
+    Behaves_like<LoggingBehaviors<UserRepository>> correct_logging = () => { };
 #pragma warning restore
 
     It should_throw_correct_exception_type = () =>
@@ -410,8 +401,7 @@ namespace BellRichM.Identity.Api.Test.Repositories
     Because of = () =>
       exception = Catch.Exception(() => userResult = userRepository.Create(user, "P@ssw0rd").Await());
 
-#pragma warning disable 169
-    Behaves_like<LoggingBehaviors<UserRepository>> correct_logging;
+    Behaves_like<LoggingBehaviors<UserRepository>> correct_logging = () => { };
 #pragma warning restore
 
     It should_return_a_user = () =>
@@ -451,8 +441,7 @@ namespace BellRichM.Identity.Api.Test.Repositories
     Because of = () =>
       exception = Catch.Exception(() => userResult = userRepository.Create(user, "P@ssw0rd").Await());
 
-#pragma warning disable 169
-    Behaves_like<LoggingBehaviors<UserRepository>> correct_logging;
+    Behaves_like<LoggingBehaviors<UserRepository>> correct_logging = () => { };
 #pragma warning restore
 
     It should_return_a_user = () =>
@@ -496,8 +485,7 @@ namespace BellRichM.Identity.Api.Test.Repositories
     Because of = () =>
       exception = Catch.Exception(() => userRepository.Delete(user.Id).Await());
 
-#pragma warning disable 169
-    Behaves_like<LoggingBehaviors<UserRepository>> correct_logging;
+    Behaves_like<LoggingBehaviors<UserRepository>> correct_logging = () => { };
 #pragma warning restore
 
     It should_not_throw_exception = () =>
@@ -527,8 +515,7 @@ namespace BellRichM.Identity.Api.Test.Repositories
     Because of = () =>
       exception = Catch.Exception(() => userRepository.Delete(user.Id).Await());
 
-#pragma warning disable 169
-    Behaves_like<LoggingBehaviors<UserRepository>> correct_logging;
+    Behaves_like<LoggingBehaviors<UserRepository>> correct_logging = () => { };
 #pragma warning restore
 
     It should_throw_correct_exception_type = () =>
@@ -558,8 +545,7 @@ namespace BellRichM.Identity.Api.Test.Repositories
     Because of = () =>
       exception = Catch.Exception(() => userRepository.Delete(user.Id).Await());
 
-#pragma warning disable 169
-    Behaves_like<LoggingBehaviors<UserRepository>> correct_logging;
+    Behaves_like<LoggingBehaviors<UserRepository>> correct_logging = () => { };
 #pragma warning restore
 
     It should_throw_correct_exception_type = () =>

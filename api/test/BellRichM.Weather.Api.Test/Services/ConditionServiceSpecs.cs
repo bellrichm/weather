@@ -90,9 +90,7 @@ namespace BellRichM.Weather.Api.Services.Test
             conditionPage = conditionService.GetYearWeatherPage(Offset, Limit).Result;
         };
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ConditionService>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ConditionService>> correct_logging = () => { };
 
         It should_have_correct_total_count = () =>
         {

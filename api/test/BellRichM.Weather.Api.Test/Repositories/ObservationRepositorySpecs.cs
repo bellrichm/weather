@@ -121,9 +121,7 @@ namespace BellRichM.Dummy
         Because of = () =>
             rowCount = observationRepository.CreateObservation(originalObservation).Result;
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ObservationRepository>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ObservationRepository>> correct_logging = () => { };
 
         It should_insert_one_row = () =>
             rowCount.Should().Equals(1);
@@ -151,9 +149,7 @@ namespace BellRichM.Dummy
         Because of = () =>
             observation = observationRepository.GetObservation(originalObservation.DateTime).Result;
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ObservationRepository>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ObservationRepository>> correct_logging = () => { };
 
         It should_return_the_data = () =>
             observation.Should().BeEquivalentTo(originalObservation);
@@ -175,9 +171,7 @@ namespace BellRichM.Dummy
         Because of = () =>
             rowCount = observationRepository.UpdateObservation(updatedObservation).Result;
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ObservationRepository>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ObservationRepository>> correct_logging = () => { };
 
         It should_update_one_row = () =>
             rowCount.Should().Equals(1);
@@ -205,9 +199,7 @@ namespace BellRichM.Dummy
         Because of = () =>
             rowCount = observationRepository.DeleteObservation(originalObservation.DateTime).Result;
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ObservationRepository>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ObservationRepository>> correct_logging = () => { };
 
         It should_delete_one_row = () =>
             rowCount.Should().Equals(1);

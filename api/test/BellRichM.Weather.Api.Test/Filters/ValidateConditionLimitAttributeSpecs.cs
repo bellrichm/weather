@@ -97,9 +97,7 @@ namespace BellRichM.Weather.Api.Test.Filters
         Because of = () =>
             methodInfo.Invoke(validateConditionLimitAttributeImplementationTypeInstance, parametersArray);
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ValidateConditionLimitAttributeSpecs>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ValidateConditionLimitAttributeSpecs>> correct_logging = () => { };
 
         It should_have_one_ModelStateDictionary_entry = () =>
             actionExecutingContext.ModelState.Count.Should().Equals(0);
@@ -126,9 +124,7 @@ namespace BellRichM.Weather.Api.Test.Filters
         Because of = () =>
             methodInfo.Invoke(validateConditionLimitAttributeImplementationTypeInstance, parametersArray);
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ValidateConditionLimitAttributeSpecs>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ValidateConditionLimitAttributeSpecs>> correct_logging = () => { };
 
         It should_have_one_ModelStateDictionary_entry = () =>
             actionExecutingContext.ModelState.Count.Should().Equals(1);
@@ -174,9 +170,7 @@ namespace BellRichM.Weather.Api.Test.Filters
         Because of = () =>
             methodInfo.Invoke(validateConditionLimitAttributeImplementationTypeInstance, parametersArray);
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ValidateConditionLimitAttributeSpecs>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ValidateConditionLimitAttributeSpecs>> correct_logging = () => { };
 
         It should_have_one_ModelStateDictionary_entry = () =>
             actionExecutingContext.ModelState.Count.Should().Equals(1);
@@ -222,9 +216,7 @@ namespace BellRichM.Weather.Api.Test.Filters
         Because of = () =>
             methodInfo.Invoke(validateConditionLimitAttributeImplementationTypeInstance, parametersArray);
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ValidateConditionLimitAttributeSpecs>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ValidateConditionLimitAttributeSpecs>> correct_logging = () => { };
 
         It should_have_one_ModelStateDictionary_entry = () =>
             actionExecutingContext.ModelState.Count.Should().Equals(1);

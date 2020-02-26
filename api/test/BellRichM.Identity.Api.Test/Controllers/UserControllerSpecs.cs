@@ -125,9 +125,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
         Because of = () =>
             result = (ObjectResult)userController.Login(userLogin).Await();
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<UserController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<UserController>> correct_logging = () => { };
 
         It should_return_correct_result_type = () =>
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -166,9 +164,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
         Because of = () =>
             result = (ObjectResult)userController.Login(userLogin).Await();
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<UserController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<UserController>> correct_logging = () => { };
 
         It should_return_correct_result_type = () =>
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -201,9 +197,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
         Because of = () =>
             result = (ObjectResult)userController.Login(userLogin).Await();
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<UserController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<UserController>> correct_logging = () => { };
 
         It should_return_correct_result_type = () =>
             result.Should().BeOfType<OkObjectResult>();
@@ -242,9 +236,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
         Because of = () =>
             result = (ObjectResult)userController.GetById(userModel.Id).Await();
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<UserController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<UserController>> correct_logging = () => { };
 
         It should_return_success_status_code = () =>
             result.StatusCode.ShouldEqual(200);
@@ -283,9 +275,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
         Because of = () =>
             result = (NotFoundResult)userController.GetById(string.Empty).Await();
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<UserController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<UserController>> correct_logging = () => { };
 
         It should_return_not_found_status_code = () =>
             result.StatusCode.ShouldEqual(404);
@@ -332,9 +322,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
         Because of = () =>
             result = (ObjectResult)userController.Create(userCreate).Await();
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<UserController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<UserController>> correct_logging = () => { };
 
         It should_return_correct_result_type = () =>
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -373,9 +361,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
         Because of = () =>
             result = (ObjectResult)userController.Create(userCreate).Await();
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<UserController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<UserController>> correct_logging = () => { };
 
         It should_return_correct_result_type = () =>
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -412,9 +398,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
         Because of = () =>
             result = (ObjectResult)userController.Create(userCreate).Await();
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<UserController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<UserController>> correct_logging = () => { };
 
         It should_return_success_status_code = () =>
             result.StatusCode.ShouldEqual(200);
@@ -473,9 +457,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
             result = (ObjectResult)userController.Delete(string.Empty).Await();
         };
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<UserController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<UserController>> correct_logging = () => { };
 
         It should_return_correct_result_type = () =>
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -508,9 +490,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
         Because of = () =>
             result = (NoContentResult)userController.Delete("id").Await();
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<UserController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<UserController>> correct_logging = () => { };
 
         It should_return_success_status_code = () =>
             result.StatusCode.ShouldEqual(204);

@@ -73,9 +73,7 @@ namespace BellRichM.Administration.Api.Test.Controllers
             loggingFilterController.ModelState.AddModelError(ErrorCode, ErrorMessage);
         };
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<LoggingFilterController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<LoggingFilterController>> correct_logging = () => { };
 
         It should_log_correct_information_messages = () =>
            loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), IT.IsAny<ModelStateDictionary>()), Times.Once);
@@ -117,9 +115,7 @@ namespace BellRichM.Administration.Api.Test.Controllers
         Because of = () =>
             result = (ObjectResult)loggingFilterController.Update(loggingFilterSwitchesModel);
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<LoggingFilterController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<LoggingFilterController>> correct_logging = () => { };
 
         It should_return_success_status_code = () =>
             result.StatusCode.ShouldEqual(200);
@@ -170,9 +166,7 @@ namespace BellRichM.Administration.Api.Test.Controllers
         Because of = () =>
             result = (ObjectResult)loggingFilterController.Get();
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<LoggingFilterController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<LoggingFilterController>> correct_logging = () => { };
 
         It should_return_success_status_code = () =>
             result.StatusCode.ShouldEqual(200);
