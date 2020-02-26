@@ -5,7 +5,7 @@
     <OutputType>Library</OutputType>
     <CodeAnalysisRuleSet>$(ProjectDir)..\StyleCop.Analyzers.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
-    <NoWarn>NU1603</NoWarn>
+    
     <ProjectGuid>e18680e8-eaef-428b-b5ef-0afa8f12d0e7</ProjectGuid>
   </PropertyGroup>
   <ItemGroup>

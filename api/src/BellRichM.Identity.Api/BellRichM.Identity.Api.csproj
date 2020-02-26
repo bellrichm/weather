@@ -4,7 +4,7 @@
     <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <CodeAnalysisRuleSet>$(ProjectDir)..\StyleCop.Analyzers.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
-    <NoWarn>NU1603</NoWarn>
+    
     <ProjectGuid>4E60CBD7-F1EB-417E-B838-FC583681F085</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup>
