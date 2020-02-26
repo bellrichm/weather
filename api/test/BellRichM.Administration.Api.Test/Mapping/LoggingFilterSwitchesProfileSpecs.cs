@@ -5,10 +5,13 @@ using System;
 
 using It = Machine.Specifications.It;
 
-#pragma warning disable SA1649 // File name should match first type name
 namespace BellRichM.Administration.Api.Test.Mapping
 {
-    internal class When_creating_logging_filter_switches_mapper
+    internal class LoggingFilterSwitchesProfileSpecs
+    {
+    }
+
+    internal class When_creating_logging_filter_switches_mapper : LoggingFilterSwitchesProfileSpecs
     {
         private static Exception exception;
 
@@ -24,4 +27,3 @@ namespace BellRichM.Administration.Api.Test.Mapping
             exception.ShouldBeNull();
     }
 }
-#pragma warning restore SA1649 // File name should match first type name

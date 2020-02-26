@@ -5,10 +5,13 @@ using System;
 
 using It = Machine.Specifications.It;
 
-#pragma warning disable SA1649 // File name should match first type name
 namespace BellRichM.Identity.Api.Test.Mapping
 {
-    internal class When_creating_role_mapper
+    internal class RoleProfileSpecs
+    {
+    }
+
+    internal class When_creating_role_mapper : RoleProfileSpecs
     {
         private static Exception exception;
 
@@ -24,4 +27,3 @@ namespace BellRichM.Identity.Api.Test.Mapping
             exception.ShouldBeNull();
     }
 }
-#pragma warning restore SA1649 // File name should match first type name

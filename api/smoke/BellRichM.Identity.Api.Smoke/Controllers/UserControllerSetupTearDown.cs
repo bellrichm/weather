@@ -29,9 +29,7 @@ namespace BellRichM.Identity.Api.Smoke.Controllers
             UserControllerSmoke.Client = new HttpClient();
         }
 
-        #pragma warning disable S1075
         UserControllerSmoke.Client.BaseAddress = new Uri(baseURL);
-        #pragma warning disable S1075
     }
 
     public void OnAssemblyComplete()

@@ -32,7 +32,7 @@ namespace BellRichM.Weather.Api.Repositories.Test
 
         public void OnAssemblyComplete()
         {
-#pragma warning disable 162
+            #pragma warning disable 162 // This is test code, so ok that code is only reachable when debugging
             if (SaveDb)
             {
                 var backupConnection = (SqliteConnection)dbProviderFactory.CreateConnection();
@@ -41,9 +41,9 @@ namespace BellRichM.Weather.Api.Repositories.Test
                 // seems to overwrite existing databases
                 ((SqliteConnection)inMemoryConnection).BackupDatabase(backupConnection);
             }
+            #pragma warning disable 162
 
             inMemoryConnection.Close();
         }
-#pragma warning disable 162
     }
 }
