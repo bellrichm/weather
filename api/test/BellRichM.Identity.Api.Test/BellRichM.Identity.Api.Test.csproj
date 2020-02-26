@@ -6,7 +6,7 @@
     <SonarQubeTestProject>true</SonarQubeTestProject>
     <SonarQubeExclude>true</SonarQubeExclude>
     <CodeAnalysisRuleSet>$(ProjectDir)..\StyleCop.Analyzers.ruleset</CodeAnalysisRuleSet>
-    <NoWarn>S1144;S2223;S2933</NoWarn>
+    <NoWarn>S2223;S2933</NoWarn>
     <ProjectGuid>ECE5BED1-FB5B-4C47-8872-B2361955A976</ProjectGuid>
   </PropertyGroup>
   <ItemGroup>
