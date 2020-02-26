@@ -97,7 +97,6 @@ namespace BellRichM.Identity.Api.Test.Repositories
       userResult = userRepository.GetByName(user.UserName).Result;
 
     Behaves_like<LoggingBehaviors<UserRepository>> correct_logging = () => { };
-#pragma warning restore
 
     It should_return_null_user = () =>
       userResult.ShouldBeNull();
@@ -121,7 +120,6 @@ namespace BellRichM.Identity.Api.Test.Repositories
       userResult = userRepository.GetByName(user.UserName).Result;
 
     Behaves_like<LoggingBehaviors<UserRepository>> correct_logging = () => { };
-#pragma warning restore
 
     It should_return_correct_user = () =>
       userResult.Should().BeEquivalentTo(user);
@@ -150,7 +148,6 @@ namespace BellRichM.Identity.Api.Test.Repositories
       userResult = userRepository.GetByName(user.UserName).Result;
 
     Behaves_like<LoggingBehaviors<UserRepository>> correct_logging = () => { };
-#pragma warning restore
 
     It should_return_correct_role = () =>
       userResult.Should().BeEquivalentTo(user);
@@ -183,7 +180,6 @@ namespace BellRichM.Identity.Api.Test.Repositories
       userResult = userRepository.GetById(user.Id).Result;
 
     Behaves_like<LoggingBehaviors<UserRepository>> correct_logging = () => { };
-#pragma warning restore
 
     It should_return_null_user = () =>
       userResult.ShouldBeNull();
@@ -207,7 +203,6 @@ namespace BellRichM.Identity.Api.Test.Repositories
       userResult = userRepository.GetById(user.Id).Result;
 
     Behaves_like<LoggingBehaviors<UserRepository>> correct_logging = () => { };
-#pragma warning restore
 
     It should_return_correct_user = () =>
       userResult.Should().BeEquivalentTo(user);
@@ -236,7 +231,6 @@ namespace BellRichM.Identity.Api.Test.Repositories
       userResult = userRepository.GetById(user.Id).Result;
 
     Behaves_like<LoggingBehaviors<UserRepository>> correct_logging = () => { };
-#pragma warning restore
 
     It should_return_correct_role = () =>
       userResult.Should().BeEquivalentTo(user);
@@ -271,7 +265,6 @@ namespace BellRichM.Identity.Api.Test.Repositories
       exception = Catch.Exception(() => userResult = userRepository.Create(user, "P@ssw0rd").Await());
 
     Behaves_like<LoggingBehaviors<UserRepository>> correct_logging = () => { };
-#pragma warning restore
 
     It should_throw_correct_exception_type = () =>
       exception.ShouldBeOfExactType<CreateUserException>();
@@ -316,7 +309,6 @@ namespace BellRichM.Identity.Api.Test.Repositories
       exception = Catch.Exception(() => userResult = userRepository.Create(user, "P@ssw0rd").Await());
 
     Behaves_like<LoggingBehaviors<UserRepository>> correct_logging = () => { };
-#pragma warning restore
 
     It should_throw_correct_exception_type = () =>
       exception.ShouldBeOfExactType<CreateUserException>();
@@ -362,7 +354,6 @@ namespace BellRichM.Identity.Api.Test.Repositories
       exception = Catch.Exception(() => userResult = userRepository.Create(user, "P@ssw0rd").Await());
 
     Behaves_like<LoggingBehaviors<UserRepository>> correct_logging = () => { };
-#pragma warning restore
 
     It should_throw_correct_exception_type = () =>
       exception.ShouldBeOfExactType<CreateUserException>();
@@ -402,7 +393,6 @@ namespace BellRichM.Identity.Api.Test.Repositories
       exception = Catch.Exception(() => userResult = userRepository.Create(user, "P@ssw0rd").Await());
 
     Behaves_like<LoggingBehaviors<UserRepository>> correct_logging = () => { };
-#pragma warning restore
 
     It should_return_a_user = () =>
       userResult.ShouldNotBeNull();
@@ -442,7 +432,6 @@ namespace BellRichM.Identity.Api.Test.Repositories
       exception = Catch.Exception(() => userResult = userRepository.Create(user, "P@ssw0rd").Await());
 
     Behaves_like<LoggingBehaviors<UserRepository>> correct_logging = () => { };
-#pragma warning restore
 
     It should_return_a_user = () =>
       userResult.ShouldNotBeNull();
@@ -486,7 +475,6 @@ namespace BellRichM.Identity.Api.Test.Repositories
       exception = Catch.Exception(() => userRepository.Delete(user.Id).Await());
 
     Behaves_like<LoggingBehaviors<UserRepository>> correct_logging = () => { };
-#pragma warning restore
 
     It should_not_throw_exception = () =>
       exception.ShouldBeNull();
@@ -516,7 +504,6 @@ namespace BellRichM.Identity.Api.Test.Repositories
       exception = Catch.Exception(() => userRepository.Delete(user.Id).Await());
 
     Behaves_like<LoggingBehaviors<UserRepository>> correct_logging = () => { };
-#pragma warning restore
 
     It should_throw_correct_exception_type = () =>
       exception.ShouldBeOfExactType<DeleteUserException>();
@@ -546,7 +533,6 @@ namespace BellRichM.Identity.Api.Test.Repositories
       exception = Catch.Exception(() => userRepository.Delete(user.Id).Await());
 
     Behaves_like<LoggingBehaviors<UserRepository>> correct_logging = () => { };
-#pragma warning restore
 
     It should_throw_correct_exception_type = () =>
       exception.ShouldBeOfExactType<DeleteUserException>();
