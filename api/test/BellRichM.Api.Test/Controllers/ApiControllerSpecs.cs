@@ -6,6 +6,7 @@ using Machine.Specifications;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -288,13 +289,26 @@ namespace BellRichM.Api.Test
         }
     }
 
-#pragma warning disable CA1032
     internal class TestException : BusinessException
     {
-         public TestException(string code, IEnumerable<ExceptionDetail> exceptionDetails, string message)
-         : base(code, exceptionDetails, message)
-         {
-         }
+        public TestException()
+        : base()
+        {
+        }
+
+        public TestException(string code)
+        : base(code)
+        {
+        }
+
+        public TestException(string message, Exception innerException)
+        : base(message, innerException)
+        {
+        }
+
+        public TestException(string code, IEnumerable<ExceptionDetail> exceptionDetails, string message)
+        : base(code, exceptionDetails, message)
+        {
+        }
     }
-#pragma warning restore CA1032
 }

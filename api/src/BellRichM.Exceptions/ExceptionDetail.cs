@@ -10,7 +10,6 @@ namespace BellRichM.Exceptions
     [Serializable]
     public class ExceptionDetail
     {
-#pragma warning disable CA2235
         /// <summary>
         /// Gets or sets the code.
         /// </summary>
@@ -26,7 +25,5 @@ namespace BellRichM.Exceptions
         /// The human readable error text.
         /// </value>
         public string Text { get; set; }
-
-    #pragma warning restore CA2235
     }
 }

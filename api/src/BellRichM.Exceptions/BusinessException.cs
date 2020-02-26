@@ -11,16 +11,22 @@ namespace BellRichM.Exceptions
   /// </summary>
   /// <seealso cref="System.Exception" />
   [Serializable]
-#pragma warning disable CA1032
 
   public abstract class BusinessException : Exception
   {
-    #pragma warning disable CA2235 // TODO: Investigate, seems to be a false positive
     [NonSerialized]
     private string _code;
     [NonSerialized]
     private IEnumerable<ExceptionDetail> _errorDetails;
-    #pragma warning restore CA2235
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BusinessException"/> class.
+    /// </summary>
+    [ExcludeFromCodeCoverage]
+    protected BusinessException()
+            : base()
+    {
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BusinessException"/> class.
@@ -91,6 +97,17 @@ namespace BellRichM.Exceptions
     /// <summary>
     /// Initializes a new instance of the <see cref="BusinessException"/> class.
     /// </summary>
+    /// <param name="message">The message describing the exception.</param>
+    /// <param name="innerException">The inner exception.</param>
+    [ExcludeFromCodeCoverage]
+    protected BusinessException(string message, Exception innerException)
+            : base(message, innerException)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BusinessException"/> class.
+    /// </summary>
     /// <param name="code">The code that provides additional detail.</param>
     /// <param name="errorDetails">Additional details about the exception.</param>
     /// <param name="message">The message describing the exception.</param>
@@ -156,5 +173,4 @@ namespace BellRichM.Exceptions
       info.AddValue("ErrorDetails", ErrorDetails);
     }
   }
-#pragma warning restore CA1032
 }
