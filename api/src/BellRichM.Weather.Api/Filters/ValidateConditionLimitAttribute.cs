@@ -15,12 +15,12 @@ namespace BellRichM.Weather.Api.Filters
       /// Initializes a new instance of the <see cref="ValidateConditionLimitAttribute"/> class.
       /// </summary>
       public ValidateConditionLimitAttribute()
-        : base(typeof(ValidateConditionLimitAttributeImplementation))
+        : base(typeof(ImplementValidateConditionLimitAttribute))
       {
       }
 
-#pragma warning disable S1144, S3376
-      private class ValidateConditionLimitAttributeImplementation : ActionFilterAttribute
+      #pragma warning disable S1144 // ToDo - jnvetigate, accessed via reflection
+      private class ImplementValidateConditionLimitAttribute : ActionFilterAttribute
       {
           private readonly string limitMissingMessage = "The query paramenter limit is required.";
           private readonly string limitMinMessage = "The limit query paramenter must be greater than 0.";
@@ -33,10 +33,10 @@ namespace BellRichM.Weather.Api.Filters
           private readonly IConditionRepositoryConfiguration _conditonRepositoryConfiguration;
 
           /// <summary>
-          /// Initializes a new instance of the <see cref="ValidateConditionLimitAttributeImplementation"/> class.
+          /// Initializes a new instance of the <see cref="ImplementValidateConditionLimitAttribute"/> class.
           /// </summary>
           /// <param name="conditionRepositoryConfiguration">The <see cref="IConditionRepositoryConfiguration"/>.</param>
-          public ValidateConditionLimitAttributeImplementation(IConditionRepositoryConfiguration conditionRepositoryConfiguration)
+          public ImplementValidateConditionLimitAttribute(IConditionRepositoryConfiguration conditionRepositoryConfiguration)
           {
             _conditonRepositoryConfiguration = conditionRepositoryConfiguration;
           }
@@ -68,6 +68,6 @@ namespace BellRichM.Weather.Api.Filters
             await base.OnActionExecutionAsync(context, next).ConfigureAwait(true);
           }
       }
-#pragma warning restore S1144, S3376
+      #pragma warning restore S1144
     }
 }

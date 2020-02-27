@@ -12,7 +12,6 @@ using Newtonsoft.Json;
 using Serilog;
 using Serilog.Filters;
 
-#pragma warning disable CA1812 // Seems to be a false positive
 namespace InitUsers
 {
     class Program
@@ -73,5 +72,4 @@ namespace InitUsers
             public User User { get; set; }
         }
     }
-#pragma warning restore CA1812
 }

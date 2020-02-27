@@ -1,4 +1,4 @@
-#pragma warning disable CA1707
+#pragma warning disable CA1707 // Need/want to separate event group from specific event.
 namespace BellRichM.Logging
 {
     /// <summary>

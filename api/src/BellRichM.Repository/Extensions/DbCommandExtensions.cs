@@ -3,7 +3,6 @@ namespace System.Data.Common
     /// <summary>
     /// DbCommand extensions.
     /// </summary>
-    #pragma warning disable CA1062
     public static class DbCommandExtensions
     {
         /// <summary>
@@ -44,5 +43,4 @@ namespace System.Data.Common
             return rdr[columnName] == System.DBNull.Value ? null : rdr[columnName] as string;
         }
     }
-    #pragma warning restore CA1062
 }

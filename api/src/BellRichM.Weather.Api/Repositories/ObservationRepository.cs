@@ -283,7 +283,7 @@ DELETE FROM condition
             using (dbConnection)
             {
                 var dbCommand = dbConnection.CreateCommand();
-                #pragma warning disable CA2100
+                #pragma warning disable CA2100 // Trusting that calling procedures are correct...
                 dbCommand.CommandText = statement;
                 #pragma warning disable CA2100
                 using (dbCommand)

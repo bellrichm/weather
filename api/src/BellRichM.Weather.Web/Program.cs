@@ -39,7 +39,7 @@ namespace BellRichM.Weather.Web
                 BuildWebHost(args, logManager, configuration).Run();
                 return 0;
             }
-            #pragma warning disable CA1031
+            #pragma warning disable CA1031 // ToDo - investigate
             catch (Exception ex)
             #pragma warning restore CA1031
             {

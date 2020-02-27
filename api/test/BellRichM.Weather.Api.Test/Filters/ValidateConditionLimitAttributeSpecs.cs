@@ -67,7 +67,7 @@ namespace BellRichM.Weather.Api.Test.Filters
 
             validateConditionLimitAttribute = new ValidateConditionLimitAttributeSpecs();
             var validateConditionLimitAttributeType = typeof(ValidateConditionLimitAttribute);
-            var validateConditionLimitAttributeImplementationType = validateConditionLimitAttributeType.GetNestedType("ValidateConditionLimitAttributeImplementation", BindingFlags.NonPublic);
+            var validateConditionLimitAttributeImplementationType = validateConditionLimitAttributeType.GetNestedType("ImplementValidateConditionLimitAttribute", BindingFlags.NonPublic);
 
             validateConditionLimitAttributeImplementationTypeInstance = Activator.CreateInstance(validateConditionLimitAttributeImplementationType, config);
             methodInfo = validateConditionLimitAttributeImplementationType.GetMethod("OnActionExecutionAsync");

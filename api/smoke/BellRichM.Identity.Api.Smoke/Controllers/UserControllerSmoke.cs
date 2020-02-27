@@ -52,7 +52,7 @@ namespace BellRichM.Identity.Api.Smoke
       var userLogin = new UserLoginModel
       {
         UserName = "InvalidUser",
-        #pragma warning disable S2068
+        #pragma warning disable S2068 // This is test data
         Password = "InvalidPassword"
         #pragma warning restore S2068
       };
