@@ -8,12 +8,32 @@
   image: Previous Visual Studio 2019
 
   environment:
+    # These are sensitive values
     COVERALLS_REPO_TOKEN: ${COVERALLS_REPO_TOKEN}
     SONARQUBE_REPO_TOKEN: ${SONARQUBE_REPO_TOKEN}
     AZURE_PW: ${AZURE_PW}
+    APPVEYOR_TOKEN: ${APPVEYOR_TOKEN:}
+    # These vary by project
     ARTIFACT_NAME: ${ARTIFACT_NAME}
     BRANCH_NAME: ${BRANCH_NAME}
-    DEPLOY: ${DEPLOY}
+    # Might want to change these in UI
+    RESTORE_API: YES
+    RESTORE_APP: YES
+    BUILD_API: YES
+    BUILD_APP: YES
+    UNIT_TEST_API: YES
+    UNIT_TEST_APP: YES
+    INTEGRATION_TEST_API: YES
+    INTEGRATION_TEST_APP: Unused
+    BUILD_ARTIFACT: YES
+    UPLOAD_COVERALLS_API: YES
+    UPLOAD_COVERALLS_APP: YES
+    UPLOAD_SONARQUBE_API: YES
+    UPLOAD_SONARQUBE_APP: YES
+    # These are set to YES in the UI for the master branch
+    UPLOAD_ARTIFACT: NO
+    DEPLOY: NO
+    SMOKE_TEST: NO
 
   # cannot be a script, because this is before the pull of the code
   # just trying to short circuit a build if not for expected branch
@@ -88,3 +108,20 @@
 
   after_deploy:
     - ps: appveyor/after_deploy_smoke.ps1
+
+  notifications:
+  - provider: Email
+    to:
+    - bellrichm@gmail.com
+    subject: '{{projectName}} build status is {{status}}'
+    message: >-
+      See:<br>
+      {{buildUrl}}<br>
+      https://github.com/bellrichm/weather/tree/{{branch}}<br>
+      https://sonarcloud.io/dashboard?branch={{branch}}&id=weather<br>
+      https://coveralls.io/github/bellrichm/weather?branch={{branch}}<br>
+      <br>
+      http://bellrichm-weather.azurewebsites.net<br>
+    on_build_success: true
+    on_build_failure: true
+    on_build_status_changed: false
