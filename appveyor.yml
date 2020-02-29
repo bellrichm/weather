@@ -34,11 +34,9 @@
     #UPLOAD_ARTIFACT: NO
     #DEPLOY: NO
     #SMOKE_TEST: NO
-
-  init:
-    - ps: appveyor/init.ps1
   
   install:
+    - ps: appveyor/init.ps1
     - ps: appveyor/install_api.ps1
     - ps: appveyor/install_app.ps1    
 
