@@ -14,8 +14,8 @@
     AZURE_PW: ${AZURE_PW}
     APPVEYOR_TOKEN: ${APPVEYOR_TOKEN:}
     # These vary by project
-    ARTIFACT_NAME: ${ARTIFACT_NAME}
-    BRANCH_NAME: ${BRANCH_NAME}
+    #ARTIFACT_NAME: ${ARTIFACT_NAME}
+    #BRANCH_NAME: ${BRANCH_NAME}
     # Might want to change these in UI
     RESTORE_API: YES
     RESTORE_APP: YES
@@ -31,9 +31,9 @@
     UPLOAD_SONARQUBE_API: YES
     UPLOAD_SONARQUBE_APP: YES
     # These are set to YES in the UI for the master branch
-    UPLOAD_ARTIFACT: NO
-    DEPLOY: NO
-    SMOKE_TEST: NO
+    #UPLOAD_ARTIFACT: NO
+    #DEPLOY: NO
+    #SMOKE_TEST: NO
 
   # cannot be a script, because this is before the pull of the code
   # just trying to short circuit a build if not for expected branch
@@ -51,13 +51,18 @@
 
         # If ($env:APPVEYOR_REPO_BRANCH -ne $env:BRANCH_NAME)
         #{
+          $env:BRANCH_NAME = 'master';
+          $env:ARTIFACT_NAME = 'weather';
+          $env:UPLOAD_ARTIFACT = 'YES';
+          $env:DEPLOY = 'YES';
+          $env:SMOKE_TEST = 'YES';
           if ($env:APPVEYOR_REPO_BRANCH -ne 'master')
           {
-            $env:BRANCH_NAME = 'development'
-            $env:ARTIFACT_NAME = 'weather-branch'
-            $env:UPLOAD_ARTIFACT = 'NO'
-            $env:DEPLOY = 'NO'
-            $env:SMOKE_TEST = 'NO'
+            $env:BRANCH_NAME = 'development';
+            $env:ARTIFACT_NAME = 'weather-branch';
+            $env:UPLOAD_ARTIFACT = 'NO';
+            $env:DEPLOY = 'NO';
+            $env:SMOKE_TEST = 'NO';
             # if 'development' build project, set build version to a guid
             $guid =  New-Guid;
             Update-AppveyorBuild -Version "$guid";
