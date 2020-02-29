@@ -35,59 +35,10 @@
     #DEPLOY: NO
     #SMOKE_TEST: NO
 
-  # cannot be a script, because this is before the pull of the code
-  # just trying to short circuit a build if not for expected branch
-  # Blank lines are important! (and/or semicolons)
   init:
-    - ps: >-
-        Write-Host "******************************** Init ********************************";
-        Write-Host "BRANCH_NAME:                    $env:BRANCH_NAME";
-        Write-Host "APPVEYOR_REPO_BRANCH:           $env:APPVEYOR_REPO_BRANCH";
-        Write-Host "APPVEYOR_BUILD_NUMBER:          $env:APPVEYOR_BUILD_NUMBER";
-        Write-Host "APPVEYOR_URL:                   $env:APPVEYOR_URL";
-        Write-Host "APPVEYOR_API_URL:               $env:APPVEYOR_API_URL";
-        Write-Host "APPVEYOR_ACCOUNT_NAME:          $env:APPVEYOR_ACCOUNT_NAME";
-        Write-Host "APPVEYOR_APPVEYOR_PROJECT_SLUG: $env:APPVEYOR_APPVEYOR_PROJECT_SLUG";
-
-        # If ($env:APPVEYOR_REPO_BRANCH -ne $env:BRANCH_NAME) 
-        #{
-          $env:BRANCH_NAME = 'master';
-          $env:ARTIFACT_NAME = 'weather';
-          $env:UPLOAD_ARTIFACT = 'YES';
-          $env:DEPLOY = 'YES';
-          $env:SMOKE_TEST = 'YES';
-          if ($env:APPVEYOR_REPO_BRANCH -ne 'master')
-          {
-            $env:BRANCH_NAME = 'development';
-            $env:ARTIFACT_NAME = 'weather-branch';
-            $env:UPLOAD_ARTIFACT = 'NO';
-            $env:DEPLOY = 'NO';
-            $env:SMOKE_TEST = 'NO';
-            # if 'development' build project, set build version to a guid
-            $guid =  New-Guid;
-            Update-AppveyorBuild -Version "$guid";
-            
-            # then reset build number
-            $headers = @{
-              "Authorization" = "Bearer $env:APPVEYOR_TOKEN";
-              "Content-type" = "application/json";
-              "Accept" = "application/json";
-            }
-            
-            $build = @{
-              nextBuildNumber = $env:APPVEYOR_BUILD_NUMBER
-            }
-            
-            $json = $build | ConvertTo-Json;
-            Invoke-RestMethod -Method Put "$env:APPVEYOR_URL/api/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/settings/build-number" -Body $json -Headers $headers
-          }
-
-          #$env:APPVEYOR_SKIP_FINALIZE_ON_EXIT = true;
-          #Exit-AppVeyorBuild;          
-        #}
-
-  install:
     - ps: appveyor/init.ps1
+  
+  install:
     - ps: appveyor/install_api.ps1
     - ps: appveyor/install_app.ps1    
 
