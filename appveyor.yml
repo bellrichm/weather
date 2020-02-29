@@ -49,11 +49,16 @@
         Write-Host "APPVEYOR_ACCOUNT_NAME:          $env:APPVEYOR_ACCOUNT_NAME";
         Write-Host "APPVEYOR_APPVEYOR_PROJECT_SLUG: $env:APPVEYOR_APPVEYOR_PROJECT_SLUG";
 
-        If ($env:APPVEYOR_REPO_BRANCH -ne $env:BRANCH_NAME)
+        # If ($env:APPVEYOR_REPO_BRANCH -ne $env:BRANCH_NAME)
         {
-          if ($env:BRANCH_NAME -eq 'master')
+          if ($env:APPVEYOR_REPO_BRANCH -ne 'master')
           {
-            # if 'master' build project, set build version to a guid
+            $env:BRANCH_NAME = 'development'
+            $env:ARTIFACT_NAME = 'weather-branch'
+            $env:UPLOAD_ARTIFACT = NO
+            $env:DEPLOY = NO
+            $env:SMOKE_TEST = NO
+            # if 'development' build project, set build version to a guid
             $guid =  New-Guid;
             Update-AppveyorBuild -Version "$guid";
             
@@ -72,8 +77,8 @@
             Invoke-RestMethod -Method Put "$env:APPVEYOR_URL/api/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/settings/build-number" -Body $json -Headers $headers
           }
 
-          $env:APPVEYOR_SKIP_FINALIZE_ON_EXIT = true;
-          Exit-AppVeyorBuild;          
+          #$env:APPVEYOR_SKIP_FINALIZE_ON_EXIT = true;
+          #Exit-AppVeyorBuild;          
         }
 
   install:
