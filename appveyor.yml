@@ -55,9 +55,9 @@
           {
             $env:BRANCH_NAME = 'development'
             $env:ARTIFACT_NAME = 'weather-branch'
-            $env:UPLOAD_ARTIFACT = NO
-            $env:DEPLOY = NO
-            $env:SMOKE_TEST = NO
+            $env:UPLOAD_ARTIFACT = 'NO'
+            $env:DEPLOY = 'NO'
+            $env:SMOKE_TEST = 'NO'
             # if 'development' build project, set build version to a guid
             $guid =  New-Guid;
             Update-AppveyorBuild -Version "$guid";
