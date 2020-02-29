@@ -49,7 +49,7 @@
         Write-Host "APPVEYOR_ACCOUNT_NAME:          $env:APPVEYOR_ACCOUNT_NAME";
         Write-Host "APPVEYOR_APPVEYOR_PROJECT_SLUG: $env:APPVEYOR_APPVEYOR_PROJECT_SLUG";
 
-        # If ($env:APPVEYOR_REPO_BRANCH -ne $env:BRANCH_NAME)
+        # If ($env:APPVEYOR_REPO_BRANCH -ne $env:BRANCH_NAME) 
         #{
           $env:BRANCH_NAME = 'master';
           $env:ARTIFACT_NAME = 'weather';
