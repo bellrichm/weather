@@ -72,8 +72,7 @@
   notifications:
   - provider: Email
     to:
-    - secure:
-      BNDeGydKR3T8SrW2+bO1BsiA/ZnXpoEOy5ar8sWP/uI=
+    - secure: BNDeGydKR3T8SrW2+bO1BsiA/ZnXpoEOy5ar8sWP/uI=
     subject: '{{projectName}} build status is {{status}}'
     message: >-
       See:<br>
