@@ -72,7 +72,7 @@
   notifications:
   - provider: Email
     to:
-    - {{commitAuthorEmail}}
+    - '{{commitAuthorEmail}}'
     subject: '{{projectName}} build status is {{status}}'
     message: >-
       See:<br>
