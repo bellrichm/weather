@@ -14,8 +14,9 @@ if ($env:APPVEYOR_REPO_BRANCH -ne 'master')
   $env:SMOKE_TEST = 'NO';
         
   # if 'development' build project, set build version to a guid
-  $guid =  New-Guid;
-  Update-AppveyorBuild -Version "$guid";
+  $buildnum =  New-Guid;
+  $buildnum = [int64](([datetime]::UtcNow)-(get-date "1/1/1970")).TotalSeconds
+  Update-AppveyorBuild -Version "$buildnum";
   
   # then reset build number
   $headers = @{
