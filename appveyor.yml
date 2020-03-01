@@ -9,14 +9,15 @@
 
   environment:
     # These are sensitive values
-    COVERALLS_REPO_TOKEN: ${COVERALLS_REPO_TOKEN}
-    SONARQUBE_REPO_TOKEN: ${SONARQUBE_REPO_TOKEN}
-    AZURE_PW: ${AZURE_PW}
-    APPVEYOR_TOKEN: ${APPVEYOR_TOKEN:}
-    # These vary by project
-    #ARTIFACT_NAME: ${ARTIFACT_NAME}
-    #BRANCH_NAME: ${BRANCH_NAME}
-    # Might want to change these in UI
+    COVERALLS_REPO_TOKEN:
+      secure: QxBrjZqijzG55XrPdRqGxPakw59SE8pOHazTGqL1PmMJaBIcUdNNo9LLK9x2HpQ9
+    SONARQUBE_REPO_TOKEN:
+      secure: utN0nHE2a123QVNOyKsU1r61KB5++x5XpjzEFB+5q2iB+7gOQxWHLZtfKtYsj2h8
+    AZURE_PW:
+      secure: yAoqN/1JcbJv27+yx7FFJrVGPS7ZLmv1S2/qLwi02b9js9KjqoH28M+Gk7lDAHGfsI9tNZLHL8+XHaPYGZ/ydg==
+    APPVEYOR_TOKEN:
+      secure: bxNIk9vGzx4u8owB2t2Vf8UNOBPZ3R2FJSliuOZ+L0I=
+    # Might want to change these in UI.
     RESTORE_API: YES
     RESTORE_APP: YES
     BUILD_API: YES
@@ -30,10 +31,10 @@
     UPLOAD_COVERALLS_APP: YES
     UPLOAD_SONARQUBE_API: YES
     UPLOAD_SONARQUBE_APP: YES
-    # These are set to YES in the UI for the master branch
-    #UPLOAD_ARTIFACT: NO
-    #DEPLOY: NO
-    #SMOKE_TEST: NO
+    # Based pn the branch, these are set in init.ps1. Might want to override in the UI. 
+    UPLOAD_ARTIFACT: 
+    DEPLOY: 
+    SMOKE_TEST: 
   
   install:
     - ps: appveyor/init.ps1
