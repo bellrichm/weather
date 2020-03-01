@@ -1,8 +1,6 @@
 using BellRichM.Identity.Api.Smoke.Models;
-using FluentAssertions;
 using Machine.Specifications;
 using Newtonsoft.Json;
-using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -54,7 +52,7 @@ namespace BellRichM.Identity.Api.Smoke
       var userLogin = new UserLoginModel
       {
         UserName = "InvalidUser",
-        #pragma warning disable S2068
+        #pragma warning disable S2068 // This is test data
         Password = "InvalidPassword"
         #pragma warning restore S2068
       };

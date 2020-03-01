@@ -8,21 +8,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Routing;
 using Moq;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 
-using IT = Moq.It;
 using It = Machine.Specifications.It;
 
 namespace BellRichM.Weather.Api.Test.Filters
@@ -73,7 +67,7 @@ namespace BellRichM.Weather.Api.Test.Filters
 
             validateConditionLimitAttribute = new ValidateConditionLimitAttributeSpecs();
             var validateConditionLimitAttributeType = typeof(ValidateConditionLimitAttribute);
-            var validateConditionLimitAttributeImplementationType = validateConditionLimitAttributeType.GetNestedType("ValidateConditionLimitAttributeImplementation", BindingFlags.NonPublic);
+            var validateConditionLimitAttributeImplementationType = validateConditionLimitAttributeType.GetNestedType("ImplementValidateConditionLimitAttribute", BindingFlags.NonPublic);
 
             validateConditionLimitAttributeImplementationTypeInstance = Activator.CreateInstance(validateConditionLimitAttributeImplementationType, config);
             methodInfo = validateConditionLimitAttributeImplementationType.GetMethod("OnActionExecutionAsync");
@@ -103,9 +97,7 @@ namespace BellRichM.Weather.Api.Test.Filters
         Because of = () =>
             methodInfo.Invoke(validateConditionLimitAttributeImplementationTypeInstance, parametersArray);
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ValidateConditionLimitAttributeSpecs>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ValidateConditionLimitAttributeSpecs>> correct_logging = () => { };
 
         It should_have_one_ModelStateDictionary_entry = () =>
             actionExecutingContext.ModelState.Count.Should().Equals(0);
@@ -132,9 +124,7 @@ namespace BellRichM.Weather.Api.Test.Filters
         Because of = () =>
             methodInfo.Invoke(validateConditionLimitAttributeImplementationTypeInstance, parametersArray);
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ValidateConditionLimitAttributeSpecs>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ValidateConditionLimitAttributeSpecs>> correct_logging = () => { };
 
         It should_have_one_ModelStateDictionary_entry = () =>
             actionExecutingContext.ModelState.Count.Should().Equals(1);
@@ -180,9 +170,7 @@ namespace BellRichM.Weather.Api.Test.Filters
         Because of = () =>
             methodInfo.Invoke(validateConditionLimitAttributeImplementationTypeInstance, parametersArray);
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ValidateConditionLimitAttributeSpecs>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ValidateConditionLimitAttributeSpecs>> correct_logging = () => { };
 
         It should_have_one_ModelStateDictionary_entry = () =>
             actionExecutingContext.ModelState.Count.Should().Equals(1);
@@ -228,9 +216,7 @@ namespace BellRichM.Weather.Api.Test.Filters
         Because of = () =>
             methodInfo.Invoke(validateConditionLimitAttributeImplementationTypeInstance, parametersArray);
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ValidateConditionLimitAttributeSpecs>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ValidateConditionLimitAttributeSpecs>> correct_logging = () => { };
 
         It should_have_one_ModelStateDictionary_entry = () =>
             actionExecutingContext.ModelState.Count.Should().Equals(1);

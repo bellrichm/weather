@@ -101,7 +101,7 @@ namespace BellRichM.Api.Middleware
 
           await httpContext.Response.WriteAsync(jsonResponse).ConfigureAwait(false);
       }
-      #pragma warning disable CA1031
+      #pragma warning disable CA1031 // ToDo - investigate
       catch (Exception ex)
       #pragma warning restore CA1031
       {

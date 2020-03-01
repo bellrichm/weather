@@ -12,7 +12,6 @@ using Machine.Specifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Moq;
 using System.Collections.Generic;
 using System.Reflection;
@@ -106,9 +105,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
         Because of = () =>
             result = (ObjectResult)roleController.GetById(RoleId).Await();
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<RoleController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<RoleController>> correct_logging = () => { };
 
         It should_return_success_status_code = () =>
             result.StatusCode.ShouldEqual(200);
@@ -147,9 +144,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
         Because of = () =>
             result = (NotFoundResult)roleController.GetById(RoleIdNotFound).Await();
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<RoleController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<RoleController>> correct_logging = () => { };
 
         It should_return_not_found_status_code = () =>
             result.StatusCode.ShouldEqual(404);
@@ -187,9 +182,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
             roleController.ModelState.AddModelError(ErrorCode, ErrorMessage);
         };
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<RoleController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<RoleController>> correct_logging = () => { };
 
         Cleanup after = () =>
             roleController.ModelState.Clear();
@@ -232,9 +225,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
         Because of = () =>
             result = (ObjectResult)roleController.Create(null).Await();
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<RoleController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<RoleController>> correct_logging = () => { };
 
         It should_return_correct_result_type = () =>
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -267,9 +258,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
         Because of = () =>
             result = (ObjectResult)roleController.Create(roleModel).Await();
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<RoleController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<RoleController>> correct_logging = () => { };
 
         It should_return_success_status_code = () =>
             result.StatusCode.ShouldEqual(200);
@@ -326,9 +315,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
         Because of = () =>
             result = (ObjectResult)roleController.Delete(RoleIdNotFound).Await();
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<RoleController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<RoleController>> correct_logging = () => { };
 
         It should_return_correct_result_type = () =>
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -361,9 +348,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
         Because of = () =>
             result = (NoContentResult)roleController.Delete(RoleId).Await();
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<RoleController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<RoleController>> correct_logging = () => { };
 
         It should_return_no_content_code = () =>
             result.StatusCode.ShouldEqual(204);

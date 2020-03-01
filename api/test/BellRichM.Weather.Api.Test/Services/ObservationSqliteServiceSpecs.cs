@@ -6,16 +6,9 @@ using BellRichM.Weather.Api.Services;
 using FluentAssertions;
 using Machine.Specifications;
 using Moq;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.IO;
-using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 
-using IT = Moq.It;
 using It = Machine.Specifications.It;
 
 namespace BellRichM.Weather.Api.Test
@@ -100,9 +93,7 @@ namespace BellRichM.Weather.Api.Test
         Because of = () =>
             retrievedObservation = observationSqliteService.GetObservation(observation.DateTime).Result;
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ObservationSqliteService>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ObservationSqliteService>> correct_logging = () => { };
 
         It should_return_the_Observation = () =>
             retrievedObservation.Should().BeEquivalentTo(observation);
@@ -115,9 +106,7 @@ namespace BellRichM.Weather.Api.Test
         Because of = () =>
             retrievedObservation = observationSqliteService.GetObservation(notFoundObservation.DateTime).Result;
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ObservationSqliteService>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ObservationSqliteService>> correct_logging = () => { };
 
         It should_return_the_Observation = () =>
             retrievedObservation.Should().BeNull();
@@ -130,9 +119,7 @@ namespace BellRichM.Weather.Api.Test
         Because of = () =>
             createdObservation = observationSqliteService.CreateObservation(observation).Result;
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ObservationSqliteService>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ObservationSqliteService>> correct_logging = () => { };
 
         It should_return_the_Observation = () =>
             createdObservation.Should().BeEquivalentTo(observation);
@@ -145,9 +132,7 @@ namespace BellRichM.Weather.Api.Test
         Because of = () =>
             createdObservation = observationSqliteService.CreateObservation(notFoundObservation).Result;
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ObservationSqliteService>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ObservationSqliteService>> correct_logging = () => { };
 
         It should_return_the_Observation = () =>
             createdObservation.Should().BeNull();
@@ -160,9 +145,7 @@ namespace BellRichM.Weather.Api.Test
         Because of = () =>
             updatedObservation = observationSqliteService.UpdateObservation(observation).Result;
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ObservationSqliteService>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ObservationSqliteService>> correct_logging = () => { };
 
         It should_return_the_Observation = () =>
             updatedObservation.Should().BeEquivalentTo(observation);
@@ -175,9 +158,7 @@ namespace BellRichM.Weather.Api.Test
         Because of = () =>
             updatedObservation = observationSqliteService.UpdateObservation(notFoundObservation).Result;
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ObservationSqliteService>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ObservationSqliteService>> correct_logging = () => { };
 
         It should_return_the_Observation = () =>
             updatedObservation.Should().BeNull();
@@ -190,9 +171,7 @@ namespace BellRichM.Weather.Api.Test
         Because of = () =>
             count = observationSqliteService.DeleteObservation(observation.DateTime).Result;
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ObservationSqliteService>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ObservationSqliteService>> correct_logging = () => { };
 
         It should_return_the_Observation = () =>
             count.Should().Equals(1);
@@ -205,9 +184,7 @@ namespace BellRichM.Weather.Api.Test
         Because of = () =>
             count = observationSqliteService.DeleteObservation(notFoundObservation.DateTime).Result;
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ObservationSqliteService>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ObservationSqliteService>> correct_logging = () => { };
 
         It should_return_the_Observation = () =>
             count.Should().Equals(0);

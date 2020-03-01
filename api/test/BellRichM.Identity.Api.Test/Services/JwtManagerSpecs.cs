@@ -120,9 +120,7 @@ namespace BellRichM.Identity.Api.Test.Services
     Because of = () =>
       jwt = jwtManager.GenerateToken(user.UserName, Password).Await();
 
-#pragma warning disable 169
-    Behaves_like<LoggingBehaviors<JwtManager>> correct_logging;
-#pragma warning restore 169
+    Behaves_like<LoggingBehaviors<JwtManager>> correct_logging = () => { };
 
     It should_return_null_token = () =>
       jwt.ShouldBeNull();
@@ -146,9 +144,7 @@ namespace BellRichM.Identity.Api.Test.Services
     Because of = () =>
       jwt = jwtManager.GenerateToken(user.UserName, Password).Await();
 
-#pragma warning disable 169
-    Behaves_like<LoggingBehaviors<JwtManager>> correct_logging;
-#pragma warning restore 169
+    Behaves_like<LoggingBehaviors<JwtManager>> correct_logging = () => { };
 
     It should_return_null_token = () =>
       jwt.ShouldBeNull();
@@ -177,9 +173,7 @@ namespace BellRichM.Identity.Api.Test.Services
         jwtSecurityToken = (JwtSecurityToken)securityToken;
     };
 
-#pragma warning disable 169
-    Behaves_like<LoggingBehaviors<JwtManager>> correct_logging;
-#pragma warning restore 169
+    Behaves_like<LoggingBehaviors<JwtManager>> correct_logging = () => { };
 
     It should_log_correct_information_messages = () =>
         loggerMock.Verify(x => x.LogDiagnosticInformation(IT.IsAny<string>(), IT.IsAny<JwtSecurityToken>()), Times.Once);

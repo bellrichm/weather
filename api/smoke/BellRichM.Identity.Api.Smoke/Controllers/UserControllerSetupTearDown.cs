@@ -1,44 +1,63 @@
-using FluentAssertions;
 using Machine.Specifications;
 using System;
 using System.Net.Http;
 
 namespace BellRichM.Identity.Api.Smoke.Controllers
 {
-    #pragma warning disable CA1001
-    public class UserControllerSetupTearDown : IAssemblyContext
+    public class UserControllerSetupTearDown : IAssemblyContext, IDisposable
     {
-    private HttpClientHandler _spHandler;
+        private HttpClientHandler _spHandler;
+        private bool disposed = false;
 
-    public void OnAssemblyStart()
-    {
-        var baseURL = Environment.GetEnvironmentVariable("SMOKE_BASEURL");
-        if (baseURL != null)
+        public void OnAssemblyStart()
         {
-            _spHandler = new HttpClientHandler()
+            var baseURL = Environment.GetEnvironmentVariable("SMOKE_BASEURL");
+            if (baseURL != null)
             {
-                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) =>
+                _spHandler = new HttpClientHandler()
                 {
-                    return true;
-                }
-            };
-            UserControllerSmoke.Client = new HttpClient(_spHandler);
+                    ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) =>
+                    {
+                        return true;
+                    }
+                };
+                UserControllerSmoke.Client = new HttpClient(_spHandler);
+            }
+            else
+            {
+                baseURL = "http://bellrichm-weather.azurewebsites.net";
+                UserControllerSmoke.Client = new HttpClient();
+            }
+
+            UserControllerSmoke.Client.BaseAddress = new Uri(baseURL);
         }
-        else
+
+        public void OnAssemblyComplete()
         {
-            baseURL = "http://bellrichm-weather.azurewebsites.net";
-            UserControllerSmoke.Client = new HttpClient();
+            UserControllerSmoke.Client.Dispose();
         }
 
-        #pragma warning disable S1075
-        UserControllerSmoke.Client.BaseAddress = new Uri(baseURL);
-        #pragma warning disable S1075
-    }
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-    public void OnAssemblyComplete()
-    {
-        UserControllerSmoke.Client.Dispose();
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+         {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    _spHandler.Dispose();
+                }
+
+                disposed = true;
+            }
+         }
     }
-    }
-    #pragma warning restore CA1001
 }

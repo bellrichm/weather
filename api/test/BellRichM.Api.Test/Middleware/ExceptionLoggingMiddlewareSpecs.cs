@@ -1,21 +1,16 @@
-using BellRichM.Api.Middleware;
 using BellRichM.Api.Models;
 using BellRichM.Helpers.Test;
 using BellRichM.Logging;
-using FluentAssertions;
 using Machine.Specifications;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-using IT = Moq.It;
 using It = Machine.Specifications.It;
 
 namespace BellRichM.Api.Middleware.Test
@@ -82,9 +77,7 @@ namespace BellRichM.Api.Middleware.Test
         Because of = () =>
           exceptionLoggingMiddleware.Invoke(httpContext).Await();
 
- #pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ExceptionLoggingMiddleware>> correct_logging;
- #pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ExceptionLoggingMiddleware>> correct_logging = () => { };
 
         It should_add_identifer_header = () =>
             httpContext.Response.Headers["X-Request-Id"].ToString().ShouldEqual(httpContext.TraceIdentifier);
@@ -132,9 +125,7 @@ namespace BellRichM.Api.Middleware.Test
         Because of = () =>
           exceptionLoggingMiddleware.Invoke(httpContext).Await();
 
- #pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ExceptionLoggingMiddleware>> correct_logging;
- #pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ExceptionLoggingMiddleware>> correct_logging = () => { };
 
         It should_add_identifer_header = () =>
             httpContext.Response.Headers["X-Request-Id"].ToString().ShouldEqual(httpContext.TraceIdentifier);
@@ -182,9 +173,7 @@ namespace BellRichM.Api.Middleware.Test
         Because of = () =>
           exceptionLoggingMiddleware.Invoke(httpContext).Await();
 
- #pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ExceptionLoggingMiddleware>> correct_logging;
- #pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ExceptionLoggingMiddleware>> correct_logging = () => { };
 
         It should_add_identifer_header = () =>
             httpContext.Response.Headers["X-Request-Id"].ToString().ShouldEqual(httpContext.TraceIdentifier);

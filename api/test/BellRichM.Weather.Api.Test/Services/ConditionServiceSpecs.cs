@@ -2,20 +2,13 @@ using BellRichM.Helpers.Test;
 using BellRichM.Logging;
 using BellRichM.Weather.Api.Data;
 using BellRichM.Weather.Api.Repositories;
-using BellRichM.Weather.Api.Services;
 using FluentAssertions;
 using Machine.Specifications;
 using Moq;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 
-using IT = Moq.It;
 using It = Machine.Specifications.It;
 
 namespace BellRichM.Weather.Api.Services.Test
@@ -97,9 +90,7 @@ namespace BellRichM.Weather.Api.Services.Test
             conditionPage = conditionService.GetYearWeatherPage(Offset, Limit).Result;
         };
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ConditionService>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ConditionService>> correct_logging = () => { };
 
         It should_have_correct_total_count = () =>
         {

@@ -1,13 +1,8 @@
-using BellRichM.Configuration;
-using FluentAssertions;
 using Machine.Specifications;
 using Microsoft.Extensions.Configuration;
-using Moq;
-using System;
 using System.IO;
 using System.Linq;
 
-using IT = Moq.It;
 using It = Machine.Specifications.It;
 
 namespace BellRichM.ConfigurationIdentity.Test
@@ -99,9 +94,7 @@ namespace BellRichM.ConfigurationIdentity.Test
       Setup();
     };
 
-#pragma warning disable 169
-    Behaves_like<ConfigurationIdentityBehaviors> a_production_configuration;
-#pragma warning restore 169
+    Behaves_like<ConfigurationIdentityBehaviors> a_production_configuration = () => { };
   }
 
   public class When_getting_a_development_configuration : ConfigurationIdentitySpecs
@@ -114,8 +107,6 @@ namespace BellRichM.ConfigurationIdentity.Test
       Setup();
     };
 
-#pragma warning disable 169
-    Behaves_like<ConfigurationIdentityBehaviors> a_development_configuration;
-#pragma warning restore 169
+    Behaves_like<ConfigurationIdentityBehaviors> a_development_configuration = () => { };
   }
 }

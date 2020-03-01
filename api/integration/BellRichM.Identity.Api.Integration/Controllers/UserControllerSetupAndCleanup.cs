@@ -16,8 +16,7 @@ using Serilog;
 
 namespace BellRichM.Identity.Api.Integration.Controllers
 {
-    #pragma warning disable CA1001
-    public class UserControllerSetupAndCleanup : IAssemblyContext
+    public class UserControllerSetupAndCleanup : IAssemblyContext, IDisposable
     {
         private IServiceProvider _serviceProvider;
         private IRoleRepository _roleRepository;
@@ -27,6 +26,8 @@ namespace BellRichM.Identity.Api.Integration.Controllers
         private User _adminUser;
 
         private TestServer _server;
+
+        private bool disposed = false;
 
         public UserControllerSetupAndCleanup()
         {
@@ -83,6 +84,29 @@ namespace BellRichM.Identity.Api.Integration.Controllers
             DeleteUser(_adminUser.UserName);
             DeleteRole(_adminRole.Name);
             DeleteUser(_testUser.UserName);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+         {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    _server.Dispose();
+                }
+
+                disposed = true;
+            }
         }
 
         private void Configure()
@@ -185,5 +209,4 @@ namespace BellRichM.Identity.Api.Integration.Controllers
             return jwtManager.GenerateToken(userName, userPw).Result;
         }
     }
-    #pragma warning restore CA1001
 }

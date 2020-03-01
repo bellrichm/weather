@@ -15,7 +15,6 @@ namespace BellRichM.Identity.Api.Migrations
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
-#pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.0-rtm-26452");
 
@@ -226,7 +225,6 @@ namespace BellRichM.Identity.Api.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
-#pragma warning restore 612, 618
         }
     }
 }

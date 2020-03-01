@@ -1,13 +1,7 @@
-using BellRichM.Configuration;
-using FluentAssertions;
 using Machine.Specifications;
 using Microsoft.Extensions.Configuration;
-using Moq;
-using System;
 using System.IO;
-using System.Linq;
 
-using IT = Moq.It;
 using It = Machine.Specifications.It;
 
 namespace BellRichM.ConfigurationParamenter.Test
@@ -59,9 +53,7 @@ namespace BellRichM.ConfigurationParamenter.Test
         Setup();
     };
 
-#pragma warning disable 169
-    Behaves_like<ConfigurationParameterBehaviors> a_production_configuration;
-#pragma warning restore 169
+    Behaves_like<ConfigurationParameterBehaviors> a_production_configuration = () => { };
     }
 
     public class When_getting_a_development_configuration : ConfigurationParameterSpecs
@@ -73,8 +65,6 @@ namespace BellRichM.ConfigurationParamenter.Test
         Setup();
     };
 
-#pragma warning disable 169
-    Behaves_like<ConfigurationParameterBehaviors> a_development_configuration;
-#pragma warning restore 169
+    Behaves_like<ConfigurationParameterBehaviors> a_development_configuration = () => { };
     }
 }

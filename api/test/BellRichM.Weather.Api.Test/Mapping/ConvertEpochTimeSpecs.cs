@@ -1,5 +1,4 @@
 using BellRichM.Weather.Api.Data;
-using BellRichM.Weather.Api.Mapping;
 using BellRichM.Weather.Api.Models;
 using FluentAssertions;
 using Machine.Specifications;

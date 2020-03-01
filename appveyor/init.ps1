@@ -1,5 +1,45 @@
 ""
 "******************************** " + $MyInvocation.InvocationName + " ********************************"
+if ($env:APPVEYOR_REPO_BRANCH -ne 'master')
+{
+  $env:BRANCH_NAME = 'development';
+  $env:ARTIFACT_NAME = 'weather-branch';
+
+  # if not already set, set to defaults
+  if (-not (Test-Path env:UPLOAD_ARTIFACT)) { $env:UPLOAD_ARTIFACT = 'NO' }
+  if (-not (Test-Path env:DEPLOY)) { $env:DEPLOY = 'NO' }
+  if (-not (Test-Path env:SMOKE_TEST)) { $env:SMOKE_TEST = 'NO' }
+        
+  # if 'development' build project, set build version to a guid
+  $buildnum =  New-Guid;
+  $buildnum = [int64](([datetime]::UtcNow)-(get-date "1/1/1970")).TotalSeconds
+  Update-AppveyorBuild -Version "$buildnum";
+  
+  # then reset build number
+  $headers = @{
+    "Authorization" = "Bearer $env:APPVEYOR_TOKEN";
+    "Content-type" = "application/json";
+    "Accept" = "application/json";
+  }
+  
+  $build = @{
+    nextBuildNumber = $env:APPVEYOR_BUILD_NUMBER
+  }
+            
+  $json = $build | ConvertTo-Json;
+  Invoke-RestMethod -Method Put "$env:APPVEYOR_URL/api/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/settings/build-number" -Body $json -Headers $headers
+  }
+else
+{
+  $env:BRANCH_NAME = 'master';
+  $env:ARTIFACT_NAME = 'weather';
+  
+  # if not already set, set to defaults
+  if (-not (Test-Path env:UPLOAD_ARTIFACT)) { $env:UPLOAD_ARTIFACT = 'YES' }
+  if (-not (Test-Path env:DEPLOY)) { $env:DEPLOY = 'YES' }
+  if (-not (Test-Path env:SMOKE_TEST)) { $env:SMOKE_TEST = 'YES' }
+}
+  
 try
 {
     if ([System.Boolean](Get-CimInstance -ClassName Win32_OperatingSystem -ErrorAction Ignore))

@@ -4,7 +4,6 @@ using System.Runtime.Serialization;
 using BellRichM.Attribute.CodeCoverage;
 using BellRichM.Exceptions;
 
-#pragma warning disable CA1032
 namespace BellRichM.Identity.Api.Exceptions
 {
   /// <summary>
@@ -77,6 +76,17 @@ namespace BellRichM.Identity.Api.Exceptions
     /// <summary>
     /// Initializes a new instance of the <see cref="CreateRoleException"/> class.
     /// </summary>
+    /// <param name="message">The message describing the exception.</param>
+    /// <param name="innerException">The inner exception.</param>
+    [ExcludeFromCodeCoverage]
+    public CreateRoleException(string message, Exception innerException)
+            : base(message, innerException)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CreateRoleException"/> class.
+    /// </summary>
     /// <param name="code">The code that provides additional detail.</param>
     /// <param name="exceptionDetails">Additional details about the exception.</param>
     /// <param name="message">The message describing the exception.</param>
@@ -96,5 +106,4 @@ namespace BellRichM.Identity.Api.Exceptions
       {
       }
   }
-#pragma warning restore CA1032
 }

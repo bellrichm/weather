@@ -1,12 +1,9 @@
-using BellRichM.Identity.Api.Configuration;
 using Destructurama.Attributed;
 using FluentAssertions;
 using Machine.Specifications;
-using Moq;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-using IT = Moq.It;
 using It = Machine.Specifications.It;
 
 namespace BellRichM.Identity.Api.Configuration

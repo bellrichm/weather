@@ -17,7 +17,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
-using IT = Moq.It;
 using It = Machine.Specifications.It;
 
 namespace BellRichM.Weather.Api.Test.Controllers
@@ -181,9 +180,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
         Because of = () =>
             result = (ObjectResult)conditionsController.GetYearsConditionPage(offset, limit).Await();
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging = () => { };
 
         It should_return_success_status_code = () =>
             result.StatusCode.ShouldEqual(200);
@@ -221,9 +218,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
             conditionsController.ModelState.AddModelError(ErrorCode, ErrorMessage);
         };
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging = () => { };
 
         Cleanup after = () =>
             conditionsController.ModelState.Clear();
@@ -273,9 +268,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
         Because of = () =>
             exception = Catch.Exception(() => conditionsController.GetYearDetail(year).Await());
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging = () => { };
 
         It should_throw_expected_exception = () =>
             exception.ShouldBeOfExactType<NotImplementedException>();
@@ -302,9 +295,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
         Because of = () =>
             exception = Catch.Exception(() => conditionsController.GetMonthsConditionPage(year, offset, limit).Await());
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging = () => { };
 
         It should_throw_expected_exception = () =>
             exception.ShouldBeOfExactType<NotImplementedException>();
@@ -331,9 +322,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
         Because of = () =>
             exception = Catch.Exception(() => conditionsController.GetMonthDetail(year, month).Await());
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging = () => { };
 
         It should_throw_expected_exception = () =>
             exception.ShouldBeOfExactType<NotImplementedException>();
@@ -360,9 +349,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
         Because of = () =>
             exception = Catch.Exception(() => conditionsController.GetDaysConditionPage(year, month, offset, limit).Await());
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging = () => { };
 
         It should_throw_expected_exception = () =>
             exception.ShouldBeOfExactType<NotImplementedException>();
@@ -389,9 +376,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
         Because of = () =>
             exception = Catch.Exception(() => conditionsController.GetDayDetail(year, month, day).Await());
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging = () => { };
 
         It should_throw_expected_exception = () =>
             exception.ShouldBeOfExactType<NotImplementedException>();
@@ -418,9 +403,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
         Because of = () =>
             exception = Catch.Exception(() => conditionsController.GetHoursConditionPage(year, month, day, offset, limit).Await());
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging = () => { };
 
         It should_throw_expected_exception = () =>
             exception.ShouldBeOfExactType<NotImplementedException>();
@@ -447,9 +430,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
         Because of = () =>
             exception = Catch.Exception(() => conditionsController.GetHourDetail(year, month, day, hour).Await());
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging = () => { };
 
         It should_throw_expected_exception = () =>
             exception.ShouldBeOfExactType<NotImplementedException>();
@@ -476,9 +457,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
         Because of = () =>
             exception = Catch.Exception(() => conditionsController.GetYearsMonthConditionPage(month, offset, limit).Await());
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging = () => { };
 
         It should_throw_expected_exception = () =>
             exception.ShouldBeOfExactType<NotImplementedException>();
@@ -505,9 +484,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
         Because of = () =>
             exception = Catch.Exception(() => conditionsController.GetYearsDayConditionPage(month, day, offset, limit).Await());
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging = () => { };
 
         It should_throw_expected_exception = () =>
             exception.ShouldBeOfExactType<NotImplementedException>();
@@ -534,9 +511,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
         Because of = () =>
             exception = Catch.Exception(() => conditionsController.GetYearsHourConditionPage(month, day, hour, offset, limit).Await());
 
-#pragma warning disable 169
-        Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging;
-#pragma warning restore 169
+        Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging = () => { };
 
         It should_throw_expected_exception = () =>
             exception.ShouldBeOfExactType<NotImplementedException>();

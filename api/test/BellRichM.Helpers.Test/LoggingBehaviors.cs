@@ -1,8 +1,6 @@
 using BellRichM.Helpers.Test;
-using BellRichM.Logging;
 using Machine.Specifications;
 using Moq;
-using System.Collections.Generic;
 using System.Linq;
 
 using IT = Moq.It;

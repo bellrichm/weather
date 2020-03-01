@@ -1,17 +1,9 @@
-using BellRichM.Logging;
-using FluentAssertions;
 using Machine.Specifications;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using Moq;
-using Serilog;
 using Serilog.Core;
 using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
-using IT = Moq.It;
 using It = Machine.Specifications.It;
 
 namespace BellRichM.Logging.Test
