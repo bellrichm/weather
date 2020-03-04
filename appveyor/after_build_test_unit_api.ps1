@@ -23,3 +23,7 @@ if ($env:UNIT_TEST_API -eq "NO" `
 
   $wc = New-Object 'System.Net.WebClient'
   $wc.UploadFile("https://ci.appveyor.com/api/testresults/xunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\api\test\coverlet\coverage.netcoreapp3.1.opencover.xml))
+
+  $wc = New-Object 'System.Net.WebClient'
+  $wc.UploadFile("https://ci.appveyor.com/api/testresults/xunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\api\test\coverlet\coverage.netcoreapp3.1.opencover.xmlx))
+  "done"
