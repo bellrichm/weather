@@ -13,7 +13,7 @@ $buildFramework = '-f netcoreapp3.1 '
 
 $defBuildParams = '--no-restore '
 
-$cmd = "dotnet build api\src\BellRichM.Weather.sln --no-restore $buildFramework"
+$cmd = 'dotnet build api/src/BellRichM.Weather.sln -l:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" --no-restore ' + $buildFramework
 RunCmd $cmd
 
 $cmd = "dotnet build api\test\BellRichM.Weather.Test.sln $defBuildParams $unitTestFramework"
