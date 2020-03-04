@@ -23,6 +23,8 @@ if ($env:PRECLEAN -ne "NO")
   RunCmd "dotnet clean -v m api/smoke/BellRichM.Identity.Api.Smoke/BellRichM.Identity.Api.Smoke.csproj"
   Remove-Item $env:APPVEYOR_BUILD_FOLDER/dist -Force -Recurse -ErrorAction Ignore
   Remove-Item $env:APPVEYOR_BUILD_FOLDER/$env:ARTIFACT_NAME.zip -ErrorAction Ignore
+  Remove-Item $env:APPVEYOR_BUILD_FOLDER/dist-linux-arm -Force -Recurse -ErrorAction Ignore
+  Remove-Item $env:APPVEYOR_BUILD_FOLDER/$env:ARTIFACT_NAME-linux-arm.zip -ErrorAction Ignore
 }
 
 # appveyor install
@@ -79,5 +81,6 @@ if ($env:POSTCLEAN -ne "NO")
   if ($env:BUILD_ARTIFACT -ne "NO")
   {
     RunCmd "rm $env:APPVEYOR_BUILD_FOLDER/$env:ARTIFACT_NAME.zip"
+    RunCmd "rm $env:APPVEYOR_BUILD_FOLDER/$env:ARTIFACT_NAME-linux-arm.zip"
   }
 }

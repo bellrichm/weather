@@ -1,6 +1,16 @@
 ""
 "******************************** " + $MyInvocation.InvocationName + " ********************************"
-if ($env:APPVEYOR_REPO_BRANCH -ne 'master')
+if ($env:APPVEYOR_REPO_BRANCH -eq 'local')
+{
+  $env:BRANCH_NAME = 'local';
+  $env:ARTIFACT_NAME = 'weather-local';
+  
+  # if not already set, set to defaults
+  if (-not (Test-Path env:UPLOAD_ARTIFACT)) { $env:UPLOAD_ARTIFACT = 'NO' }
+  if (-not (Test-Path env:DEPLOY)) { $env:DEPLOY = 'NO' }
+  if (-not (Test-Path env:SMOKE_TEST)) { $env:SMOKE_TEST = 'NO' }
+}
+elseif ($env:APPVEYOR_REPO_BRANCH -ne 'master')
 {
   $env:BRANCH_NAME = 'development';
   $env:ARTIFACT_NAME = 'weather-branch';

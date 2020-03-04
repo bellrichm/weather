@@ -68,20 +68,3 @@
 
   after_deploy:
     - ps: appveyor/after_deploy_smoke.ps1
-
-  notifications:
-  - provider: Email
-    to:
-    - '{{commitAuthorEmail}}'
-    subject: '{{projectName}} build status is {{status}}'
-    message: >-
-      See:<br>
-      {{buildUrl}}<br>
-      https://github.com/bellrichm/weather/tree/{{branch}}<br>
-      https://sonarcloud.io/dashboard?branch={{branch}}&id=weather<br>
-      https://coveralls.io/github/bellrichm/weather?branch={{branch}}<br>
-      <br>
-      http://bellrichm-weather.azurewebsites.net<br>
-    on_build_success: true
-    on_build_failure: true
-    on_build_status_changed: false
