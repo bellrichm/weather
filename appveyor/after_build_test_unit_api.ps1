@@ -18,7 +18,7 @@ if ($env:UNIT_TEST_API -eq "NO" `
   $parms = $parms + '/p:CoverletOutput=../coverlet/ '
   $parms = $parms + '/p:MergeWith=../coverlet/coverage.netcoreapp3.1.json '
   $parms = $parms + '/p:Exclude=\"[*]*.Migrations.*,[*.Test]*,[System.*]*\" '
-  $cmd = "dotnet test --no-restore --no-build -f netcoreapp3.1 api/test/BellRichM.Weather.Test.sln" + $parms
+  $cmd = "dotnet test --logger:Appveyor --no-restore --no-build -f netcoreapp3.1 api/test/BellRichM.Weather.Test.sln" + $parms
   RunCmd $cmd
 
   $wc = New-Object 'System.Net.WebClient'
