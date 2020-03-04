@@ -2,7 +2,6 @@ using AutoMapper;
 using BellRichM.Administration.Api.Models;
 using BellRichM.Api.Controllers;
 using BellRichM.Logging;
-using BellRichM.Logging.Switches;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

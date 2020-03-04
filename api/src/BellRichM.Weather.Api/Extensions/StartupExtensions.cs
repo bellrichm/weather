@@ -3,8 +3,6 @@ using BellRichM.Weather.Api.Repositories;
 using BellRichM.Weather.Api.Services;
 using System;
 using System.Data.Common;
-using System.Security.Claims;
-using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;

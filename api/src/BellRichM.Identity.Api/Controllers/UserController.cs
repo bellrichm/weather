@@ -8,7 +8,6 @@ using BellRichM.Identity.Api.Services;
 using BellRichM.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BellRichM.Identity.Api.Controllers

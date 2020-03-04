@@ -1,6 +1,4 @@
 using System;
-using System.Runtime.Serialization;
-using BellRichM.Attribute.CodeCoverage;
 
 namespace BellRichM.Exceptions
 {

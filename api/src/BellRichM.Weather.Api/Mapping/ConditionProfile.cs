@@ -3,7 +3,6 @@ using BellRichM.Api.Models;
 using BellRichM.Service.Data;
 using BellRichM.Weather.Api.Data;
 using BellRichM.Weather.Api.Models;
-using System;
 
 namespace BellRichM.Weather.Api.Mapping
 {

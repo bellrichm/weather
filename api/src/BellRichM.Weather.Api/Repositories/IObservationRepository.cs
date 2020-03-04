@@ -1,5 +1,4 @@
 using BellRichM.Weather.Api.Data;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BellRichM.Weather.Api.Repositories

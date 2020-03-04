@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Serilog.Context;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Threading.Tasks;

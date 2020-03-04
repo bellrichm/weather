@@ -1,5 +1,4 @@
 using BellRichM.Attribute.CodeCoverage;
-using BellRichM.Identity.Api.Data;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;

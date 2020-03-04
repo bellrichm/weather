@@ -1,13 +1,8 @@
 using BellRichM.Logging;
-using BellRichM.Weather.Api;
 using BellRichM.Weather.Api.Configuration;
 using BellRichM.Weather.Api.Data;
-using Microsoft.Data.Sqlite;
 using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Common;
-using System.Data.SqlClient;
 using System.Globalization;
 using System.Threading.Tasks;
 

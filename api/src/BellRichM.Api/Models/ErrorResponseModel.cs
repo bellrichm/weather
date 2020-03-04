@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using BellRichM.Attribute.CodeCoverage;
-using BellRichM.Exceptions;
 
 namespace BellRichM.Api.Models
 {

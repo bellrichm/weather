@@ -1,15 +1,12 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using BellRichM.Api.Controllers;
 using BellRichM.Logging;
-using BellRichM.Weather.Api.Data;
 using BellRichM.Weather.Api.Filters;
 using BellRichM.Weather.Api.Models;
 using BellRichM.Weather.Api.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace BellRichM.Weather.Api.Controllers
 {

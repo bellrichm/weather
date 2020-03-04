@@ -1,6 +1,5 @@
 using BellRichM.Attribute.CodeCoverage;
 using Serilog.Core;
-using Serilog.Events;
 
 namespace BellRichM.Logging
 {

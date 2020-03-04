@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using BellRichM.Attribute.CodeCoverage;
 using Destructurama.Attributed;
 

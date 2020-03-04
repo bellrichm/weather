@@ -1,7 +1,6 @@
 using AutoMapper;
 using BellRichM.Weather.Api.Data;
 using BellRichM.Weather.Api.Models;
-using System;
 
 namespace BellRichM.Weather.Api.Mapping
 {

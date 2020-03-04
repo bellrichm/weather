@@ -1,6 +1,5 @@
 using BellRichM.Attribute.CodeCoverage;
 using BellRichM.Attribute.Validation;
-using System.ComponentModel.DataAnnotations;
 
 namespace BellRichM.Logging.Switches
 {
