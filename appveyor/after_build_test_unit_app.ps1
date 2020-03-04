@@ -10,12 +10,6 @@ if ($env:UNIT_TEST_APP -EQ "NO" `
   return
 }
 
-$env:UNIT_TEST_APP
-$env:UPLOAD_COVERALLS_APP
-$env:UPLOAD_SONARQUBE_APP
-$env:COVERAGE_REPORT_APP
-$env:RUNONLY_SONARQUBE_APP
-
 set-location app
 
 # stderr on appveyor workaround
