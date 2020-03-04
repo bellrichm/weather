@@ -60,6 +60,7 @@ namespace InitUsers
             Log.Logger = logManager.Create();
 
             var services = new ServiceCollection();
+            services.AddLogging();
             services.AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
             services.AddIdentityServices(configuration);
             return services.BuildServiceProvider();
