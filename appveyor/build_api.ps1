@@ -1,6 +1,5 @@
 ""
 "******************************** " + $MyInvocation.InvocationName + " ********************************"
-# Add-AppveyorMessage "This is a test message" # ToDo - add some type of logging
 if ($env:BUILD_API -eq "NO" `
   -And $env:UPLOAD_SONARQUBE_API -eq 'NO' `
   -And $env:RUNONLY_SONARQUBE_API -ne 'YES')
