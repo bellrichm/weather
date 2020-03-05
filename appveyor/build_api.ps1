@@ -1,5 +1,6 @@
 ""
 "******************************** " + $MyInvocation.InvocationName + " ********************************"
+Add-AppveyorMessage "This is a test message"
 if ($env:BUILD_API -eq "NO" `
   -And $env:UPLOAD_SONARQUBE_API -eq 'NO' `
   -And $env:RUNONLY_SONARQUBE_API -ne 'YES')
@@ -13,7 +14,7 @@ $buildFramework = '-f netcoreapp3.1 '
 
 $defBuildParams = '--no-restore '
 
-$cmd = 'dotnet build api/src/BellRichM.Weather.sln -l:"C:\Program Files\AppVeyor\BuildAgent\dotnetcore\Appveyor.MSBuildLogger.dll" --no-restore ' + $buildFramework
+$cmd = 'dotnet build api/src/BellRichM.Weather.sln --no-restore ' + $buildFramework + $env:BUILD_API_LOG
 RunCmd $cmd
 
 $cmd = "dotnet build api\test\BellRichM.Weather.Test.sln $defBuildParams $unitTestFramework"

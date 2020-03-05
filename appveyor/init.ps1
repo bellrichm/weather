@@ -1,7 +1,10 @@
 ""
 "******************************** " + $MyInvocation.InvocationName + " ********************************"
+$env:BUILD_API_LOG = '-l:"C:\Program Files\AppVeyor\BuildAgent\dotnetcore\Appveyor.MSBuildLogger.dll" '
+
 if ($env:APPVEYOR_REPO_BRANCH -eq 'local')
 {
+  $env:BUILD_API_LOG = ' '
   $env:BRANCH_NAME = 'local';
   $env:ARTIFACT_NAME = 'weather-local';
   
