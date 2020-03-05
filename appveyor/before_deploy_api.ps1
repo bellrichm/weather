@@ -16,6 +16,7 @@ RunCmd $cmd
 
 $cmd = 'dotnet publish api/src/BellRichM.Weather.Web/BellRichM.Weather.Web.csproj '
 $cmd = $cmd + '--output $env:APPVEYOR_BUILD_FOLDER/dist-linux-arm '
+$cmd = $cmd + '/p:PublishTrimmed=true '
 # $cmd = $cmd + '--no-restore '
 $cmd = $cmd + '-r linux-arm '
 $cmd = $cmd + '-f netcoreapp3.1 ' # ToDo - move to env var
