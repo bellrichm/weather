@@ -2,24 +2,18 @@
 Function RunCmd {
   Param ($cmd = $cmd)
   Process{
-    if ($env:BUILDTYPE -eq 'LOCAL')
-    {
-      Write-Host "Running: $cmd"
-    }
-    else 
-    {
-      Add-AppveyorMessage -Category Information "Running: $cmd"
-    }
+    Write-Host "Running: $cmd"
     
     Invoke-Expression $cmd
     $rc = $LastExitCode
+    
     if ($env:BUILDTYPE -eq 'LOCAL')
     {
       Write-Host "Return code: $rc"
     }
     else 
     {
-      Add-AppveyorMessage -Category Information "Return code: $rc"
+      Add-AppveyorMessage -Category Information "Completed: $cmd" -Details $rc
     }
 
     if ($rc -ne 0)
@@ -30,7 +24,7 @@ Function RunCmd {
       }
       else 
       {
-        Add-AppveyorMessage -Category Information "Error running: $cmd"
+        Add-AppveyorMessage -Category Error "Error running: $cmd" -Details $rc
       }
       exit $rc
     }
