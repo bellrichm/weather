@@ -34,6 +34,7 @@ namespace BellRichM.Identity.Api.Controllers
         /// <param name="jwtManager">The <see cref="IJwtManager"/>.</param>
         public UserController(ILoggerAdapter<UserController> logger, IMapper mapper, IUserRepository userRepository, IJwtManager jwtManager)
         {
+            var unneeded = "";
             _logger = logger;
             _mapper = mapper;
             _userRepository = userRepository;
