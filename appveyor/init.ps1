@@ -1,7 +1,10 @@
 ""
 "******************************** " + $MyInvocation.InvocationName + " ********************************"
+$env:BUILD_API_LOG = '-l:"C:\Program Files\AppVeyor\BuildAgent\dotnetcore\Appveyor.MSBuildLogger.dll" '
+
 if ($env:APPVEYOR_REPO_BRANCH -eq 'local')
 {
+  $env:BUILD_API_LOG = ' '
   $env:BRANCH_NAME = 'local';
   $env:ARTIFACT_NAME = 'weather-local';
   
@@ -73,10 +76,6 @@ $env:PSModulePath = $env:APPVEYOR_BUILD_FOLDER +"/appveyor;" + $env:PSModulePath
 $env:AZURE_USER = '$bellrichm-weather'
 $env:AZURE_SITE = "bellrichm-weather"
 $env:AZURE_SERVER = "https://bellrichm-weather.scm.azurewebsites.net:443/msdeploy.axd?site=bellrichm-weather"
-
-$env:MSPEC = "$env:HOMEDRIVE$env:HOMEPATH\.nuget\packages\Machine.Specifications.Runner.Console\0.9.3\tools\mspec-clr4.exe"
-$env:OPENCOVER = "$env:HOMEDRIVE$env:HOMEPATH\.nuget\packages\OpenCover\4.6.519\tools\OpenCover.Console.exe"
-$env:COVERALLS = "$env:HOMEDRIVE$env:HOMEPATH\.nuget\packages\coveralls.io\1.4.2\tools\coveralls.net.exe"
 
 $env:COVERALLS_SERVICE_JOB_ID = $env:APPVEYOR_JOB_ID
 $env:COVERALLS_SERVICE_NAME = "appveyor"

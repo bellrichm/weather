@@ -19,3 +19,9 @@ RunCmd $cmd
 Get-Content t.txt
 "t.txt content end:"
 set-location ..
+
+if ($env:BUILDTYPE -ne 'LOCAL')
+{
+  $wc = New-Object 'System.Net.WebClient'
+  $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path ./app/output/junit.xml))
+}

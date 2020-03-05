@@ -27,6 +27,8 @@
     INTEGRATION_TEST_API: YES
     INTEGRATION_TEST_APP: Unused
     BUILD_ARTIFACT: YES
+    COVERAGE_REPORT_API: NO
+    COVERAGE_REPORT_APP: NO
     UPLOAD_COVERALLS_API: YES
     UPLOAD_COVERALLS_APP: YES
     UPLOAD_SONARQUBE_API: YES
@@ -68,6 +70,12 @@
 
   after_deploy:
     - ps: appveyor/after_deploy_smoke.ps1
+
+  on_success:
+    - ps: appveyor/success.ps1
+
+  on_failure:
+    -ps: appveyor/failure.ps1
 
   notifications:
   - provider: Email

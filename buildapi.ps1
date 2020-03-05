@@ -27,9 +27,6 @@ $env:COVERAGE_REPORT_APP = "NO"
 $env:RUNONLY_SONARQUBE_API = "YES"
 $env:RUNONLY_SONARQUBE_APP = "NO"
 
-##$env:BUILDPATH = ";C:\Program Files\7-Zip;C:\RMBData\sonar-scanner-msbuild;$env:HOMEPATH\.nuget\packages\ReportGenerator\3.0.2\tools;"
-##$env:PATH = $env:PATH + $env:BUILDPATH
-
 $env:PRECLEAN = "YES"
 $env:POSTCLEAN = "YES"
 
