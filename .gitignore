@@ -20,3 +20,4 @@ opencover.xml
 
 **/node_modules
 **/coverlet
+**/output/junit.xml
