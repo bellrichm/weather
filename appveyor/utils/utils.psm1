@@ -13,7 +13,7 @@ Function RunCmd {
     }
     else 
     {
-      Add-AppveyorMessage -Category Information "Completed: $cmd" -Details $rc
+      Add-AppveyorMessage -Category Information "Completed: $cmd" -Details "return code: $rc"
     }
 
     if ($rc -ne 0)
@@ -24,7 +24,7 @@ Function RunCmd {
       }
       else 
       {
-        Add-AppveyorMessage -Category Error "Error running: $cmd" -Details "return code:$rc"
+        Add-AppveyorMessage -Category Error "Error running: $cmd" -Details "return code: $rc"
       }
       exit $rc
     }
