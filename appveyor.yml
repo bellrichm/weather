@@ -71,6 +71,12 @@
   after_deploy:
     - ps: appveyor/after_deploy_smoke.ps1
 
+  on_success:
+    - ps: appveyor/success.ps1
+
+  on_failure:
+    -ps: appveyor/failure.ps1
+
   notifications:
   - provider: Email
     to:
