@@ -93,7 +93,7 @@ if (($env:UPLOAD_SONARQUBE_API -eq 'NO' `
 if ($env:UPLOAD_SONARQUBE_APP -ne 'NO' `
 -Or $env:RUNONLY_SONARQUBE_APP -eq 'YES')
 {
-  $cmd = "dotnet build app\BellRichM.App.csproj --no-restore"
+  $cmd = "dotnet build app/BellRichM.App.csproj --no-restore"
   RunCmd $cmd
 }  
 

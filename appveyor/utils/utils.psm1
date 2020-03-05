@@ -6,7 +6,7 @@ Function RunCmd {
     
     Invoke-Expression $cmd
     $rc = $LastExitCode
-    
+
     if ($env:BUILDTYPE -eq 'LOCAL')
     {
       Write-Host "Return code: $rc"
@@ -24,7 +24,7 @@ Function RunCmd {
       }
       else 
       {
-        Add-AppveyorMessage -Category Error "Error running: $cmd" -Details $rc
+        Add-AppveyorMessage -Category Error "Error running: $cmd" -Details "return code:$rc"
       }
       exit $rc
     }

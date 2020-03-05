@@ -16,9 +16,6 @@ Function RunCmd {
 "******************************** " + $MyInvocation.InvocationName + " ********************************"
 $env:COVERAGE_REPORT = "YES"
 
-##$env:BUILDPATH = "C:\Program Files\7-Zip;C:\RMBData\sonar-scanner-msbuild;$env:HOMEPATH\.nuget\packages\ReportGenerator\3.0.2\tools;"
-##$env:PATH = $env:PATH + $env:BUILDPATH
-
 $env:UNIT_TEST_API = "YES"
 $env:UPLOAD_COVERALLS_API = "NO"
 $env:UPLOAD_SONARQUBE_API = "NO"

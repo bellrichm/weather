@@ -13,10 +13,10 @@ $buildFramework = '-f netcoreapp3.1 '
 
 $defBuildParams = '--no-restore '
 
-$cmd = "dotnet build api\src\BellRichM.Weather.sln --no-restore $buildFramework" + $env:BUILD_API_LOG
+$cmd = "dotnet build api/src/BellRichM.Weather.sln --no-restore $buildFramework" + $env:BUILD_API_LOG
 RunCmd $cmd
 
-$cmd = "dotnet build api\test\BellRichM.Weather.Test.sln $defBuildParams $unitTestFramework" + $env:BUILD_API_LOG
+$cmd = "dotnet build api/test/BellRichM.Weather.Test.sln $defBuildParams $unitTestFramework" + $env:BUILD_API_LOG
 RunCmd $cmd
 
 $cmd = "dotnet build api/integration/BellRichM.Identity.Api.Integration/BellRichM.Identity.Api.Integration.csproj $defBuildParams " + $env:BUILD_API_LOG
