@@ -20,11 +20,13 @@ namespace InitUsers
         static IRoleRepository roleRepository;
         static IUserRepository userRepository;
 
-        static void Main()
+        /// <summary>
+        /// Initialize the identity db.static.static.
+        /// </summary>
+        /// <param name="rolesInit">A json file containing the roles to add.</param>
+        /// <param name="usersInit">A json file containing the users to add.</param>
+        static void Main(string rolesInit = "roles.json", string usersInit = "users.json")
         {
-            var rolesInit = "roles.json";
-            var usersInit = "users.json";
-
             var serviceProvider = Configure();
             logger = serviceProvider.GetService<ILoggerAdapter<Program>>();
             roleRepository = serviceProvider.GetService<IRoleRepository>();
