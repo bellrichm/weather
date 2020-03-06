@@ -114,6 +114,6 @@ namespace InitUsers
 
             public User User { get; set; }
         }
-        # pragma warning restore CA1812
+        #pragma warning restore CA1812
     }
 }
