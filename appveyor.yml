@@ -1,7 +1,9 @@
 -
   cache:
-    - C:\ProgramData\chocolatey\bin
-    - C:\ProgramData\chocolatey\lib
+    - app/node_modules                        
+    - '%APPDATA%\npm-cache'              
+    - '%USERPROFILE%\.nuget\packages'
+    - C:\Users\appveyor\.sonar
 
   version: 1.0.{build}
 

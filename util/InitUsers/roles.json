@@ -44,5 +44,53 @@
            "Value": "CanDeleteRoles"
         }        
     ]
+},
+{
+   "Name": "AppAdmin",
+   "Description": "Administer the application",
+   "ClaimValues":
+   [
+       {
+          "Type": "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+          "Value": "CanViewLoggingFilters"
+       },
+       {
+          "Type": "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+          "Value": "CanUpdateLoggingFilters"
+       },
+       {
+          "Type": "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+          "Value": "CanViewLoggingLevels"
+       },
+       {
+          "Type": "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+          "Value": "CanUpdateLoggingLevels"
+       }        
+   ]
+}, 
+{
+   "Name": "ObservationAdmin",
+   "Description": "Administer the weather observation data",
+   "ClaimValues":
+   [
+       {
+          "Type": "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+          "Value": "CanViewObservations"
+       },
+       {
+          "Type": "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+          "Value": "CanCreateObservations"
+       },
+       {
+          "Type": "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+          "Value": "CanUpdateObservations"
+       },
+       {
+          "Type": "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+          "Value": "CanDeleteObservations"
+       }        
+   ]
 }
+
+
 ]
