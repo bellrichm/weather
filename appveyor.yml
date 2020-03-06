@@ -1,7 +1,8 @@
 -
   cache:
-    - C:\ProgramData\chocolatey\bin
-    - C:\ProgramData\chocolatey\lib
+    - node_modules                        
+    - '%APPDATA%\npm-cache'              
+    - '%USERPROFILE%\.nuget\packages
 
   version: 1.0.{build}
 
