@@ -3,6 +3,7 @@
     - app/node_modules                        
     - '%APPDATA%\npm-cache'              
     - '%USERPROFILE%\.nuget\packages'
+    - C:\Users\appveyor\.sonar
 
   version: 1.0.{build}
 
