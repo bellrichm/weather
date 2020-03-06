@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using BellRichM.Identity.Api.Data;
 using BellRichM.Identity.Api.Exceptions;
 using BellRichM.Identity.Api.Extensions;
@@ -10,21 +11,24 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Serilog;
-using Serilog.Filters;
 
 namespace InitUsers
 {
     class Program
     {
+        static ILoggerAdapter<Program> logger;
+        static IRoleRepository roleRepository;
+        static IUserRepository userRepository;
+
         static void Main()
         {
             var rolesInit = "roles.json";
             var usersInit = "users.json";
 
             var serviceProvider = Configure();
-            var logger = serviceProvider.GetService<ILoggerAdapter<Program>>();
-            var roleRepository = serviceProvider.GetService<IRoleRepository>();
-            var userRepository = serviceProvider.GetService<IUserRepository>();
+            logger = serviceProvider.GetService<ILoggerAdapter<Program>>();
+            roleRepository = serviceProvider.GetService<IRoleRepository>();
+            userRepository = serviceProvider.GetService<IUserRepository>();
 
             var roles = new List<Role>();
             using (StreamReader streamReader = new StreamReader(rolesInit))
@@ -32,44 +36,56 @@ namespace InitUsers
                 roles = JsonConvert.DeserializeObject<List<Role>>(streamReader.ReadToEnd());
             }
 
+            CreateRoles(roles).Wait();
+
             var users = new List<UserPassword>();
             using (StreamReader streamReader = new StreamReader(usersInit))
             {
                 users = JsonConvert.DeserializeObject<List<UserPassword>>(streamReader.ReadToEnd());
             }
 
+            CreateUsers(users).Wait();
+        }
+
+        private static async Task CreateRoles(List<Role> roles)
+        {
             foreach (var role in roles)
             {
                 try
                 {
-                    roleRepository.Create(role).Wait();
+                    await roleRepository.Create(role).ConfigureAwait(true);
+                    logger.LogDiagnosticInformation("Created {@role}", role);
                 }
                 catch (CreateRoleException ex)
                 {
-                    logger.LogDiagnosticInformation("{@ex}", ex);
+                    logger.LogDiagnosticError("Error creating {@role} {@ex}", role, ex);
                 }
                 catch (Exception ex)
                 {
-                    logger.LogDiagnosticInformation("{@ex}", ex);
-                    throw ex;
+                    logger.LogDiagnosticError("Error creating {@role} {@ex}", role, ex);
+                    throw;
                 }
             }
+        }
 
+        private static async Task CreateUsers(List<UserPassword> users)
+        {
             foreach (var user in users)
             {
                 try
                 {
-                    userRepository.Create(user.User, user.Password).Wait();
+                    await userRepository.Create(user.User, user.Password).ConfigureAwait(true);
+                    logger.LogDiagnosticInformation("Created {@user}", user);
                 }
                 catch (CreateUserException ex)
                 {
-                    logger.LogDiagnosticInformation("{@ex}", ex);
+                    logger.LogDiagnosticError("Error creating {@user} {@ex}", user, ex);
                 }
                 catch (Exception ex)
                 {
-                    logger.LogDiagnosticInformation("{@ex}", ex);
-                    throw ex;
-                }                
+                    logger.LogDiagnosticError("Error creating {@user} {@ex}", user, ex);
+                    throw;
+                }
             }
         }
 
@@ -91,11 +107,13 @@ namespace InitUsers
             return services.BuildServiceProvider();
         }
 
+        #pragma warning disable CA1812 // Used in a list
         private class UserPassword
         {
             public string Password { get; set; }
 
             public User User { get; set; }
         }
+        # pragma warning restore CA1812
     }
 }
