@@ -22,6 +22,7 @@ namespace InitUsers
             var usersInit = "users.json";
 
             var serviceProvider = Configure();
+            var logger = serviceProvider.GetService<ILoggerAdapter<Program>>();
             var roleRepository = serviceProvider.GetService<IRoleRepository>();
             var userRepository = serviceProvider.GetService<IUserRepository>();
 
@@ -39,12 +40,36 @@ namespace InitUsers
 
             foreach (var role in roles)
             {
-                roleRepository.Create(role).Wait();
+                try
+                {
+                    roleRepository.Create(role).Wait();
+                }
+                catch (CreateRoleException ex)
+                {
+                    logger.LogDiagnosticInformation("{@ex}", ex);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogDiagnosticInformation("{@ex}", ex);
+                    throw ex;
+                }
             }
 
             foreach (var user in users)
             {
-                userRepository.Create(user.User, user.Password).Wait();
+                try
+                {
+                    userRepository.Create(user.User, user.Password).Wait();
+                }
+                catch (CreateUserException ex)
+                {
+                    logger.LogDiagnosticInformation("{@ex}", ex);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogDiagnosticInformation("{@ex}", ex);
+                    throw ex;
+                }                
             }
         }
 
