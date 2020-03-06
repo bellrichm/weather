@@ -2,7 +2,7 @@
   cache:
     - node_modules                        
     - '%APPDATA%\npm-cache'              
-    - '%USERPROFILE%\.nuget\packages
+    - '%USERPROFILE%\.nuget\packages'
 
   version: 1.0.{build}
 
