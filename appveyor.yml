@@ -4,7 +4,6 @@
     - '%APPDATA%\npm-cache'              
     - '%USERPROFILE%\.nuget\packages'
     - C:\Users\appveyor\.sonar
-    - buildtools
 
   version: 1.0.{build}
 
