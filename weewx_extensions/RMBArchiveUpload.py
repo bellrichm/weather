@@ -162,7 +162,42 @@ class RMBArchiveUploadLogin():
         loginf("init RMBArchiveUploadLogin")
 
 if __name__ == '__main__':
+    import argparse
+    import os
+
+    import configobj
+
+    from weewx.engine import StdEngine
+
     def main():
         print("in main")
+        parser = argparse.ArgumentParser()
+        parser.add_argument("config_file")
+
+        options = parser.parse_args()
+
+        config_path = os.path.abspath(options.config_file)
+
+        config_dict = configobj.ConfigObj(config_path, file_error=True)
+
+        min_config_dict = {
+            'Station': {
+                'altitude': [0, 'foot'],
+                'latitude': 0,
+                'station_type': 'Simulator',
+                'longitude': 0
+            },
+            'Simulator': {
+                'driver': 'weewx.drivers.simulator',
+            },
+            'Engine': {
+                'Services': {}
+            }
+        }
+        engine = StdEngine(min_config_dict)
+
+        service = RMBArchiveUpload(engine, config_dict)
+
+        print("done")
 
     main()

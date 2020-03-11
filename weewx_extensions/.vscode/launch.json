@@ -9,6 +9,10 @@
             "type": "python",
             "request": "launch",
             "program": "${file}",
+            "args": [
+                //"weewx.device.conf"
+                "../../weewx/weewx.conf"
+            ],            
             "console": "integratedTerminal"
         },
         {
