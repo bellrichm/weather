@@ -160,3 +160,9 @@ class RMBArchiveUploadLogin():
     """ The login class """
     def __init__(self):
         loginf("init RMBArchiveUploadLogin")
+
+if __name__ == '__main__':
+    def main():
+        print("in main")
+
+    main()
