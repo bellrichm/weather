@@ -1,0 +1,42 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            // Requires MQTTSubscribe.py to be in 'weewx/bin/user' directory
+            // Because python prepends the scripts directory, 'weewx/bin' to sys.path
+            // So when weewx does an __import__('user') it uses 'weewx/bin/user'
+            "name": "weewxd: Device",
+            "type": "python",
+            "request": "launch",
+            "env": {
+                "LANG": "en_GB.UTF-8"
+            },
+            "program": "${workspaceFolder}/../../weewx/bin/weewxd",
+            "args": [
+                //"weewx.device.conf"
+                "../../weewx/weewx.conf"
+            ],            
+            // Work around for timeout
+            //"console": "externalTerminal"
+            "console": "integratedTerminal"
+        },
+        {
+	        // This won't work in this project.
+	        // Added for documentation purposes.
+            "name": "weewxd: Full install",
+            "type": "python",
+            "request": "launch",
+            "env": {
+                "LANG": "en_GB.UTF-8"
+            },            
+            "program": "${workspaceFolder}/bin/weewxd",
+            "args": [
+                "weewx.conf"
+            ],            
+            "console": "integratedTerminal"
+        },
+    ]
+}
