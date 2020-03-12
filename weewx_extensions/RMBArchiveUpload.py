@@ -75,10 +75,6 @@ class RMBArchiveUpload(weewx.restx.StdRESTful):
         self.archive_thread = RMBArchiveUploadThread(self.archive_queue,
                                                      archive_upload_manager_dict)
         self.archive_thread.start()
-        # temp to quickly flush out details
-        record = {}
-        record['dateTime'] = int(time.time())
-        self.archive_thread.process_record(record, None)
 
         self.bind(weewx.NEW_ARCHIVE_RECORD, self.new_archive_record)
 
@@ -147,6 +143,8 @@ class RMBArchiveUploadThread(weewx.restx.RESTThread):
             self.archive_upload_db_manager = weewx.manager.open_manager(
                 self.archive_upload_manager_dict) # pylint: disable=invalid-name
 
+        super().process_record(record, dbmanager)
+
         curr_date_time = int(time.time())
 
         self.archive_upload_db_manager.getSql(
@@ -155,23 +153,8 @@ class RMBArchiveUploadThread(weewx.restx.RESTThread):
             (str(curr_date_time),
              record["dateTime"]))
 
-        # super().process_record(record, dbmsnager)
-        _url = self.format_url(record)
-        # ... get the Request to go with it...
-        _request = self.get_request(_url)
-        #  ... get any POST payload...
-        _payload = self.get_post_body(record)
-        # ... add a proper Content-Type if needed...
-        if _payload:
-            _request.add_header('Content-Type', _payload[1])
-            data = _payload[0]
-        else:
-            data = None
-
-        # ... then, finally, post it
-        self.post_with_retries(_request, data)
-
         #setup for next call
+        # ToDo what about if there is an error?
         #self.jwt = self.login.process_record(None, None)
         loginf("process_record")
 
@@ -300,7 +283,16 @@ if __name__ == '__main__':
         }
         engine = StdEngine(min_config_dict)
 
-        RMBArchiveUpload(engine, config_dict)
+        service = RMBArchiveUpload(engine, config_dict)
+
+        db_binder = weewx.manager.DBBinder(config_dict)
+        data_binding = config_dict['StdArchive'].get('data_binding', 'wx_binding')
+        dbmanager = db_binder.get_manager(data_binding)
+
+        record = {}
+        record['dateTime'] = int(time.time())
+        record['usUnits'] = 1
+        service.archive_thread.process_record(record, dbmanager)
 
         print("done")
 
