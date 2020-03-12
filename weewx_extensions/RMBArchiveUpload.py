@@ -69,13 +69,17 @@ class RMBArchiveUpload(weewx.restx.StdRESTful):
             'RMBArchiveUpload_binding')
         self.archive_upload_DBM = weewx.manager.open_manager(archive_upload_manager_dict, # pylint: disable=invalid-name
                                                              initialize=True)
-        
+
         site_dict = weewx.restx.check_enable(config_dict, 'RmbUpload', 'host', 'user', 'password')
         if site_dict is None:
             return
-        
+
+        manager_dict = weewx.manager.get_manager_dict_from_config(
+            config_dict, 'wx_binding')
+
         self.archive_queue = Queue()
         self.archive_thread = RMBArchiveUploadThread(self.archive_queue,
+                                                     #manager_dict,
                                                      archive_upload_manager_dict,
                                                      **site_dict)
         self.archive_thread.start()
@@ -98,6 +102,7 @@ class RMBArchiveUpload(weewx.restx.StdRESTful):
 class RMBArchiveUploadThread(weewx.restx.RESTThread):
     """ The uploader thread """
     def __init__(self, queue,
+                 #manager_dict,
                  archiveUpload_manager_dict,
                  host,
                  user, password,
@@ -113,6 +118,7 @@ class RMBArchiveUploadThread(weewx.restx.RESTThread):
         """ Initializer for RMBArchiveUploadThread """
 
         super(RMBArchiveUploadThread, self).__init__(queue,
+                                                     #manager_dict,
                                                      protocol_name=protocol_name,
                                                      post_interval=post_interval,
                                                      max_backlog=max_backlog,
@@ -129,7 +135,7 @@ class RMBArchiveUploadThread(weewx.restx.RESTThread):
         self.host = host
         #self.port = to_int(port)
         #self.user = user
-        #self.password = password                                                     
+        #self.password = password
 
         self.archive_upload_manager_dict = archiveUpload_manager_dict
         self.archive_upload_db_manager = None
@@ -146,7 +152,7 @@ class RMBArchiveUploadThread(weewx.restx.RESTThread):
         # Constructor is a different thread, so have to do this here.
         if not self.archive_upload_db_manager:
             self.archive_upload_db_manager = weewx.manager.open_manager(
-                self.archive_upload_manager_dict) # pylint: disable=invalid-name
+                self.archive_upload_manager_dict)
 
         super().process_record(record, dbmanager)
 
@@ -175,6 +181,10 @@ class RMBArchiveUploadThread(weewx.restx.RESTThread):
         return _request
 
     def get_post_body(self, record):
+        record['dateTime'] = int(record['dateTime'])
+        record['usUnits'] = int(record['usUnits'])
+        record['interval'] = int(record['interval'])
+        print(record['interval'])
         return(json.dumps(record), "application/json")
 
 class RMBArchiveUploadLogin(weewx.restx.RESTThread):
@@ -210,7 +220,7 @@ class RMBArchiveUploadLogin(weewx.restx.RESTThread):
         self.host = host
         #self.port = to_int(port)
         self.user = user
-        self.password = password   
+        self.password = password
 
         self.jwt = None
         print("init login")
