@@ -1,6 +1,7 @@
 """ The uploader """
 # pylint: disable=invalid-name
 # pylint: enable=invalid-name
+import json
 import sys
 import time
 import weewx.restx
@@ -74,6 +75,10 @@ class RMBArchiveUpload(weewx.restx.StdRESTful):
         self.archive_thread = RMBArchiveUploadThread(self.archive_queue,
                                                      archive_upload_manager_dict)
         self.archive_thread.start()
+        # temp to quickly flush out details
+        record = {}
+        record['dateTime'] = int(time.time())
+        self.archive_thread.process_record(record, None)
 
         self.bind(weewx.NEW_ARCHIVE_RECORD, self.new_archive_record)
 
@@ -122,8 +127,10 @@ class RMBArchiveUploadThread(weewx.restx.RESTThread):
                                                      skip_upload=skip_upload)
 
         self.archive_upload_manager_dict = archiveUpload_manager_dict
-        self.archive_upload_DBM = None
+        self.archive_upload_db_manager = None
 
+        self.login = RMBArchiveUploadLogin(Queue())
+        self.jwt = self.login.process_record(None, None)
         loginf("init RMBArchiveUploadThread")
 
         #self.host = host
@@ -136,30 +143,126 @@ class RMBArchiveUploadThread(weewx.restx.RESTThread):
 
     def process_record(self, record, dbmanager):
         # Constructor is a different thread, so have to do this here.
-        if not self.archive_upload_DBM:
-            self.archive_upload_DBM = weewx.manager.open_manager(self.archive_upload_manager_dict) # pylint: disable=invalid-name
+        if not self.archive_upload_db_manager:
+            self.archive_upload_db_manager = weewx.manager.open_manager(
+                self.archive_upload_manager_dict) # pylint: disable=invalid-name
 
         curr_date_time = int(time.time())
 
-        self.archive_upload_DBM.getSql('UPDATE %s SET upload_dateTime = ? WHERE dateTime= ?' %
-                                       self.archive_upload_DBM.table_name,
-                                       (str(curr_date_time),
-                                        record["dateTime"]))
+        self.archive_upload_db_manager.getSql(
+            'UPDATE %s SET upload_dateTime = ? WHERE dateTime= ?' %
+            self.archive_upload_db_manager.table_name,
+            (str(curr_date_time),
+             record["dateTime"]))
 
+        # super().process_record(record, dbmsnager)
+        _url = self.format_url(record)
+        # ... get the Request to go with it...
+        _request = self.get_request(_url)
+        #  ... get any POST payload...
+        _payload = self.get_post_body(record)
+        # ... add a proper Content-Type if needed...
+        if _payload:
+            _request.add_header('Content-Type', _payload[1])
+            data = _payload[0]
+        else:
+            data = None
 
+        # ... then, finally, post it
+        self.post_with_retries(_request, data)
+
+        #setup for next call
+        #self.jwt = self.login.process_record(None, None)
         loginf("process_record")
+
+    def format_url(self, _):
+        """Override and return the URL used to post to the server"""
+
+        url = "http://xxxxxxxx.local/api/observations"
+        return url
+
+    def get_request(self, url):
+        _request = super().get_request(url)
+        _request.add_header("authorization", "bearer " + self.jwt)
+        return _request
+
+    def get_post_body(self, record):
+        return(json.dumps(record), "application/json")
+
+class RMBArchiveUploadLogin(weewx.restx.RESTThread):
+    """ The login thread """
+    def __init__(self, queue,
+                 #host, port,
+                 #user, password,
+                 #measurement,
+                 #platform, stream,
+                 ## loop_filters,
+                 protocol_name="RMBArchiveUploadLogin",
+                 post_interval=None, max_backlog=sys.maxsize, stale=None,
+                 log_success=True, log_failure=True,
+                 timeout=10, max_tries=3, retry_wait=5, retry_login=3600,
+                 softwaretype="weewx-%s" % weewx.__version__,
+                 skip_upload=False):
+        """ Initializer for RMBArchiveUploadLogin """
+
+        super(RMBArchiveUploadLogin, self).__init__(queue,
+                                                    protocol_name=protocol_name,
+                                                    post_interval=post_interval,
+                                                    max_backlog=max_backlog,
+                                                    stale=stale,
+                                                    log_success=log_success,
+                                                    log_failure=log_failure,
+                                                    timeout=timeout,
+                                                    max_tries=max_tries,
+                                                    retry_wait=retry_wait,
+                                                    retry_login=retry_login,
+                                                    softwaretype=softwaretype,
+                                                    skip_upload=skip_upload)
+
+        self.jwt = None
+        print("init login")
+
+    def process_record(self, record, dbmanager):
+        loginf("process_record")
+
+        # ... format the URL, using the relevant protocol ...
+        _url = self.format_url(record)
+        # ... get the Request to go with it...
+        _request = self.get_request(_url)
+        #  ... get any POST payload...
+        _payload = self.get_post_body(record)
+        # ... add a proper Content-Type if needed...
+        if _payload:
+            _request.add_header('Content-Type', _payload[1])
+            data = _payload[0]
+        else:
+            data = None
+
+        # ... then, finally, post it
+        self.post_with_retries(_request, data)
+
+        return self.jwt
 
     def format_url(self, _):
         """Override and return the URL used to post to the WeeRT server"""
 
         #url = "%s %s %s" % (self.host, self.port, self.measurement)
-        url = "tbd"
+        url = "http://xxxxxxxx.local/api/user/login"
         return url
 
-class RMBArchiveUploadLogin():
-    """ The login class """
-    def __init__(self):
-        loginf("init RMBArchiveUploadLogin")
+    def get_post_body(self, record):
+        data = {}
+        data['UserName'] = "xxxxxxxx"
+        data['Password'] = "xxxxxxxx"
+        return(json.dumps(data), "application/json")
+
+    def check_response(self, response):
+        # Get the token
+        response_body = response.read()
+        data = json.loads(response_body)
+        self.jwt = data['jsonWebToken']
+        print("check response %s" % self.jwt)
+
 
 if __name__ == '__main__':
     import argparse
@@ -170,6 +273,7 @@ if __name__ == '__main__':
     from weewx.engine import StdEngine
 
     def main():
+        """ mainline """
         print("in main")
         parser = argparse.ArgumentParser()
         parser.add_argument("config_file")
@@ -196,7 +300,7 @@ if __name__ == '__main__':
         }
         engine = StdEngine(min_config_dict)
 
-        service = RMBArchiveUpload(engine, config_dict)
+        RMBArchiveUpload(engine, config_dict)
 
         print("done")
 
