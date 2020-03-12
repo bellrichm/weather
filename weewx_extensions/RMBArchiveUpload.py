@@ -69,11 +69,15 @@ class RMBArchiveUpload(weewx.restx.StdRESTful):
             'RMBArchiveUpload_binding')
         self.archive_upload_DBM = weewx.manager.open_manager(archive_upload_manager_dict, # pylint: disable=invalid-name
                                                              initialize=True)
-
-        # site_dict = {}
+        
+        site_dict = weewx.restx.check_enable(config_dict, 'RmbUpload', 'host', 'user', 'password')
+        if site_dict is None:
+            return
+        
         self.archive_queue = Queue()
         self.archive_thread = RMBArchiveUploadThread(self.archive_queue,
-                                                     archive_upload_manager_dict)
+                                                     archive_upload_manager_dict,
+                                                     **site_dict)
         self.archive_thread.start()
 
         self.bind(weewx.NEW_ARCHIVE_RECORD, self.new_archive_record)
@@ -95,8 +99,8 @@ class RMBArchiveUploadThread(weewx.restx.RESTThread):
     """ The uploader thread """
     def __init__(self, queue,
                  archiveUpload_manager_dict,
-                 #host, port,
-                 #user, password,
+                 host,
+                 user, password,
                  #measurement,
                  #platform, stream,
                  ## loop_filters,
@@ -122,20 +126,21 @@ class RMBArchiveUploadThread(weewx.restx.RESTThread):
                                                      softwaretype=softwaretype,
                                                      skip_upload=skip_upload)
 
+        self.host = host
+        #self.port = to_int(port)
+        #self.user = user
+        #self.password = password                                                     
+
         self.archive_upload_manager_dict = archiveUpload_manager_dict
         self.archive_upload_db_manager = None
 
-        self.login = RMBArchiveUploadLogin(Queue())
+        self.login = RMBArchiveUploadLogin(Queue(), self.host, user, password)
         self.jwt = self.login.process_record(None, None)
-        loginf("init RMBArchiveUploadThread")
 
-        #self.host = host
-        #self.port = to_int(port)
-        #self.user = user
-        #self.password = password
         #self.measurement = measurement
         #self.platform = platform
         #self.stream = stream
+        loginf("init RMBArchiveUploadThread")
 
     def process_record(self, record, dbmanager):
         # Constructor is a different thread, so have to do this here.
@@ -161,7 +166,7 @@ class RMBArchiveUploadThread(weewx.restx.RESTThread):
     def format_url(self, _):
         """Override and return the URL used to post to the server"""
 
-        url = "http://xxxxxxxx.local/api/observations"
+        url = "http://%s/api/observations" % self.host
         return url
 
     def get_request(self, url):
@@ -175,8 +180,8 @@ class RMBArchiveUploadThread(weewx.restx.RESTThread):
 class RMBArchiveUploadLogin(weewx.restx.RESTThread):
     """ The login thread """
     def __init__(self, queue,
-                 #host, port,
-                 #user, password,
+                 host,
+                 user, password,
                  #measurement,
                  #platform, stream,
                  ## loop_filters,
@@ -201,6 +206,11 @@ class RMBArchiveUploadLogin(weewx.restx.RESTThread):
                                                     retry_login=retry_login,
                                                     softwaretype=softwaretype,
                                                     skip_upload=skip_upload)
+
+        self.host = host
+        #self.port = to_int(port)
+        self.user = user
+        self.password = password   
 
         self.jwt = None
         print("init login")
@@ -230,13 +240,13 @@ class RMBArchiveUploadLogin(weewx.restx.RESTThread):
         """Override and return the URL used to post to the WeeRT server"""
 
         #url = "%s %s %s" % (self.host, self.port, self.measurement)
-        url = "http://xxxxxxxx.local/api/user/login"
+        url = "http://%s/api/user/login" % self.host
         return url
 
     def get_post_body(self, record):
         data = {}
-        data['UserName'] = "xxxxxxxx"
-        data['Password'] = "xxxxxxxx"
+        data['UserName'] = self.user
+        data['Password'] = self.password
         return(json.dumps(data), "application/json")
 
     def check_response(self, response):
