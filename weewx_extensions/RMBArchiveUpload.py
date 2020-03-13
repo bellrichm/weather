@@ -79,7 +79,7 @@ class RMBArchiveUpload(weewx.restx.StdRESTful):
 
         self.archive_queue = Queue()
         self.archive_thread = RMBArchiveUploadThread(self.archive_queue,
-                                                     #manager_dict,
+                                                     manager_dict,
                                                      archive_upload_manager_dict,
                                                      **site_dict)
         self.archive_thread.start()
@@ -102,7 +102,7 @@ class RMBArchiveUpload(weewx.restx.StdRESTful):
 class RMBArchiveUploadThread(weewx.restx.RESTThread):
     """ The uploader thread """
     def __init__(self, queue,
-                 #manager_dict,
+                 manager_dict,
                  archiveUpload_manager_dict,
                  host,
                  user, password,
@@ -118,7 +118,7 @@ class RMBArchiveUploadThread(weewx.restx.RESTThread):
         """ Initializer for RMBArchiveUploadThread """
 
         super(RMBArchiveUploadThread, self).__init__(queue,
-                                                     #manager_dict,
+                                                     manager_dict=manager_dict,
                                                      protocol_name=protocol_name,
                                                      post_interval=post_interval,
                                                      max_backlog=max_backlog,
