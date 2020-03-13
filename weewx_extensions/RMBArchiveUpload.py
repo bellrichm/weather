@@ -8,6 +8,8 @@ import jwt
 import weewx.restx
 #from weeutil.weeutil import to_int
 
+import six
+from six.moves import urllib
 
 try:
     # Python 2
@@ -272,6 +274,14 @@ class RMBArchiveUploadLogin(weewx.restx.RESTThread):
         self.jwt['decoded'] = jwt.decode(data['jsonWebToken'], verify=False)
         print("check response %s" % self.jwt)
 
+    def handle_exception(self, e, count):
+        logdbg("%s: Failed upload attempt %d: %s" % (self.protocol_name, count, e))
+        #super().handle_exception(e, count)
+        print(type(e))
+        if isinstance(e, urllib.error.HTTPError):
+            response = e.file
+            response_body = response.read()
+            logerr("%s: Failed upload attempt %d: %s" % (self.protocol_name, count, response_body))
 
 if __name__ == '__main__':
     import argparse
