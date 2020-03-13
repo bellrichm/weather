@@ -4,6 +4,7 @@
 import json
 import sys
 import time
+import jwt
 import weewx.restx
 #from weeutil.weeutil import to_int
 
@@ -136,6 +137,7 @@ class RMBArchiveUploadThread(weewx.restx.RESTThread):
         #self.port = to_int(port)
         #self.user = user
         #self.password = password
+        self.interval = 300
 
         self.archive_upload_manager_dict = archiveUpload_manager_dict
         self.archive_upload_db_manager = None
@@ -154,6 +156,9 @@ class RMBArchiveUploadThread(weewx.restx.RESTThread):
             self.archive_upload_db_manager = weewx.manager.open_manager(
                 self.archive_upload_manager_dict)
 
+        if self.jwt['decoded']['exp'] < int(time.time()) + self.interval:
+            self.jwt = self.login.process_record(None, None)
+
         super().process_record(record, dbmanager)
 
         curr_date_time = int(time.time())
@@ -164,9 +169,6 @@ class RMBArchiveUploadThread(weewx.restx.RESTThread):
             (str(curr_date_time),
              record["dateTime"]))
 
-        #setup for next call
-        # ToDo what about if there is an error?
-        #self.jwt = self.login.process_record(None, None)
         loginf("process_record")
 
     def format_url(self, _):
@@ -177,7 +179,7 @@ class RMBArchiveUploadThread(weewx.restx.RESTThread):
 
     def get_request(self, url):
         _request = super().get_request(url)
-        _request.add_header("authorization", "bearer " + self.jwt)
+        _request.add_header("authorization", "bearer " + self.jwt['encoded'])
         return _request
 
     def get_post_body(self, record):
@@ -222,7 +224,10 @@ class RMBArchiveUploadLogin(weewx.restx.RESTThread):
         self.user = user
         self.password = password
 
-        self.jwt = None
+        self.jwt = {}
+        self.jwt['encoded'] = None
+        self.jwt['decoded'] = {}
+        self.jwt['decoded']['exp'] = 0
         print("init login")
 
     def process_record(self, record, dbmanager):
@@ -263,7 +268,8 @@ class RMBArchiveUploadLogin(weewx.restx.RESTThread):
         # Get the token
         response_body = response.read()
         data = json.loads(response_body)
-        self.jwt = data['jsonWebToken']
+        self.jwt['encoded'] = data['jsonWebToken']
+        self.jwt['decoded'] = jwt.decode(data['jsonWebToken'], verify=False)
         print("check response %s" % self.jwt)
 
 
@@ -312,6 +318,7 @@ if __name__ == '__main__':
         record = {}
         record['dateTime'] = int(time.time())
         record['usUnits'] = 1
+        record['interval'] = 5
         service.archive_thread.process_record(record, dbmanager)
 
         print("done")
