@@ -8,7 +8,7 @@ import jwt
 import weewx.restx
 #from weeutil.weeutil import to_int
 
-import six
+#import six
 from six.moves import urllib
 
 try:
@@ -191,6 +191,16 @@ class RMBArchiveUploadThread(weewx.restx.RESTThread):
         print(record['interval'])
         return(json.dumps(record), "application/json")
 
+    def handle_exception(self, e, count):
+        logdbg("%s: Failed upload attempt %d: %s" % (self.protocol_name, count, e))
+        #super().handle_exception(e, count)
+        print(type(e))
+        if isinstance(e, urllib.error.HTTPError):
+            response = e.file
+            response_body = response.read()
+            logerr("%s: Failed upload attempt %d: %s" % (self.protocol_name, count, response_body))
+        print("exception")
+
 class RMBArchiveUploadLogin(weewx.restx.RESTThread):
     """ The login thread """
     def __init__(self, queue,
@@ -326,7 +336,7 @@ if __name__ == '__main__':
         dbmanager = db_binder.get_manager(data_binding)
 
         record = {}
-        record['dateTime'] = int(time.time())
+        record['dateTime'] = time.time()
         record['usUnits'] = 1
         record['interval'] = 5
         service.archive_thread.process_record(record, dbmanager)
