@@ -329,7 +329,7 @@ if __name__ == '__main__':
         }
         engine = StdEngine(min_config_dict)
 
-        service = RMBArchiveUpload(engine, config_dict)
+        #service = RMBArchiveUpload(engine, config_dict)
 
         db_binder = weewx.manager.DBBinder(config_dict)
         data_binding = config_dict['StdArchive'].get('data_binding', 'wx_binding')
@@ -340,13 +340,50 @@ if __name__ == '__main__':
         record['usUnits'] = 1
         record['interval'] = 5
 
-        records = catch_up(config_dict)
+        records = catch_up2(config_dict)
         for record in records:
             print(record)
 
-        service.archive_thread.process_record(record, dbmanager)
+        #service.archive_thread.process_record(record, dbmanager)
 
         print("done")
+
+    def catch_up2(config_dict):
+        dictionary = copy.deepcopy(config_dict)
+        dictionary['StdRESTful']['RmbUpload']['max_tries'] = '3'
+        dictionary['StdRESTful']['RmbUpload']['retry_wait'] = '5'
+
+        site_dict = weewx.restx.check_enable(dictionary, 'RmbUpload', 'user', 'password')
+        if site_dict is None:
+            return
+
+        archive_upload_manager_dict = weewx.manager.get_manager_dict(
+            config_dict['DataBindings'], config_dict['Databases'], 'RMBArchiveUpload_binding')
+        site_dict['archiveUpload_manager_dict'] = archive_upload_manager_dict
+
+        archive_upload_manager = weewx.manager.open_manager(archive_upload_manager_dict)
+
+        select_sql = "SELECT dateTime from archive where archive.upload_dateTime is NULL"
+
+        error_dates = archive_upload_manager.genSql(select_sql)
+
+        lister = []
+        for error_date in error_dates:
+            lister.append(error_date[0])
+
+        placeholder = '?' # For SQLite. See DBAPI paramstyle.
+        placeholders = ', '.join(placeholder for unused in lister)
+        query = 'SELECT * FROM archive WHERE dateTime IN (%s)' % placeholders
+        #cursor.execute(query, error_dates)
+
+        db_binder = weewx.manager.DBBinder(config_dict)
+        data_binding = config_dict['StdArchive'].get('data_binding', 'wx_binding')
+        dbmanager = db_binder.get_manager(data_binding)
+
+        records = dbmanager.genSql(query, lister)
+
+        print("end")
+        return records
 
     def catch_up(config_dict):
         """ process any ones that have errored
