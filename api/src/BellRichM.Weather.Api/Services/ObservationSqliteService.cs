@@ -1,6 +1,8 @@
 using BellRichM.Weather.Api.Data;
+using BellRichM.Weather.Api.Models;
 using BellRichM.Weather.Api.Repositories;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BellRichM.Weather.Api.Services
@@ -49,6 +51,12 @@ namespace BellRichM.Weather.Api.Services
         public Task<Observation> GetObservation(int dateTime)
         {
             return _observationRepository.GetObservation(dateTime);
+        }
+
+        /// <inheritdoc/>
+        public Task<List<Observation>> GetObservations(TimePeriodModel timePeriod)
+        {
+            return _observationRepository.GetObservations(timePeriod);
         }
 
         /// <inheritdoc/>
