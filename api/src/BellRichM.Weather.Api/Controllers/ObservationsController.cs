@@ -7,6 +7,7 @@ using BellRichM.Weather.Api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
@@ -61,6 +62,32 @@ namespace BellRichM.Weather.Api.Controllers
 
             var observationModel = _mapper.Map<ObservationModel>(observation);
             return Ok(observationModel);
+        }
+
+        /// <summary>
+        /// Gets the observations within  time period.
+        /// </summary>
+        /// <param name="timePeriod">The time period.</param>
+        /// <returns>The observations.</returns>
+        [HttpGet]
+        public async Task<IActionResult> GetObservations([FromBody]TimePeriodModel timePeriod)
+        {
+            _logger.LogEvent(EventId.ObservationsController_Get, "{@timePeriod}", timePeriod);
+            if (!ModelState.IsValid)
+            {
+                _logger.LogDiagnosticInformation("{@ModelState}", ModelState);
+                var errorResponseModel = CreateModel();
+                return BadRequest(errorResponseModel);
+            }
+
+            var observations = await _observationService.GetObservations(timePeriod).ConfigureAwait(true);
+            if (observations == null)
+            {
+                return NotFound();
+            }
+
+            List<ObservationModel> observationsModel = _mapper.Map<List<ObservationModel>>(observations);
+            return Ok(observationsModel);
         }
 
         /// <summary>

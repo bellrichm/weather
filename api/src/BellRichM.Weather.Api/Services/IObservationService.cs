@@ -1,4 +1,6 @@
 using BellRichM.Weather.Api.Data;
+using BellRichM.Weather.Api.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BellRichM.Weather.Api.Services
@@ -14,6 +16,13 @@ namespace BellRichM.Weather.Api.Services
         /// <param name="dateTime">The date time of the observation to retrieve.</param>
         /// <returns>The <see cref="Observation"/>.</returns>
         Task<Observation> GetObservation(int dateTime);
+
+        /// <summary>
+        /// Gets the observations within a time period.
+        /// </summary>
+        /// <param name="timePeriod">The time period.</param>
+        /// <returns>The observations.</returns>
+        Task<List<Observation>> GetObservations(TimePeriodModel timePeriod);
 
         /// <summary>
         /// Create the observation.
