@@ -1,6 +1,7 @@
 using AutoMapper;
 using BellRichM.Identity.Api.Extensions;
 using BellRichM.Weather.Api.Extensions;
+using BellRichM.Weather.Api.Formatters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -102,7 +103,8 @@ namespace BellRichM.Weather.Web
             services.AddWeatherServices(Configuration);
 
             // needed for testserver to find controllers
-            services.AddMvc()
+            services.AddMvc(
+                options => options.OutputFormatters.Add(new ObservationDataOutputFormatter()))
                 .AddApplicationPart(Assembly.Load(new AssemblyName("BellRichM.Identity.Api")));
 
             // In production, the Angular files will be served from this directory
