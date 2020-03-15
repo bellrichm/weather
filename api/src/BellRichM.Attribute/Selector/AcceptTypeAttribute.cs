@@ -14,7 +14,7 @@ namespace BellRichM.Attribute.Selector
         private readonly string _acceptType;
 
         /// <summary>
-        /// Initializes a new instance of AcceptTypeAttribute.
+        /// Initializes a new instance of the  <see cref="AcceptTypeAttribute"/> class.
         /// </summary>
         /// <param name="acceptType">The aceept header media type.</param>
         public AcceptTypeAttribute(string acceptType)

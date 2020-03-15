@@ -137,12 +137,12 @@ WHERE
         }
 
         /// <inheritdoc/>
-        public async Task<List<Observation>> GetObservations(TimePeriodModel timePeriod)
+        public async Task<List<Observation>> GetObservations(TimePeriodModel timePeriodModel)
         {
-            _logger.LogDiagnosticDebug("GetObservation: {@timePeriod}", timePeriod);
-            if (timePeriod == null)
+            _logger.LogDiagnosticDebug("GetObservation: {@timePeriod}", timePeriodModel);
+            if (timePeriodModel == null)
             {
-                throw new ArgumentNullException(nameof(timePeriod));
+                throw new ArgumentNullException(nameof(timePeriodModel));
             }
 
             var statement = @"
@@ -175,8 +175,8 @@ WHERE
                 dbCommand.CommandText = statement;
                 using (dbCommand)
                 {
-                    dbCommand.AddParamWithValue("@startDateTime", timePeriod.StartDateTime);
-                    dbCommand.AddParamWithValue("@endDateTime", timePeriod.EndDateTime);
+                    dbCommand.AddParamWithValue("@startDateTime", timePeriodModel.StartDateTime);
+                    dbCommand.AddParamWithValue("@endDateTime", timePeriodModel.EndDateTime);
 
                     dbConnection.Open();
 
@@ -239,12 +239,12 @@ WHERE
         }
 
         /// <inheritdoc/>
-        public async Task<List<ObservationDateTime>> GetObservationDateTimes(TimePeriodModel timePeriod)
+        public async Task<List<ObservationDateTime>> GetObservationDateTimes(TimePeriodModel timePeriodModel)
         {
-            _logger.LogDiagnosticDebug("GetObservation: {@timePeriod}", timePeriod);
-            if (timePeriod == null)
+            _logger.LogDiagnosticDebug("GetObservation: {@timePeriod}", timePeriodModel);
+            if (timePeriodModel == null)
             {
-                throw new ArgumentNullException(nameof(timePeriod));
+                throw new ArgumentNullException(nameof(timePeriodModel));
             }
 
             var statement = @"
@@ -268,8 +268,8 @@ WHERE
                 dbCommand.CommandText = statement;
                 using (dbCommand)
                 {
-                    dbCommand.AddParamWithValue("@startDateTime", timePeriod.StartDateTime);
-                    dbCommand.AddParamWithValue("@endDateTime", timePeriod.EndDateTime);
+                    dbCommand.AddParamWithValue("@startDateTime", timePeriodModel.StartDateTime);
+                    dbCommand.AddParamWithValue("@endDateTime", timePeriodModel.EndDateTime);
 
                     dbConnection.Open();
 
