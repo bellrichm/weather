@@ -239,6 +239,58 @@ WHERE
         }
 
         /// <inheritdoc/>
+        public async Task<List<ObservationDateTime>> GetObservationDateTimes(TimePeriodModel timePeriod)
+        {
+            _logger.LogDiagnosticDebug("GetObservation: {@timePeriod}", timePeriod);
+            if (timePeriod == null)
+            {
+                throw new ArgumentNullException(nameof(timePeriod));
+            }
+
+            var statement = @"
+SELECT
+     dateTime
+FROM condition
+WHERE
+    -- month=@dateTime
+    -- AND year>2015
+    dateTime>=@startDateTime
+    AND dateTime<=@endDateTime
+";
+
+            var observationDateTimes = new List<ObservationDateTime>();
+
+            var dbConnection = _observationDbProviderFactory.CreateConnection();
+            dbConnection.ConnectionString = _connectionString;
+            using (dbConnection)
+            {
+                var dbCommand = dbConnection.CreateCommand();
+                dbCommand.CommandText = statement;
+                using (dbCommand)
+                {
+                    dbCommand.AddParamWithValue("@startDateTime", timePeriod.StartDateTime);
+                    dbCommand.AddParamWithValue("@endDateTime", timePeriod.EndDateTime);
+
+                    dbConnection.Open();
+
+                    using (var rdr = dbCommand.ExecuteReader())
+                    {
+                        while (await rdr.ReadAsync().ConfigureAwait(true))
+                        {
+                            observationDateTimes.Add(
+                                new ObservationDateTime
+                                {
+                                    DateTime = System.Convert.ToInt32(rdr["dateTime"], CultureInfo.InvariantCulture)
+                                });
+                        }
+                    }
+                }
+            }
+
+            return observationDateTimes;
+        }
+
+        /// <inheritdoc/>
         public async Task<int> CreateObservation(Observation observation)
         {
             _logger.LogDiagnosticDebug("CreateObservation: {@observation}", observation);
