@@ -82,52 +82,7 @@ WHERE
                     {
                         if (await rdr.ReadAsync().ConfigureAwait(true))
                         {
-                            observation =
-                                new Observation
-                                {
-                                    Year = System.Convert.ToInt32(rdr["year"], CultureInfo.InvariantCulture),
-                                    Month = System.Convert.ToInt32(rdr["month"], CultureInfo.InvariantCulture),
-                                    Day = System.Convert.ToInt32(rdr["day"], CultureInfo.InvariantCulture),
-                                    Hour = System.Convert.ToInt32(rdr["hour"], CultureInfo.InvariantCulture),
-                                    Minute = System.Convert.ToInt32(rdr["minute"], CultureInfo.InvariantCulture),
-                                    DateTime = System.Convert.ToInt32(rdr["dateTime"], CultureInfo.InvariantCulture),
-                                    USUnits = System.Convert.ToInt32(rdr["usUnits"], CultureInfo.InvariantCulture),
-                                    Interval = System.Convert.ToInt32(rdr["interval"], CultureInfo.InvariantCulture),
-                                    Barometer = rdr.GetValue<double>("barometer"),
-                                    Pressure = rdr.GetValue<double>("pressure"),
-                                    Altimeter = rdr.GetValue<double>("altimeter"),
-                                    OutsideTemperature = rdr.GetValue<double>("outTemp"),
-                                    OutsideHumidity = rdr.GetValue<double>("outHumidity"),
-                                    WindSpeed = rdr.GetValue<double>("windSpeed"),
-                                    WindDirection = rdr.GetValue<double>("windDir"),
-                                    WindGust = rdr.GetValue<double>("windGust"),
-                                    WindGustDirection = rdr.GetValue<double>("windGustDir"),
-                                    RainRate = rdr.GetValue<double>("rainRate"),
-                                    Rain = rdr.GetValue<double>("rain"),
-                                    DewPoint = rdr.GetValue<double>("dewpoint"),
-                                    Windchill = rdr.GetValue<double>("windchill"),
-                                    HeatIndex = rdr.GetValue<double>("heatindex"),
-                                    Evapotranspiration = rdr.GetValue<double>("ET"),
-                                    Radiation = rdr.GetValue<double>("radiation"),
-                                    Ultraviolet = rdr.GetValue<double>("UV"),
-                                    ExtraTemperature1 = rdr.GetValue<double>("extraTemp1"),
-                                    ExtraTemperature2 = rdr.GetValue<double>("extraTemp2"),
-                                    ExtraTemperature3 = rdr.GetValue<double>("extraTemp3"),
-                                    SoilTemperature1 = rdr.GetValue<double>("soilTemp1"),
-                                    SoilTemperature2 = rdr.GetValue<double>("soilTemp2"),
-                                    SoilTemperature3 = rdr.GetValue<double>("soilTemp3"),
-                                    SoilTemperature4 = rdr.GetValue<double>("soilTemp4"),
-                                    LeafTemperature1 = rdr.GetValue<double>("leafTemp1"),
-                                    LeafTemperature2 = rdr.GetValue<double>("leafTemp2"),
-                                    ExtraHumidity1 = rdr.GetValue<double>("extraHumid1"),
-                                    ExtraHumidity2 = rdr.GetValue<double>("extraHumid2"),
-                                    SoilMoisture1 = rdr.GetValue<double>("soilMoist1"),
-                                    SoilMoisture2 = rdr.GetValue<double>("soilMoist2"),
-                                    SoilMoisture3 = rdr.GetValue<double>("soilMoist3"),
-                                    SoilMoisture4 = rdr.GetValue<double>("soilMoist4"),
-                                    LeafWetness1 = rdr.GetValue<double>("leafWet1"),
-                                    LeafWetness2 = rdr.GetValue<double>("leafWet2")
-                                };
+                            observation = this.ReadObservation(rdr);
                         }
                     }
                 }
@@ -184,52 +139,7 @@ WHERE
                     {
                         while (await rdr.ReadAsync().ConfigureAwait(true))
                         {
-                            observations.Add(
-                                new Observation
-                                {
-                                    Year = System.Convert.ToInt32(rdr["year"], CultureInfo.InvariantCulture),
-                                    Month = System.Convert.ToInt32(rdr["month"], CultureInfo.InvariantCulture),
-                                    Day = System.Convert.ToInt32(rdr["day"], CultureInfo.InvariantCulture),
-                                    Hour = System.Convert.ToInt32(rdr["hour"], CultureInfo.InvariantCulture),
-                                    Minute = System.Convert.ToInt32(rdr["minute"], CultureInfo.InvariantCulture),
-                                    DateTime = System.Convert.ToInt32(rdr["dateTime"], CultureInfo.InvariantCulture),
-                                    USUnits = System.Convert.ToInt32(rdr["usUnits"], CultureInfo.InvariantCulture),
-                                    Interval = System.Convert.ToInt32(rdr["interval"], CultureInfo.InvariantCulture),
-                                    Barometer = rdr.GetValue<double>("barometer"),
-                                    Pressure = rdr.GetValue<double>("pressure"),
-                                    Altimeter = rdr.GetValue<double>("altimeter"),
-                                    OutsideTemperature = rdr.GetValue<double>("outTemp"),
-                                    OutsideHumidity = rdr.GetValue<double>("outHumidity"),
-                                    WindSpeed = rdr.GetValue<double>("windSpeed"),
-                                    WindDirection = rdr.GetValue<double>("windDir"),
-                                    WindGust = rdr.GetValue<double>("windGust"),
-                                    WindGustDirection = rdr.GetValue<double>("windGustDir"),
-                                    RainRate = rdr.GetValue<double>("rainRate"),
-                                    Rain = rdr.GetValue<double>("rain"),
-                                    DewPoint = rdr.GetValue<double>("dewpoint"),
-                                    Windchill = rdr.GetValue<double>("windchill"),
-                                    HeatIndex = rdr.GetValue<double>("heatindex"),
-                                    Evapotranspiration = rdr.GetValue<double>("ET"),
-                                    Radiation = rdr.GetValue<double>("radiation"),
-                                    Ultraviolet = rdr.GetValue<double>("UV"),
-                                    ExtraTemperature1 = rdr.GetValue<double>("extraTemp1"),
-                                    ExtraTemperature2 = rdr.GetValue<double>("extraTemp2"),
-                                    ExtraTemperature3 = rdr.GetValue<double>("extraTemp3"),
-                                    SoilTemperature1 = rdr.GetValue<double>("soilTemp1"),
-                                    SoilTemperature2 = rdr.GetValue<double>("soilTemp2"),
-                                    SoilTemperature3 = rdr.GetValue<double>("soilTemp3"),
-                                    SoilTemperature4 = rdr.GetValue<double>("soilTemp4"),
-                                    LeafTemperature1 = rdr.GetValue<double>("leafTemp1"),
-                                    LeafTemperature2 = rdr.GetValue<double>("leafTemp2"),
-                                    ExtraHumidity1 = rdr.GetValue<double>("extraHumid1"),
-                                    ExtraHumidity2 = rdr.GetValue<double>("extraHumid2"),
-                                    SoilMoisture1 = rdr.GetValue<double>("soilMoist1"),
-                                    SoilMoisture2 = rdr.GetValue<double>("soilMoist2"),
-                                    SoilMoisture3 = rdr.GetValue<double>("soilMoist3"),
-                                    SoilMoisture4 = rdr.GetValue<double>("soilMoist4"),
-                                    LeafWetness1 = rdr.GetValue<double>("leafWet1"),
-                                    LeafWetness2 = rdr.GetValue<double>("leafWet2")
-                                });
+                            observations.Add(this.ReadObservation(rdr));
                         }
                     }
                 }
@@ -424,6 +334,55 @@ DELETE FROM condition
             }
 
             return rowCount;
+        }
+
+        private Observation ReadObservation(DbDataReader rdr)
+        {
+            return new Observation
+            {
+                Year = System.Convert.ToInt32(rdr["year"], CultureInfo.InvariantCulture),
+                Month = System.Convert.ToInt32(rdr["month"], CultureInfo.InvariantCulture),
+                Day = System.Convert.ToInt32(rdr["day"], CultureInfo.InvariantCulture),
+                Hour = System.Convert.ToInt32(rdr["hour"], CultureInfo.InvariantCulture),
+                Minute = System.Convert.ToInt32(rdr["minute"], CultureInfo.InvariantCulture),
+                DateTime = System.Convert.ToInt32(rdr["dateTime"], CultureInfo.InvariantCulture),
+                USUnits = System.Convert.ToInt32(rdr["usUnits"], CultureInfo.InvariantCulture),
+                Interval = System.Convert.ToInt32(rdr["interval"], CultureInfo.InvariantCulture),
+                Barometer = rdr.GetValue<double>("barometer"),
+                Pressure = rdr.GetValue<double>("pressure"),
+                Altimeter = rdr.GetValue<double>("altimeter"),
+                OutsideTemperature = rdr.GetValue<double>("outTemp"),
+                OutsideHumidity = rdr.GetValue<double>("outHumidity"),
+                WindSpeed = rdr.GetValue<double>("windSpeed"),
+                WindDirection = rdr.GetValue<double>("windDir"),
+                WindGust = rdr.GetValue<double>("windGust"),
+                WindGustDirection = rdr.GetValue<double>("windGustDir"),
+                RainRate = rdr.GetValue<double>("rainRate"),
+                Rain = rdr.GetValue<double>("rain"),
+                DewPoint = rdr.GetValue<double>("dewpoint"),
+                Windchill = rdr.GetValue<double>("windchill"),
+                HeatIndex = rdr.GetValue<double>("heatindex"),
+                Evapotranspiration = rdr.GetValue<double>("ET"),
+                Radiation = rdr.GetValue<double>("radiation"),
+                Ultraviolet = rdr.GetValue<double>("UV"),
+                ExtraTemperature1 = rdr.GetValue<double>("extraTemp1"),
+                ExtraTemperature2 = rdr.GetValue<double>("extraTemp2"),
+                ExtraTemperature3 = rdr.GetValue<double>("extraTemp3"),
+                SoilTemperature1 = rdr.GetValue<double>("soilTemp1"),
+                SoilTemperature2 = rdr.GetValue<double>("soilTemp2"),
+                SoilTemperature3 = rdr.GetValue<double>("soilTemp3"),
+                SoilTemperature4 = rdr.GetValue<double>("soilTemp4"),
+                LeafTemperature1 = rdr.GetValue<double>("leafTemp1"),
+                LeafTemperature2 = rdr.GetValue<double>("leafTemp2"),
+                ExtraHumidity1 = rdr.GetValue<double>("extraHumid1"),
+                ExtraHumidity2 = rdr.GetValue<double>("extraHumid2"),
+                SoilMoisture1 = rdr.GetValue<double>("soilMoist1"),
+                SoilMoisture2 = rdr.GetValue<double>("soilMoist2"),
+                SoilMoisture3 = rdr.GetValue<double>("soilMoist3"),
+                SoilMoisture4 = rdr.GetValue<double>("soilMoist4"),
+                LeafWetness1 = rdr.GetValue<double>("leafWet1"),
+                LeafWetness2 = rdr.GetValue<double>("leafWet2")
+            };
         }
 
         private async Task<int> ExecuteNonQuery(string statement, Observation observation)
