@@ -60,6 +60,12 @@ namespace BellRichM.Weather.Api.Services
         }
 
         /// <inheritdoc/>
+        public Task<List<ObservationDateTime>> GetObservationDateTimes(TimePeriodModel timePeriod)
+        {
+            return _observationRepository.GetObservationDateTimes(timePeriod);
+        }
+
+        /// <inheritdoc/>
         public async Task<Observation> UpdateObservation(Observation observation)
         {
             if (observation == null)

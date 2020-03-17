@@ -1,5 +1,6 @@
 using AutoMapper;
 using BellRichM.Api.Controllers;
+using BellRichM.Attribute.Selector;
 using BellRichM.Logging;
 using BellRichM.Weather.Api.Data;
 using BellRichM.Weather.Api.Models;
@@ -72,7 +73,7 @@ namespace BellRichM.Weather.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetObservations([FromBody]TimePeriodModel timePeriod)
         {
-            _logger.LogEvent(EventId.ObservationsController_Get, "{@timePeriod}", timePeriod);
+            _logger.LogEvent(EventId.ObservationsController_GetObservations, "{@timePeriod}", timePeriod);
             if (!ModelState.IsValid)
             {
                 _logger.LogDiagnosticInformation("{@ModelState}", ModelState);
@@ -88,6 +89,33 @@ namespace BellRichM.Weather.Api.Controllers
 
             List<ObservationModel> observationsModel = _mapper.Map<List<ObservationModel>>(observations);
             return Ok(observationsModel);
+        }
+
+        /// <summary>
+        /// Gets the observations within  time period.
+        /// </summary>
+        /// <param name="timePeriod">The time period.</param>
+        /// <returns>The observations.</returns>
+        [HttpGet]
+        [AcceptType("application/vnd.bellrichm.observation-date")]
+        public async Task<IActionResult> GetObservationDateTimes([FromBody]TimePeriodModel timePeriod)
+        {
+            _logger.LogEvent(EventId.ObservationsController_GetObservationDateTimes, "{@timePeriod}", timePeriod);
+            if (!ModelState.IsValid)
+            {
+                _logger.LogDiagnosticInformation("{@ModelState}", ModelState);
+                var errorResponseModel = CreateModel();
+                return BadRequest(errorResponseModel);
+            }
+
+            var observationDateTimes = await _observationService.GetObservationDateTimes(timePeriod).ConfigureAwait(true);
+            if (observationDateTimes == null)
+            {
+                return NotFound();
+            }
+
+            List<ObservationDateTimeModel> observationDateTimesModel = _mapper.Map<List<ObservationDateTimeModel>>(observationDateTimes);
+            return Ok(observationDateTimesModel);
         }
 
         /// <summary>
