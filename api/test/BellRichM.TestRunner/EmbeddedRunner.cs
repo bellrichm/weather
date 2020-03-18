@@ -23,6 +23,25 @@ namespace BellRichM.TestRunner
             contextAssemblies = new List<ContextAssembly>();
         }
 
+        public static void RunTest(Type test)
+        {
+            if (test == null)
+            {
+                throw new ArgumentNullException(nameof(test));
+            }
+
+            if (System.Attribute.IsDefined(test, typeof(IgnoreAttribute)))
+            {
+                  return;
+            }
+
+            var testInstance = Activator.CreateInstance(test);
+            var testCase = GetTestCase(test, testInstance);
+            SetupTestCase(testCase);
+            CheckTestCaseResults(testCase);
+            CheckTestCaseBehaviors(testCase, testInstance);
+        }
+
         public void OnAssemblyStart()
         {
             var interfaceType = typeof(IAssemblyContext);
@@ -60,27 +79,13 @@ namespace BellRichM.TestRunner
             }
         }
 
-        public void RunTest(Type test)
-        {
-            if (System.Attribute.IsDefined(test, typeof(IgnoreAttribute)))
-            {
-                  return;
-            }
-
-            var testInstance = Activator.CreateInstance(test);
-            var testCase = GetTestCase(test, testInstance);
-            SetupTestCase(testCase);
-            CheckTestCaseResults(testCase);
-            CheckTestCaseBehaviors(testCase, testInstance);
-        }
-
-        private void SetupTestCase(TestCase testCase)
+        private static void SetupTestCase(TestCase testCase)
         {
             testCase.EstablishDelegate.Method.Invoke(testCase.EstablishDelegate.Target, null);
             testCase.BecauseDelegate.Method.Invoke(testCase.BecauseDelegate.Target, null);
         }
 
-        private void CheckTestCaseResults(TestCase testCase)
+        private static void CheckTestCaseResults(TestCase testCase)
         {
             foreach (var itDelegate in testCase.ItDelegates)
             {
@@ -88,7 +93,7 @@ namespace BellRichM.TestRunner
             }
         }
 
-        private void CheckTestCaseBehaviors(TestCase testCase, object testInstance)
+        private static void CheckTestCaseBehaviors(TestCase testCase, object testInstance)
         {
                 foreach (var loggingBehavior in testCase.LoggingBehaviors)
                 {
@@ -121,7 +126,7 @@ namespace BellRichM.TestRunner
                 }
         }
 
-        private TestCase GetTestCase(Type test, object testInstance)
+        private static TestCase GetTestCase(Type test, object testInstance)
         {
             var testCase = new TestCase();
             var fieldInfos = test.GetFields(BindingFlags.FlattenHierarchy | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
