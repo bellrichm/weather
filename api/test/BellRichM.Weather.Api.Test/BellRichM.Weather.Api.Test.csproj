@@ -3,6 +3,7 @@
     <GenerateFullPaths>true</GenerateFullPaths>     
     <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <OutputType>Library</OutputType>
+    <GenerateProgramFile>false</GenerateProgramFile>
     <SonarQubeTestProject>true</SonarQubeTestProject>
     <SonarQubeExclude>true</SonarQubeExclude>
     <CodeAnalysisRuleSet>$(ProjectDir)..\StyleCop.Analyzers.ruleset</CodeAnalysisRuleSet>

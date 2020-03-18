@@ -189,4 +189,11 @@ namespace BellRichM.Weather.Api.Test
         It should_return_the_Observation = () =>
             count.Should().Equals(0);
     }
+
+    class Program
+    {
+        static void Main()
+        {
+        }
+    }
 }
