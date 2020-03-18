@@ -71,7 +71,7 @@ namespace BellRichM.TestRunner
             var testCase = GetTestCase(test, testInstance);
             SetupTestCase(testCase);
             CheckTestCaseResults(testCase);
-            Console.WriteLine(test.Name);
+            CheckTestCaseBehaviors(testCase, testInstance);
         }
 
         private void SetupTestCase(TestCase testCase)
@@ -86,6 +86,39 @@ namespace BellRichM.TestRunner
             {
                 itDelegate.Method.Invoke(itDelegate.Target, null);
             }
+        }
+
+        private void CheckTestCaseBehaviors(TestCase testCase, object testInstance)
+        {
+                foreach (var loggingBehavior in testCase.LoggingBehaviors)
+                {
+                    var loggingBehaviorType = loggingBehavior.GetType();
+                    var testInstanceType = testInstance.GetType();
+
+                    var loggerMockValue = testInstanceType
+                        .GetField("loggerMock", BindingFlags.FlattenHierarchy | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance)
+                        .GetValue(testInstance);
+                    loggingBehaviorType
+                        .GetField("loggerMock", BindingFlags.FlattenHierarchy | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance)
+                        .SetValue(loggingBehavior, loggerMockValue);
+
+                    var loggingDataValue = testInstanceType
+                        .GetField("loggingData", BindingFlags.FlattenHierarchy | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance)
+                        .GetValue(testInstance);
+                    loggingBehaviorType
+                        .GetField("loggingData", BindingFlags.FlattenHierarchy | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance)
+                        .SetValue(loggingBehavior, loggingDataValue);
+
+                    var loggingBehaviorFieldInfos = loggingBehaviorType.GetFields(BindingFlags.FlattenHierarchy | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
+                    foreach (var loggingBehaviorFieldInfo in loggingBehaviorFieldInfos)
+                    {
+                        if (loggingBehaviorFieldInfo.FieldType == typeof(Machine.Specifications.It))
+                        {
+                            var loggingBehaviorCheck = loggingBehaviorFieldInfo.GetValue(loggingBehavior) as Delegate;
+                            loggingBehaviorCheck.Method.Invoke(loggingBehaviorCheck.Target, null);
+                        }
+                    }
+                }
         }
 
         private TestCase GetTestCase(Type test, object testInstance)
