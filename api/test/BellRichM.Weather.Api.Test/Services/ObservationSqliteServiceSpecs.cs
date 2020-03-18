@@ -197,6 +197,7 @@ namespace BellRichM.Weather.Api.Test
         {
             var embeddedRunner = new EmbeddedRunner(typeof(ObservationSqliteServiceSpecs));
             embeddedRunner.OnAssemblyStart();
+            embeddedRunner.RunTests();
             embeddedRunner.OnAssemblyComplete();
         }
     }
