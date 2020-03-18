@@ -10,24 +10,25 @@ namespace BellRichM.TestRunner
     {
         private Type _testType;
 
+        private Type[] testAssemblyTypes;
         private List<ContextAssembly> contextAssemblies;
 
         public EmbeddedRunner(Type testType)
         {
             _testType = testType;
 
+            var assembly = Assembly.GetAssembly(_testType);
+            testAssemblyTypes = assembly.GetTypes();
             contextAssemblies = new List<ContextAssembly>();
         }
 
         public void OnAssemblyStart()
         {
-            Type interfaceType = typeof(IAssemblyContext);
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            Type[] types = assembly.GetTypes();
+            var interfaceType = typeof(IAssemblyContext);
 
-            IEnumerable<Type> impl = types.Where(t => t.GetInterfaces().Contains(interfaceType));
+            var implementations = testAssemblyTypes.Where(t => t.GetInterfaces().Contains(interfaceType));
 
-            foreach (Type type in impl)
+            foreach (Type type in implementations)
             {
                 var method = type.GetMethod("OnAssemblyStart", BindingFlags.FlattenHierarchy | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
 
@@ -43,6 +44,27 @@ namespace BellRichM.TestRunner
             {
                 var method = contextAssembly.ImplementationType.GetMethod("OnAssemblyComplete", BindingFlags.FlattenHierarchy | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
                 method.Invoke(contextAssembly.ImplementationInstance, null);
+            }
+        }
+
+        public void RunTests()
+        {
+            var subclasses = testAssemblyTypes.Where(t => t.IsSubclassOf(_testType));
+
+            var subclasses2 = testAssemblyTypes.Where(t => t.BaseType == _testType);
+
+            foreach (var subclass in subclasses)
+            {
+                RunTest(subclass);
+            }
+        }
+
+        public void RunTest(Type test)
+        {
+            Console.WriteLine(test.Name);
+            if (System.Attribute.IsDefined(test, typeof(IgnoreAttribute)))
+            {
+                  return;
             }
         }
     }
