@@ -69,7 +69,23 @@ namespace BellRichM.TestRunner
 
             var testInstance = Activator.CreateInstance(test);
             var testCase = GetTestCase(test, testInstance);
+            SetupTestCase(testCase);
+            CheckTestCaseResults(testCase);
             Console.WriteLine(test.Name);
+        }
+
+        private void SetupTestCase(TestCase testCase)
+        {
+            testCase.EstablishDelegate.Method.Invoke(testCase.EstablishDelegate.Target, null);
+            testCase.BecauseDelegate.Method.Invoke(testCase.BecauseDelegate.Target, null);
+        }
+
+        private void CheckTestCaseResults(TestCase testCase)
+        {
+            foreach (var itDelegate in testCase.ItDelegates)
+            {
+                itDelegate.Method.Invoke(itDelegate.Target, null);
+            }
         }
 
         private TestCase GetTestCase(Type test, object testInstance)
@@ -79,9 +95,7 @@ namespace BellRichM.TestRunner
 
             foreach (var fieldInfo in fieldInfos)
             {
-                Console.WriteLine(fieldInfo.Name);
                 var fieldType = fieldInfo.FieldType;
-                Console.WriteLine(fieldType);
                 if (fieldType == typeof(Machine.Specifications.Establish))
                 {
                     testCase.EstablishDelegate = fieldInfo.GetValue(testInstance) as Delegate;
@@ -103,7 +117,6 @@ namespace BellRichM.TestRunner
                     if (behavior.IsGenericType && behavior.GetGenericTypeDefinition() == typeof(BellRichM.Logging.LoggingBehaviors<>))
                     {
                         var loggingBehavior = behavior.GetGenericTypeDefinition();
-                        Console.WriteLine(loggingBehavior);
                         testCase.LoggingBehaviors.Add(Activator.CreateInstance(loggingBehavior.MakeGenericType(behavior.GenericTypeArguments)));
                     }
                 }
