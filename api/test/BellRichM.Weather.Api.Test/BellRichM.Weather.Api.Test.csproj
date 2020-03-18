@@ -26,5 +26,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\BellRichM.Weather.Api\BellRichM.Weather.Api.csproj" />
     <ProjectReference Include="..\BellRichM.Helpers.Test\BellRichM.Helpers.Test.csproj" />
+    <ProjectReference Include="..\BellRichM.TestRunner\BellRichM.TestRunner.csproj" />
   </ItemGroup>
 </Project>

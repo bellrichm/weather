@@ -1,5 +1,6 @@
 using BellRichM.Helpers.Test;
 using BellRichM.Logging;
+using BellRichM.TestRunner;
 using BellRichM.Weather.Api.Data;
 using BellRichM.Weather.Api.Repositories;
 using BellRichM.Weather.Api.Services;
@@ -194,6 +195,7 @@ namespace BellRichM.Weather.Api.Test
     {
         static void Main()
         {
+            var runner = new Runner(typeof(ObservationSqliteServiceSpecs));
         }
     }
 }
