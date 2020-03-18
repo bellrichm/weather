@@ -17,6 +17,6 @@ if ($env:UNIT_TEST_API -eq "NO" `
   $parms = $parms + '/p:CoverletOutputFormat=\"json,opencover\" '
   $parms = $parms + '/p:CoverletOutput=../coverlet/ '
   $parms = $parms + '/p:MergeWith=../coverlet/coverage.netcoreapp3.1.json '
-  $parms = $parms + '/p:Exclude=\"[*]*.Migrations.*,[*.Test]*,[System.*]*\" '
+  $parms = $parms + '/p:Exclude=\"[*]*.Migrations.*,[*.Test]*,[System.*]*,[BellRichM.TestRunner]*\" '
   $cmd = "dotnet test --logger:Appveyor --no-restore --no-build -f netcoreapp3.1 api/test/BellRichM.Weather.Test.sln" + $parms
   RunCmd $cmd
