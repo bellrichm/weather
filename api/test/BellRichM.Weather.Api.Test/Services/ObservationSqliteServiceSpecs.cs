@@ -25,7 +25,7 @@ namespace BellRichM.Weather.Api.Test
         protected static Mock<ILoggerAdapter<ObservationSqliteService>> loggerMock;
         protected static Mock<IObservationRepository> observationRepositoryMock;
 
-        Establish context = () =>
+        protected Establish context = () =>
         {
             // default to no logging
             loggingData = new LoggingData
