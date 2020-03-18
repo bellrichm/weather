@@ -3,6 +3,7 @@
     <GenerateFullPaths>true</GenerateFullPaths>     
     <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <OutputType>Library</OutputType>
+    <GenerateProgramFile>false</GenerateProgramFile>
     <SonarQubeTestProject>true</SonarQubeTestProject>
     <SonarQubeExclude>true</SonarQubeExclude>
     <CodeAnalysisRuleSet>$(ProjectDir)..\StyleCop.Analyzers.ruleset</CodeAnalysisRuleSet>
@@ -21,5 +22,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\BellRichM.Attribute\BellRichM.Attribute.csproj" />
+    <ProjectReference Include="..\BellRichM.TestRunner\BellRichM.TestRunner.csproj" />
   </ItemGroup>
 </Project>
