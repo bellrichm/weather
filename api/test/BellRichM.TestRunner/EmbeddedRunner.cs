@@ -1,3 +1,4 @@
+using BellRichM.Helpers.Test;
 using Machine.Specifications;
 using System;
 using System.Collections.Generic;
@@ -61,11 +62,54 @@ namespace BellRichM.TestRunner
 
         public void RunTest(Type test)
         {
-            Console.WriteLine(test.Name);
             if (System.Attribute.IsDefined(test, typeof(IgnoreAttribute)))
             {
                   return;
             }
+
+            var testInstance = Activator.CreateInstance(test);
+            var testCase = GetTestCase(test, testInstance);
+            Console.WriteLine(test.Name);
+        }
+
+        private TestCase GetTestCase(Type test, object testInstance)
+        {
+            var testCase = new TestCase();
+            var fieldInfos = test.GetFields(BindingFlags.FlattenHierarchy | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
+
+            foreach (var fieldInfo in fieldInfos)
+            {
+                Console.WriteLine(fieldInfo.Name);
+                var fieldType = fieldInfo.FieldType;
+                Console.WriteLine(fieldType);
+                if (fieldType == typeof(Machine.Specifications.Establish))
+                {
+                    testCase.EstablishDelegate = fieldInfo.GetValue(testInstance) as Delegate;
+                }
+
+                if (fieldType == typeof(Machine.Specifications.Because))
+                {
+                    testCase.BecauseDelegate = fieldInfo.GetValue(testInstance) as Delegate;
+                }
+
+                if (fieldType == typeof(Machine.Specifications.It))
+                {
+                    testCase.ItDelegates.Add(fieldInfo.GetValue(testInstance) as Delegate);
+                }
+
+                if (fieldType.IsGenericType && fieldType.GetGenericTypeDefinition() == typeof(Machine.Specifications.Behaves_like<>))
+                {
+                    var behavior = fieldType.GenericTypeArguments[0];
+                    if (behavior.IsGenericType && behavior.GetGenericTypeDefinition() == typeof(BellRichM.Logging.LoggingBehaviors<>))
+                    {
+                        var loggingBehavior = behavior.GetGenericTypeDefinition();
+                        Console.WriteLine(loggingBehavior);
+                        testCase.LoggingBehaviors.Add(Activator.CreateInstance(loggingBehavior.MakeGenericType(behavior.GenericTypeArguments)));
+                    }
+                }
+            }
+
+            return testCase;
         }
     }
 }

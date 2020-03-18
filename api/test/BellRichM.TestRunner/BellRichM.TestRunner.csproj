@@ -14,4 +14,7 @@
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="All" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BellRichM.Helpers.Test\BellRichM.Helpers.Test.csproj" />
+  </ItemGroup>  
 </Project>
