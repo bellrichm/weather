@@ -1,8 +1,11 @@
+using BellRichM.Attribute.CodeCoverage;
+
 namespace BellRichM.Weather.Api.Models
 {
     /// <summary>
     /// The time period.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class TimePeriodModel
     {
         /// <summary>
