@@ -1,6 +1,5 @@
 using BellRichM.Helpers.Test;
 using BellRichM.Logging;
-using BellRichM.TestRunner;
 using BellRichM.Weather.Api.Data;
 using BellRichM.Weather.Api.Repositories;
 using BellRichM.Weather.Api.Services;
@@ -189,16 +188,5 @@ namespace BellRichM.Weather.Api.Test
 
         It should_return_the_Observation = () =>
             count.Should().Equals(0);
-    }
-
-    class Program
-    {
-        static void Main()
-        {
-            var embeddedRunner = new EmbeddedRunner(typeof(ObservationSqliteServiceSpecs));
-            embeddedRunner.OnAssemblyStart();
-            embeddedRunner.RunTests();
-            embeddedRunner.OnAssemblyComplete();
-        }
     }
 }
