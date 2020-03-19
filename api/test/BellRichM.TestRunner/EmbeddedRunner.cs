@@ -69,7 +69,11 @@ namespace BellRichM.TestRunner
 
         public void RunTests()
         {
-            var subclasses = testAssemblyTypes.Where(t => t.IsSubclassOf(_testType) || t == _testType);
+            var subclasses = testAssemblyTypes.Where(t => t.IsSubclassOf(_testType));
+            if (subclasses.Count() == 0)
+            {
+                subclasses = testAssemblyTypes.Where(t => t == _testType);
+            }
 
             var subclasses2 = testAssemblyTypes.Where(t => t.BaseType == _testType);
 
