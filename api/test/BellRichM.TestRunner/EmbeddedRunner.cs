@@ -35,6 +35,8 @@ namespace BellRichM.TestRunner
                   return;
             }
 
+            Console.WriteLine("Running " + test.Name);
+
             var testInstance = Activator.CreateInstance(test);
             var testCase = GetTestCase(test, testInstance);
             SetupTestCase(testCase);
