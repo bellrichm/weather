@@ -38,8 +38,16 @@ namespace BellRichM.TestRunner
             var testInstance = Activator.CreateInstance(test);
             var testCase = GetTestCase(test, testInstance);
             SetupTestCase(testCase);
-            CheckTestCaseResults(testCase);
-            CheckTestCaseBehaviors(testCase, testInstance);
+            try
+            {
+                CheckTestCaseResults(testCase);
+                CheckTestCaseBehaviors(testCase, testInstance);
+            }
+            catch (System.Reflection.TargetInvocationException ex) when (ex.InnerException is Machine.Specifications.SpecificationException)
+            {
+                Console.WriteLine(ex.InnerException.Message);
+                Console.WriteLine(ex.InnerException.StackTrace);
+            }
         }
 
         public void OnAssemblyStart()
@@ -70,7 +78,7 @@ namespace BellRichM.TestRunner
         public void RunTests()
         {
             var subclasses = testAssemblyTypes.Where(t => t.IsSubclassOf(_testType));
-            if (subclasses.Count() == 0)
+            if (!subclasses.Any())
             {
                 subclasses = testAssemblyTypes.Where(t => t == _testType);
             }
