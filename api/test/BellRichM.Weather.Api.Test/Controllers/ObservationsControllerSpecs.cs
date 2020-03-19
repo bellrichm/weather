@@ -137,447 +137,493 @@ namespace BellRichM.Weather.Api.TestControllers.Test
             observationsController.ControllerContext.HttpContext = new DefaultHttpContext();
             observationsController.ControllerContext.HttpContext.TraceIdentifier = "traceIdentifier";
         };
-    }
 
-    internal class When_getting_an_Existing_observation : ObservationsControllerSpecs
-    {
-        private static ObjectResult result;
-
-        Establish context = () =>
+        internal class When_getting_an_Existing_observation
         {
-            loggingData = new LoggingData
+            protected static Mock<ILoggerAdapter<ObservationsController>> loggerMock;
+            protected static LoggingData loggingData;
+
+            private static ObjectResult result;
+
+            Establish context = () =>
             {
-                EventLoggingData = new List<EventLoggingData>
+                loggerMock = ObservationsControllerSpecs.loggerMock;
+                loggingData = new LoggingData
                 {
-                    new EventLoggingData(
-                        EventId.ObservationsController_Get,
-                        "{@dateTime}")
-                },
-                ErrorLoggingMessages = new List<string>()
+                    EventLoggingData = new List<EventLoggingData>
+                    {
+                        new EventLoggingData(
+                            EventId.ObservationsController_Get,
+                            "{@dateTime}")
+                    },
+                    ErrorLoggingMessages = new List<string>()
+                };
             };
-        };
 
-        Because of = () =>
-            result = (ObjectResult)observationsController.GetObservation(observationModel.DateTime).Await();
+            Because of = () =>
+                result = (ObjectResult)observationsController.GetObservation(observationModel.DateTime).Await();
 
-        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
+            Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
 
-        It should_return_success_status_code = () =>
-            result.StatusCode.Should().Equals(200);
+            It should_return_success_status_code = () =>
+                result.StatusCode.Should().Equals(200);
 
-        It should_return_the_observation_model = () =>
-        {
-            var retrievedObservationModel = (ObservationModel)result.Value;
-            retrievedObservationModel.Should().BeEquivalentTo(observationModel);
-        };
-    }
-
-    internal class When_getting_a_nonexisting_observation_model : ObservationsControllerSpecs
-    {
-        private static NotFoundResult result;
-
-        Establish context = () =>
-        {
-            loggingData = new LoggingData
+            It should_return_the_observation_model = () =>
             {
-                EventLoggingData = new List<EventLoggingData>
-                {
-                    new EventLoggingData(
-                        EventId.ObservationsController_Get,
-                        "{@dateTime}")
-                },
-                ErrorLoggingMessages = new List<string>()
+                var retrievedObservationModel = (ObservationModel)result.Value;
+                retrievedObservationModel.Should().BeEquivalentTo(observationModel);
             };
-        };
+        }
 
-        Because of = () =>
-            result = (NotFoundResult)observationsController.GetObservation(notFoundObservationModel.DateTime).Await();
-
-        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
-
-        It should_return_not_found_status_code = () =>
-            result.StatusCode.Should().Equals(404);
-    }
-
-    internal class When_getting_an_observation_with_an_invalid_modelState : ObservationsControllerSpecs
-    {
-        private static ObjectResult result;
-
-        Establish context = () =>
+        internal class When_getting_a_nonexisting_observation_model
         {
-            loggingData = new LoggingData
+            protected static Mock<ILoggerAdapter<ObservationsController>> loggerMock;
+            protected static LoggingData loggingData;
+            private static NotFoundResult result;
+
+            Establish context = () =>
             {
-                InformationTimes = 1,
-                EventLoggingData = new List<EventLoggingData>
+                loggerMock = ObservationsControllerSpecs.loggerMock;
+                loggingData = new LoggingData
                 {
-                    new EventLoggingData(
-                        EventId.ObservationsController_Get,
-                        "{@dateTime}")
-                },
-                ErrorLoggingMessages = new List<string>()
+                    EventLoggingData = new List<EventLoggingData>
+                    {
+                        new EventLoggingData(
+                            EventId.ObservationsController_Get,
+                            "{@dateTime}")
+                    },
+                    ErrorLoggingMessages = new List<string>()
+                };
             };
-            observationsController.ModelState.AddModelError(ErrorCode, ErrorMessage);
-        };
 
-        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
+            Because of = () =>
+                result = (NotFoundResult)observationsController.GetObservation(notFoundObservationModel.DateTime).Await();
 
-        Cleanup after = () =>
-            observationsController.ModelState.Clear();
+            Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
 
-        Because of = () =>
-            result = (ObjectResult)observationsController.GetObservation(InvalidDateTime).Await();
+            It should_return_not_found_status_code = () =>
+                result.StatusCode.Should().Equals(404);
+        }
 
-        It should_return_correct_result_type = () =>
-            result.Should().BeOfType<BadRequestObjectResult>();
-
-        It should_return_correct_status_code = () =>
-            result.StatusCode.ShouldEqual(400);
-
-        It should_return_a_ErrorResponseModel = () =>
-            result.Value.Should().BeOfType<ErrorResponseModel>();
-    }
-
-    internal class When_decorating_Observation_GetObservation_method : ObservationsControllerSpecs
-    {
-        private static MethodInfo methodInfo;
-
-        Because of = () =>
+        internal class When_getting_an_observation_with_an_invalid_modelState
         {
-            methodInfo = typeof(ObservationsController).GetMethod("GetObservation");
-        };
+            protected static Mock<ILoggerAdapter<ObservationsController>> loggerMock;
+            protected static LoggingData loggingData;
 
-        It should_have_CanCreateRoles_policy = () =>
-            methodInfo.Should()
-            .BeDecoratedWith<AuthorizeAttribute>(a => a.Policy == "CanViewObservations");
-    }
+            private static ObjectResult result;
 
-    internal class When_creating_an_observation_succeeds : ObservationsControllerSpecs
-    {
-        private static ObjectResult result;
-
-        Establish context = () =>
-        {
-            loggingData = new LoggingData
+            Establish context = () =>
             {
-                EventLoggingData = new List<EventLoggingData>
+                loggerMock = ObservationsControllerSpecs.loggerMock;
+                loggingData = new LoggingData
                 {
-                    new EventLoggingData(
-                        EventId.ObservationsController_Create,
-                        "{@observationCreate}")
-                },
-                ErrorLoggingMessages = new List<string>()
+                    InformationTimes = 1,
+                    EventLoggingData = new List<EventLoggingData>
+                    {
+                        new EventLoggingData(
+                            EventId.ObservationsController_Get,
+                            "{@dateTime}")
+                    },
+                    ErrorLoggingMessages = new List<string>()
+                };
+                observationsController.ModelState.AddModelError(ErrorCode, ErrorMessage);
             };
-        };
 
-        Because of = () =>
-            result = (ObjectResult)observationsController.Create(observationModel).Await();
+            Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
 
-        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
+            Cleanup after = () =>
+                observationsController.ModelState.Clear();
 
-        It should_return_success_status_code = () =>
-            result.StatusCode.Should().Equals(200);
+            Because of = () =>
+                result = (ObjectResult)observationsController.GetObservation(InvalidDateTime).Await();
 
-        It should_return_the_observation_model = () =>
+            It should_return_correct_result_type = () =>
+                result.Should().BeOfType<BadRequestObjectResult>();
+
+            It should_return_correct_status_code = () =>
+                result.StatusCode.ShouldEqual(400);
+
+            It should_return_a_ErrorResponseModel = () =>
+                result.Value.Should().BeOfType<ErrorResponseModel>();
+        }
+
+        internal class When_decorating_Observation_GetObservation_method
         {
-            var retrievedObservationModel = (ObservationModel)result.Value;
-            retrievedObservationModel.Should().BeEquivalentTo(observationModel);
-        };
-    }
+            private static MethodInfo methodInfo;
 
-    internal class When_creating_an_observation_fails : ObservationsControllerSpecs
-    {
-        private static NotFoundResult result;
-
-        Establish context = () =>
-        {
-            loggingData = new LoggingData
+            Because of = () =>
             {
-                EventLoggingData = new List<EventLoggingData>
-                {
-                    new EventLoggingData(
-                        EventId.ObservationsController_Create,
-                        "{@observationCreate}")
-                },
-                ErrorLoggingMessages = new List<string>()
+                methodInfo = typeof(ObservationsController).GetMethod("GetObservation");
             };
-        };
 
-        Because of = () =>
-            result = (NotFoundResult)observationsController.Create(notFoundObservationModel).Await();
+            It should_have_CanCreateRoles_policy = () =>
+                methodInfo.Should()
+                .BeDecoratedWith<AuthorizeAttribute>(a => a.Policy == "CanViewObservations");
+        }
 
-        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
-
-        It should_return_not_found_status_code = () =>
-            result.StatusCode.Should().Equals(404);
-    }
-
-    internal class When_vreating_an_observation_with_an_invalid_modelState : ObservationsControllerSpecs
-    {
-        private static ObjectResult result;
-
-        Establish context = () =>
+        internal class When_creating_an_observation_succeeds
         {
-            loggingData = new LoggingData
+            protected static Mock<ILoggerAdapter<ObservationsController>> loggerMock;
+            protected static LoggingData loggingData;
+
+            private static ObjectResult result;
+
+            Establish context = () =>
             {
-                InformationTimes = 1,
-                EventLoggingData = new List<EventLoggingData>
+                loggerMock = ObservationsControllerSpecs.loggerMock;
+                loggingData = new LoggingData
                 {
-                    new EventLoggingData(
-                        EventId.ObservationsController_Create,
-                        "{@observationCreate}")
-                },
-                ErrorLoggingMessages = new List<string>()
+                    EventLoggingData = new List<EventLoggingData>
+                    {
+                        new EventLoggingData(
+                            EventId.ObservationsController_Create,
+                            "{@observationCreate}")
+                    },
+                    ErrorLoggingMessages = new List<string>()
+                };
             };
-            observationsController.ModelState.AddModelError(ErrorCode, ErrorMessage);
-        };
 
-        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
+            Because of = () =>
+                result = (ObjectResult)observationsController.Create(observationModel).Await();
 
-        Cleanup after = () =>
-            observationsController.ModelState.Clear();
+            Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
 
-        Because of = () =>
-            result = (ObjectResult)observationsController.Create(invalidObservationModel).Await();
+            It should_return_success_status_code = () =>
+                result.StatusCode.Should().Equals(200);
 
-        It should_return_correct_result_type = () =>
-            result.Should().BeOfType<BadRequestObjectResult>();
-
-        It should_return_correct_status_code = () =>
-            result.StatusCode.ShouldEqual(400);
-
-        It should_return_a_ErrorResponseModel = () =>
-            result.Value.Should().BeOfType<ErrorResponseModel>();
-    }
-
-    internal class When_decorating_Observation_Create_method : ObservationsControllerSpecs
-    {
-        private static MethodInfo methodInfo;
-
-        Because of = () =>
-        {
-            methodInfo = typeof(ObservationsController).GetMethod("Create");
-        };
-
-        It should_have_CanCreateRoles_policy = () =>
-            methodInfo.Should()
-            .BeDecoratedWith<AuthorizeAttribute>(a => a.Policy == "CanCreateObservations");
-    }
-
-    internal class When_updating_an_observation_succeeds : ObservationsControllerSpecs
-    {
-        private static ObjectResult result;
-
-        Establish context = () =>
-        {
-            loggingData = new LoggingData
+            It should_return_the_observation_model = () =>
             {
-                EventLoggingData = new List<EventLoggingData>
-                {
-                    new EventLoggingData(
-                        EventId.ObservationsController_Update,
-                        "{@observationUpdateModel}")
-                },
-                ErrorLoggingMessages = new List<string>()
+                var retrievedObservationModel = (ObservationModel)result.Value;
+                retrievedObservationModel.Should().BeEquivalentTo(observationModel);
             };
-        };
+        }
 
-        Because of = () =>
-            result = (ObjectResult)observationsController.Update(observationModel).Await();
-
-        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
-
-        It should_return_success_status_code = () =>
-            result.StatusCode.Should().Equals(200);
-
-        It should_return_the_observation_model = () =>
+        internal class When_creating_an_observation_fails
         {
-            var retrievedObservationModel = (ObservationModel)result.Value;
-            retrievedObservationModel.Should().BeEquivalentTo(observationModel);
-        };
-    }
+            protected static Mock<ILoggerAdapter<ObservationsController>> loggerMock;
+            protected static LoggingData loggingData;
 
-    internal class When_updating_an_observation_fails : ObservationsControllerSpecs
-    {
-        private static NotFoundResult result;
+            private static NotFoundResult result;
 
-        Establish context = () =>
-        {
-            loggingData = new LoggingData
+            Establish context = () =>
             {
-                EventLoggingData = new List<EventLoggingData>
+                loggerMock = ObservationsControllerSpecs.loggerMock;
+                loggingData = new LoggingData
                 {
-                    new EventLoggingData(
-                        EventId.ObservationsController_Update,
-                        "{@observationUpdateModel}")
-                },
-                ErrorLoggingMessages = new List<string>()
+                    EventLoggingData = new List<EventLoggingData>
+                    {
+                        new EventLoggingData(
+                            EventId.ObservationsController_Create,
+                            "{@observationCreate}")
+                    },
+                    ErrorLoggingMessages = new List<string>()
+                };
             };
-        };
 
-        Because of = () =>
-            result = (NotFoundResult)observationsController.Update(notFoundObservationModel).Await();
+            Because of = () =>
+                result = (NotFoundResult)observationsController.Create(notFoundObservationModel).Await();
 
-        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
+            Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
 
-        It should_return_not_found_status_code = () =>
-            result.StatusCode.Should().Equals(404);
-    }
+            It should_return_not_found_status_code = () =>
+                result.StatusCode.Should().Equals(404);
+        }
 
-    internal class When_updating_an_observation_with_an_invalid_modelState : ObservationsControllerSpecs
-    {
-        private static ObjectResult result;
-
-        Establish context = () =>
+        internal class When_vreating_an_observation_with_an_invalid_modelState
         {
-            loggingData = new LoggingData
+            protected static Mock<ILoggerAdapter<ObservationsController>> loggerMock;
+            protected static LoggingData loggingData;
+
+            private static ObjectResult result;
+
+            Establish context = () =>
             {
-                InformationTimes = 1,
-                EventLoggingData = new List<EventLoggingData>
+                loggerMock = ObservationsControllerSpecs.loggerMock;
+                loggingData = new LoggingData
                 {
-                    new EventLoggingData(
-                        EventId.ObservationsController_Update,
-                        "{@observationUpdateModel}")
-                },
-                ErrorLoggingMessages = new List<string>()
+                    InformationTimes = 1,
+                    EventLoggingData = new List<EventLoggingData>
+                    {
+                        new EventLoggingData(
+                            EventId.ObservationsController_Create,
+                            "{@observationCreate}")
+                    },
+                    ErrorLoggingMessages = new List<string>()
+                };
+                observationsController.ModelState.AddModelError(ErrorCode, ErrorMessage);
             };
-            observationsController.ModelState.AddModelError(ErrorCode, ErrorMessage);
-        };
 
-        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
+            Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
 
-        Cleanup after = () =>
-            observationsController.ModelState.Clear();
+            Cleanup after = () =>
+                observationsController.ModelState.Clear();
 
-        Because of = () =>
-            result = (ObjectResult)observationsController.Update(invalidObservationModel).Await();
+            Because of = () =>
+                result = (ObjectResult)observationsController.Create(invalidObservationModel).Await();
 
-        It should_return_correct_result_type = () =>
-            result.Should().BeOfType<BadRequestObjectResult>();
+            It should_return_correct_result_type = () =>
+                result.Should().BeOfType<BadRequestObjectResult>();
 
-        It should_return_correct_status_code = () =>
-            result.StatusCode.ShouldEqual(400);
+            It should_return_correct_status_code = () =>
+                result.StatusCode.ShouldEqual(400);
 
-        It should_return_a_ErrorResponseModel = () =>
-            result.Value.Should().BeOfType<ErrorResponseModel>();
-    }
+            It should_return_a_ErrorResponseModel = () =>
+                result.Value.Should().BeOfType<ErrorResponseModel>();
+        }
 
-    internal class When_decorating_Observation_Update_method : ObservationsControllerSpecs
-    {
-        private static MethodInfo methodInfo;
-
-        Because of = () =>
+        internal class When_decorating_Observation_Create_method
         {
-            methodInfo = typeof(ObservationsController).GetMethod("Update");
-        };
+            private static MethodInfo methodInfo;
 
-        It should_have_CanCreateRoles_policy = () =>
-            methodInfo.Should()
-            .BeDecoratedWith<AuthorizeAttribute>(a => a.Policy == "CanUpdateObservations");
-    }
-
-    internal class When_deleting_an_observation_succeeds : ObservationsControllerSpecs
-    {
-        private static NoContentResult result;
-
-        Establish context = () =>
-        {
-            loggingData = new LoggingData
+            Because of = () =>
             {
-                EventLoggingData = new List<EventLoggingData>
-                {
-                    new EventLoggingData(
-                        EventId.ObservationsController_Delete,
-                        "{@dateTime}")
-                },
-                ErrorLoggingMessages = new List<string>()
+                methodInfo = typeof(ObservationsController).GetMethod("Create");
             };
-        };
 
-        Because of = () =>
-            result = (NoContentResult)observationsController.Delete(observationModel.DateTime).Await();
+            It should_have_CanCreateRoles_policy = () =>
+                methodInfo.Should()
+                .BeDecoratedWith<AuthorizeAttribute>(a => a.Policy == "CanCreateObservations");
+        }
 
-        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
-
-        It should_return_no_content_code = () =>
-            result.StatusCode.ShouldEqual(204);
-    }
-
-    internal class When_deleting_an_observation_fails : ObservationsControllerSpecs
-    {
-        private static NotFoundResult result;
-
-        Establish context = () =>
+        internal class When_updating_an_observation_succeeds
         {
-            loggingData = new LoggingData
+            protected static Mock<ILoggerAdapter<ObservationsController>> loggerMock;
+            protected static LoggingData loggingData;
+            private static ObjectResult result;
+
+            Establish context = () =>
             {
-                EventLoggingData = new List<EventLoggingData>
+                loggerMock = ObservationsControllerSpecs.loggerMock;
+                loggingData = new LoggingData
                 {
-                    new EventLoggingData(
-                        EventId.ObservationsController_Delete,
-                        "{@dateTime}")
-                },
-                ErrorLoggingMessages = new List<string>()
+                    EventLoggingData = new List<EventLoggingData>
+                    {
+                        new EventLoggingData(
+                            EventId.ObservationsController_Update,
+                            "{@observationUpdateModel}")
+                    },
+                    ErrorLoggingMessages = new List<string>()
+                };
             };
-        };
 
-        Because of = () =>
-            result = (NotFoundResult)observationsController.Delete(notFoundObservationModel.DateTime).Await();
+            Because of = () =>
+                result = (ObjectResult)observationsController.Update(observationModel).Await();
 
-        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
+            Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
 
-        It should_return_not_found_status_code = () =>
-            result.StatusCode.Should().Equals(404);
-    }
+            It should_return_success_status_code = () =>
+                result.StatusCode.Should().Equals(200);
 
-    internal class When_deleting_an_observation_with_an_invalid_modelState : ObservationsControllerSpecs
-    {
-        private static ObjectResult result;
-
-        Establish context = () =>
-        {
-            loggingData = new LoggingData
+            It should_return_the_observation_model = () =>
             {
-                InformationTimes = 1,
-                EventLoggingData = new List<EventLoggingData>
-                {
-                    new EventLoggingData(
-                        EventId.ObservationsController_Delete,
-                        "{@dateTime}")
-                },
-                ErrorLoggingMessages = new List<string>()
+                var retrievedObservationModel = (ObservationModel)result.Value;
+                retrievedObservationModel.Should().BeEquivalentTo(observationModel);
             };
-            observationsController.ModelState.AddModelError(ErrorCode, ErrorMessage);
-        };
+        }
 
-        Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
-
-        Cleanup after = () =>
-            observationsController.ModelState.Clear();
-
-        Because of = () =>
-            result = (ObjectResult)observationsController.Delete(InvalidDateTime).Await();
-
-        It should_return_correct_result_type = () =>
-            result.Should().BeOfType<BadRequestObjectResult>();
-
-        It should_return_correct_status_code = () =>
-            result.StatusCode.ShouldEqual(400);
-
-        It should_return_a_ErrorResponseModel = () =>
-            result.Value.Should().BeOfType<ErrorResponseModel>();
-    }
-
-    internal class When_decorating_Observation_Delete_method : ObservationsControllerSpecs
-    {
-        private static MethodInfo methodInfo;
-
-        Because of = () =>
+        internal class When_updating_an_observation_fails
         {
-            methodInfo = typeof(ObservationsController).GetMethod("Delete");
-        };
+            protected static Mock<ILoggerAdapter<ObservationsController>> loggerMock;
+            protected static LoggingData loggingData;
 
-        It should_have_CanCreateRoles_policy = () =>
-            methodInfo.Should()
-            .BeDecoratedWith<AuthorizeAttribute>(a => a.Policy == "CanDeleteObservations");
+            private static NotFoundResult result;
+
+            Establish context = () =>
+            {
+                loggerMock = ObservationsControllerSpecs.loggerMock;
+                loggingData = new LoggingData
+                {
+                    EventLoggingData = new List<EventLoggingData>
+                    {
+                        new EventLoggingData(
+                            EventId.ObservationsController_Update,
+                            "{@observationUpdateModel}")
+                    },
+                    ErrorLoggingMessages = new List<string>()
+                };
+            };
+
+            Because of = () =>
+                result = (NotFoundResult)observationsController.Update(notFoundObservationModel).Await();
+
+            Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
+
+            It should_return_not_found_status_code = () =>
+                result.StatusCode.Should().Equals(404);
+        }
+
+        internal class When_updating_an_observation_with_an_invalid_modelState
+        {
+            protected static Mock<ILoggerAdapter<ObservationsController>> loggerMock;
+            protected static LoggingData loggingData;
+
+            private static ObjectResult result;
+
+            Establish context = () =>
+            {
+                loggerMock = ObservationsControllerSpecs.loggerMock;
+                loggingData = new LoggingData
+                {
+                    InformationTimes = 1,
+                    EventLoggingData = new List<EventLoggingData>
+                    {
+                        new EventLoggingData(
+                            EventId.ObservationsController_Update,
+                            "{@observationUpdateModel}")
+                    },
+                    ErrorLoggingMessages = new List<string>()
+                };
+                observationsController.ModelState.AddModelError(ErrorCode, ErrorMessage);
+            };
+
+            Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
+
+            Cleanup after = () =>
+                observationsController.ModelState.Clear();
+
+            Because of = () =>
+                result = (ObjectResult)observationsController.Update(invalidObservationModel).Await();
+
+            It should_return_correct_result_type = () =>
+                result.Should().BeOfType<BadRequestObjectResult>();
+
+            It should_return_correct_status_code = () =>
+                result.StatusCode.ShouldEqual(400);
+
+            It should_return_a_ErrorResponseModel = () =>
+                result.Value.Should().BeOfType<ErrorResponseModel>();
+        }
+
+        internal class When_decorating_Observation_Update_method
+        {
+            private static MethodInfo methodInfo;
+
+            Because of = () =>
+            {
+                methodInfo = typeof(ObservationsController).GetMethod("Update");
+            };
+
+            It should_have_CanCreateRoles_policy = () =>
+                methodInfo.Should()
+                .BeDecoratedWith<AuthorizeAttribute>(a => a.Policy == "CanUpdateObservations");
+        }
+
+        internal class When_deleting_an_observation_succeeds
+        {
+            protected static Mock<ILoggerAdapter<ObservationsController>> loggerMock;
+            protected static LoggingData loggingData;
+
+            private static NoContentResult result;
+
+            Establish context = () =>
+            {
+                loggerMock = ObservationsControllerSpecs.loggerMock;
+                loggingData = new LoggingData
+                {
+                    EventLoggingData = new List<EventLoggingData>
+                    {
+                        new EventLoggingData(
+                            EventId.ObservationsController_Delete,
+                            "{@dateTime}")
+                    },
+                    ErrorLoggingMessages = new List<string>()
+                };
+            };
+
+            Because of = () =>
+                result = (NoContentResult)observationsController.Delete(observationModel.DateTime).Await();
+
+            Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
+
+            It should_return_no_content_code = () =>
+                result.StatusCode.ShouldEqual(204);
+        }
+
+        internal class When_deleting_an_observation_fails
+        {
+            protected static Mock<ILoggerAdapter<ObservationsController>> loggerMock;
+            protected static LoggingData loggingData;
+
+            private static NotFoundResult result;
+
+            Establish context = () =>
+            {
+                loggerMock = ObservationsControllerSpecs.loggerMock;
+                loggingData = new LoggingData
+                {
+                    EventLoggingData = new List<EventLoggingData>
+                    {
+                        new EventLoggingData(
+                            EventId.ObservationsController_Delete,
+                            "{@dateTime}")
+                    },
+                    ErrorLoggingMessages = new List<string>()
+                };
+            };
+
+            Because of = () =>
+                result = (NotFoundResult)observationsController.Delete(notFoundObservationModel.DateTime).Await();
+
+            Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
+
+            It should_return_not_found_status_code = () =>
+                result.StatusCode.Should().Equals(404);
+        }
+
+        internal class When_deleting_an_observation_with_an_invalid_modelState
+        {
+            protected static Mock<ILoggerAdapter<ObservationsController>> loggerMock;
+            protected static LoggingData loggingData;
+
+            private static ObjectResult result;
+
+            Establish context = () =>
+            {
+                loggerMock = ObservationsControllerSpecs.loggerMock;
+                loggingData = new LoggingData
+                {
+                    InformationTimes = 1,
+                    EventLoggingData = new List<EventLoggingData>
+                    {
+                        new EventLoggingData(
+                            EventId.ObservationsController_Delete,
+                            "{@dateTime}")
+                    },
+                    ErrorLoggingMessages = new List<string>()
+                };
+                observationsController.ModelState.AddModelError(ErrorCode, ErrorMessage);
+            };
+
+            Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
+
+            Cleanup after = () =>
+                observationsController.ModelState.Clear();
+
+            Because of = () =>
+                result = (ObjectResult)observationsController.Delete(InvalidDateTime).Await();
+
+            It should_return_correct_result_type = () =>
+                result.Should().BeOfType<BadRequestObjectResult>();
+
+            It should_return_correct_status_code = () =>
+                result.StatusCode.ShouldEqual(400);
+
+            It should_return_a_ErrorResponseModel = () =>
+                result.Value.Should().BeOfType<ErrorResponseModel>();
+        }
+
+        internal class When_decorating_Observation_Delete_method
+        {
+            private static MethodInfo methodInfo;
+
+            Because of = () =>
+            {
+                methodInfo = typeof(ObservationsController).GetMethod("Delete");
+            };
+
+            It should_have_CanCreateRoles_policy = () =>
+                methodInfo.Should()
+                .BeDecoratedWith<AuthorizeAttribute>(a => a.Policy == "CanDeleteObservations");
+        }
     }
 }
