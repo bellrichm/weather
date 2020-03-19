@@ -23,7 +23,7 @@ namespace BellRichM.TestRunner
             contextAssemblies = new List<ContextAssembly>();
         }
 
-        public static void RunTest(Type test)
+        public void RunTest(Type test)
         {
             if (test == null)
             {
@@ -84,8 +84,13 @@ namespace BellRichM.TestRunner
             }
 
             var subclasses2 = testAssemblyTypes.Where(t => t.BaseType == _testType);
+            var nestedClasses = _testType.GetNestedTypes(BindingFlags.Static |
+                                                   BindingFlags.Instance |
+                                                   BindingFlags.Public |
+                                                   BindingFlags.NonPublic)
+                                                   .Where(t => t.GetCustomAttribute<System.Runtime.CompilerServices.CompilerGeneratedAttribute>() == null);
 
-            foreach (var subclass in subclasses)
+            foreach (var subclass in nestedClasses)
             {
                 RunTest(subclass);
             }
@@ -93,7 +98,11 @@ namespace BellRichM.TestRunner
 
         private static void SetupTestCase(TestCase testCase)
         {
-            testCase.EstablishDelegate.Method.Invoke(testCase.EstablishDelegate.Target, null);
+            foreach (var establishDelegate in testCase.EstablishDelegates)
+            {
+                establishDelegate.Method.Invoke(establishDelegate.Target, null);
+            }
+
             testCase.BecauseDelegate.Method.Invoke(testCase.BecauseDelegate.Target, null);
         }
 
@@ -138,9 +147,18 @@ namespace BellRichM.TestRunner
                 }
         }
 
-        private static TestCase GetTestCase(Type test, object testInstance)
+        private TestCase GetTestCase(Type test, object testInstance)
         {
             var testCase = new TestCase();
+
+            var establishFieldInfo = _testType.GetFields(BindingFlags.FlattenHierarchy | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance)
+                             .Where(t => t.FieldType == typeof(Machine.Specifications.Establish)).FirstOrDefault();
+            if (establishFieldInfo != null)
+            {
+                var instance = Activator.CreateInstance(_testType);
+                testCase.EstablishDelegates.Add(establishFieldInfo.GetValue(instance) as Delegate);
+            }
+
             var fieldInfos = test.GetFields(BindingFlags.FlattenHierarchy | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
 
             foreach (var fieldInfo in fieldInfos)
@@ -148,7 +166,7 @@ namespace BellRichM.TestRunner
                 var fieldType = fieldInfo.FieldType;
                 if (fieldType == typeof(Machine.Specifications.Establish))
                 {
-                    testCase.EstablishDelegate = fieldInfo.GetValue(testInstance) as Delegate;
+                    testCase.EstablishDelegates.Add(fieldInfo.GetValue(testInstance) as Delegate);
                 }
 
                 if (fieldType == typeof(Machine.Specifications.Because))

@@ -7,11 +7,12 @@ namespace BellRichM.TestRunner
     {
         public TestCase()
         {
+            EstablishDelegates = new List<Delegate>();
             ItDelegates = new List<Delegate>();
             LoggingBehaviors = new List<object>();
         }
 
-        public Delegate EstablishDelegate { get; set; }
+        public List<Delegate> EstablishDelegates { get; }
 
         public Delegate BecauseDelegate { get; set; }
 
