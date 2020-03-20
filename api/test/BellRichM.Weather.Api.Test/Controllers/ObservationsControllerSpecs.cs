@@ -263,34 +263,42 @@ namespace BellRichM.Weather.Api.TestControllers.Test
 
         internal class When_getting_observations
         {
+            Because of = () => { };
         }
 
         internal class When_getting_nonexisting_observations
         {
+            Because of = () => { };
         }
 
         internal class When_getting_observations_with_invalid_model
         {
+            Because of = () => { };
         }
 
         internal class When_decorating_Observation_GetObservations_method
         {
+            Because of = () => { };
         }
 
         internal class When_getting_observation_datetimes
         {
+            Because of = () => { };
         }
 
         internal class When_getting_nonexisting_observation_datetimes
         {
+            Because of = () => { };
         }
 
         internal class When_getting_observation_datetimes_with_invalid_model
         {
+            Because of = () => { };
         }
 
         internal class When_decorating_Observation_GetObservationDateTimes_method
         {
+            Because of = () => { };
         }
 
         internal class When_creating_an_observation_succeeds
