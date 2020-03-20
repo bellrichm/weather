@@ -61,7 +61,7 @@ namespace BellRichM.TestRunner
                   return;
             }
 
-            Console.WriteLine(". " + test.Name);
+            Console.WriteLine("  " + test.Name);
 
             var testInstance = Activator.CreateInstance(test);
             var testCase = GetTestCase(test, testInstance);
@@ -115,9 +115,10 @@ namespace BellRichM.TestRunner
 
         private static void CheckTestCaseResults(TestCase testCase)
         {
-            foreach (var itDelegate in testCase.ItDelegates)
+            foreach (var itDelegateDetail in testCase.ItDelegatesDetail)
             {
-                itDelegate.Method.Invoke(itDelegate.Target, null);
+                Console.WriteLine("    " + itDelegateDetail.Name);
+                itDelegateDetail.DelegateField.Method.Invoke(itDelegateDetail.DelegateField.Target, null);
             }
         }
 
@@ -127,6 +128,8 @@ namespace BellRichM.TestRunner
                 {
                     var loggingBehaviorType = loggingBehavior.GetType();
                     var testInstanceType = testInstance.GetType();
+
+                    Console.WriteLine("    checking " + loggingBehaviorType.Name);
 
                     var loggerMockValue = testInstanceType
                         .GetField("loggerMock", BindingFlags.FlattenHierarchy | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance)
@@ -183,7 +186,12 @@ namespace BellRichM.TestRunner
 
                 if (fieldType == typeof(Machine.Specifications.It))
                 {
-                    testCase.ItDelegates.Add(fieldInfo.GetValue(testInstance) as Delegate);
+                    testCase.ItDelegatesDetail.Add(
+                        new DelegateDetail
+                        {
+                            Name = fieldInfo.Name,
+                            DelegateField = fieldInfo.GetValue(testInstance) as Delegate
+                        });
                 }
 
                 if (fieldType.IsGenericType && fieldType.GetGenericTypeDefinition() == typeof(Machine.Specifications.Behaves_like<>))
