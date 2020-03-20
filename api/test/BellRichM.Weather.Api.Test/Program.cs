@@ -7,8 +7,17 @@ namespace BellRichM.Weather.Api.Test
     {
         static void Main()
         {
-            var type = Type.GetType("BellRichM.Weather.Api.TestControllers.Test.ObservationsControllerSpecs");
-            var embeddedRunner = new EmbeddedRunner(type);
+            Type type;
+            EmbeddedRunner embeddedRunner;
+
+            type = Type.GetType("BellRichM.Weather.Api.TestControllers.Test.ObservationsControllerSpecs");
+            embeddedRunner = new EmbeddedRunner(type);
+            embeddedRunner.OnAssemblyStart();
+            embeddedRunner.RunTests();
+            embeddedRunner.OnAssemblyComplete();
+
+            type = Type.GetType("BellRichM.Weather.Api.Test.ObservationSqliteServiceSpecs");
+            embeddedRunner = new EmbeddedRunner(type);
             embeddedRunner.OnAssemblyStart();
             embeddedRunner.RunTests();
             embeddedRunner.OnAssemblyComplete();
