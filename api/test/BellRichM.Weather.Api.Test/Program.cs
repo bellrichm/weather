@@ -1,5 +1,6 @@
 using BellRichM.TestRunner;
 using System;
+using System.Reflection;
 
 namespace BellRichM.Weather.Api.Test
 {
@@ -12,15 +13,15 @@ namespace BellRichM.Weather.Api.Test
 
             type = Type.GetType("BellRichM.Weather.Api.TestControllers.Test.ObservationsControllerSpecs");
             embeddedRunner = new EmbeddedRunner(type);
-            embeddedRunner.OnAssemblyStart();
-            embeddedRunner.RunTests();
-            embeddedRunner.OnAssemblyComplete();
+            // embeddedRunner.RunTests();
 
             type = Type.GetType("BellRichM.Weather.Api.Test.ObservationSqliteServiceSpecs");
             embeddedRunner = new EmbeddedRunner(type);
-            embeddedRunner.OnAssemblyStart();
+            // embeddedRunner.RunTests();
+
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            embeddedRunner = new EmbeddedRunner(assembly);
             embeddedRunner.RunTests();
-            embeddedRunner.OnAssemblyComplete();
         }
     }
 }
