@@ -261,6 +261,38 @@ namespace BellRichM.Weather.Api.TestControllers.Test
                 .BeDecoratedWith<AuthorizeAttribute>(a => a.Policy == "CanViewObservations");
         }
 
+        internal class When_getting_observations
+        {
+        }
+
+        internal class When_getting_nonexisting_observations
+        {
+        }
+
+        internal class When_getting_observations_with_invalid_model
+        {
+        }
+
+        internal class When_decorating_Observation_GetObservations_method
+        {
+        }
+
+        internal class When_getting_observation_datetimes
+        {
+        }
+
+        internal class When_getting_nonexisting_observation_datetimes
+        {
+        }
+
+        internal class When_getting_observation_datetimes_with_invalid_model
+        {
+        }
+
+        internal class When_decorating_Observation_GetObservationDateTimes_method
+        {
+        }
+
         internal class When_creating_an_observation_succeeds
         {
             protected static Mock<ILoggerAdapter<ObservationsController>> loggerMock;
