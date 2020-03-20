@@ -10,6 +10,7 @@ namespace BellRichM.TestRunner
     public class EmbeddedRunner
     {
         private Type _testType;
+        private Assembly _assembly;
 
         private Type[] testAssemblyTypes;
         private List<ContextAssembly> contextAssemblies;
@@ -23,14 +24,60 @@ namespace BellRichM.TestRunner
             contextAssemblies = new List<ContextAssembly>();
         }
 
+        public EmbeddedRunner(Assembly assembly)
+        {
+            if (assembly == null)
+            {
+                throw new ArgumentNullException(nameof(assembly));
+            }
+
+            _assembly = assembly;
+            _testType = null;
+            testAssemblyTypes = assembly.GetTypes();
+            contextAssemblies = new List<ContextAssembly>();
+        }
+
         public void RunTests()
         {
+            OnAssemblyStart();
+
+            if (_testType != null)
+            {
+                RunTest(_testType);
+            }
+            else
+            {
+                var interfaceType = typeof(IAssemblyContext);
+
+                var testTypes = _assembly.GetTypes()
+                                        .Where(t => t.BaseType == Type.GetType("System.Object")
+                                                    && !t.IsNested
+                                                    && t.Name != "Program"
+                                                    && !t.GetInterfaces().Contains(interfaceType));
+
+                foreach (var testType in testTypes)
+                {
+                    _testType = testType; // ToDo - fix hack
+                    RunTest(testType);
+                }
+            }
+
+            OnAssemblyComplete();
+        }
+
+        public void RunTest(Type testType)
+        {
+            if (testType == null)
+            {
+                throw new ArgumentNullException(nameof(testType));
+            }
+
             // var subclasses2 = testAssemblyTypes.Where(t => t.BaseType == _testType);
-            var tests = testAssemblyTypes.Where(t => t.IsSubclassOf(_testType));
+            var tests = testAssemblyTypes.Where(t => t.IsSubclassOf(testType));
 
             if (!tests.Any())
             {
-                tests = _testType.GetNestedTypes(BindingFlags.Static |
+                tests = testType.GetNestedTypes(BindingFlags.Static |
                                                  BindingFlags.Instance |
                                                  BindingFlags.Public |
                                                 BindingFlags.NonPublic)
@@ -39,10 +86,10 @@ namespace BellRichM.TestRunner
 
             if (!tests.Any())
             {
-                tests = testAssemblyTypes.Where(t => t == _testType);
+                tests = testAssemblyTypes.Where(t => t == testType);
             }
 
-            Console.WriteLine("Running " + _testType.Name);
+            Console.WriteLine("Running " + testType.Name);
             foreach (var test in tests)
             {
                 RunTestCase(test);
@@ -165,8 +212,16 @@ namespace BellRichM.TestRunner
                              .Where(t => t.FieldType == typeof(Machine.Specifications.Establish)).FirstOrDefault();
             if (establishFieldInfo != null)
             {
-                var instance = Activator.CreateInstance(_testType);
-                testCase.EstablishDelegates.Add(establishFieldInfo.GetValue(instance) as Delegate);
+                // another hack
+                if (_testType.IsAbstract)
+                {
+                    testCase.EstablishDelegates.Add(establishFieldInfo.GetValue(testInstance) as Delegate);
+                }
+                else
+                {
+                    var instance = Activator.CreateInstance(_testType);
+                    testCase.EstablishDelegates.Add(establishFieldInfo.GetValue(instance) as Delegate);
+                }
             }
 
             var fieldInfos = test.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
