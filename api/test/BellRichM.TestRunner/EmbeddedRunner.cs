@@ -23,7 +23,33 @@ namespace BellRichM.TestRunner
             contextAssemblies = new List<ContextAssembly>();
         }
 
-        public void RunTest(Type test)
+        public void RunTests()
+        {
+            // var subclasses2 = testAssemblyTypes.Where(t => t.BaseType == _testType);
+            var tests = testAssemblyTypes.Where(t => t.IsSubclassOf(_testType));
+
+            if (!tests.Any())
+            {
+                tests = _testType.GetNestedTypes(BindingFlags.Static |
+                                                 BindingFlags.Instance |
+                                                 BindingFlags.Public |
+                                                BindingFlags.NonPublic)
+                                 .Where(t => t.GetCustomAttribute<System.Runtime.CompilerServices.CompilerGeneratedAttribute>() == null);
+            }
+
+            if (!tests.Any())
+            {
+                tests = testAssemblyTypes.Where(t => t == _testType);
+            }
+
+            Console.WriteLine("Running " + _testType.Name);
+            foreach (var test in tests)
+            {
+                RunTestCase(test);
+            }
+        }
+
+        public void RunTestCase(Type test)
         {
             if (test == null)
             {
@@ -35,7 +61,7 @@ namespace BellRichM.TestRunner
                   return;
             }
 
-            Console.WriteLine("Running " + test.Name);
+            Console.WriteLine(". " + test.Name);
 
             var testInstance = Activator.CreateInstance(test);
             var testCase = GetTestCase(test, testInstance);
@@ -74,27 +100,6 @@ namespace BellRichM.TestRunner
             {
                 var method = contextAssembly.ImplementationType.GetMethod("OnAssemblyComplete", BindingFlags.FlattenHierarchy | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
                 method.Invoke(contextAssembly.ImplementationInstance, null);
-            }
-        }
-
-        public void RunTests()
-        {
-            var subclasses = testAssemblyTypes.Where(t => t.IsSubclassOf(_testType));
-            if (!subclasses.Any())
-            {
-                subclasses = testAssemblyTypes.Where(t => t == _testType);
-            }
-
-            var subclasses2 = testAssemblyTypes.Where(t => t.BaseType == _testType);
-            var nestedClasses = _testType.GetNestedTypes(BindingFlags.Static |
-                                                   BindingFlags.Instance |
-                                                   BindingFlags.Public |
-                                                   BindingFlags.NonPublic)
-                                                   .Where(t => t.GetCustomAttribute<System.Runtime.CompilerServices.CompilerGeneratedAttribute>() == null);
-
-            foreach (var subclass in nestedClasses)
-            {
-                RunTest(subclass);
             }
         }
 
@@ -153,7 +158,7 @@ namespace BellRichM.TestRunner
         {
             var testCase = new TestCase();
 
-            var establishFieldInfo = _testType.GetFields(BindingFlags.FlattenHierarchy | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance)
+            var establishFieldInfo = _testType.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance)
                              .Where(t => t.FieldType == typeof(Machine.Specifications.Establish)).FirstOrDefault();
             if (establishFieldInfo != null)
             {
@@ -161,7 +166,7 @@ namespace BellRichM.TestRunner
                 testCase.EstablishDelegates.Add(establishFieldInfo.GetValue(instance) as Delegate);
             }
 
-            var fieldInfos = test.GetFields(BindingFlags.FlattenHierarchy | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
+            var fieldInfos = test.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
 
             foreach (var fieldInfo in fieldInfos)
             {
