@@ -11,9 +11,19 @@ namespace BellRichM.TestRunner
     {
         private Type _testType;
         private Assembly _assembly;
+        private Type _test;
 
         private Type[] testAssemblyTypes;
         private List<ContextAssembly> contextAssemblies;
+
+        public EmbeddedRunner(Type testType, string testName)
+        {
+            _testType = testType;
+            var assembly = Assembly.GetAssembly(_testType);
+            _test = assembly.GetType(_testType.FullName + "+" + testName);   
+            testAssemblyTypes = assembly.GetTypes();
+            contextAssemblies = new List<ContextAssembly>();
+        }
 
         public EmbeddedRunner(Type testType)
         {
@@ -41,7 +51,11 @@ namespace BellRichM.TestRunner
         {
             OnAssemblyStart();
 
-            if (_testType != null)
+            if (_test != null)
+            {
+                RunTestCase(_test);
+            }
+            else if (_testType != null)
             {
                 RunTest(_testType);
             }
