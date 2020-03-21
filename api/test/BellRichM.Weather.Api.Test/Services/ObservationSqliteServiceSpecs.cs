@@ -112,6 +112,26 @@ namespace BellRichM.Weather.Api.Test
             retrievedObservation.Should().BeNull();
     }
 
+    internal class When_getting_existing_observations : ObservationSqliteServiceSpecs
+    {
+        Because of = () => { };
+    }
+
+    internal class When_getting_nonexisting_observations : ObservationSqliteServiceSpecs
+    {
+        Because of = () => { };
+    }
+
+    internal class When_getting_existing_observation_datetime : ObservationSqliteServiceSpecs
+    {
+        Because of = () => { };
+    }
+
+    internal class When_getting_nonexisting_observation_datetime : ObservationSqliteServiceSpecs
+    {
+        Because of = () => { };
+    }
+
     internal class When_creating_an_observation_succeeds : ObservationSqliteServiceSpecs
     {
         private static Observation createdObservation;
