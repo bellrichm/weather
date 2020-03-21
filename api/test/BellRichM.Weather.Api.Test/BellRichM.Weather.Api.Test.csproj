@@ -10,6 +10,7 @@
     <ProjectGuid>7AE76197-D6FC-4D80-8CEC-5C3921FBD321</ProjectGuid>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="System.CommandLine.DragonFruit" Version="0.3.0-alpha.20158.1" />
     <PackageReference Include="FluentAssertions" Version="5.10.2" />  
     <PackageReference Include="Moq" Version="4.13.1" />
     <PackageReference Include="Machine.Specifications" Version="1.0.0" />

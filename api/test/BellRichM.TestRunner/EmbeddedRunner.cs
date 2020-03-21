@@ -1,4 +1,3 @@
-using BellRichM.Helpers.Test;
 using Machine.Specifications;
 using System;
 using System.Collections.Generic;
@@ -18,9 +17,14 @@ namespace BellRichM.TestRunner
 
         public EmbeddedRunner(Type testType, string testName)
         {
+            if (testType == null)
+            {
+                throw new ArgumentNullException(nameof(testType));
+            }
+
             _testType = testType;
             var assembly = Assembly.GetAssembly(_testType);
-            _test = assembly.GetType(_testType.FullName + "+" + testName);   
+            _test = assembly.GetType(_testType.FullName + "+" + testName);
             testAssemblyTypes = assembly.GetTypes();
             contextAssemblies = new List<ContextAssembly>();
         }
@@ -64,7 +68,8 @@ namespace BellRichM.TestRunner
                 var interfaceType = typeof(IAssemblyContext);
 
                 var testTypes = _assembly.GetTypes()
-                                        .Where(t => t.BaseType == Type.GetType("System.Object")
+                                        .Where(t => t.FullName.StartsWith("BellRichM", StringComparison.InvariantCulture)
+                                                    && t.BaseType == Type.GetType("System.Object")
                                                     && !t.IsNested
                                                     && t.Name != "Program"
                                                     && !t.GetInterfaces().Contains(interfaceType));
