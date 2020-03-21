@@ -14,6 +14,7 @@ namespace BellRichM.TestRunner
 
         private Type[] testAssemblyTypes;
         private List<ContextAssembly> contextAssemblies;
+        private int testcount;
 
         public EmbeddedRunner(Type testType, string testName)
         {
@@ -27,6 +28,7 @@ namespace BellRichM.TestRunner
             _test = assembly.GetType(_testType.FullName + "+" + testName);
             testAssemblyTypes = assembly.GetTypes();
             contextAssemblies = new List<ContextAssembly>();
+            testcount = 0;
         }
 
         public EmbeddedRunner(Type testType)
@@ -36,6 +38,7 @@ namespace BellRichM.TestRunner
             var assembly = Assembly.GetAssembly(_testType);
             testAssemblyTypes = assembly.GetTypes();
             contextAssemblies = new List<ContextAssembly>();
+            testcount = 0;
         }
 
         public EmbeddedRunner(Assembly assembly)
@@ -49,6 +52,7 @@ namespace BellRichM.TestRunner
             _testType = null;
             testAssemblyTypes = assembly.GetTypes();
             contextAssemblies = new List<ContextAssembly>();
+            testcount = 0;
         }
 
         public void RunTests()
@@ -82,6 +86,7 @@ namespace BellRichM.TestRunner
             }
 
             OnAssemblyComplete();
+            Console.WriteLine(testcount);
         }
 
         public void RunTest(Type testType)
@@ -179,16 +184,17 @@ namespace BellRichM.TestRunner
             testCase.BecauseDelegate.Method.Invoke(testCase.BecauseDelegate.Target, null);
         }
 
-        private static void CheckTestCaseResults(TestCase testCase)
+        private void CheckTestCaseResults(TestCase testCase)
         {
             foreach (var itDelegateDetail in testCase.ItDelegatesDetail)
             {
                 Console.WriteLine("    " + itDelegateDetail.Name);
                 itDelegateDetail.DelegateField.Method.Invoke(itDelegateDetail.DelegateField.Target, null);
+                testcount++;
             }
         }
 
-        private static void CheckTestCaseBehaviors(TestCase testCase, object testInstance)
+        private void CheckTestCaseBehaviors(TestCase testCase, object testInstance)
         {
                 foreach (var loggingBehavior in testCase.LoggingBehaviors)
                 {
@@ -218,6 +224,7 @@ namespace BellRichM.TestRunner
                         {
                             var loggingBehaviorCheck = loggingBehaviorFieldInfo.GetValue(loggingBehavior) as Delegate;
                             loggingBehaviorCheck.Method.Invoke(loggingBehaviorCheck.Target, null);
+                            testcount++;
                         }
                     }
                 }
