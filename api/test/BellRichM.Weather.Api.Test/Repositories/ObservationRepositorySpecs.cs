@@ -155,6 +155,16 @@ namespace BellRichM.Dummy
             observation.Should().BeEquivalentTo(originalObservation);
     }
 
+    internal class When_getting_observations : ObservationRepositorySpecs
+    {
+        Because of = () => { };
+    }
+
+    internal class When_getting_observation_datetimes : ObservationRepositorySpecs
+    {
+        Because of = () => { };
+    }
+
     internal class When_updating_an_observation : ObservationRepositorySpecs
     {
         protected static int rowCount;
