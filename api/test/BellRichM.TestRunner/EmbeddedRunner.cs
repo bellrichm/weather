@@ -24,8 +24,22 @@ namespace BellRichM.TestRunner
             }
 
             _testType = testType;
+
             var assembly = Assembly.GetAssembly(_testType);
             _test = assembly.GetType(_testType.FullName + "+" + testName);
+
+            // The test is not a nested class, try as a baseclass
+            if (_test == null)
+            {
+                var testNamespace = _testType.Namespace;
+                _test = assembly.GetType(testNamespace + "." + testName);
+            }
+
+            if (_test == null)
+            {
+                throw new ArgumentException("Could not find test: " + testName);
+            }
+
             testAssemblyTypes = assembly.GetTypes();
             contextAssemblies = new List<ContextAssembly>();
             testcount = 0;
