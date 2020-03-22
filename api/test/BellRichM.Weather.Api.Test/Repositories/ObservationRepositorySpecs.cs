@@ -20,6 +20,8 @@ namespace BellRichM.Dummy
 
         protected static Observation originalObservation;
         protected static Observation updatedObservation;
+        protected static List<Observation> expectedObservations;
+        protected static List<ObservationDateTime> expectedObservationDateTimes;
 
         protected static Mock<ILoggerAdapter<ObservationRepository>> loggerMock;
 
@@ -92,6 +94,161 @@ namespace BellRichM.Dummy
                 Ultraviolet = 1.0
             };
 
+            expectedObservations = new List<Observation>
+            {
+                new Observation
+                {
+                    Year = 2016,
+                    Month = 9,
+                    Day = 1,
+                    Hour = 0,
+                    Minute = 0,
+                    DateTime = 1472688000,
+                    USUnits = 1,
+                    Interval = 5,
+                    Barometer = 29.237,
+                    Pressure = 28.713194886270053,
+                    Altimeter = 29.220571639586623,
+                    OutsideTemperature = 71.2,
+                    OutsideHumidity = 84.0,
+                    WindSpeed = 0.0,
+                    WindDirection = null,
+                    WindGust = 1.9999999981632,
+                    WindGustDirection = 270.0,
+                    RainRate = 0.0,
+                    Rain = 0.0,
+                    DewPoint = 66.10878229422875,
+                    Windchill = 71.2,
+                    HeatIndex = 71.2,
+                    Evapotranspiration = 0.0,
+                    Radiation = 0.0,
+                    Ultraviolet = 0.0,
+                    ExtraTemperature1 = null,
+                    ExtraTemperature2 = null,
+                    ExtraTemperature3 = null,
+                    SoilTemperature1 = null,
+                    SoilTemperature2 = null,
+                    SoilTemperature3 = null,
+                    SoilTemperature4 = null,
+                    LeafTemperature1 = null,
+                    LeafTemperature2 = null,
+                    ExtraHumidity1 = null,
+                    ExtraHumidity2 = null,
+                    SoilMoisture1 = null,
+                    SoilMoisture2 = null,
+                    SoilMoisture3 = null,
+                    SoilMoisture4 = null,
+                    LeafWetness1 = null,
+                    LeafWetness2 = null
+                },
+                new Observation
+                {
+                    Year = 2016,
+                    Month = 9,
+                    Day = 1,
+                    Hour = 0,
+                    Minute = 5,
+                    DateTime = 1472688300,
+                    USUnits = 1,
+                    Interval = 5,
+                    Barometer = 29.241,
+                    Pressure = 28.717161004534812,
+                    Altimeter = 29.224595415207432,
+                    OutsideTemperature = 71.1,
+                    OutsideHumidity = 85.0,
+                    WindSpeed = 0.0,
+                    WindDirection = null,
+                    WindGust = 0.9999999990816,
+                    WindGustDirection = 270.0,
+                    RainRate = 0.0,
+                    Rain = 0.0,
+                    DewPoint = 66.35286439744459,
+                    Windchill = 71.1,
+                    HeatIndex = 71.1,
+                    Evapotranspiration = 0.0,
+                    Radiation = 0.0,
+                    Ultraviolet = 0.0,
+                    ExtraTemperature1 = null,
+                    ExtraTemperature2 = null,
+                    ExtraTemperature3 = null,
+                    SoilTemperature1 = null,
+                    SoilTemperature2 = null,
+                    SoilTemperature3 = null,
+                    SoilTemperature4 = null,
+                    LeafTemperature1 = null,
+                    LeafTemperature2 = null,
+                    ExtraHumidity1 = null,
+                    ExtraHumidity2 = null,
+                    SoilMoisture1 = null,
+                    SoilMoisture2 = null,
+                    SoilMoisture3 = null,
+                    SoilMoisture4 = null,
+                    LeafWetness1 = null,
+                    LeafWetness2 = null
+                },
+                new Observation
+                {
+                    Year = 2016,
+                    Month = 9,
+                    Day = 1,
+                    Hour = 0,
+                    Minute = 10,
+                    DateTime = 1472688600,
+                    USUnits = 1,
+                    Interval = 5,
+                    Barometer = 29.242,
+                    Pressure = 28.718112682295047,
+                    Altimeter = 29.225560927735184,
+                    OutsideTemperature = 70.9,
+                    OutsideHumidity = 85.0,
+                    WindSpeed = 0.0,
+                    WindDirection = null,
+                    WindGust = 0.9999999990816,
+                    WindGustDirection = 270.0,
+                    RainRate = 0.0,
+                    Rain = 0.0,
+                    DewPoint = 66.15690929188126,
+                    Windchill = 70.9,
+                    HeatIndex = 70.9,
+                    Evapotranspiration = 0.0,
+                    Radiation = 0.0,
+                    Ultraviolet = 0.0,
+                    ExtraTemperature1 = null,
+                    ExtraTemperature2 = null,
+                    ExtraTemperature3 = null,
+                    SoilTemperature1 = null,
+                    SoilTemperature2 = null,
+                    SoilTemperature3 = null,
+                    SoilTemperature4 = null,
+                    LeafTemperature1 = null,
+                    LeafTemperature2 = null,
+                    ExtraHumidity1 = null,
+                    ExtraHumidity2 = null,
+                    SoilMoisture1 = null,
+                    SoilMoisture2 = null,
+                    SoilMoisture3 = null,
+                    SoilMoisture4 = null,
+                    LeafWetness1 = null,
+                    LeafWetness2 = null
+                }
+            };
+
+            expectedObservationDateTimes = new List<ObservationDateTime>
+            {
+                new ObservationDateTime
+                {
+                    DateTime = 1472688000
+                },
+                new ObservationDateTime
+                {
+                    DateTime = 1472688300
+                },
+                new ObservationDateTime
+                {
+                    DateTime = 1472688600
+                }
+            };
+
             loggerMock = new Mock<ILoggerAdapter<ObservationRepository>>();
 
             var dbProviderFactory = SqliteFactory.Instance;
@@ -157,12 +314,60 @@ namespace BellRichM.Dummy
 
     internal class When_getting_observations : ObservationRepositorySpecs
     {
-        Because of = () => { };
+        protected static List<Observation> observations;
+
+        Establish context = () =>
+        {
+            loggingData = new LoggingData
+            {
+                DebugTimes = 1,
+                EventLoggingData = new List<EventLoggingData>(),
+                ErrorLoggingMessages = new List<string>()
+            };
+        };
+
+        Because of = () =>
+            observations = observationRepository.GetObservations(
+                new Weather.Api.Models.TimePeriodModel
+                {
+                    StartDateTime = 1472688000,
+                    EndDateTime = 1472688600
+                })
+            .Await();
+
+        Behaves_like<LoggingBehaviors<ObservationRepository>> correct_logging = () => { };
+
+        It should_return_the_data = () =>
+            observations.Should().BeEquivalentTo(expectedObservations);
     }
 
     internal class When_getting_observation_datetimes : ObservationRepositorySpecs
     {
-        Because of = () => { };
+        protected static List<ObservationDateTime> observationDateTimes;
+
+        Establish context = () =>
+        {
+            loggingData = new LoggingData
+            {
+                DebugTimes = 1,
+                EventLoggingData = new List<EventLoggingData>(),
+                ErrorLoggingMessages = new List<string>()
+            };
+        };
+
+        Because of = () =>
+            observationDateTimes = observationRepository.GetObservationDateTimes(
+                new Weather.Api.Models.TimePeriodModel
+                {
+                    StartDateTime = 1472688000,
+                    EndDateTime = 1472688600
+                })
+            .Await();
+
+        Behaves_like<LoggingBehaviors<ObservationRepository>> correct_logging = () => { };
+
+        It should_return_the_data = () =>
+            observationDateTimes.Should().BeEquivalentTo(expectedObservationDateTimes);
     }
 
     internal class When_updating_an_observation : ObservationRepositorySpecs
