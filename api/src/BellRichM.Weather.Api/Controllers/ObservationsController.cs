@@ -82,10 +82,6 @@ namespace BellRichM.Weather.Api.Controllers
             }
 
             var observations = await _observationService.GetObservations(timePeriod).ConfigureAwait(true);
-            if (observations == null)
-            {
-                return NotFound();
-            }
 
             List<ObservationModel> observationsModel = _mapper.Map<List<ObservationModel>>(observations);
             return Ok(observationsModel);
@@ -109,10 +105,6 @@ namespace BellRichM.Weather.Api.Controllers
             }
 
             var observationDateTimes = await _observationService.GetObservationDateTimes(timePeriod).ConfigureAwait(true);
-            if (observationDateTimes == null)
-            {
-                return NotFound();
-            }
 
             List<ObservationDateTimeModel> observationDateTimesModel = _mapper.Map<List<ObservationDateTimeModel>>(observationDateTimes);
             return Ok(observationDateTimesModel);
