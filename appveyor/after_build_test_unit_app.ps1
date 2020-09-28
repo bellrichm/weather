@@ -14,7 +14,7 @@ set-location app
 
 # stderr on appveyor workaround
 # $cmd = "npm run-script ng test -- --progress=false --watch=false --browsers ChromeHeadless --code-coverage --source-map=false 2>t.txt"
-$cmd = "npm run-script ng test -- --progress=false --watch=false --browsers ChromeHeadless --code-coverage --source-map=false --no-sandbox"
+$cmd = "npm run-script ng test -- --progress=false --watch=false --browsers ChromeHeadlessCI --code-coverage --source-map=false"
 RunCmd $cmd
 "t.txt content beg:"
 Get-Content t.txt
