@@ -25,11 +25,11 @@ namespace BellRichM.Weather.Api.Repositories
         Task<List<Observation>> GetObservations(TimePeriodModel timePeriodModel);
 
         /// <summary>
-        /// Gets the observations for a time period.
+        /// Gets the timestamps for a time period.
         /// </summary>
         /// <param name="timePeriodModel">The time period.</param>
-        /// <returns>The observations.</returns>
-        Task<List<ObservationDateTime>> GetObservationDateTimes(TimePeriodModel timePeriodModel);
+        /// <returns>The timestamps.</returns>
+        Task<List<Timestamp>> GetTimestamps(TimePeriodModel timePeriodModel);
 
         /// <summary>
         /// Create the observation.

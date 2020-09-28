@@ -4,10 +4,10 @@ using System.ComponentModel.DataAnnotations;
 namespace BellRichM.Weather.Api.Models
 {
     /// <summary>
-    /// The weather observation.
+    /// The weather timestamp.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class ObservationDateTimeModel
+    public class TimestampModel
     {
         /// <summary>
         /// Gets or sets the date time.

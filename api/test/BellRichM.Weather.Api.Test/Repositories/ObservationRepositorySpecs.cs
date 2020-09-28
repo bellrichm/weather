@@ -21,7 +21,7 @@ namespace BellRichM.Dummy
         protected static Observation originalObservation;
         protected static Observation updatedObservation;
         protected static List<Observation> expectedObservations;
-        protected static List<ObservationDateTime> expectedObservationDateTimes;
+        protected static List<Timestamp> expectedTimestamps;
 
         protected static Mock<ILoggerAdapter<ObservationRepository>> loggerMock;
 
@@ -233,17 +233,17 @@ namespace BellRichM.Dummy
                 }
             };
 
-            expectedObservationDateTimes = new List<ObservationDateTime>
+            expectedTimestamps = new List<Timestamp>
             {
-                new ObservationDateTime
+                new Timestamp
                 {
                     DateTime = 1472688000
                 },
-                new ObservationDateTime
+                new Timestamp
                 {
                     DateTime = 1472688300
                 },
-                new ObservationDateTime
+                new Timestamp
                 {
                     DateTime = 1472688600
                 }
@@ -343,7 +343,7 @@ namespace BellRichM.Dummy
 
     internal class When_getting_observation_datetimes : ObservationRepositorySpecs
     {
-        protected static List<ObservationDateTime> observationDateTimes;
+        protected static List<Timestamp> timestamps;
 
         Establish context = () =>
         {
@@ -356,7 +356,7 @@ namespace BellRichM.Dummy
         };
 
         Because of = () =>
-            observationDateTimes = observationRepository.GetObservationDateTimes(
+            timestamps = observationRepository.GetTimestamps(
                 new Weather.Api.Models.TimePeriodModel
                 {
                     StartDateTime = 1472688000,
@@ -367,7 +367,7 @@ namespace BellRichM.Dummy
         Behaves_like<LoggingBehaviors<ObservationRepository>> correct_logging = () => { };
 
         It should_return_the_data = () =>
-            observationDateTimes.Should().BeEquivalentTo(expectedObservationDateTimes);
+            timestamps.Should().BeEquivalentTo(expectedTimestamps);
     }
 
     internal class When_updating_an_observation : ObservationRepositorySpecs

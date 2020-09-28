@@ -149,9 +149,9 @@ WHERE
         }
 
         /// <inheritdoc/>
-        public async Task<List<ObservationDateTime>> GetObservationDateTimes(TimePeriodModel timePeriodModel)
+        public async Task<List<Timestamp>> GetTimestamps(TimePeriodModel timePeriodModel)
         {
-            _logger.LogDiagnosticDebug("GetObservation: {@timePeriod}", timePeriodModel);
+            _logger.LogDiagnosticDebug("GetTimestamps: {@timePeriod}", timePeriodModel);
             if (timePeriodModel == null)
             {
                 throw new ArgumentNullException(nameof(timePeriodModel));
@@ -168,7 +168,7 @@ WHERE
     AND dateTime<=@endDateTime
 ";
 
-            var observationDateTimes = new List<ObservationDateTime>();
+            var timestamps = new List<Timestamp>();
 
             var dbConnection = _observationDbProviderFactory.CreateConnection();
             dbConnection.ConnectionString = _connectionString;
@@ -187,8 +187,8 @@ WHERE
                     {
                         while (await rdr.ReadAsync().ConfigureAwait(true))
                         {
-                            observationDateTimes.Add(
-                                new ObservationDateTime
+                            timestamps.Add(
+                                new Timestamp
                                 {
                                     DateTime = System.Convert.ToInt32(rdr["dateTime"], CultureInfo.InvariantCulture)
                                 });
@@ -197,7 +197,7 @@ WHERE
                 }
             }
 
-            return observationDateTimes;
+            return timestamps;
         }
 
         /// <inheritdoc/>

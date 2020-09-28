@@ -92,11 +92,10 @@ namespace BellRichM.Weather.Api.Controllers
         /// </summary>
         /// <param name="timePeriod">The time period.</param>
         /// <returns>The observations.</returns>
-        [HttpGet]
-        [AcceptType("application/vnd.bellrichm.observation-date")]
-        public async Task<IActionResult> GetObservationDateTimes([FromBody]TimePeriodModel timePeriod)
+        [HttpGet("/api/[controller]/Timestamps", Name="GetTimestamps")]
+        public async Task<IActionResult> GetTimestamps([FromBody]TimePeriodModel timePeriod)
         {
-            _logger.LogEvent(EventId.ObservationsController_GetObservationDateTimes, "{@timePeriod}", timePeriod);
+            _logger.LogEvent(EventId.ObservationsController_GetTimestamps, "{@timePeriod}", timePeriod);
             if (!ModelState.IsValid)
             {
                 _logger.LogDiagnosticInformation("{@ModelState}", ModelState);
@@ -104,10 +103,10 @@ namespace BellRichM.Weather.Api.Controllers
                 return BadRequest(errorResponseModel);
             }
 
-            var observationDateTimes = await _observationService.GetObservationDateTimes(timePeriod).ConfigureAwait(true);
+            var timestamps = await _observationService.GetTimestamps(timePeriod).ConfigureAwait(true);
 
-            List<ObservationDateTimeModel> observationDateTimesModel = _mapper.Map<List<ObservationDateTimeModel>>(observationDateTimes);
-            return Ok(observationDateTimesModel);
+            List<TimestampModel> timestampModel = _mapper.Map<List<TimestampModel>>(timestamps);
+            return Ok(timestampModel);
         }
 
         /// <summary>

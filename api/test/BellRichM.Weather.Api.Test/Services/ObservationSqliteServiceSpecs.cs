@@ -20,7 +20,7 @@ namespace BellRichM.Weather.Api.Test
         protected static Observation observation;
         protected static Observation notFoundObservation;
         protected static List<Observation> expectedObservations;
-        protected static List<ObservationDateTime> expectedObservationDateTimes;
+        protected static List<Timestamp> expectedTimestamps;
         protected static TimePeriodModel observationsExistTimePeriod;
 
         protected static ObservationSqliteService observationSqliteService;
@@ -210,17 +210,17 @@ namespace BellRichM.Weather.Api.Test
                 }
             };
 
-            expectedObservationDateTimes = new List<ObservationDateTime>
+            expectedTimestamps = new List<Timestamp>
             {
-                new ObservationDateTime
+                new Timestamp
                 {
                     DateTime = 1472688000
                 },
-                new ObservationDateTime
+                new Timestamp
                 {
                     DateTime = 1472688300
                 },
-                new ObservationDateTime
+                new Timestamp
                 {
                     DateTime = 1472688600
                 }
@@ -240,7 +240,7 @@ namespace BellRichM.Weather.Api.Test
 
             observationRepositoryMock.Setup(x => x.GetObservations(observationsExistTimePeriod)).Returns(Task.FromResult(expectedObservations));
 
-            observationRepositoryMock.Setup(x => x.GetObservationDateTimes(observationsExistTimePeriod)).Returns(Task.FromResult(expectedObservationDateTimes));
+            observationRepositoryMock.Setup(x => x.GetTimestamps(observationsExistTimePeriod)).Returns(Task.FromResult(expectedTimestamps));
 
             observationRepositoryMock.Setup(x => x.CreateObservation(notFoundObservation)).Returns(Task.FromResult(0));
             observationRepositoryMock.Setup(x => x.CreateObservation(observation)).Returns(Task.FromResult(1));
@@ -296,15 +296,15 @@ namespace BellRichM.Weather.Api.Test
 
     internal class When_getting_existing_observation_datetime : ObservationSqliteServiceSpecs
     {
-        protected static List<ObservationDateTime> observationDateTimes;
+        protected static List<Timestamp> timestamps;
 
         Because of = () =>
-            observationDateTimes = observationSqliteService.GetObservationDateTimes(observationsExistTimePeriod).Await();
+            timestamps = observationSqliteService.GetTimestamps(observationsExistTimePeriod).Await();
 
         Behaves_like<LoggingBehaviors<ObservationSqliteService>> correct_logging = () => { };
 
         It should_return_the_data = () =>
-            observationDateTimes.Should().BeEquivalentTo(expectedObservationDateTimes);
+            timestamps.Should().BeEquivalentTo(expectedTimestamps);
     }
 
     internal class When_creating_an_observation_succeeds : ObservationSqliteServiceSpecs

@@ -35,8 +35,8 @@ namespace BellRichM.Weather.Api.TestControllers.Test
         protected static ObservationModel invalidObservationModel;
         protected static List<Observation> observations;
         protected static List<ObservationModel> observationModels;
-        protected static List<ObservationDateTime> observationDateTimes;
-        protected static List<ObservationDateTimeModel> observationDateTimeModels;
+        protected static List<Timestamp> timestamps;
+        protected static List<TimestampModel> timestampModels;
         protected static TimePeriodModel observationsExistTimePeriod;
 
         protected static ObservationsController observationsController;
@@ -381,33 +381,33 @@ namespace BellRichM.Weather.Api.TestControllers.Test
                 }
             };
 
-            observationDateTimes = new List<ObservationDateTime>
+            timestamps = new List<Timestamp>
             {
-                new ObservationDateTime
+                new Timestamp
                 {
                     DateTime = 1472688000
                 },
-                new ObservationDateTime
+                new Timestamp
                 {
                     DateTime = 1472688300
                 },
-                new ObservationDateTime
+                new Timestamp
                 {
                     DateTime = 1472688600
                 }
             };
 
-            observationDateTimeModels = new List<ObservationDateTimeModel>
+            timestampModels = new List<TimestampModel>
             {
-                new ObservationDateTimeModel
+                new TimestampModel
                 {
                     DateTime = 1472688000
                 },
-                new ObservationDateTimeModel
+                new TimestampModel
                 {
                     DateTime = 1472688300
                 },
-                new ObservationDateTimeModel
+                new TimestampModel
                 {
                     DateTime = 1472688600
                 }
@@ -427,14 +427,14 @@ namespace BellRichM.Weather.Api.TestControllers.Test
             mapperMock.Setup(x => x.Map<Observation>(observationModel)).Returns(observation);
             mapperMock.Setup(x => x.Map<Observation>(notFoundObservationModel)).Returns(notFoundObservation);
             mapperMock.Setup(x => x.Map<List<ObservationModel>>(observations)).Returns(observationModels);
-            mapperMock.Setup(x => x.Map<List<ObservationDateTimeModel>>(observationDateTimes)).Returns(observationDateTimeModels);
+            mapperMock.Setup(x => x.Map<List<TimestampModel>>(timestamps)).Returns(timestampModels);
 
             observationServiceMock.Setup(x => x.GetObservation(notFoundObservationModel.DateTime)).Returns(Task.FromResult<Observation>(null));
             observationServiceMock.Setup(x => x.GetObservation(observationModel.DateTime)).Returns(Task.FromResult(observation));
 
             observationServiceMock.Setup(x => x.GetObservations(observationsExistTimePeriod)).Returns(Task.FromResult(observations));
 
-            observationServiceMock.Setup(x => x.GetObservationDateTimes(observationsExistTimePeriod)).Returns(Task.FromResult(observationDateTimes));
+            observationServiceMock.Setup(x => x.GetTimestamps(observationsExistTimePeriod)).Returns(Task.FromResult(timestamps));
 
             observationServiceMock.Setup(x => x.CreateObservation(notFoundObservation)).Returns(Task.FromResult<Observation>(null));
             observationServiceMock.Setup(x => x.CreateObservation(observation)).Returns(Task.FromResult(observation));
@@ -673,7 +673,7 @@ namespace BellRichM.Weather.Api.TestControllers.Test
                     EventLoggingData = new List<EventLoggingData>
                     {
                         new EventLoggingData(
-                            EventId.ObservationsController_GetObservationDateTimes,
+                            EventId.ObservationsController_GetTimestamps,
                             "{@timePeriod}")
                     },
                     ErrorLoggingMessages = new List<string>()
@@ -681,7 +681,7 @@ namespace BellRichM.Weather.Api.TestControllers.Test
             };
 
             Because of = () =>
-                result = (ObjectResult)observationsController.GetObservationDateTimes(observationsExistTimePeriod).Await();
+                result = (ObjectResult)observationsController.GetTimestamps(observationsExistTimePeriod).Await();
 
             Behaves_like<LoggingBehaviors<ObservationsController>> correct_logging = () => { };
 
@@ -690,9 +690,9 @@ namespace BellRichM.Weather.Api.TestControllers.Test
 
             It should_return_the_observation_model = () =>
             {
-                var retrievedObservationDateTimes = (List<ObservationDateTimeModel>)result.Value;
+                var retrievedTimestamps = (List<TimestampModel>)result.Value;
 
-                retrievedObservationDateTimes.Should().BeEquivalentTo(observationDateTimeModels);
+                retrievedTimestamps.Should().BeEquivalentTo(timestampModels);
             };
         }
 
@@ -712,7 +712,7 @@ namespace BellRichM.Weather.Api.TestControllers.Test
                     EventLoggingData = new List<EventLoggingData>
                     {
                         new EventLoggingData(
-                            EventId.ObservationsController_GetObservationDateTimes,
+                            EventId.ObservationsController_GetTimestamps,
                             "{@timePeriod}")
                     },
                     ErrorLoggingMessages = new List<string>()
@@ -726,7 +726,7 @@ namespace BellRichM.Weather.Api.TestControllers.Test
                 observationsController.ModelState.Clear();
 
             Because of = () =>
-                result = (ObjectResult)observationsController.GetObservationDateTimes(new TimePeriodModel()).Await();
+                result = (ObjectResult)observationsController.GetTimestamps(new TimePeriodModel()).Await();
 
             It should_return_correct_result_type = () =>
                 result.Should().BeOfType<BadRequestObjectResult>();
@@ -738,7 +738,7 @@ namespace BellRichM.Weather.Api.TestControllers.Test
                 result.Value.Should().BeOfType<ErrorResponseModel>();
         }
 
-        internal class When_decorating_Observation_GetObservationDateTimes_method
+        internal class When_decorating_Observation_GetTimestamps_method
         {
             Because of = () => { };
         }

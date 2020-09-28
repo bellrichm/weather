@@ -3,10 +3,10 @@ using BellRichM.Attribute.CodeCoverage;
 namespace BellRichM.Weather.Api.Data
 {
     /// <summary>
-    /// The weather observation.
+    /// The weather timestamp.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class ObservationDateTime
+    public class Timestamp
     {
         /// <summary>
         /// Gets or sets the date time.

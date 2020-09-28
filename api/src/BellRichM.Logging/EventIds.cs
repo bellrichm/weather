@@ -164,7 +164,7 @@ namespace BellRichM.Logging
     /// <summary>
     /// The observation controller get observstion datetimesevent id.
     /// </summary>
-    ObservationsController_GetObservationDateTimes,
+    ObservationsController_GetTimestamps,
 
     /// <summary>
     /// The observation controller create event id.

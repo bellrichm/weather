@@ -15,7 +15,7 @@ namespace BellRichM.Weather.Api.Mapping
         /// </summary>
         public ObservationDateTimeProfile()
         {
-            CreateMap<ObservationDateTime, ObservationDateTimeModel>();
+            CreateMap<Timestamp, TimestampModel>();
         }
     }
 }
