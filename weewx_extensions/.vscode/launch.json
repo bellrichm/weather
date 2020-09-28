@@ -11,7 +11,11 @@
             "program": "${file}",
             "args": [
                 //"weewx.device.conf"
-                "../../weewx/weewx.conf"
+                "weewx/weewx.conf",
+                //"-t",
+                "-q",
+                "-s", "2020-09-22",
+                "-e", "2020-09-26"
             ],            
             "console": "integratedTerminal"
         },

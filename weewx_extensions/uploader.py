@@ -295,6 +295,7 @@ class Observation(weewx.restx.RESTThread):
             logerr("%s: Failed upload attempt %d: %s" % (self.protocol_name, count, response_body))
 
 if __name__ == '__main__':
+    import argparse
     import configobj
     import datetime
     import os
@@ -302,6 +303,35 @@ if __name__ == '__main__':
     def main():
         """ mainline """
         print("in main")
+        usage = """uploader --help
+                CONFIG_FILE
+                [--interval=INTERVAL]
+                [--delay=DELAY]
+                [--units=US|METRIC|METRICWX]
+                [--binding=archive|loop]
+                [--type=driver|service]
+                [--verbose]
+                [--console]
+
+        CONFIG_FILE = The WeeWX configuration file, typically weewx.conf.
+        """
+
+        parser = argparse.ArgumentParser(usage=usage)
+        parser.add_argument("config_file", default='weewx.config')
+        parser.add_argument('--version', action='version', version="Uploader version is %s" % VERSION)
+        parser.add_argument("-b", "--binding", default='wx_binding',
+                            help="The database binding to be used. Default is 'wx_binding'.")
+        parser.add_argument("-s", "--start-date", metavar="YYYY-mm-dd",
+                            help="Date to check as a string of form YYYY-mm-dd. Default is today.")
+        parser.add_argument("-e", "--end-date", metavar="YYYY-mm-dd",
+                            help="Date to check as a string of form YYYY-mm-dd. Default is 'start date'.")
+        parser.add_argument("-t", "--test", action="store_true", dest="simulate",
+                            help="Test what would happen, but don't do anything.")
+        parser.add_argument("-q", "--query", action="store_true",
+                            help="For each record, query the user before making a change.")
+
+        options = parser.parse_args()
+        config_file = options.config_file
 
         config_file = 'weewx.conf'
         config_path = os.path.abspath(config_file)
@@ -316,28 +346,33 @@ if __name__ == '__main__':
         user = site_dict['user']
         password = site_dict['password']
 
-        db_binding = 'wx_binding'
+        db_binding = options.binding
 
         dbmanager = weewx.manager.open_manager_with_config(config_dict, db_binding)
 
-        date = '2020-09-26'
-        # 1601092800 Saturday, September 26, 2020 12:00:00 AM GMT-04:00 DST
-        # 1601178900  Saturday, September 26, 2020 11:55:00 PM GMT-04:00 DST
+        _ans = 'y'
+        if options.simulate:
+            options.query = False
+            _ans = 'n'
 
-        date = '2020-09-27'
-        # 1601179200 Sunday, September 27, 2020 12:00:00 AM GMT-04:00 DST
-        # 1601265300 Sunday, September 27, 2020 11:55:00 PM GMT-04:00 DST
+        if options.start_date:
+            date_tt = time.strptime(options.start_date, "%Y-%m-%d")
+            start_date_date = datetime.date(date_tt[0], date_tt[1], date_tt[2])
+        else:
+            start_date_date = datetime.date.today()
 
-        date_tt = time.strptime(date, "%Y-%m-%d")
-        date_date = datetime.date(date_tt[0], date_tt[1], date_tt[2])
-
-        start_ord = date_date.toordinal()
-        end_ord = start_ord + 1
-
+        start_ord = start_date_date.toordinal()
         start_date = datetime.date.fromordinal(start_ord)
-        end_date = datetime.date.fromordinal(end_ord)
-
         start_ts = time.mktime(start_date.timetuple())
+
+        if options.end_date and options.end_date != options.start_date:
+            date_tt = time.strptime(options.end_date, "%Y-%m-%d")
+            end_date_date = datetime.date(date_tt[0], date_tt[1], date_tt[2])
+            end_ord = end_date_date.toordinal()
+        else:
+            end_ord = start_ord + 1
+
+        end_date = datetime.date.fromordinal(end_ord)
         end_ts = time.mktime(end_date.timetuple())
 
         sql_stmt = "SELECT dateTime FROM archive WHERE dateTime>=? AND dateTime<?"
@@ -349,7 +384,6 @@ if __name__ == '__main__':
 
         observation = Observation(None,
                                   host, user, password)
-                                  # None, {})
 
         data = {}
         data['StartDateTime'] = start_ts
@@ -360,14 +394,32 @@ if __name__ == '__main__':
             client_timestamps.append(timestamp['dateTime'])
 
         missing_timestamps = sorted(set(weewx_timestamps).difference(client_timestamps))
+        print("missing %i records" % len(missing_timestamps))
 
         uploader = UploaderThread(None,
                                   host, user, password,
                                   dbmanager)
 
+        i = 1
         for timestamp in missing_timestamps:
+            print("uploading: %i %i of %i" % (timestamp, i, len(missing_timestamps)))
             record = dbmanager.getRecord(timestamp)
-            uploader.process_record(record, dbmanager)
+            if options.query:
+                _ans = input("...fix? (y/n/a/q):")
+                if _ans == "q":
+                    print("Quitting.")
+                    #log.debug("... exiting")
+                    exit()
+                if _ans == "a":
+                    _ans = "y"
+                    options.query = False
+
+            if _ans == 'y':
+                uploader.process_record(record, dbmanager)
+            else:
+                print(" ... skipped.")
+
+            i += 1
 
         print("done")
 
