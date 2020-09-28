@@ -17,6 +17,8 @@ import weewx.restx
 
 from six.moves import urllib
 
+from weeutil.weeutil import to_sorted_string
+
 # hack to use ssl when running locally
 ssl._create_default_https_context = ssl._create_unverified_context #pylint: disable=protected-access
 
@@ -72,7 +74,7 @@ class Uploader(weewx.restx.StdRESTbase):
     """ The BellRichM uploader. """
     def __init__(self, engine, config_dict):
         super(Uploader, self).__init__(engine, config_dict)
-        loginf("service version is %s" % VERSION)
+        #loginf("service version is %s" % VERSION)
 
         site_dict = weewx.restx.check_enable(config_dict, 'Uploader', 'host', 'user', 'password')
         if site_dict is None:
@@ -302,7 +304,6 @@ if __name__ == '__main__':
 
     def main():
         """ mainline """
-        print("in main")
         usage = """uploader --help
                 CONFIG_FILE
                 [--interval=INTERVAL]
@@ -394,7 +395,6 @@ if __name__ == '__main__':
             client_timestamps.append(timestamp['dateTime'])
 
         missing_timestamps = sorted(set(weewx_timestamps).difference(client_timestamps))
-        print("missing %i records" % len(missing_timestamps))
 
         uploader = UploaderThread(None,
                                   host, user, password,
@@ -402,8 +402,9 @@ if __name__ == '__main__':
 
         i = 1
         for timestamp in missing_timestamps:
-            print("uploading: %i %i of %i" % (timestamp, i, len(missing_timestamps)))
             record = dbmanager.getRecord(timestamp)
+            print("\nuploading: %i of %i" % (i, len(missing_timestamps)))
+            print(weeutil.weeutil.timestamp_to_string(record['dateTime']), to_sorted_string(record))
             if options.query:
                 _ans = input("...fix? (y/n/a/q):")
                 if _ans == "q":
@@ -420,7 +421,5 @@ if __name__ == '__main__':
                 print(" ... skipped.")
 
             i += 1
-
-        print("done")
 
     main()
