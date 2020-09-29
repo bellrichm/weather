@@ -10,8 +10,9 @@ if ($env:UNIT_TEST_APP -EQ "NO" `
   return
 }
 
-$dir = get-location
+[string]$dir = get-location
 set-location app
+write-host $dir
 
 try
 {
@@ -32,6 +33,7 @@ try
 catch
 {
   write-host $_
+  write-host $dir
   set-location $dir
 }
 
