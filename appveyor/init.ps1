@@ -131,7 +131,7 @@ catch
 {
   Write-Host "caught"
   Write-Host $_
-  throw "2"
+  #throw "2"
   exit 1
   # Exit-AppveyorBuild # terminates with success
 }
