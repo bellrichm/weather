@@ -33,7 +33,10 @@ try
 }
 catch
 {
+  #set-location $env:APPVEYOR_BUILD_FOLDER
+  get-location
   write-host $_
   set-location $env:APPVEYOR_BUILD_FOLDER
+  get-location
 }
 
