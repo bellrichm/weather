@@ -1,9 +1,9 @@
 ""
 "******************************** " + $MyInvocation.InvocationName + " ********************************"
-#$ErrorActionPreference = "SilentlyContinue"
+$ErrorActionPreference = "SilentlyContinue"
 try
 {
-  throw "test exception"
+  #throw "test exception"
   $env:BUILD_API_LOG = '-l:"C:\Program Files\AppVeyor\BuildAgent\dotnetcore\Appveyor.MSBuildLogger.dll" '
   
   if ($env:APPVEYOR_REPO_BRANCH -eq 'local')
