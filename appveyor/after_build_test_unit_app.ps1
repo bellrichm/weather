@@ -12,7 +12,7 @@ if ($env:UNIT_TEST_APP -EQ "NO" `
 
 set-location app
 
-$cmd = "'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe' --user-data-dir=C:\Users\appveyor\AppData\Local\Temp\1\karma-45328791 --no-default-browser-check --no-first-run --disable-default-apps --disable-popup-blocking --disable-translate --disable-background-timer-throttling --disable-renderer-backgrounding --disable-device-discovery-notifications --disable-web-security --disable-gpu --enable-logging=stderr  --v=1 --no-sandbox http://localhost:9876/?id=45328791 --headless --disable-gpu --remote-debugging-port=9222"
+$cmd = "'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe --user-data-dir=C:\Users\appveyor\AppData\Local\Temp\1\karma-45328791 --no-default-browser-check --no-first-run --disable-default-apps --disable-popup-blocking --disable-translate --disable-background-timer-throttling --disable-renderer-backgrounding --disable-device-discovery-notifications --disable-web-security --disable-gpu --enable-logging=stderr  --v=1 --no-sandbox http://localhost:9876/?id=45328791 --headless --disable-gpu --remote-debugging-port=9222'"
 RunCmd $cmd
 
 # stderr on appveyor workaround
