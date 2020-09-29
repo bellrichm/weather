@@ -12,6 +12,8 @@ if ($env:UNIT_TEST_APP -EQ "NO" `
 
 set-location app
 
+iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+
 #$cmd = "dir 'C:\Program Files (x86)'"
 #RunCmd $cmd
 
