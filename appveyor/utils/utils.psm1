@@ -25,6 +25,7 @@ Function RunCmd {
       else 
       {
         Add-AppveyorMessage -Category Error "Error running: $cmd" -Details "return code: $rc"
+        throw
       }
       exit $rc
     }
