@@ -1,6 +1,6 @@
 ""
 "******************************** " + $MyInvocation.InvocationName + " ********************************"
-$ErrorActionPreference = "SilentlyContinue"
+#$ErrorActionPreference = "SilentlyContinue"
 try
 {
   throw "test exception"
@@ -125,7 +125,7 @@ try
   Write-Host "SMOKE_TEST:               $env:SMOKE_TEST"
   Write-Host ""
   
-  exit 0
+  exit 1
 }
 catch
 {
