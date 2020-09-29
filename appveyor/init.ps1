@@ -3,7 +3,7 @@
 $global:ErrorActionPreference = "SilentlyContinue"
 try
 {
-  #throw "test exception"
+  throw "test exception"
   $env:BUILD_API_LOG = '-l:"C:\Program Files\AppVeyor\BuildAgent\dotnetcore\Appveyor.MSBuildLogger.dll" '
   
   if ($env:APPVEYOR_REPO_BRANCH -eq 'local')
@@ -125,11 +125,13 @@ try
   Write-Host "SMOKE_TEST:               $env:SMOKE_TEST"
   Write-Host ""
   
-  exit 1
+  exit 0
 }
 catch
 {
+  Write-Host "caught"
   Write-Host $_
+  throw "2"
   exit 1
   # Exit-AppveyorBuild # terminates with success
 }
