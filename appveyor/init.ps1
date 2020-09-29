@@ -1,6 +1,6 @@
 ""
 "******************************** " + $MyInvocation.InvocationName + " ********************************"
-$ErrorActionPreference = "Continue"
+$ErrorActionPreference = "SilentlyContinue"
 try
 {
   throw "test exception"
@@ -130,5 +130,5 @@ try
 catch
 {
   Write-Host $_
-  return 1
+  exit 1
 }
