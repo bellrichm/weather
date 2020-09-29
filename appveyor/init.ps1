@@ -130,5 +130,6 @@ try
 catch
 {
   Write-Host $_
-  Exit-AppveyorBuild
+  exit 1
+  # Exit-AppveyorBuild # terminates with success
 }
