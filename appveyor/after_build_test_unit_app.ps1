@@ -10,6 +10,9 @@ if ($env:UNIT_TEST_APP -EQ "NO" `
   return
 }
 
+# force all errors to be terminating caught by the catch
+$ErrorActionPreference = "Stop"
+
 [string]$dir = get-location
 set-location app
 write-host $dir
