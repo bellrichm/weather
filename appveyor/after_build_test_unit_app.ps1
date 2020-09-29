@@ -10,13 +10,7 @@ if ($env:UNIT_TEST_APP -EQ "NO" `
   return
 }
 
-# force all errors to be terminating caught by the catch
-$ErrorActionPreference = "Stop"
-
-[string]$dir = get-location
 set-location app
-write-host $dir
-write-host $env:APPVEYOR_BUILD_FOLDER
 
 try
 {
@@ -37,10 +31,9 @@ try
 catch
 {
   write-host "error"
-  #set-location $env:APPVEYOR_BUILD_FOLDER
-  get-location
   write-host $_
+  Get-Content t.txt # a hack for now
   set-location $env:APPVEYOR_BUILD_FOLDER
-  get-location
+  exit 1
 }
 
