@@ -29,25 +29,9 @@ module.exports = function (config) {
     reporters: ['progress', 'kjhtml', 'junit'],
     port: 9876,
     colors: true,
-    //logLevel: config.LOG_INFO,
-    logLevel: config.LOG_DEBUG,
+    logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
-    browserDisconnectTimeout: 10000,
-    browserDisconnectTolerance: 3,
-    browserNoActivityTimeout: 600000,
-    customLaunchers: {
-      ChromeHeadlessCI: {
-        base: 'ChromeHeadless',
-        flags: [
-          '--disable-web-security',
-          '--disable-gpu',
-          '--enable-logging=stderr',
-          ' --v=1',
-          '--no-sandbox'
-        ]
-      }
-    },
     singleRun: false
   });
 };
