@@ -77,10 +77,10 @@
     - ps: appveyor/success.ps1
 
   on_failure:
-    -ps: appveyor/failure.ps1
+    - ps: appveyor/failure.ps1
     
   on_finish:
-    -ps: appveyor/finish.ps1
+    - ps: appveyor/finish.ps1
 
   notifications:
   - provider: Email
