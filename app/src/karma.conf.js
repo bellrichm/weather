@@ -42,6 +42,8 @@ module.exports = function (config) {
         flags: [
           '--disable-web-security',
           '--disable-gpu',
+          '--enable-logging=stderr',
+          ' --v=1',
           '--no-sandbox'
         ]
       }
