@@ -1,6 +1,6 @@
 ""
 "******************************** " + $MyInvocation.InvocationName + " ********************************"
-$ErrorActionPreference = "SilentlyContinue"
+$global:ErrorActionPreference = "SilentlyContinue"
 try
 {
   #throw "test exception"

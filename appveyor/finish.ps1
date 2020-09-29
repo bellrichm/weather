@@ -1,6 +1,6 @@
 ""
 "******************************** " + $MyInvocation.InvocationName + " ********************************"
-
+Write-Host "finish"
 # Note, this is not called when build crashes/exception
 if ($env:REMOTE_ACCESS -ne "YES")
 {
