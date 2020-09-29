@@ -12,10 +12,13 @@ if ($env:UNIT_TEST_APP -EQ "NO" `
 
 set-location app
 
+$cmd = "chrome.exe --user-data-dir=C:\Users\appveyor\AppData\Local\Temp\1\karma-45328791 --no-default-browser-check --no-first-run --disable-default-apps --disable-popup-blocking --disable-translate --disable-background-timer-throttling --disable-renderer-backgrounding --disable-device-discovery-notifications --disable-web-security --disable-gpu --enable-logging=stderr  --v=1 --no-sandbox http://localhost:9876/?id=45328791 --headless --disable-gpu --remote-debugging-port=9222"
+RunCmd $cmd
+
 # stderr on appveyor workaround
 # $cmd = "npm run-script ng test -- --progress=false --watch=false --browsers ChromeHeadless --code-coverage --source-map=false 2>t.txt"
 $cmd = "npm run-script ng test -- --progress=false --watch=false --browsers ChromeHeadlessCI --code-coverage --source-map=false"
-RunCmd $cmd
+#RunCmd $cmd
 "t.txt content beg:"
 Get-Content t.txt
 "t.txt content end:"
