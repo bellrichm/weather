@@ -10,26 +10,18 @@ if ($env:UNIT_TEST_APP -EQ "NO" `
   return
 }
 
-try
-{
-  set-location app
+set-location app
   
-  # stderr on appveyor workaround
-  $cmd = "npm run-script ng test -- --progress=false --watch=false --browsers ChromeHeadless --code-coverage 2>t.txt"
-  RunCmd $cmd
-  "t.txt content beg:"
-  Get-Content t.txt
-  "t.txt content end:"
-  set-location ..
+# stderr on appveyor workaround
+$cmd = "npm run-script ng test -- --progress=false --watch=false --browsers ChromeHeadless --code-coverage 2>t.txt"
+RunCmd $cmd
+"t.txt content beg:"
+Get-Content t.txt
+"t.txt content end:"
+set-location ..
   
-  if ($env:BUILDTYPE -ne 'LOCAL')
-  {
-    $wc = New-Object 'System.Net.WebClient'
-    $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path ./app/output/junit.xml))
-  }
-}
-catch
+if ($env:BUILDTYPE -ne 'LOCAL')
 {
-  Write-Host $_
-  return 1
+  $wc = New-Object 'System.Net.WebClient'
+  $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path ./app/output/junit.xml))
 }
