@@ -12,8 +12,8 @@ if ($env:UNIT_TEST_APP -EQ "NO" `
 
 set-location app
 
-$cmd = "dir 'C:\Program Files (x86)'"
-RunCmd $cmd
+#$cmd = "dir 'C:\Program Files (x86)'"
+#RunCmd $cmd
 
 $cmd = "dir 'C:\Program Files (x86)\Google'"
 RunCmd $cmd
