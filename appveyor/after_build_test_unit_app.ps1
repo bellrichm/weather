@@ -13,6 +13,7 @@ if ($env:UNIT_TEST_APP -EQ "NO" `
 [string]$dir = get-location
 set-location app
 write-host $dir
+write-host $env:APPVEYOR_BUILD_FOLDER
 
 try
 {
@@ -33,7 +34,6 @@ try
 catch
 {
   write-host $_
-  write-host $dir
-  set-location $dir
+  set-location $env:APPVEYOR_BUILD_FOLDER
 }
 
