@@ -4,7 +4,7 @@ Function RunCmd {
   Process{
     Write-Host "Running: $cmd"
     
-    Invoke-Expression $cmd
+    Invoke-Expression $cmd -ErrorAction Stop
     $rc = $LastExitCode
 
     if ($env:BUILDTYPE -eq 'LOCAL')

@@ -36,6 +36,7 @@ try
 }
 catch
 {
+  write-host "error"
   #set-location $env:APPVEYOR_BUILD_FOLDER
   get-location
   write-host $_
