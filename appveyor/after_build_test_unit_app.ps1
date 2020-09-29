@@ -30,7 +30,6 @@ try
 }
 catch
 {
-  write-host "error"
   write-host $_
   Get-Content t.txt # a hack for now
   set-location $env:APPVEYOR_BUILD_FOLDER

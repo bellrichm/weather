@@ -58,7 +58,7 @@ try
     if ([System.Boolean](Get-CimInstance -ClassName Win32_OperatingSystem -ErrorAction Ignore))
     {
         $env:BUILD_PLATFORM = "Windows"
-        #$Env:CHROME_BIN = "C:\Program Files\Google\Chrome\Application\chrome.exe" # google install location for karma on appveyor
+        $Env:CHROME_BIN = "C:\Program Files\Google\Chrome\Application\chrome.exe" # google install location for karma on appveyor
     }
 }
 catch
