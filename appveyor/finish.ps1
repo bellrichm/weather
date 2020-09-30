@@ -1,7 +1,6 @@
 ""
 "******************************** " + $MyInvocation.InvocationName + " ********************************"
 
-# Note, this is not called when build crashes/exception
 if ($env:REMOTE_ACCESS -ne "YES")
 {
   return
