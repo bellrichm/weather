@@ -82,7 +82,7 @@ namespace BellRichM.Identity.Api.Test.Controllers
                 {
                     new EventLoggingData(
                         EventId.UsersController_Get,
-                        "")
+                        string.Empty)
                 },
                 ErrorLoggingMessages = new List<string>()
             };
