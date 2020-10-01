@@ -41,7 +41,7 @@
     SMOKE_TEST:
     # Override some default environment 
     JAVA_HOME: C:\Program Files\Java\jdk11
-    PATH: C:\Program Files\Java\jdk11;$(PATH) # cannot use $(JACA_HOME)
+    PATH: C:\Program Files\Java\jdk11;$(PATH) # cannot use $(JAVA_HOME)
   
   install:
     - ps: appveyor/init.ps1
