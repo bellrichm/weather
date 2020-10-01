@@ -3,12 +3,14 @@
     <GenerateFullPaths>true</GenerateFullPaths>     
     <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <OutputType>Library</OutputType>
+    <GenerateProgramFile>false</GenerateProgramFile>
     <SonarQubeTestProject>true</SonarQubeTestProject>
     <SonarQubeExclude>true</SonarQubeExclude>
     <CodeAnalysisRuleSet>$(ProjectDir)..\StyleCop.Analyzers.ruleset</CodeAnalysisRuleSet>
     <ProjectGuid>ECE5BED1-FB5B-4C47-8872-B2361955A976</ProjectGuid>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="System.CommandLine.DragonFruit" Version="0.3.0-alpha.20158.1" />
     <PackageReference Include="FluentAssertions" Version="5.10.2" />  
     <PackageReference Include="Moq" Version="4.13.1" />
     <PackageReference Include="Machine.Specifications" Version="1.0.0" />
@@ -23,5 +25,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\BellRichM.Identity.Api\BellRichM.Identity.Api.csproj" />
     <ProjectReference Include="..\BellRichM.Helpers.Test\BellRichM.Helpers.Test.csproj" />
+    <ProjectReference Include="..\BellRichM.TestRunner\BellRichM.TestRunner.csproj" />
   </ItemGroup>
 </Project>
