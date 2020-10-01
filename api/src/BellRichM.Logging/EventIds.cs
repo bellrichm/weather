@@ -180,6 +180,26 @@ namespace BellRichM.Logging
     /// The observation controller delete event id.
     /// </summary>
     ObservationsController_Delete,
+
+    /// <summary>
+    /// The users controller event id.
+    /// </summary>
+    UsersController = 6000,
+
+    /// <summary>
+    /// The users controller get event id.
+    /// </summary>
+    UsersController_Get,
+
+    /// <summary>
+    /// The roles controller event id.
+    /// </summary>
+    RolesController = 7000,
+
+    /// <summary>
+    /// The roles controller get event id.
+    /// </summary>
+    RolesController_Get,
     }
 }
 #pragma warning restore CA1707

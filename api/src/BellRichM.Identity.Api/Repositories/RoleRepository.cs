@@ -3,6 +3,7 @@ using BellRichM.Identity.Api.Data;
 using BellRichM.Identity.Api.Exceptions;
 using BellRichM.Logging;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -136,6 +137,20 @@ namespace BellRichM.Identity.Api.Repositories
 
                 throw new DeleteRoleException(DeleteRoleExceptionCode.DeleteRoleFailed, exceptionDetails);
             }
+        }
+
+            /// <inheritdoc/>
+        public async Task<IEnumerable<Role>> GetRoles()
+        {
+            _logger.LogDiagnosticDebug("GetRoles: ");
+
+            var roles = await _roleManager.Roles.ToListAsync().ConfigureAwait(true);
+            foreach (Role role in roles)
+            {
+                role.ClaimValues = await GetClaimValues(role).ConfigureAwait(true);
+            }
+
+            return roles;
         }
 
         /// <inheritdoc/>

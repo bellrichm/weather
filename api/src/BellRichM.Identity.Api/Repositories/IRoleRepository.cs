@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using BellRichM.Identity.Api.Data;
 
@@ -35,5 +36,11 @@ namespace BellRichM.Identity.Api.Repositories
         /// <param name="id">The identifier.</param>
         /// <returns>The <see cref="Task"/>.</returns>
         Task Delete(string id);
+
+        /// <summary>
+        /// Get the roles.
+        /// </summary>
+        /// /// <returns>The <see cref="Task"/>.</returns>
+        Task<IEnumerable<Role>> GetRoles();
     }
 }
