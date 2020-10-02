@@ -12,7 +12,7 @@ if ($env:UPLOAD_SONARQUBE_API -ne 'NO' `
   $parms = $parms + '/d:sonar.branch.name=$env:APPVEYOR_REPO_BRANCH '
   $parms = $parms + '/d:sonar.host.url="https://sonarcloud.io" '
   $parms = $parms + '/d:sonar.login=$env:SONARQUBE_REPO_TOKEN '
-  $parms = $parms + '/d:sonar.exclusions="**/Migrations/*, **/obj/**/*, **/*.conf.*, **/e2e/**/*, **/coverage/**/*, **/*spec*, **/bin/**/*" '
+  $parms = $parms + '/d:sonar.exclusions="**/Migrations/*, **/obj/**/*, **/*.conf.*, **/e2e/**/*, **/coverage/**/*, **/*spec*, **/bin/**" '
   $parms = $parms + '/d:sonar.typescript.exclusions="**/bin/**/*" '
   $parms = $parms + '/d:sonar.cpd.exclusions="**/Models/*" '
   $parms = $parms + '/d:sonar.test.exclusions="**/obj/**/*" '
