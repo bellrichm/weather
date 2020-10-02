@@ -24,7 +24,9 @@ namespace InitObservations
     /// <summary>
     /// The mainline program to initialize the observation database.
     /// </summary>
+    #pragma warning disable CA1812
     class Program
+    #pragma warning restore CA1812
     {
         static ILoggerAdapter<Program> logger;
         static IObservationRepository observationRepository;
@@ -36,8 +38,6 @@ namespace InitObservations
         /// <param name="end">The end date.</param>
         static async Task Main(string start = "", string end = "")
         {
-            System.Console.WriteLine("start");
-
             DateTime startDate;
             if (string.IsNullOrEmpty(start))
             {
@@ -78,8 +78,25 @@ namespace InitObservations
             var weatherModel = await weeWXRepository.GetWeather(startTimestamp, endTimestamp).ConfigureAwait(true);
             var weather = mapper.Map<List<Observation>>(weatherModel);
 
-            // var observation = observationRepository.GetObservation(1);
-            System.Console.WriteLine("end");
+            var i = 1;
+            foreach (var record in weather)
+            {
+                Console.WriteLine($"Processing record {i} of {weather.Count}.");
+                var observation = await observationRepository.GetObservation(record.DateTime).ConfigureAwait(true);
+
+                if (observation == null)
+                {
+                    var count = await observationRepository.CreateObservation(record).ConfigureAwait(true);
+                    logger.LogDiagnosticInformation("Created Record. {@dateTime}", record.DateTime);
+                    Console.WriteLine($"\tCreated Record. {record.DateTime}");
+                }
+                else
+                {
+                    logger.LogDiagnosticInformation("Record exists, skipping. {@dateTime}", record.DateTime);
+                }
+
+                i += 1;
+            }
         }
 
         private static long ToUnixEpochDate(DateTime date) => new DateTimeOffset(date).ToUniversalTime().ToUnixTimeSeconds();
