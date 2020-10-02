@@ -13,6 +13,7 @@ if ($env:UPLOAD_SONARQUBE_API -ne 'NO' `
   $parms = $parms + '/d:sonar.host.url="https://sonarcloud.io" '
   $parms = $parms + '/d:sonar.login=$env:SONARQUBE_REPO_TOKEN '
   $parms = $parms + '/d:sonar.exclusions="**/Migrations/*, **/obj/**/*, **/*.conf.*, **/e2e/**/*, **/coverage/**/*, **/*spec*" '
+  $parms = $parms + '/d:sonar.exclusions="**/Migrations/*, **/obj/**/*, **/*.conf.*, **/e2e/**/*, **/coverage/**/*, **/*spec*, **/bin/**/*" '
   $parms = $parms + '/d:sonar.cpd.exclusions="**/Models/*" '
   $parms = $parms + '/d:sonar.test.exclusions="**/obj/**/*" '
   $parms = $parms + '/d:sonar.cs.opencover.reportsPaths="api/test/coverlet/coverage.netcoreapp3.1.opencover.xml" '
