@@ -14,8 +14,5 @@ namespace InitObservations
 
         /// <inheritdoc/>
         public string ConnectionString { get; set; }
-
-        /// <inheritdoc/>
-        public int MaximumObservations { get; set; }
     }
 }

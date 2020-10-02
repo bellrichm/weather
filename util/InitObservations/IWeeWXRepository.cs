@@ -13,6 +13,9 @@ namespace InitObservations
         /// <summary>
         /// Get it.
         /// </summary>
-        void Get();
+        /// <param name="startTimestamp">The start date.</param>
+        /// <param name="endTimestamp">The end date.</param>
+        /// <returns>The <see cref="Task{IActionResult}"/>containing the <see cref="ObservationModel"/>.</returns>
+        Task<List<ObservationModel>> GetWeather(long startTimestamp, long endTimestamp);
     }
 }

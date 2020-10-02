@@ -1,10 +1,15 @@
+using AutoMapper;
 using BellRichM.Configuration;
 using BellRichM.Logging;
+using BellRichM.Weather.Api.Data;
 using BellRichM.Weather.Api.Extensions;
+using BellRichM.Weather.Api.Mapping;
+using BellRichM.Weather.Api.Models;
 using BellRichM.Weather.Api.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
@@ -16,6 +21,9 @@ using Serilog;
 
 namespace InitObservations
 {
+    /// <summary>
+    /// The mainline program to initialize the observation database.
+    /// </summary>
     class Program
     {
         static ILoggerAdapter<Program> logger;
@@ -24,25 +32,57 @@ namespace InitObservations
         /// <summary>
         /// Initialize the identity db.static.static.
         /// </summary>
-        /// <param name="weewxDB">A json file containing the roles to add.</param>
-        /// <param name="weatherDB">A json file containing the users to add.</param>
-        static void Main(string weewxDB = "roles.json", string weatherDB = "users.json")
+        /// <param name="start">The start date.</param>
+        /// <param name="end">The end date.</param>
+        static async Task Main(string start = "", string end = "")
         {
             System.Console.WriteLine("start");
-            System.Console.WriteLine(weewxDB);
-            System.Console.WriteLine(weatherDB);
+
+            DateTime startDate;
+            if (string.IsNullOrEmpty(start))
+            {
+                startDate = DateTime.UtcNow;
+            }
+            else
+            {
+                startDate = DateTime.ParseExact(start, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            }
+
+            DateTime endDate;
+            if (string.IsNullOrEmpty(end))
+            {
+                endDate = startDate;
+            }
+            else
+            {
+                endDate = DateTime.ParseExact(end, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            }
+
+            var startTime = new DateTime(startDate.Year, startDate.Month, startDate.Day, 0, 0, 0);
+            var startTimestamp = ToUnixEpochDate(startTime);
+
+            var endTime = new DateTime(endDate.Year, endDate.Month, endDate.Day + 1, 0, 0, 0);
+            var endTimestamp = ToUnixEpochDate(endTime);
+
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<ObservationProfile>();
+            });
+            var mapper = configuration.CreateMapper();
 
             var serviceProvider = Configure();
             logger = serviceProvider.GetService<ILoggerAdapter<Program>>();
             observationRepository = serviceProvider.GetService<IObservationRepository>();
 
-            var observation = observationRepository.GetObservation(1);
-
             var weeWXRepository = serviceProvider.GetService<IWeeWXRepository>();
-            weeWXRepository.Get();
-            
+            var weatherModel = await weeWXRepository.GetWeather(startTimestamp, endTimestamp).ConfigureAwait(true);
+            var weather = mapper.Map<List<Observation>>(weatherModel);
+
+            // var observation = observationRepository.GetObservation(1);
             System.Console.WriteLine("end");
         }
+
+        private static long ToUnixEpochDate(DateTime date) => new DateTimeOffset(date).ToUniversalTime().ToUnixTimeSeconds();
 
         private static IServiceProvider Configure()
         {
