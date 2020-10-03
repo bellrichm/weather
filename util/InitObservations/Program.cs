@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +20,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Serilog;
 
+#pragma warning disable CA1303
 namespace InitObservations
 {
     /// <summary>
@@ -36,7 +38,8 @@ namespace InitObservations
         /// </summary>
         /// <param name="start">The start date.</param>
         /// <param name="end">The end date.</param>
-        static async Task Main(string start = "", string end = "")
+        /// <param name="batchSize">The number of records to create per transaction.</param>
+        static async Task Main(string start = "", string end = "", int batchSize = 288)
         {
             DateTime startDate;
             if (string.IsNullOrEmpty(start))
@@ -75,27 +78,29 @@ namespace InitObservations
             observationRepository = serviceProvider.GetService<IObservationRepository>();
 
             var weeWXRepository = serviceProvider.GetService<IWeeWXRepository>();
+            Console.WriteLine("Retrieving WeeWX data.");
             var weatherModel = await weeWXRepository.GetWeather(startTimestamp, endTimestamp).ConfigureAwait(true);
             var weather = mapper.Map<List<Observation>>(weatherModel);
 
-            var i = 1;
-            foreach (var record in weather)
+            // var firstNotSecond = list1.Except(list2).ToList();
+            var timePeriod = new TimePeriodModel
+            {
+                StartDateTime = (int)startTimestamp,
+                EndDateTime = (int)endTimestamp
+            };
+
+            Console.WriteLine("Retrieving existing observation timestamps.");
+            var timeStamps = await observationRepository.GetTimestamps(timePeriod).ConfigureAwait(true);
+
+            Console.WriteLine("Filtering WeeWX data.");
+            var filteredList = weather.RemoveAll(w => timeStamps.Select(t => t.DateTime).Contains(w.DateTime));
+            for (int i = 0; i < weather.Count; i = i + batchSize)
             {
                 Console.WriteLine($"Processing record {i} of {weather.Count}.");
-                var observation = await observationRepository.GetObservation(record.DateTime).ConfigureAwait(true);
-
-                if (observation == null)
-                {
-                    var count = await observationRepository.CreateObservation(record).ConfigureAwait(true);
-                    logger.LogDiagnosticInformation("Created Record. {@dateTime}", record.DateTime);
-                    Console.WriteLine($"\tCreated Record. {record.DateTime}");
-                }
-                else
-                {
-                    logger.LogDiagnosticInformation("Record exists, skipping. {@dateTime}", record.DateTime);
-                }
-
-                i += 1;
+                var items = weather.Skip(i).Take(batchSize).ToList();
+                var count = await observationRepository.CreateObservations(items).ConfigureAwait(true);
+                var dateTime = DateTimeOffset.FromUnixTimeSeconds(items[items.Count - 1].DateTime).DateTime;
+                Console.WriteLine($"\tCreated records up to. {items[items.Count - 1].DateTime} {dateTime}");
             }
         }
 
@@ -133,4 +138,5 @@ namespace InitObservations
             return services.BuildServiceProvider();
         }
     }
+    #pragma warning restore CA1303
 }
