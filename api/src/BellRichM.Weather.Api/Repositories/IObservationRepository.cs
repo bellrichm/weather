@@ -38,6 +38,13 @@ namespace BellRichM.Weather.Api.Repositories
         /// <returns>The number of rows inserted.</returns>
         Task<int> CreateObservation(Observation observation);
 
+                /// <summary>
+        /// Create the observations.
+        /// </summary>
+        /// <param name="observations">The <see cref="Observation"/>.</param>
+        /// <returns>The number of rows inserted.</returns>
+        Task<int> CreateObservations(List<Observation> observations);
+
         /// <summary>
         /// Update the observation.
         /// </summary>
