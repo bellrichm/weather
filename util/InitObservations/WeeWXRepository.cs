@@ -56,7 +56,7 @@ SELECT
 FROM archive
 WHERE
     dateTime>=@startTimestamp
-    AND dateTime<@endTimestamp
+    AND dateTime<@endTimestamp -- ToDo - decide if end is inclusive or exclusive in all queries
 ";
 
             var observationsModel = new List<ObservationModel>();

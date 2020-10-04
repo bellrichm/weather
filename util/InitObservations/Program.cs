@@ -39,34 +39,10 @@ namespace InitObservations
         /// <param name="start">The start date.</param>
         /// <param name="end">The end date.</param>
         /// <param name="batchSize">The number of records to create per transaction.</param>
-        static async Task Main(string start = "", string end = "", int batchSize = 288)
+        /// <param name="startTime">The start time.</param>
+        /// <param name="endTime">The end time.</param>
+        static async Task Main(string start = "", string end = "", int batchSize = 288, int startTime = 0, int endTime = 0)
         {
-            DateTime startDate;
-            if (string.IsNullOrEmpty(start))
-            {
-                startDate = DateTime.UtcNow;
-            }
-            else
-            {
-                startDate = DateTime.ParseExact(start, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            }
-
-            DateTime endDate;
-            if (string.IsNullOrEmpty(end))
-            {
-                endDate = startDate;
-            }
-            else
-            {
-                endDate = DateTime.ParseExact(end, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            }
-
-            var startTime = new DateTime(startDate.Year, startDate.Month, startDate.Day, 0, 0, 0);
-            var startTimestamp = ToUnixEpochDate(startTime);
-
-            var endTime = new DateTime(endDate.Year, endDate.Month, endDate.Day + 1, 0, 0, 0);
-            var endTimestamp = ToUnixEpochDate(endTime);
-
             var configuration = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile<ObservationProfile>();
@@ -77,23 +53,22 @@ namespace InitObservations
             logger = serviceProvider.GetService<ILoggerAdapter<Program>>();
             observationRepository = serviceProvider.GetService<IObservationRepository>();
 
+            var timePeriod = GetTimePeriodModel(start, end, startTime, endTime);
+
             var weeWXRepository = serviceProvider.GetService<IWeeWXRepository>();
             Console.WriteLine("Retrieving WeeWX data.");
-            var weatherModel = await weeWXRepository.GetWeather(startTimestamp, endTimestamp).ConfigureAwait(true);
+            var weatherModel = await weeWXRepository.GetWeather(timePeriod.StartDateTime, timePeriod.EndDateTime).ConfigureAwait(true);
+            Console.WriteLine($"Found {weatherModel.Count} WeeWX records");
             var weather = mapper.Map<List<Observation>>(weatherModel);
-
-            // var firstNotSecond = list1.Except(list2).ToList();
-            var timePeriod = new TimePeriodModel
-            {
-                StartDateTime = (int)startTimestamp,
-                EndDateTime = (int)endTimestamp
-            };
 
             Console.WriteLine("Retrieving existing observation timestamps.");
             var timeStamps = await observationRepository.GetTimestamps(timePeriod).ConfigureAwait(true);
+            Console.WriteLine($"Found {timeStamps.Count} observation timestamps");
 
             Console.WriteLine("Filtering WeeWX data.");
             var filteredList = weather.RemoveAll(w => timeStamps.Select(t => t.DateTime).Contains(w.DateTime));
+            Console.WriteLine($"Records to be processed {weather.Count}");
+
             for (int i = 0; i < weather.Count; i = i + batchSize)
             {
                 Console.WriteLine($"Processing record {i} of {weather.Count}.");
@@ -102,6 +77,59 @@ namespace InitObservations
                 var dateTime = DateTimeOffset.FromUnixTimeSeconds(items[items.Count - 1].DateTime).DateTime;
                 Console.WriteLine($"\tCreated records up to. {items[items.Count - 1].DateTime} {dateTime}");
             }
+        }
+
+        private static TimePeriodModel GetTimePeriodModel(string start, string end, int startTime, int endTime)
+        {
+            int startTimestamp;
+            int endTimestamp;
+
+            if (startTime == 0)
+            {
+                DateTime startDate;
+                if (string.IsNullOrEmpty(start))
+                {
+                    startDate = DateTime.UtcNow;
+                }
+                else
+                {
+                    startDate = DateTime.ParseExact(start, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                }
+
+                var startDateTime = new DateTime(startDate.Year, startDate.Month, startDate.Day, 0, 0, 0);
+                startTimestamp = (int)ToUnixEpochDate(startDateTime);
+            }
+            else
+            {
+                startTimestamp = startTime;
+            }
+
+            if (endTime == 0)
+            {
+                DateTime endDate;
+                if (string.IsNullOrEmpty(end))
+                {
+                    endTimestamp = startTimestamp + 86400;
+                }
+                else
+                {
+                    endDate = DateTime.ParseExact(end, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    var endDateTime = new DateTime(endDate.Year, endDate.Month, endDate.Day, 0, 0, 0);
+                    endTimestamp = (int)ToUnixEpochDate(endDateTime) + 86400;
+                }
+            }
+            else
+            {
+                endTimestamp = endTime;
+            }
+
+            var timePeriod = new TimePeriodModel
+            {
+                StartDateTime = (int)startTimestamp,
+                EndDateTime = (int)endTimestamp
+            };
+
+            return timePeriod;
         }
 
         private static long ToUnixEpochDate(DateTime date) => new DateTimeOffset(date).ToUniversalTime().ToUnixTimeSeconds();
