@@ -13,27 +13,28 @@ namespace BellRichM.Weather.Api.Repositories
     public class ConditionRepository : IConditionRepository
     {
         private const string DataFields = @"
-  , MAX(outTemp) as maxTemp
-  , MIN(outTemp) as minTemp
-  , MAX(outHumidity) as maxHumidity
-  , MIN(outHumidity) as minHumidity
-  , MAX(dewpoint) as maxDewpoint
-  , MIN(dewpoint) as minDewpoint
-  , MAX(heatIndex) as maxHeatIndex
-  , MIN(windchill) as minWindchill
-  , MAX(barometer) as maxBarometer
-  , MIN(barometer) as minBarometer
-  , MAX(ET) as maxET
-  , MIN(ET) as minET
-  , MAX(UV) as maxUV
-  , MIN(UV) as minUV
-  , MAX(radiation) as maxRadiation
-  , MIN(radiation) as minRadiation
-  , MAX(rainRate) as maxRainRate
-  , SUM(rain) as rainTotal
-  , MAX(windGust) as maxWindGust
-  , AVG(windSpeed) as avgWindSpeed
-FROM v_condition
+  , CAST(MAX(outTemp) as TEXT) as maxTemp
+  , CAST(MIN(outTemp) as TEXT) as minTemp
+  , CAST(MAX(outHumidity) as TEXT) as maxHumidity
+  , CAST(MIN(outHumidity) as TEXT) as minHumidity
+  , CAST(MAX(dewpoint) as TEXT) as maxDewpoint
+  , CAST(MIN(dewpoint) as TEXT) as minDewpoint
+  , CAST(MAX(heatIndex) as TEXT) as maxHeatIndex
+  , CAST(MIN(windchill) as TEXT) as minWindchill
+  , CAST(MAX(barometer) as TEXT) as maxBarometer
+  , CAST(MIN(barometer) as TEXT) as minBarometer
+  , CAST(MAX(ET) as TEXT) as maxET
+  , CAST(MIN(ET) as TEXT) as minET
+  , CAST(MAX(UV) as TEXT) as maxUV
+  , CAST(MIN(UV) as TEXT) as minUV
+  , CAST(MAX(radiation) as TEXT) as maxRadiation
+  , CAST(MIN(radiation) as TEXT) as minRadiation
+  , CAST(MAX(rainRate) as TEXT) as maxRainRate
+  , CAST(SUM(rain) as TEXT) as rainTotal
+  , CAST(MAX(windGust) as TEXT) as maxWindGust
+  , CAST(AVG(windSpeed) as TEXT) as avgWindSpeed
+
+FROM condition
         ";
 
         private readonly ILoggerAdapter<ConditionRepository> _logger;
