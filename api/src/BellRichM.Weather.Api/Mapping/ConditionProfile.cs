@@ -21,6 +21,9 @@ namespace BellRichM.Weather.Api.Mapping
             CreateMap<MinMaxCondition, MinMaxConditionModel>();
             CreateMap<MinMaxConditionPage, MinMaxConditionPageModel>()
                 .ForMember(dest => dest.Links, dest => dest.Ignore());
+            CreateMap<Condition, ConditionModel>();
+            CreateMap<ConditionPage, ConditionPageModel>()
+                .ForMember(dest => dest.Links, dest => dest.Ignore());
         }
     }
 }
