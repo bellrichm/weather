@@ -6,7 +6,7 @@ namespace BellRichM.Weather.Api.Models
     /// The min max weather conditions for a given time.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class ConditionModel
+    public class MinMaxConditionModel
     {
         /// <summary>
         /// Gets or sets the year.

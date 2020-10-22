@@ -64,7 +64,7 @@ namespace BellRichM.Weather.Api.Controllers
         /// Gets the minimum and maximum weather conditions for the year.
         /// </summary>
         /// <param name="year">The year to get the conditions for.</param>
-        /// <returns>The <see cref="ConditionModel"/>.</returns>
+        /// <returns>The <see cref="MinMaxConditionModel"/>.</returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         /// <remarks>Not yet implemented.</remarks>
         [HttpGet("/api/[controller]/years/{year}", Name="GetYearDetail")]
@@ -100,7 +100,7 @@ namespace BellRichM.Weather.Api.Controllers
         /// </summary>
         /// <param name="year">The year.</param>
         /// <param name="month">The month.</param>
-        /// <returns>The <see cref="ConditionModel"/>.</returns>
+        /// <returns>The <see cref="MinMaxConditionModel"/>.</returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         [HttpGet("/api/[controller]/years/{year}/months/{month}", Name="GetMonthDetail")]
         public async Task<IActionResult> GetMonthDetail([FromRoute] int year, [FromRoute] int month)
@@ -137,7 +137,7 @@ namespace BellRichM.Weather.Api.Controllers
         /// <param name="year">The year.</param>
         /// <param name="month">The month.</param>
         /// <param name="day">The day.</param>
-        /// <returns>The <see cref="ConditionModel"/>.</returns>
+        /// <returns>The <see cref="MinMaxConditionModel"/>.</returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         [HttpGet("/api/[controller]/years/{year}/months/{month}/days/{day}", Name="GetDayDetail")]
         public async Task<IActionResult> GetDayDetail([FromRoute] int year, [FromRoute] int month, [FromRoute] int day)
@@ -176,7 +176,7 @@ namespace BellRichM.Weather.Api.Controllers
         /// <param name="month">The month.</param>
         /// <param name="day">The day.</param>
         /// <param name="hour">The hour.</param>
-        /// <returns>The <see cref="ConditionModel"/>.</returns>
+        /// <returns>The <see cref="MinMaxConditionModel"/>.</returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         [HttpGet("/api/[controller]/years/{year}/months/{month}/days/{day}/hours/{hour}", Name="GetHourDetail")]
         public async Task<IActionResult> GetHourDetail([FromRoute] int year, [FromRoute] int month, [FromRoute] int day, [FromRoute] int hour)

@@ -100,9 +100,9 @@ namespace BellRichM.Weather.Api.Test.Controllers
                 MinMaxConditions = conditions
             };
 
-            var conditionModels = new List<ConditionModel>
+            var minMaxConditionModels = new List<MinMaxConditionModel>
             {
-                new ConditionModel
+                new MinMaxConditionModel
                 {
                     Year = 2018,
                     Month = 9,
@@ -139,7 +139,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
             conditionPageModel = new ConditionPageModel
             {
                 Paging = pagingModel,
-                MinMaxConditions = conditionModels
+                MinMaxConditions = minMaxConditionModels
             };
 
             loggerMock = new Mock<ILoggerAdapter<ConditionsController>>();
