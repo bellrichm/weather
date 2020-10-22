@@ -21,7 +21,7 @@ using It = Machine.Specifications.It;
 
 namespace BellRichM.Weather.Api.Test.Controllers
 {
-    internal abstract class ConditionsControllerSpecs
+    internal abstract class MinMaxConditionsControllerSpecs
     {
         protected const string ErrorCode = "errorCode";
         protected const string ErrorMessage = "errorMessage";
@@ -159,7 +159,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
             conditionsController.Dispose();
     }
 
-    internal class When_getting_conditions_for_years : ConditionsControllerSpecs
+    internal class When_getting_conditions_for_years : MinMaxConditionsControllerSpecs
     {
         private static ObjectResult result;
 
@@ -198,7 +198,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
         };
     }
 
-    internal class When_model_state_is_not_valid : ConditionsControllerSpecs
+    internal class When_model_state_is_not_valid : MinMaxConditionsControllerSpecs
     {
         private static ObjectResult result;
 
@@ -236,7 +236,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
             result.Value.Should().BeOfType<ErrorResponseModel>();
     }
 
-    internal class When_decorating_GetYearsConditionPage_method : ConditionsControllerSpecs
+    internal class When_decorating_GetYearsConditionPage_method : MinMaxConditionsControllerSpecs
     {
         private static MethodInfo methodInfo;
 
@@ -247,7 +247,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
             methodInfo.Should().BeDecoratedWith<ValidateConditionLimitAttribute>();
     }
 
-    internal class When_getting_condition_detail_for_a_year : ConditionsControllerSpecs
+    internal class When_getting_condition_detail_for_a_year : MinMaxConditionsControllerSpecs
     {
         private static Exception exception;
 
@@ -274,7 +274,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
             exception.ShouldBeOfExactType<NotImplementedException>();
     }
 
-    internal class When_getting_conditions_for_months_in_a_year : ConditionsControllerSpecs
+    internal class When_getting_conditions_for_months_in_a_year : MinMaxConditionsControllerSpecs
     {
         private static Exception exception;
 
@@ -301,7 +301,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
             exception.ShouldBeOfExactType<NotImplementedException>();
     }
 
-    internal class When_getting_condition_detail_for_a_month_in_a_year : ConditionsControllerSpecs
+    internal class When_getting_condition_detail_for_a_month_in_a_year : MinMaxConditionsControllerSpecs
     {
         private static Exception exception;
 
@@ -328,7 +328,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
             exception.ShouldBeOfExactType<NotImplementedException>();
     }
 
-    internal class When_getting_conditions_for_days_in_a_month_and_year : ConditionsControllerSpecs
+    internal class When_getting_conditions_for_days_in_a_month_and_year : MinMaxConditionsControllerSpecs
     {
         private static Exception exception;
 
@@ -355,7 +355,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
             exception.ShouldBeOfExactType<NotImplementedException>();
     }
 
-    internal class When_getting_condition_detail_for_a_day_in_a_month_and_year : ConditionsControllerSpecs
+    internal class When_getting_condition_detail_for_a_day_in_a_month_and_year : MinMaxConditionsControllerSpecs
     {
         private static Exception exception;
 
@@ -382,7 +382,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
             exception.ShouldBeOfExactType<NotImplementedException>();
     }
 
-    internal class When_getting_conditions_for_hours_in_a_day_and_month_and_year : ConditionsControllerSpecs
+    internal class When_getting_conditions_for_hours_in_a_day_and_month_and_year : MinMaxConditionsControllerSpecs
     {
         private static Exception exception;
 
@@ -409,7 +409,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
             exception.ShouldBeOfExactType<NotImplementedException>();
     }
 
-    internal class When_getting_condition_detail_for_an_hour_in_a_day_and_month_and_year : ConditionsControllerSpecs
+    internal class When_getting_condition_detail_for_an_hour_in_a_day_and_month_and_year : MinMaxConditionsControllerSpecs
     {
         private static Exception exception;
 
@@ -436,7 +436,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
             exception.ShouldBeOfExactType<NotImplementedException>();
     }
 
-    internal class When_getting_conditions_for_a_month_across_years : ConditionsControllerSpecs
+    internal class When_getting_conditions_for_a_month_across_years : MinMaxConditionsControllerSpecs
     {
         private static Exception exception;
 
@@ -463,7 +463,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
             exception.ShouldBeOfExactType<NotImplementedException>();
     }
 
-    internal class When_getting_conditions_for_a_day_in_a_month_across_years : ConditionsControllerSpecs
+    internal class When_getting_conditions_for_a_day_in_a_month_across_years : MinMaxConditionsControllerSpecs
     {
         private static Exception exception;
 
@@ -490,7 +490,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
             exception.ShouldBeOfExactType<NotImplementedException>();
     }
 
-    internal class When_getting_conditions_for_an_hour_in_a_day_and_month_across_years : ConditionsControllerSpecs
+    internal class When_getting_conditions_for_an_hour_in_a_day_and_month_across_years : MinMaxConditionsControllerSpecs
     {
         private static Exception exception;
 
