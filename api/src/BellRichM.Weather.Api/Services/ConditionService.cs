@@ -20,7 +20,7 @@ namespace BellRichM.Weather.Api.Services
         }
 
         /// <inheritdoc/>
-        public async Task<ConditionPage> GetYearWeatherPage(int offset, int limit)
+        public async Task<MinMaxConditionPage> GetYearWeatherPage(int offset, int limit)
         {
             var conditions = await _conditionRepository.GetYear(offset, limit).ConfigureAwait(true);
 
@@ -31,7 +31,7 @@ namespace BellRichM.Weather.Api.Services
                 Limit = limit
             };
 
-            var conditionPage = new ConditionPage
+            var conditionPage = new MinMaxConditionPage
             {
                 Paging = paging,
                 MinMaxConditions = conditions

@@ -23,7 +23,7 @@ namespace BellRichM.Weather.Api.Services.Test
         protected static Mock<IConditionRepository> conditionRepositoryMock;
 
         protected static ConditionService conditionService;
-        protected static ConditionPage conditionPage;
+        protected static MinMaxConditionPage minMaxConditionPage;
 
         protected static IEnumerable<MinMaxCondition> conditions;
 
@@ -87,29 +87,29 @@ namespace BellRichM.Weather.Api.Services.Test
 
         Because of = () =>
         {
-            conditionPage = conditionService.GetYearWeatherPage(Offset, Limit).Result;
+            minMaxConditionPage = conditionService.GetYearWeatherPage(Offset, Limit).Result;
         };
 
         Behaves_like<LoggingBehaviors<ConditionService>> correct_logging = () => { };
 
         It should_have_correct_total_count = () =>
         {
-            conditionPage.Paging.TotalCount.Should().Equals(conditions.Count());
+            minMaxConditionPage.Paging.TotalCount.Should().Equals(conditions.Count());
         };
 
         It should_have_correct_offset = () =>
         {
-            conditionPage.Paging.Offset.Should().Equals(Offset);
+            minMaxConditionPage.Paging.Offset.Should().Equals(Offset);
         };
 
         It should_have_correct_limit = () =>
         {
-            conditionPage.Paging.Limit.Should().Equals(Limit);
+            minMaxConditionPage.Paging.Limit.Should().Equals(Limit);
         };
 
         It should_have_correct_condition_data = () =>
         {
-            conditionPage.MinMaxConditions.Should().BeEquivalentTo(conditions);
+            minMaxConditionPage.MinMaxConditions.Should().BeEquivalentTo(conditions);
         };
     }
 }

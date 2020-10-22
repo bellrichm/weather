@@ -94,7 +94,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
                 TotalCount = 1
             };
 
-            var conditionPage = new ConditionPage
+            var minMaxConditionPage = new MinMaxConditionPage
             {
                 Paging = paging,
                 MinMaxConditions = conditions
@@ -146,9 +146,9 @@ namespace BellRichM.Weather.Api.Test.Controllers
             mapperMock = new Mock<IMapper>();
             conditionServiceMock = new Mock<IConditionService>();
 
-            mapperMock.Setup(x => x.Map<ConditionPageModel>(conditionPage)).Returns(conditionPageModel);
+            mapperMock.Setup(x => x.Map<ConditionPageModel>(minMaxConditionPage)).Returns(conditionPageModel);
 
-            conditionServiceMock.Setup(x => x.GetYearWeatherPage(offset, limit)).ReturnsAsync(conditionPage);
+            conditionServiceMock.Setup(x => x.GetYearWeatherPage(offset, limit)).ReturnsAsync(minMaxConditionPage);
 
             conditionsController = new ConditionsController(loggerMock.Object, mapperMock.Object, conditionServiceMock.Object);
             conditionsController.ControllerContext.HttpContext = new DefaultHttpContext();

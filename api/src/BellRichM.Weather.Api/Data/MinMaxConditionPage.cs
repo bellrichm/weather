@@ -9,7 +9,7 @@ namespace BellRichM.Weather.Api.Data
     /// </summary>
     /// <seealso cref="MinMaxCondition" />
     [ExcludeFromCodeCoverage]
-    public class ConditionPage
+    public class MinMaxConditionPage
     {
         /// <summary>
         /// Gets or sets the paging.
