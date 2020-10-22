@@ -58,7 +58,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
             offset = 0;
             limit = 3;
 
-            var conditions = new List<MinMaxCondition>
+            var minMaxconditions = new List<MinMaxCondition>
             {
                 new MinMaxCondition
                 {
@@ -97,7 +97,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
             var minMaxConditionPage = new MinMaxConditionPage
             {
                 Paging = paging,
-                MinMaxConditions = conditions
+                MinMaxConditions = minMaxconditions
             };
 
             var minMaxConditionModels = new List<MinMaxConditionModel>
@@ -185,16 +185,16 @@ namespace BellRichM.Weather.Api.Test.Controllers
         It should_return_success_status_code = () =>
             result.StatusCode.ShouldEqual(200);
 
-        It should_return_a_conditionPageModel = () =>
+        It should_return_a_minMaxConditionPageModel = () =>
             result.Value.ShouldNotBeNull();
 
-        It should_return_an_object_of_type_ConditionPageModel = () =>
+        It should_return_an_object_of_type_MinMaxConditionPageModel = () =>
             result.Value.Should().BeOfType<MinMaxConditionPageModel>();
 
-        It should_return_the_conditionPageModel = () =>
+        It should_return_the_minMaxConditionPageModel = () =>
         {
-            var conditionPage = (MinMaxConditionPageModel)result.Value;
-            conditionPage.Should().Equals(minMaxConditionPageModel);
+            var minMaxConditionPage = (MinMaxConditionPageModel)result.Value;
+            minMaxConditionPage.Should().Equals(minMaxConditionPageModel);
         };
     }
 

@@ -98,9 +98,9 @@ OFFSET @offset
                     {
                         while (await rdr.ReadAsync().ConfigureAwait(true))
                         {
-                            var condition = ReadDataFields(rdr);
-                            condition.Year = System.Convert.ToInt32(rdr["year"], CultureInfo.InvariantCulture);
-                            records.Add(condition);
+                            var minMaxCondition = ReadDataFields(rdr);
+                            minMaxCondition.Year = System.Convert.ToInt32(rdr["year"], CultureInfo.InvariantCulture);
+                            records.Add(minMaxCondition);
                         }
                     }
                 }

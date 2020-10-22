@@ -54,10 +54,10 @@ namespace BellRichM.Weather.Api.Controllers
                 return BadRequest(errorResponseModel);
             }
 
-            var conditionPage = await _conditionService.GetYearWeatherPage(offset, limit).ConfigureAwait(true);
-            var conditionPageModel = _mapper.Map<MinMaxConditionPageModel>(conditionPage);
-            conditionPageModel.Links = GetNavigationLinks("GetYearsConditionPage", conditionPageModel.Paging);
-            return Ok(conditionPageModel);
+            var minMaxConditionPage = await _conditionService.GetYearWeatherPage(offset, limit).ConfigureAwait(true);
+            var minMaxConditionPageModel = _mapper.Map<MinMaxConditionPageModel>(minMaxConditionPage);
+            minMaxConditionPageModel.Links = GetNavigationLinks("GetYearsConditionPage", minMaxConditionPageModel.Paging);
+            return Ok(minMaxConditionPageModel);
         }
 
         /// <summary>
