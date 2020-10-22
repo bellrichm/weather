@@ -33,7 +33,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
         protected static int offset;
         protected static int limit;
 
-        protected static ConditionPageModel conditionPageModel;
+        protected static MinMaxConditionPageModel minMaxConditionPageModel;
 
         protected static ConditionsController conditionsController;
 
@@ -136,7 +136,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
                 TotalCount = 1
             };
 
-            conditionPageModel = new ConditionPageModel
+            minMaxConditionPageModel = new MinMaxConditionPageModel
             {
                 Paging = pagingModel,
                 MinMaxConditions = minMaxConditionModels
@@ -146,7 +146,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
             mapperMock = new Mock<IMapper>();
             conditionServiceMock = new Mock<IConditionService>();
 
-            mapperMock.Setup(x => x.Map<ConditionPageModel>(minMaxConditionPage)).Returns(conditionPageModel);
+            mapperMock.Setup(x => x.Map<MinMaxConditionPageModel>(minMaxConditionPage)).Returns(minMaxConditionPageModel);
 
             conditionServiceMock.Setup(x => x.GetYearWeatherPage(offset, limit)).ReturnsAsync(minMaxConditionPage);
 
@@ -189,12 +189,12 @@ namespace BellRichM.Weather.Api.Test.Controllers
             result.Value.ShouldNotBeNull();
 
         It should_return_an_object_of_type_ConditionPageModel = () =>
-            result.Value.Should().BeOfType<ConditionPageModel>();
+            result.Value.Should().BeOfType<MinMaxConditionPageModel>();
 
         It should_return_the_conditionPageModel = () =>
         {
-            var conditionPage = (ConditionPageModel)result.Value;
-            conditionPage.Should().Equals(conditionPageModel);
+            var conditionPage = (MinMaxConditionPageModel)result.Value;
+            conditionPage.Should().Equals(minMaxConditionPageModel);
         };
     }
 

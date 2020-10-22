@@ -9,7 +9,7 @@ namespace BellRichM.Weather.Api.Models
     /// </summary>
     /// <seealso cref="MinMaxConditionModel" />
     [ExcludeFromCodeCoverage]
-    public class ConditionPageModel
+    public class MinMaxConditionPageModel
     {
         /// <summary>
         /// Gets or sets the paging.

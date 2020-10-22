@@ -39,7 +39,7 @@ namespace BellRichM.Weather.Api.Controllers
         /// </summary>
         /// <param name="offset">The starting offset.</param>
         /// <param name="limit">The maximum number of years to return.</param>
-        /// <returns>The <see cref="ConditionPageModel"/>.</returns>
+        /// <returns>The <see cref="MinMaxConditionPageModel"/>.</returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         /// <remarks>Not yet implemented.</remarks>
         [ValidateConditionLimit]
@@ -55,7 +55,7 @@ namespace BellRichM.Weather.Api.Controllers
             }
 
             var conditionPage = await _conditionService.GetYearWeatherPage(offset, limit).ConfigureAwait(true);
-            var conditionPageModel = _mapper.Map<ConditionPageModel>(conditionPage);
+            var conditionPageModel = _mapper.Map<MinMaxConditionPageModel>(conditionPage);
             conditionPageModel.Links = GetNavigationLinks("GetYearsConditionPage", conditionPageModel.Paging);
             return Ok(conditionPageModel);
         }
@@ -83,7 +83,7 @@ namespace BellRichM.Weather.Api.Controllers
         /// <param name="year">The year.</param>
         /// <param name="offset">The starting offset.</param>
         /// <param name="limit">The maximum number of years to return.</param>
-        /// <returns>The <see cref="ConditionPageModel"/>.</returns>
+        /// <returns>The <see cref="MinMaxConditionPageModel"/>.</returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         [HttpGet("/api/[controller]/years/{year}/months", Name="GetMonthsConditionPage")]
         public async Task<IActionResult> GetMonthsConditionPage([FromRoute] int year, [FromQuery] int offset, [FromQuery] int limit)
@@ -119,7 +119,7 @@ namespace BellRichM.Weather.Api.Controllers
         /// <param name="month">The month.</param>
         /// <param name="offset">The starting offset.</param>
         /// <param name="limit">The maximum number of years to return.</param>
-        /// <returns>The <see cref="ConditionPageModel"/>.</returns>
+        /// <returns>The <see cref="MinMaxConditionPageModel"/>.</returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         [HttpGet("/api/[controller]/years/{year}/months/{month}/days", Name="GetDaysConditionPage")]
         public async Task<IActionResult> GetDaysConditionPage([FromRoute] int year, [FromRoute] int month, [FromQuery] int offset, [FromQuery] int limit)
@@ -157,7 +157,7 @@ namespace BellRichM.Weather.Api.Controllers
         /// <param name="day">The day.</param>
         /// <param name="offset">The starting offset.</param>
         /// <param name="limit">The maximum number of years to return.</param>
-        /// <returns>The <see cref="ConditionPageModel"/>.</returns>
+        /// <returns>The <see cref="MinMaxConditionPageModel"/>.</returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         [HttpGet("/api/[controller]/years/{year}/months/{month}/days/{day}/hours", Name="GetHoursConditionPage")]
         public async Task<IActionResult> GetHoursConditionPage([FromRoute] int year, [FromRoute] int month, [FromRoute] int day, [FromQuery] int offset, [FromQuery] int limit)
@@ -194,7 +194,7 @@ namespace BellRichM.Weather.Api.Controllers
         /// <param name="month">The month.</param>
         /// <param name="offset">The starting offset.</param>
         /// <param name="limit">The maximum number of years to return.</param>
-        /// <returns>The <see cref="ConditionPageModel"/>.</returns>
+        /// <returns>The <see cref="MinMaxConditionPageModel"/>.</returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         [HttpGet("/api/[controller]/years/months/{month}", Name="GetYearsMonthConditionPage")]
         public async Task<IActionResult> GetYearsMonthConditionPage([FromRoute] int month, [FromQuery] int offset, [FromQuery] int limit)
@@ -213,7 +213,7 @@ namespace BellRichM.Weather.Api.Controllers
         /// <param name="day">The day.</param>
         /// <param name="offset">The starting offset.</param>
         /// <param name="limit">The maximum number of years to return.</param>
-        /// <returns>The <see cref="ConditionPageModel"/>.</returns>
+        /// <returns>The <see cref="MinMaxConditionPageModel"/>.</returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         [HttpGet("/api/[controller]/years/months/{month}/days/{day}", Name="GetYearsDayConditionPage")]
         public async Task<IActionResult> GetYearsDayConditionPage([FromRoute] int month, [FromRoute] int day, [FromQuery] int offset, [FromQuery] int limit)
@@ -233,7 +233,7 @@ namespace BellRichM.Weather.Api.Controllers
         /// <param name="hour">The hour.</param>
         /// <param name="offset">The starting offset.</param>
         /// <param name="limit">The maximum number of years to return.</param>
-        /// <returns>The <see cref="ConditionPageModel"/>.</returns>
+        /// <returns>The <see cref="MinMaxConditionPageModel"/>.</returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         [HttpGet("/api/[controller]/years/months/{month}/days/{day}/hours/{hour}", Name="GetYearsHourConditionPage")]
         public async Task<IActionResult> GetYearsHourConditionPage([FromRoute] int month, [FromRoute] int day, [FromRoute] int hour, [FromQuery] int offset, [FromQuery] int limit)
