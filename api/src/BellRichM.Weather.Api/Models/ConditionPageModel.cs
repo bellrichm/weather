@@ -33,6 +33,6 @@ namespace BellRichM.Weather.Api.Models
         /// <value>
         /// The <see cref="IEnumerable{ConditionModel}"/>.
         /// </value>
-        public IEnumerable<ConditionModel> Conditions { get; set; }
+        public IEnumerable<ConditionModel> MinMaxConditions { get; set; }
     }
 }

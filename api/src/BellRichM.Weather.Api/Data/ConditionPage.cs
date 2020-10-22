@@ -7,7 +7,7 @@ namespace BellRichM.Weather.Api.Data
     /// <summary>
     /// The condition page.
     /// </summary>
-    /// <seealso cref="Condition" />
+    /// <seealso cref="MinMaxCondition" />
     [ExcludeFromCodeCoverage]
     public class ConditionPage
     {
@@ -25,6 +25,6 @@ namespace BellRichM.Weather.Api.Data
         /// <value>
         /// The <see cref="IEnumerable{Condition}"/>.
         /// </value>
-        public IEnumerable<Condition> Conditions { get; set; }
+        public IEnumerable<MinMaxCondition> MinMaxConditions { get; set; }
     }
 }

@@ -22,3 +22,5 @@ opencover.xml
 **/coverlet
 **/output/junit.xml
 **/.ropeproject
+util/InitObservations/Data
+util/InitUsers/Data

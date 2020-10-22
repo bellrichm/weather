@@ -25,7 +25,7 @@ namespace BellRichM.Weather.Api.Services.Test
         protected static ConditionService conditionService;
         protected static ConditionPage conditionPage;
 
-        protected static IEnumerable<Condition> conditions;
+        protected static IEnumerable<MinMaxCondition> conditions;
 
         Establish context = () =>
         {
@@ -36,9 +36,9 @@ namespace BellRichM.Weather.Api.Services.Test
                 ErrorLoggingMessages = new List<string>()
             };
 
-            conditions = new List<Condition>
+            conditions = new List<MinMaxCondition>
             {
-                new Condition
+                new MinMaxCondition
                 {
                     Year = 2018,
                     Month = 9,
@@ -109,7 +109,7 @@ namespace BellRichM.Weather.Api.Services.Test
 
         It should_have_correct_condition_data = () =>
         {
-            conditionPage.Conditions.Should().BeEquivalentTo(conditions);
+            conditionPage.MinMaxConditions.Should().BeEquivalentTo(conditions);
         };
     }
 }

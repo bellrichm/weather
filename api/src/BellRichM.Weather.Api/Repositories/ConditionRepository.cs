@@ -65,7 +65,7 @@ FROM condition
         }
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<Condition>> GetYear(int offset, int limit)
+        public async Task<IEnumerable<MinMaxCondition>> GetYear(int offset, int limit)
         {
             _logger.LogDiagnosticDebug("GetYear: {@offset} {@limit}", offset, limit);
 
@@ -79,7 +79,7 @@ OFFSET @offset
 ;
             ";
 
-            var records = new List<Condition>();
+            var records = new List<MinMaxCondition>();
 
             var dbConnection = _conditionDbProviderFactory.CreateConnection();
             dbConnection.ConnectionString = _connectionString;
@@ -110,7 +110,7 @@ OFFSET @offset
         }
 
         /// <inheritdoc/>
-        public async Task<Condition> GetHourDetail(int year, int month, int day, int hour)
+        public async Task<MinMaxCondition> GetHourDetail(int year, int month, int day, int hour)
         {
             _logger.LogDiagnosticDebug("GetHourDetail: {@year} {@month} {@day} {@hour}", year, month, day, hour);
 
@@ -132,7 +132,7 @@ GROUP BY year, month, day, hour
 ;
             ";
 
-            Condition condition = null;
+            MinMaxCondition minMaxCondition = null;
 
             var dbConnection = _conditionDbProviderFactory.CreateConnection();
             dbConnection.ConnectionString = _connectionString;
@@ -153,17 +153,17 @@ GROUP BY year, month, day, hour
                     {
                         while (await rdr.ReadAsync().ConfigureAwait(true))
                         {
-                            condition = ReadDataFields(rdr);
-                            condition.Year = System.Convert.ToInt32(rdr["year"], CultureInfo.InvariantCulture);
-                            condition.Month = System.Convert.ToInt32(rdr["month"], CultureInfo.InvariantCulture);
-                            condition.Day = System.Convert.ToInt32(rdr["day"], CultureInfo.InvariantCulture);
-                            condition.Hour = System.Convert.ToInt32(rdr["hour"], CultureInfo.InvariantCulture);
+                            minMaxCondition = ReadDataFields(rdr);
+                            minMaxCondition.Year = System.Convert.ToInt32(rdr["year"], CultureInfo.InvariantCulture);
+                            minMaxCondition.Month = System.Convert.ToInt32(rdr["month"], CultureInfo.InvariantCulture);
+                            minMaxCondition.Day = System.Convert.ToInt32(rdr["day"], CultureInfo.InvariantCulture);
+                            minMaxCondition.Hour = System.Convert.ToInt32(rdr["hour"], CultureInfo.InvariantCulture);
                         }
                     }
                 }
             }
 
-            return condition;
+            return minMaxCondition;
         }
 
         /// <inheritdoc/>
@@ -202,9 +202,9 @@ SELECT COUNT(DISTINCT year) as yearCount
             }
         }
 
-        private Condition ReadDataFields(DbDataReader rdr)
+        private MinMaxCondition ReadDataFields(DbDataReader rdr)
         {
-            var condition = new Condition
+            var minMaxCondition = new MinMaxCondition
             {
                 MaxTemp = rdr.GetStringValue("maxTemp"),
                 MinTemp = rdr.GetStringValue("minTemp"),
@@ -227,7 +227,7 @@ SELECT COUNT(DISTINCT year) as yearCount
                 MaxWindGust = rdr.GetStringValue("maxWindGust"),
                 AvgWindSpeed = rdr.GetStringValue("avgWindSpeed"),
             };
-            return condition;
+            return minMaxCondition;
         }
     }
 }

@@ -21,7 +21,8 @@ namespace BellRichM
 
         protected static LoggingData loggingData;
 
-        protected static Condition testCondition;
+        protected static MinMaxCondition testCondition;
+        protected static MinMaxCondition hourTestCondition;
         protected static Mock<ILoggerAdapter<ConditionRepository>> loggerMock;
         protected static ConditionRepository conditionRepository;
         protected static ConditionRepositoryDbProviderFactory conditionRepositoryDbProviderFactory;
@@ -36,7 +37,7 @@ namespace BellRichM
                 ErrorLoggingMessages = new List<string>()
             };
 
-            testCondition = new Condition
+            testCondition = new MinMaxCondition
             {
                 Year = 2018,
                 Month = 9,
@@ -59,7 +60,35 @@ namespace BellRichM
                 MaxRadiation = "0.0",
                 MinRadiation = "0.0",
                 MaxRainRate = "0.0",
-                MaxWindGust = "4.00000994196379"
+                RainTotal = "0.0",
+                MaxWindGust = "4.00000994196379",
+                AvgWindSpeed = "0.583334783203052"
+            };
+
+            hourTestCondition = new MinMaxCondition
+            {
+                Year = 2018,
+                Month = 9,
+                Day = 1,
+                Hour = 1,
+                MaxTemp = "67.2",
+                MinTemp = "65.6",
+                MaxHumidity = "83.0",
+                MinHumidity = "80.0",
+                MaxDewpoint = "60.8725771445071",
+                MinDewpoint = "60.0932637870109",
+                MaxHeatIndex = "67.2",
+                MinWindchill = "65.6",
+                MaxBarometer = "29.694",
+                MinBarometer = "29.687",
+                MaxET = "0.001",
+                MinET = "0.0",
+                MaxUV = "0.0",
+                MinUV = "0.0",
+                MaxRadiation = "0.0",
+                MinRadiation = "0.0",
+                MaxRainRate = "0.0",
+                MaxWindGust = "4.00000994196379",
             };
 
             var dbProviderFactory = SqliteFactory.Instance;
@@ -75,7 +104,7 @@ namespace BellRichM
 
     internal class When_retrieving_condition_for_years : ConditionRepositorySpecs
     {
-        protected static IEnumerable<Condition> conditions;
+        protected static IEnumerable<MinMaxCondition> conditions;
 
         Establish context = () =>
         {
@@ -109,7 +138,7 @@ namespace BellRichM
 
     internal class When_retrieving_condition_for_years_fails : ConditionRepositorySpecs
     {
-        protected static IEnumerable<Condition> conditions;
+        protected static IEnumerable<MinMaxCondition> conditions;
 
         Establish context = () =>
         {
@@ -134,7 +163,7 @@ namespace BellRichM
 
     internal class When_retrieving_condition_detail_for_an_hour : ConditionRepositorySpecs
     {
-        protected static Condition condition;
+        protected static MinMaxCondition condition;
 
         Establish context = () =>
         {
@@ -159,7 +188,7 @@ namespace BellRichM
 
     internal class When_retrieving_condition_detail_for_an_hour_fails : ConditionRepositorySpecs
     {
-        protected static Condition condition;
+        protected static MinMaxCondition condition;
 
         Establish context = () =>
         {

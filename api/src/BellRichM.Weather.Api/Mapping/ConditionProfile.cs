@@ -18,7 +18,7 @@ namespace BellRichM.Weather.Api.Mapping
         public ConditionProfile()
         {
             CreateMap<Paging, PagingModel>();
-            CreateMap<Condition, ConditionModel>();
+            CreateMap<MinMaxCondition, ConditionModel>();
             CreateMap<ConditionPage, ConditionPageModel>()
                 .ForMember(dest => dest.Links, dest => dest.Ignore());
         }

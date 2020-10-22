@@ -34,7 +34,7 @@ namespace BellRichM.Weather.Api.Services
             var conditionPage = new ConditionPage
             {
                 Paging = paging,
-                Conditions = conditions
+                MinMaxConditions = conditions
             };
 
             return conditionPage;
