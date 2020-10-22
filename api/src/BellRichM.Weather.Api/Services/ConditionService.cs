@@ -1,5 +1,6 @@
 using BellRichM.Service.Data;
 using BellRichM.Weather.Api.Data;
+using BellRichM.Weather.Api.Models;
 using BellRichM.Weather.Api.Repositories;
 using System.Threading.Tasks;
 
@@ -17,6 +18,12 @@ namespace BellRichM.Weather.Api.Services
         public ConditionService(IConditionRepository conditionRepository)
         {
             _conditionRepository = conditionRepository;
+        }
+
+        /// <inheritdoc/>
+        public Task<ConditionPage> GetConditionsByDay(TimePeriodModel timePeriodModel)
+        {
+            throw new System.NotImplementedException();
         }
 
         /// <inheritdoc/>
