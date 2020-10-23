@@ -147,6 +147,11 @@ namespace BellRichM.Logging
     ConditionsController_GetYearsHourConditionPage,
 
     /// <summary>
+    /// The condition controller get observations event id.
+    /// </summary>
+    ConditionsController_GetConditionsByDay,
+
+    /// <summary>
     /// The observation controller event id.
     /// </summary>
     ObservationsController = 5000,
@@ -156,7 +161,7 @@ namespace BellRichM.Logging
     /// </summary>
     ObservationsController_Get,
 
-        /// <summary>
+    /// <summary>
     /// The observation controller get observations event id.
     /// </summary>
     ObservationsController_GetObservations,

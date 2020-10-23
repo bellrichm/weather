@@ -21,7 +21,7 @@ namespace BellRichM.Weather.Api.Services
         }
 
         /// <inheritdoc/>
-        public Task<ConditionPage> GetConditionsByDay(TimePeriodModel timePeriodModel)
+        public Task<ConditionPage> GetConditionsByDay(int offset, int limit, TimePeriodModel timePeriodModel)
         {
             throw new System.NotImplementedException();
         }

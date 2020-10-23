@@ -244,5 +244,31 @@ namespace BellRichM.Weather.Api.Controllers
             await Task.CompletedTask.ConfigureAwait(true);
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// Gets the conditions grouped (averaged) by day and within a time period.
+        /// </summary>
+        /// <param name="offset">The starting offset.</param>
+        /// <param name="limit">The maximum number of years to return.</param>
+        /// <param name="timePeriod">The time period.</param>
+        /// <returns>The conditions.</returns>
+        [ValidateConditionLimit]
+        [HttpGet("/api/[controller]/ByDay", Name="GetConditionsByDay")]
+        public async Task<IActionResult> GetConditionsByDay([FromQuery] int offset, [FromQuery] int limit, [FromBody]TimePeriodModel timePeriod)
+        {
+            _logger.LogEvent(EventId.ConditionsController_GetConditionsByDay, "{@offset} {@limit} {@timePeriod}", offset, limit, timePeriod);
+            if (!ModelState.IsValid)
+            {
+                _logger.LogDiagnosticInformation("{@ModelState}", ModelState);
+                var errorResponseModel = CreateModel();
+                return BadRequest(errorResponseModel);
+            }
+
+            var conditionPage = await _conditionService.GetConditionsByDay(offset, limit, timePeriod).ConfigureAwait(true);
+
+            var conditionPageModel = _mapper.Map<ConditionPageModel>(conditionPage);
+            conditionPageModel.Links = GetNavigationLinks("GetConditionsByDay", conditionPageModel.Paging);
+            return Ok(conditionPageModel);
+        }
     }
 }
