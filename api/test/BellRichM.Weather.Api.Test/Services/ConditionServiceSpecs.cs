@@ -1,6 +1,7 @@
 using BellRichM.Helpers.Test;
 using BellRichM.Logging;
 using BellRichM.Weather.Api.Data;
+using BellRichM.Weather.Api.Models;
 using BellRichM.Weather.Api.Repositories;
 using FluentAssertions;
 using Machine.Specifications;
@@ -18,14 +19,19 @@ namespace BellRichM.Weather.Api.Services.Test
         protected const int Offset = 0;
         protected const int Limit = 5;
         protected static LoggingData loggingData;
+        protected static ConditionService conditionService;
 
         protected static Mock<ILoggerAdapter<ConditionService>> loggerMock;
         protected static Mock<IConditionRepository> conditionRepositoryMock;
 
-        protected static ConditionService conditionService;
+        protected static TimePeriodModel timePeriodModel;
+
         protected static MinMaxConditionPage minMaxConditionPage;
 
-        protected static IEnumerable<MinMaxCondition> conditions;
+        protected static IEnumerable<MinMaxCondition> minMaxConditions;
+
+        protected static IEnumerable<Condition> conditions;
+        protected static ConditionPage conditionPage;
 
         Establish context = () =>
         {
@@ -36,7 +42,13 @@ namespace BellRichM.Weather.Api.Services.Test
                 ErrorLoggingMessages = new List<string>()
             };
 
-            conditions = new List<MinMaxCondition>
+            loggerMock = new Mock<ILoggerAdapter<ConditionService>>();
+            conditionRepositoryMock = new Mock<IConditionRepository>();
+        };
+
+        public static IEnumerable<MinMaxCondition> CreateMinMaxCondition()
+        {
+            minMaxConditions = new List<MinMaxCondition>
             {
                 new MinMaxCondition
                 {
@@ -65,14 +77,36 @@ namespace BellRichM.Weather.Api.Services.Test
                 }
             };
 
-            loggerMock = new Mock<ILoggerAdapter<ConditionService>>();
-            conditionRepositoryMock = new Mock<IConditionRepository>();
+            return minMaxConditions;
+        }
 
-            conditionRepositoryMock.Setup(x => x.GetYearCount()).Returns(Task.FromResult(conditions.Count()));
-            conditionRepositoryMock.Setup(x => x.GetYear(Offset, Limit)).Returns(Task.FromResult(conditions));
+        public static IEnumerable<Condition> CreateCondition()
+        {
+            var conditions = new List<Condition>
+            {
+                new Condition
+                {
+                    Year = 2018,
+                    Month = 9,
+                    Day = 1,
+                    Hour = 1,
+                    WindGustDirection = 61.8725771445071,
+                    WindGust = 4.00000994196379,
+                    WindDirection = 59.8725771445071,
+                    WindSpeed = 2.00000994196379,
+                    OutsideTemperature = 67.2,
+                    HeatIndex = 65.6,
+                    Windchill = 83.0,
+                    DewPoint = 60.8725771445071,
+                    Barometer = 29.694,
+                    RainRate = 0.0,
+                    Rain = 4.00000994196379,
+                    OutsideHumidity = 29.687
+                }
+            };
 
-            conditionService = new ConditionService(conditionRepositoryMock.Object);
-        };
+            return conditions.ToList();
+        }
     }
 
     internal class When_creating_page_of_year_weather_conditions : ConditionServiceSpecs
@@ -83,6 +117,12 @@ namespace BellRichM.Weather.Api.Services.Test
 
         Establish context = () =>
         {
+            minMaxConditions = CreateMinMaxCondition();
+
+            conditionRepositoryMock.Setup(x => x.GetYearCount()).Returns(Task.FromResult(minMaxConditions.Count()));
+            conditionRepositoryMock.Setup(x => x.GetYear(Offset, Limit)).Returns(Task.FromResult(minMaxConditions));
+
+            conditionService = new ConditionService(conditionRepositoryMock.Object);
         };
 
         Because of = () =>
@@ -94,7 +134,7 @@ namespace BellRichM.Weather.Api.Services.Test
 
         It should_have_correct_total_count = () =>
         {
-            minMaxConditionPage.Paging.TotalCount.Should().Equals(conditions.Count());
+            minMaxConditionPage.Paging.TotalCount.Should().Equals(minMaxConditions.Count());
         };
 
         It should_have_correct_offset = () =>
@@ -109,7 +149,37 @@ namespace BellRichM.Weather.Api.Services.Test
 
         It should_have_correct_condition_data = () =>
         {
-            minMaxConditionPage.MinMaxConditions.Should().BeEquivalentTo(conditions);
+            minMaxConditionPage.MinMaxConditions.Should().BeEquivalentTo(minMaxConditions);
         };
+    }
+
+    internal class When_GetConditionsByDay : ConditionServiceSpecs
+    {
+        Establish context = () =>
+        {
+            conditions = CreateCondition();
+
+            conditionRepositoryMock.Setup(x => x.GetYearCount()).Returns(Task.FromResult(conditions.Count()));
+            conditionRepositoryMock.Setup(x => x.GetConditionsByDay(Offset, Limit, timePeriodModel)).Returns(Task.FromResult(conditions));
+
+            conditionService = new ConditionService(conditionRepositoryMock.Object);
+        };
+
+        Because of = () =>
+            conditionPage = conditionService.GetConditionsByDay(Offset, Limit, timePeriodModel).Result;
+
+        Behaves_like<LoggingBehaviors<ConditionService>> correct_logging = () => { };
+
+        It should_have_correct_total_count = () =>
+            conditionPage.Paging.TotalCount.Should().Equals(conditions.Count());
+
+        It should_have_correct_offset = () =>
+            conditionPage.Paging.Offset.Should().Equals(Offset);
+
+        It should_have_correct_limit = () =>
+            conditionPage.Paging.Limit.Should().Equals(Limit);
+
+        It should_have_correct_condition_data = () =>
+            conditionPage.Conditions.Should().BeEquivalentTo(conditions);
     }
 }

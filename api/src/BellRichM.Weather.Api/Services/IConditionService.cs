@@ -21,7 +21,7 @@ namespace BellRichM.Weather.Api.Services
         /// Gets the conditions grouped (averaged) by day and within a time period.
         /// </summary>
         /// <param name="offset">The starting offset.</param>
-        /// <param name="limit">The maximum number of years to return.</param>        
+        /// <param name="limit">The maximum number of years to return.</param>
         /// <param name="timePeriodModel">The time period.</param>
         /// <returns>The <see cref="ConditionPage"/>.</returns>
         Task<ConditionPage> GetConditionsByDay(int offset, int limit, TimePeriodModel timePeriodModel);

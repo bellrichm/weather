@@ -1,4 +1,5 @@
 using BellRichM.Weather.Api.Data;
+using BellRichM.Weather.Api.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -32,5 +33,20 @@ namespace BellRichM.Weather.Api.Repositories
         /// </summary>
         /// <returns>The count.</returns>
         Task<int> GetYearCount();
+
+        /// <summary>
+        /// Gets the total count of 'day' records.
+        /// </summary>
+        /// <returns>The count.</returns>
+        Task<int> GetDayCount();
+
+        /// <summary>
+        /// Gets the conditions grouped (averaged) by day and within a time period.
+        /// </summary>
+        /// <param name="offset">The starting offset.</param>
+        /// <param name="limit">The maximum number of years to return.</param>
+        /// <param name="timePeriodModel">The time period.</param>
+        /// <returns>The observations.</returns>
+        Task<IEnumerable<Condition>> GetConditionsByDay(int offset, int limit, TimePeriodModel timePeriodModel);
     }
 }

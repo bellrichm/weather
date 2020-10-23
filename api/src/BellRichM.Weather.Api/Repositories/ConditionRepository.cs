@@ -1,6 +1,7 @@
 using BellRichM.Logging;
 using BellRichM.Weather.Api.Configuration;
 using BellRichM.Weather.Api.Data;
+using BellRichM.Weather.Api.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -164,6 +165,18 @@ GROUP BY year, month, day, hour
             }
 
             return minMaxCondition;
+        }
+
+        /// <inheritdoc/>
+        public Task<int> GetDayCount()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc/>
+        public Task<IEnumerable<Condition>> GetConditionsByDay(int offset, int limit, TimePeriodModel timePeriodModel)
+        {
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc/>

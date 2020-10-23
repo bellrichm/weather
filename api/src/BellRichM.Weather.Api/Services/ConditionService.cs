@@ -21,12 +21,6 @@ namespace BellRichM.Weather.Api.Services
         }
 
         /// <inheritdoc/>
-        public Task<ConditionPage> GetConditionsByDay(int offset, int limit, TimePeriodModel timePeriodModel)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        /// <inheritdoc/>
         public async Task<MinMaxConditionPage> GetYearWeatherPage(int offset, int limit)
         {
             var minMaxConditions = await _conditionRepository.GetYear(offset, limit).ConfigureAwait(true);
@@ -45,6 +39,26 @@ namespace BellRichM.Weather.Api.Services
             };
 
             return minMaxConditionPage;
+        }
+
+        /// <inheritdoc/>
+        public async Task<ConditionPage> GetConditionsByDay(int offset, int limit, TimePeriodModel timePeriodModel)
+        {
+            var conditions = await _conditionRepository.GetConditionsByDay(offset, limit, timePeriodModel).ConfigureAwait(true);
+            var paging = new Paging
+            {
+                TotalCount = await _conditionRepository.GetDayCount().ConfigureAwait(true),
+                Offset = 0,
+                Limit = 10000
+            };
+
+            var condition2Page = new ConditionPage
+            {
+                Paging = paging,
+                Conditions = conditions
+            };
+
+            return condition2Page;
         }
     }
 }
