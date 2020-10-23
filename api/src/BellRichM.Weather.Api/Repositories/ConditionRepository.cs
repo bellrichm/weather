@@ -38,6 +38,18 @@ namespace BellRichM.Weather.Api.Repositories
 FROM condition
         ";
 
+        private const string GroupSelect = @"
+SELECT 
+	c1.year, c1.month, c1.day, 
+	c1.windGustDir, c1.windGust, AVG(c1.windDir) as windDir, AVG(c1.windSpeed) as windSpeed, 
+	AVG(c1.outTemp) as outTemp, AVG(c1.heatindex) as heatindex, AVG(windchill) as windchill, AVG(barometer) as barometer 
+FROM condition c1 
+	INNER JOIN ( 
+		SELECT 
+			MAX(windGust) as windGustMax, year, month, day 
+		FROM condition 
+        ";
+
         private readonly ILoggerAdapter<ConditionRepository> _logger;
         private readonly string _connectionString;
         private readonly DbProviderFactory _conditionDbProviderFactory;
@@ -168,15 +180,55 @@ GROUP BY year, month, day, hour
         }
 
         /// <inheritdoc/>
-        public Task<int> GetDayCount()
+        public async Task<IEnumerable<Condition>> GetConditionsByDay(int offset, int limit, TimePeriodModel timePeriodModel)
         {
-            throw new NotImplementedException();
-        }
+            _logger.LogDiagnosticDebug("GetConditionsByDay: {@offset} {@limit} {@timePeriod}", offset, limit, timePeriodModel);
+            if (timePeriodModel == null)
+            {
+                throw new ArgumentNullException(nameof(timePeriodModel));
+            }
 
-        /// <inheritdoc/>
-        public Task<IEnumerable<Condition>> GetConditionsByDay(int offset, int limit, TimePeriodModel timePeriodModel)
-        {
-            throw new NotImplementedException();
+            var statement = GroupSelect + @"
+		GROUP BY year, month, day 
+		) as c2 
+		ON c1.windGust = c2.windGustMax 
+            AND  c1.year = c2.year AND c1.month = c2.month AND c1.day = c2.day 
+WHERE
+    dateTime>=@startDateTime
+    AND dateTime<=@endDateTime
+GROUP BY c1.year, c1.month, c1.day
+LIMIT @limit
+OFFSET @offset
+;";
+
+            var conditions = new List<Condition>();
+
+            var dbConnection = _conditionDbProviderFactory.CreateConnection();
+            dbConnection.ConnectionString = _connectionString;
+            using (dbConnection)
+            {
+                var dbCommand = dbConnection.CreateCommand();
+                dbCommand.CommandText = statement;
+                using (dbCommand)
+                {
+                    dbCommand.AddParamWithValue("@startDateTime", timePeriodModel.StartDateTime);
+                    dbCommand.AddParamWithValue("@endDateTime", timePeriodModel.EndDateTime);
+                    dbCommand.AddParamWithValue("@offset", offset);
+                    dbCommand.AddParamWithValue("@limit", 1000); // TODO temp to dump out some test data
+
+                    dbConnection.Open();
+
+                    using (var rdr = dbCommand.ExecuteReader())
+                    {
+                        while (await rdr.ReadAsync().ConfigureAwait(true))
+                        {
+                            conditions.Add(this.ReadGroupedCondition(rdr));
+                        }
+                    }
+                }
+            }
+
+            return conditions;
         }
 
         /// <inheritdoc/>
@@ -215,9 +267,71 @@ SELECT COUNT(DISTINCT year) as yearCount
             }
         }
 
+        /// <inheritdoc/>
+        public async Task<int> GetDayCount()
+        {
+            _logger.LogDiagnosticDebug("GetDayCount");
+
+            // TODO - Find a faster way
+            var statement = @"
+SELECT COUNT(DISTINCT CAST(year as TEXT) || CAST(month as TEXT) || CAST(day as TEXT)) as dataCount
+  FROM condition 
+;
+            ";
+
+            return await GetDataCount(statement).ConfigureAwait(true);
+        }
+
+        private async Task<int> GetDataCount(string statement)
+        {
+            int dataCount = 0;
+
+            var dbConnection = _conditionDbProviderFactory.CreateConnection();
+            dbConnection.ConnectionString = _connectionString;
+            using (dbConnection)
+            {
+                var dbCommand = dbConnection.CreateCommand();
+                #pragma warning disable CA2100 // Trusting that calling procedures are correct...
+                dbCommand.CommandText = statement;
+                #pragma warning restore CA2100
+                using (dbCommand)
+                {
+                    dbConnection.Open();
+
+                    using (var rdr = dbCommand.ExecuteReader())
+                    {
+                        if (await rdr.ReadAsync().ConfigureAwait(true))
+                        {
+                            dataCount = System.Convert.ToInt32(rdr["dataCount"], CultureInfo.InvariantCulture);
+                        }
+                    }
+                }
+
+                return dataCount;
+            }
+        }
+
+        private Condition ReadGroupedCondition(DbDataReader rdr)
+        {
+            return new Condition
+            {
+                Year = System.Convert.ToInt32(rdr["year"], CultureInfo.InvariantCulture),
+                Month = System.Convert.ToInt32(rdr["month"], CultureInfo.InvariantCulture),
+                Day = System.Convert.ToInt32(rdr["day"], CultureInfo.InvariantCulture),
+                WindGustDirection = rdr.GetValue<double>("windGustDir"),
+                WindGust = rdr.GetValue<double>("windGust"),
+                WindDirection = rdr.GetValue<double>("windDir"),
+                WindSpeed = rdr.GetValue<double>("windSpeed"),
+                OutsideTemperature = rdr.GetValue<double>("outTemp"),
+                HeatIndex = rdr.GetValue<double>("heatindex"),
+                Windchill = rdr.GetValue<double>("windchill"),
+                Barometer = rdr.GetValue<double>("barometer"),
+            };
+        }
+
         private MinMaxCondition ReadDataFields(DbDataReader rdr)
         {
-            var minMaxCondition = new MinMaxCondition
+            var minMaxcondition = new MinMaxCondition
             {
                 MaxTemp = rdr.GetStringValue("maxTemp"),
                 MinTemp = rdr.GetStringValue("minTemp"),
@@ -240,7 +354,7 @@ SELECT COUNT(DISTINCT year) as yearCount
                 MaxWindGust = rdr.GetStringValue("maxWindGust"),
                 AvgWindSpeed = rdr.GetStringValue("avgWindSpeed"),
             };
-            return minMaxCondition;
+            return minMaxcondition;
         }
     }
 }
