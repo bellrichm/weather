@@ -43,7 +43,7 @@ SELECT
 	c1.year, c1.month, c1.day, 
 	c1.windGustDir, c1.windGust, AVG(c1.windDir) as windDir, AVG(c1.windSpeed) as windSpeed, 
 	AVG(c1.outTemp) as outTemp, AVG(c1.heatindex) as heatindex, AVG(windchill) as windchill, AVG(dewpoint) as dewpoint, AVG(barometer) as barometer,
-    SUM(c1.rain) as rain, AVG(c1.rainRate) as rainRate
+    SUM(c1.rain) as rain, AVG(c1.rainRate) as rainRate, AVG(c1.outHumidity) as outHumidity
 FROM condition c1 
 	INNER JOIN ( 
 		SELECT 
@@ -330,6 +330,7 @@ SELECT COUNT(DISTINCT CAST(year as TEXT) || CAST(month as TEXT) || CAST(day as T
                 DewPoint = rdr.GetValue<double>("dewpoint"),
                 Rain = rdr.GetValue<double>("rain"),
                 RainRate = rdr.GetValue<double>("rainRate"),
+                OutsideHumidity = rdr.GetValue<double>("outHumidity"),
             };
         }
 
