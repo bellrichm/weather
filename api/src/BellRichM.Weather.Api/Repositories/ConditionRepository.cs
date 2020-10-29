@@ -201,6 +201,7 @@ GROUP BY c1.year, c1.month, c1.day
 LIMIT @limit
 OFFSET @offset
 ;";
+        _logger.LogDiagnosticDebug("statement:\n {statement}", statement);
 
             var conditions = new List<Condition>();
 
@@ -215,7 +216,7 @@ OFFSET @offset
                     dbCommand.AddParamWithValue("@startDateTime", timePeriodModel.StartDateTime);
                     dbCommand.AddParamWithValue("@endDateTime", timePeriodModel.EndDateTime);
                     dbCommand.AddParamWithValue("@offset", offset);
-                    dbCommand.AddParamWithValue("@limit", 1000); // TODO temp to dump out some test data
+                    dbCommand.AddParamWithValue("@limit", 10000); // TODO temp to dump out some test data
 
                     dbConnection.Open();
 
