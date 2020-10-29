@@ -248,21 +248,28 @@ namespace BellRichM.Weather.Api.Controllers
         /// <summary>
         /// Gets the conditions grouped (averaged) by day and within a time period.
         /// </summary>
+        /// <param name="startDateTime">The start date time, in epoch format.</param>
+        /// <param name="endDateTime">The end date time, in epoch format.</param>
         /// <param name="offset">The starting offset.</param>
         /// <param name="limit">The maximum number of years to return.</param>
-        /// <param name="timePeriod">The time period.</param>
         /// <returns>The conditions.</returns>
         [ValidateConditionLimit]
         [HttpGet("/api/[controller]/ByDay", Name="GetConditionsByDay")]
-        public async Task<IActionResult> GetConditionsByDay([FromQuery] int offset, [FromQuery] int limit, [FromBody]TimePeriodModel timePeriod)
+        public async Task<IActionResult> GetConditionsByDay([FromQuery] int startDateTime, [FromQuery] int endDateTime, [FromQuery] int offset, [FromQuery] int limit)
         {
-            _logger.LogEvent(EventId.ConditionsController_GetConditionsByDay, "{@offset} {@limit} {@timePeriod}", offset, limit, timePeriod);
+            _logger.LogEvent(EventId.ConditionsController_GetConditionsByDay, "{@startDateTime} {@endDateTime} {@offset} {@limit} {@timePeriod}", startDateTime, endDateTime, offset, limit);
             if (!ModelState.IsValid)
             {
                 _logger.LogDiagnosticInformation("{@ModelState}", ModelState);
                 var errorResponseModel = CreateModel();
                 return BadRequest(errorResponseModel);
             }
+
+            var timePeriod = new TimePeriodModel
+            {
+                StartDateTime = startDateTime,
+                EndDateTime = endDateTime
+            };
 
             var conditionPage = await _conditionService.GetConditionsByDay(offset, limit, timePeriod).ConfigureAwait(true);
 
