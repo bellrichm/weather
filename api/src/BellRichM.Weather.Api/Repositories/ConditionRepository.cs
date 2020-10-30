@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BellRichM.Weather.Api.Repositories
@@ -93,6 +94,7 @@ OFFSET @offset
 ;
             ";
 
+           // _logger.LogDiagnosticDebug("statement:\n {statement}\n", statement);
             var records = new List<MinMaxCondition>();
 
             var dbConnection = _conditionDbProviderFactory.CreateConnection();
@@ -181,6 +183,78 @@ GROUP BY year, month, day, hour
         }
 
         /// <inheritdoc/>
+        public async Task<IEnumerable<MinMaxGroup>> GetMinMaxConditionsByDay(int offset, int limit, TimePeriodModel timePeriodModel)
+        {
+            _logger.LogDiagnosticDebug("GetYear: {@offset} {@limit}", offset, limit);
+            if (timePeriodModel == null)
+            {
+                throw new ArgumentNullException(nameof(timePeriodModel));
+            }
+
+            var statement = "SELECT year, month, day"
+            + DataFields
+            + @"
+WHERE
+    dateTime>=@startDateTime
+    AND dateTime<=@endDateTime
+GROUP BY year, month, day
+ORDER BY month, day, year
+LIMIT @limit
+OFFSET @offset
+;
+            ";
+            _logger.LogDiagnosticDebug("statement:\n {statement}\n", statement);
+            var minMaxConditions = new List<MinMaxCondition>();
+            var minMaxGroups = new List<MinMaxGroup>();
+
+            var dbConnection = _conditionDbProviderFactory.CreateConnection();
+            dbConnection.ConnectionString = _connectionString;
+            using (dbConnection)
+            {
+                var dbCommand = dbConnection.CreateCommand();
+                dbCommand.CommandText = statement;
+                using (dbCommand)
+                {
+                    dbCommand.AddParamWithValue("@startDateTime", timePeriodModel.StartDateTime);
+                    dbCommand.AddParamWithValue("@endDateTime", timePeriodModel.EndDateTime);
+                    dbCommand.AddParamWithValue("@offset", offset);
+                    dbCommand.AddParamWithValue("@limit", 10000); // TODO temp to dump out some test data
+
+                    dbConnection.Open();
+
+                    using (var rdr = dbCommand.ExecuteReader())
+                    {
+                        while (await rdr.ReadAsync().ConfigureAwait(true))
+                        {
+                            var minMaxCondition = ReadDataFields(rdr);
+                            minMaxCondition.Year = System.Convert.ToInt32(rdr["year"], CultureInfo.InvariantCulture);
+                            minMaxCondition.Year = System.Convert.ToInt32(rdr["year"], CultureInfo.InvariantCulture);
+                            minMaxCondition.Month = System.Convert.ToInt32(rdr["month"], CultureInfo.InvariantCulture);
+                            minMaxCondition.Day = System.Convert.ToInt32(rdr["day"], CultureInfo.InvariantCulture);
+                            var minMaxGroup = minMaxGroups.FirstOrDefault(g =>
+                                                                          g.Month == minMaxCondition.Month &&
+                                                                          g.Day == minMaxCondition.Day);
+
+                            if (minMaxGroup is null)
+                            {
+                                minMaxGroup = new MinMaxGroup
+                                {
+                                    Month = minMaxCondition.Month,
+                                    Day = minMaxCondition.Day
+                                };
+                                minMaxGroups.Add(minMaxGroup);
+                            }
+
+                            minMaxGroup.MinMaxConditions.Add(minMaxCondition);
+                        }
+                    }
+                }
+            }
+
+            return minMaxGroups;
+        }
+
+        /// <inheritdoc/>
         public async Task<IEnumerable<Condition>> GetConditionsByDay(int offset, int limit, TimePeriodModel timePeriodModel)
         {
             _logger.LogDiagnosticDebug("GetConditionsByDay: {@offset} {@limit} {@timePeriod}", offset, limit, timePeriodModel);
@@ -201,7 +275,7 @@ GROUP BY c1.year, c1.month, c1.day
 LIMIT @limit
 OFFSET @offset
 ;";
-        _logger.LogDiagnosticDebug("statement:\n {statement}", statement);
+            _logger.LogDiagnosticDebug("statement:\n {statement}\n", statement);
 
             var conditions = new List<Condition>();
 
