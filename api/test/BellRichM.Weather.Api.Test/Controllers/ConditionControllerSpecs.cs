@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
+using IT = Moq.It;
 using It = Machine.Specifications.It;
 
 namespace BellRichM.Weather.Api.Test.Controllers
@@ -30,8 +31,6 @@ namespace BellRichM.Weather.Api.Test.Controllers
         protected static Mock<ILoggerAdapter<ConditionsController>> loggerMock;
         protected static Mock<IMapper> mapperMock;
         protected static Mock<IConditionService> conditionServiceMock;
-
-        protected static TimePeriodModel timePeriodModel;
 
         protected static int offset;
         protected static int limit;
@@ -126,7 +125,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
 
             mapperMock.Setup(x => x.Map<ConditionPageModel>(conditionPage)).Returns(conditionPageModel);
 
-            conditionServiceMock.Setup(x => x.GetConditionsByDay(offset, limit, timePeriodModel)).ReturnsAsync(conditionPage);
+            conditionServiceMock.Setup(x => x.GetConditionsByDay(offset, limit, IT.IsAny<TimePeriodModel>())).ReturnsAsync(conditionPage);
 
             conditionsController = new ConditionsController(loggerMock.Object, mapperMock.Object, conditionServiceMock.Object);
             conditionsController.ControllerContext.HttpContext = new DefaultHttpContext();
@@ -161,7 +160,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
                 {
                     new EventLoggingData(
                         EventId.ConditionsController_GetConditionsByDay,
-                        "{@offset} {@limit} {@timePeriod}")
+                        "{@startDateTime} {@endDateTime} {@offset} {@limit} {@timePeriod}")
                 },
                 ErrorLoggingMessages = new List<string>()
             };
@@ -174,7 +173,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
             conditionsController.ModelState.Clear();
 
         Because of = () =>
-            result = (ObjectResult)conditionsController.GetConditionsByDay(offset, limit, timePeriodModel).Await();
+            result = (ObjectResult)conditionsController.GetConditionsByDay(0, 0, offset, limit).Await();
 
         It should_return_correct_result_type = () =>
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -198,14 +197,14 @@ namespace BellRichM.Weather.Api.Test.Controllers
                 {
                     new EventLoggingData(
                         EventId.ConditionsController_GetConditionsByDay,
-                        "{@offset} {@limit} {@timePeriod}")
+                        "{@startDateTime} {@endDateTime} {@offset} {@limit} {@timePeriod}")
                 },
                 ErrorLoggingMessages = new List<string>()
             };
         };
 
         Because of = () =>
-            result = (ObjectResult)conditionsController.GetConditionsByDay(offset, limit, timePeriodModel).Await();
+            result = (ObjectResult)conditionsController.GetConditionsByDay(0, 0, offset, limit).Await();
 
         Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging = () => { };
 
@@ -218,7 +217,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
         It should_return_an_object_of_type_ConditionPageModel = () =>
             result.Value.Should().BeOfType<ConditionPageModel>();
 
-        It should_return_the_minMaxConditionPageModel = () =>
+        It should_return_the_conditionPageModel = () =>
         {
             var conditionPage = (ConditionPageModel)result.Value;
             conditionPage.Should().Equals(conditionPageModel);

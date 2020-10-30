@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
+using IT = Moq.It;
 using It = Machine.Specifications.It;
 
 namespace BellRichM.Weather.Api.Test.Controllers
@@ -34,6 +35,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
         protected static int limit;
 
         protected static MinMaxConditionPageModel minMaxConditionPageModel;
+        protected static MinMaxGroupPageModel minMaxGroupPageModel;
 
         protected static ConditionsController conditionsController;
 
@@ -58,7 +60,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
             offset = 0;
             limit = 3;
 
-            var minMaxconditions = new List<MinMaxCondition>
+            var minMaxConditions = new List<MinMaxCondition>
             {
                 new MinMaxCondition
                 {
@@ -97,7 +99,23 @@ namespace BellRichM.Weather.Api.Test.Controllers
             var minMaxConditionPage = new MinMaxConditionPage
             {
                 Paging = paging,
-                MinMaxConditions = minMaxconditions
+                MinMaxConditions = minMaxConditions
+            };
+
+            var minMaxGroup = new MinMaxGroup
+            {
+                Month = minMaxConditions[0].Month,
+                Day = minMaxConditions[0].Day
+            };
+            minMaxGroup.MinMaxConditions.Add(minMaxConditions[0]);
+
+            var minMaxGroups = new List<MinMaxGroup>();
+            minMaxGroups.Add(minMaxGroup);
+
+            var minMaxGroupPage = new MinMaxGroupPage
+            {
+                Paging = paging,
+                MinMaxGroups = minMaxGroups
             };
 
             var minMaxConditionModels = new List<MinMaxConditionModel>
@@ -129,6 +147,15 @@ namespace BellRichM.Weather.Api.Test.Controllers
                 }
             };
 
+            var minMaxGroupModel = new MinMaxGroupModel
+            {
+                Month = minMaxConditionModels[0].Month,
+                Day = minMaxConditionModels[0].Day,
+                MinMaxConditions = minMaxConditionModels
+            };
+            var minMaxGroupModels = new List<MinMaxGroupModel>();
+            minMaxGroupModels.Add(minMaxGroupModel);
+
             var pagingModel = new PagingModel
             {
                 Offset = offset,
@@ -142,13 +169,21 @@ namespace BellRichM.Weather.Api.Test.Controllers
                 MinMaxConditions = minMaxConditionModels
             };
 
+            minMaxGroupPageModel = new MinMaxGroupPageModel
+            {
+                Paging = pagingModel,
+                MinMaxGroups = minMaxGroupModels
+            };
+
             loggerMock = new Mock<ILoggerAdapter<ConditionsController>>();
             mapperMock = new Mock<IMapper>();
             conditionServiceMock = new Mock<IConditionService>();
 
             mapperMock.Setup(x => x.Map<MinMaxConditionPageModel>(minMaxConditionPage)).Returns(minMaxConditionPageModel);
+            mapperMock.Setup(x => x.Map<MinMaxGroupPageModel>(minMaxGroupPage)).Returns(minMaxGroupPageModel);
 
             conditionServiceMock.Setup(x => x.GetYearWeatherPage(offset, limit)).ReturnsAsync(minMaxConditionPage);
+            conditionServiceMock.Setup(x => x.GetMinMaxConditionsByDay(offset, limit, IT.IsAny<TimePeriodModel>())).ReturnsAsync(minMaxGroupPage);
 
             conditionsController = new ConditionsController(loggerMock.Object, mapperMock.Object, conditionServiceMock.Object);
             conditionsController.ControllerContext.HttpContext = new DefaultHttpContext();
@@ -515,5 +550,93 @@ namespace BellRichM.Weather.Api.Test.Controllers
 
         It should_throw_expected_exception = () =>
             exception.ShouldBeOfExactType<NotImplementedException>();
+    }
+
+    internal class When_GetMinMaxConditionsByDay_decorating_method : MinMaxConditionsControllerSpecs
+    {
+        private static MethodInfo methodInfo;
+
+        Because of = () =>
+            methodInfo = typeof(ConditionsController).GetMethod("GetMinMaxConditionsByDay");
+
+        It should_have_ValidateConditionLimitAttribute_attribute = () =>
+          methodInfo.Should().BeDecoratedWith<ValidateConditionLimitAttribute>();
+    }
+
+    internal class When_GetMinMaxConditionsByDay_model_state_is_not_valid : MinMaxConditionsControllerSpecs
+    {
+        private static ObjectResult result;
+
+        Establish context = () =>
+        {
+            loggingData = new LoggingData
+            {
+                InformationTimes = 1,
+                EventLoggingData = new List<EventLoggingData>
+                {
+                    new EventLoggingData(
+                        EventId.ConditionsController_GetMinMaxConditionsByDay,
+                        "{@startDateTime} {@endDateTime} {@offset} {@limit}")
+                },
+                ErrorLoggingMessages = new List<string>()
+            };
+            conditionsController.ModelState.AddModelError(ErrorCode, ErrorMessage);
+        };
+
+        Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging = () => { };
+
+        Cleanup after = () =>
+            conditionsController.ModelState.Clear();
+
+        Because of = () =>
+            result = (ObjectResult)conditionsController.GetMinMaxConditionsByDay(0, 0, offset, limit).Await();
+
+        It should_return_correct_result_type = () =>
+            result.Should().BeOfType<BadRequestObjectResult>();
+
+        It should_return_correct_status_code = () =>
+            result.StatusCode.ShouldEqual(400);
+
+        It should_return_a_ErrorResponseModel = () =>
+            result.Value.Should().BeOfType<ErrorResponseModel>();
+    }
+
+    internal class When_GetMinMaxConditionsByDay_is_successful : MinMaxConditionsControllerSpecs
+    {
+        private static ObjectResult result;
+
+        Establish context = () =>
+        {
+            loggingData = new LoggingData
+            {
+                EventLoggingData = new List<EventLoggingData>
+                {
+                    new EventLoggingData(
+                        EventId.ConditionsController_GetMinMaxConditionsByDay,
+                        "{@startDateTime} {@endDateTime} {@offset} {@limit}") // todo, use the correct variables, startDateTime, etc
+                },
+                ErrorLoggingMessages = new List<string>()
+            };
+        };
+
+        Because of = () =>
+            result = (ObjectResult)conditionsController.GetMinMaxConditionsByDay(0, 0, offset, limit).Await();
+
+        Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging = () => { };
+
+        It should_return_success_status_code = () =>
+            result.StatusCode.ShouldEqual(200);
+
+        It should_return_a_minMaxGroupPageModell = () =>
+            result.Value.ShouldNotBeNull();
+
+        It should_return_an_object_of_type_MinMaxGroupPageModel = () =>
+            result.Value.Should().BeOfType<MinMaxGroupPageModel>();
+
+        It should_return_the_minMaxGroupPageModel = () =>
+        {
+            var mmGroupPageModel = (MinMaxGroupPageModel)result.Value;
+            mmGroupPageModel.Should().Equals(minMaxGroupPageModel);
+        };
     }
 }
