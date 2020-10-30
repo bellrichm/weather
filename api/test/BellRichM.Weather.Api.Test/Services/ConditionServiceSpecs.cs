@@ -190,7 +190,6 @@ namespace BellRichM.Weather.Api.Services.Test
 
         It should_have_correct_condition_data = () =>
             minMaxGroupPage.MinMaxGroups.Should().BeEquivalentTo(minMaxGroups);
-
     }
 
     internal class When_GetConditionsByDay : ConditionServiceSpecs

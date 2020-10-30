@@ -16,7 +16,7 @@ namespace BellRichM.Weather.Api.Data
         /// <value>
         /// The <see cref="List{MinMaxCondition}"/>.
         /// </value>
-        private List<MinMaxCondition> minMaxConditions = new List<MinMaxCondition>();
+        private readonly List<MinMaxCondition> minMaxConditions = new List<MinMaxCondition>();
 
         /// <summary>
         /// Gets or sets the month.

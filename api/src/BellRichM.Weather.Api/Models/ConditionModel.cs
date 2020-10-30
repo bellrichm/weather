@@ -1,5 +1,4 @@
 using BellRichM.Attribute.CodeCoverage;
-using System.ComponentModel.DataAnnotations;
 
 namespace BellRichM.Weather.Api.Models
 {

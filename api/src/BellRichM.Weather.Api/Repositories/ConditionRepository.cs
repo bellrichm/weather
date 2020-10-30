@@ -94,7 +94,6 @@ OFFSET @offset
 ;
             ";
 
-           // _logger.LogDiagnosticDebug("statement:\n {statement}\n", statement);
             var records = new List<MinMaxCondition>();
 
             var dbConnection = _conditionDbProviderFactory.CreateConnection();
@@ -204,7 +203,6 @@ OFFSET @offset
 ;
             ";
             _logger.LogDiagnosticDebug("statement:\n {statement}\n", statement);
-            var minMaxConditions = new List<MinMaxCondition>();
             var minMaxGroups = new List<MinMaxGroup>();
 
             var dbConnection = _conditionDbProviderFactory.CreateConnection();

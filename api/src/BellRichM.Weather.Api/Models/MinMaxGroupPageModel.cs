@@ -1,5 +1,5 @@
-using BellRichM.Attribute.CodeCoverage;
 using BellRichM.Api.Models;
+using BellRichM.Attribute.CodeCoverage;
 using System.Collections.Generic;
 
 namespace BellRichM.Weather.Api.Models
