@@ -18,6 +18,15 @@ namespace BellRichM.Weather.Api.Services
         Task<MinMaxConditionPage> GetYearWeatherPage(int offset, int limit);
 
         /// <summary>
+        /// Gets the min/max conditions by day and within a time period.
+        /// </summary>
+        /// <param name="offset">The starting offset.</param>
+        /// <param name="limit">The maximum number of years to return.</param>
+        /// <param name="timePeriodModel">The time period.</param>
+        /// <returns>The <see cref="MinMaxConditionPage"/>.</returns>
+        Task<MinMaxGroupPage> GetMinMaxConditionsByDay(int offset, int limit, TimePeriodModel timePeriodModel);
+
+        /// <summary>
         /// Gets the conditions grouped (averaged) by day and within a time period.
         /// </summary>
         /// <param name="offset">The starting offset.</param>

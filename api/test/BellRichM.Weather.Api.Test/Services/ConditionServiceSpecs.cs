@@ -32,6 +32,8 @@ namespace BellRichM.Weather.Api.Services.Test
 
         protected static IEnumerable<Condition> conditions;
         protected static ConditionPage conditionPage;
+        protected static MinMaxGroupPage minMaxGroupPage;
+        protected static IEnumerable<MinMaxGroup> minMaxGroups;
 
         Establish context = () =>
         {
@@ -151,6 +153,44 @@ namespace BellRichM.Weather.Api.Services.Test
         {
             minMaxConditionPage.MinMaxConditions.Should().BeEquivalentTo(minMaxConditions);
         };
+    }
+
+    internal class When_GetMinMaxConditionsByDay : ConditionServiceSpecs
+    {
+        Establish context = () =>
+        {
+            conditions = CreateCondition().ToList();
+            var minMaxGroup = new MinMaxGroup
+            {
+                Month = conditions.First().Month,
+                Day = conditions.First().Day
+            };
+            var minMaxGroupList = new List<MinMaxGroup>();
+            minMaxGroupList.Add(minMaxGroup);
+            minMaxGroups = minMaxGroupList;
+
+            conditionRepositoryMock.Setup(x => x.GetMinMaxConditionsByDay(Offset, Limit, timePeriodModel)).Returns(Task.FromResult(minMaxGroups));
+
+            conditionService = new ConditionService(conditionRepositoryMock.Object);
+        };
+
+        Because of = () =>
+            minMaxGroupPage = conditionService.GetMinMaxConditionsByDay(Offset, Limit, timePeriodModel).Result;
+
+        Behaves_like<LoggingBehaviors<ConditionService>> correct_logging = () => { };
+
+        It should_have_correct_total_count = () =>
+            minMaxGroupPage.Paging.TotalCount.Should().Equals(conditions.Count());
+
+        It should_have_correct_offset = () =>
+            minMaxGroupPage.Paging.Offset.Should().Equals(Offset);
+
+        It should_have_correct_limit = () =>
+            minMaxGroupPage.Paging.Limit.Should().Equals(Limit);
+
+        It should_have_correct_condition_data = () =>
+            minMaxGroupPage.MinMaxGroups.Should().BeEquivalentTo(minMaxGroups);
+
     }
 
     internal class When_GetConditionsByDay : ConditionServiceSpecs
