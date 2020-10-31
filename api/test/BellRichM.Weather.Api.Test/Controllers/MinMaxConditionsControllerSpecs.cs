@@ -183,7 +183,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
             mapperMock.Setup(x => x.Map<MinMaxGroupPageModel>(minMaxGroupPage)).Returns(minMaxGroupPageModel);
 
             conditionServiceMock.Setup(x => x.GetYearWeatherPage(offset, limit)).ReturnsAsync(minMaxConditionPage);
-            conditionServiceMock.Setup(x => x.GetMinMaxConditionsByDay(offset, limit, IT.IsAny<TimePeriodModel>())).ReturnsAsync(minMaxGroupPage);
+            conditionServiceMock.Setup(x => x.GetMinMaxConditionsByDay(0, 0, offset, limit)).ReturnsAsync(minMaxGroupPage);
 
             conditionsController = new ConditionsController(loggerMock.Object, mapperMock.Object, conditionServiceMock.Object);
             conditionsController.ControllerContext.HttpContext = new DefaultHttpContext();
@@ -576,7 +576,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
                 {
                     new EventLoggingData(
                         EventId.ConditionsController_GetMinMaxConditionsByDay,
-                        "{@startDateTime} {@endDateTime} {@offset} {@limit}")
+                        "{@startDayOfYear} {@endDayOfYear} {@offset} {@limit}")
                 },
                 ErrorLoggingMessages = new List<string>()
             };
@@ -613,7 +613,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
                 {
                     new EventLoggingData(
                         EventId.ConditionsController_GetMinMaxConditionsByDay,
-                        "{@startDateTime} {@endDateTime} {@offset} {@limit}") // todo, use the correct variables, startDateTime, etc
+                        "{@startDayOfYear} {@endDayOfYear} {@offset} {@limit}") // todo, use the correct variables, startDateTime, etc
                 },
                 ErrorLoggingMessages = new List<string>()
             };

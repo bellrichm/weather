@@ -43,11 +43,12 @@ namespace BellRichM.Weather.Api.Repositories
         /// <summary>
         /// Gets the min/max conditions by day and within a time period.
         /// </summary>
+        /// <param name="startDayOfYear">The day of year to start at.</param>
+        /// <param name="endDayOfYear">The day of year to end at.</param>
         /// <param name="offset">The starting offset.</param>
         /// <param name="limit">The maximum number of years to return.</param>
-        /// <param name="timePeriodModel">The time period.</param>
         /// <returns>The <see cref="MinMaxGroup"/>.</returns>
-        Task<IEnumerable<MinMaxGroup>> GetMinMaxConditionsByDay(int offset, int limit, TimePeriodModel timePeriodModel);
+        Task<IEnumerable<MinMaxGroup>> GetMinMaxConditionsByDay(int startDayOfYear, int endDayOfYear, int offset, int limit);
 
         /// <summary>
         /// Gets the conditions grouped (averaged) by day and within a time period.

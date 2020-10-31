@@ -42,9 +42,9 @@ namespace BellRichM.Weather.Api.Services
         }
 
         /// <inheritdoc/>
-        public async Task<MinMaxGroupPage> GetMinMaxConditionsByDay(int offset, int limit, TimePeriodModel timePeriodModel)
+        public async Task<MinMaxGroupPage> GetMinMaxConditionsByDay(int startDayOfYear, int endDayOfYear, int offset, int limit)
         {
-            var minMaxGroups = await _conditionRepository.GetMinMaxConditionsByDay(offset, limit, timePeriodModel).ConfigureAwait(true);
+            var minMaxGroups = await _conditionRepository.GetMinMaxConditionsByDay(startDayOfYear, endDayOfYear, offset, limit).ConfigureAwait(true);
 
             var paging = new Paging
             {

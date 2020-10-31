@@ -169,13 +169,13 @@ namespace BellRichM.Weather.Api.Services.Test
             minMaxGroupList.Add(minMaxGroup);
             minMaxGroups = minMaxGroupList;
 
-            conditionRepositoryMock.Setup(x => x.GetMinMaxConditionsByDay(Offset, Limit, timePeriodModel)).Returns(Task.FromResult(minMaxGroups));
+            conditionRepositoryMock.Setup(x => x.GetMinMaxConditionsByDay(0, 0, Offset, Limit)).Returns(Task.FromResult(minMaxGroups));
 
             conditionService = new ConditionService(conditionRepositoryMock.Object);
         };
 
         Because of = () =>
-            minMaxGroupPage = conditionService.GetMinMaxConditionsByDay(Offset, Limit, timePeriodModel).Result;
+            minMaxGroupPage = conditionService.GetMinMaxConditionsByDay(0, 0, Offset, Limit).Result;
 
         Behaves_like<LoggingBehaviors<ConditionService>> correct_logging = () => { };
 

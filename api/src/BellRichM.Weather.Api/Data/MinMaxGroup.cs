@@ -43,6 +43,14 @@ namespace BellRichM.Weather.Api.Data
         public int? Hour { get; set; }
 
         /// <summary>
+        /// Gets or sets the day of the year.
+        /// </summary>
+        /// <value>
+        /// The dayof the year.
+        /// </value>
+        public int? DayOfYear { get; set; }
+
+        /// <summary>
         /// Gets the min/max conditions.
         /// </summary>
         /// <value>

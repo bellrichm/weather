@@ -182,20 +182,18 @@ GROUP BY year, month, day, hour
         }
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<MinMaxGroup>> GetMinMaxConditionsByDay(int offset, int limit, TimePeriodModel timePeriodModel)
+        public async Task<IEnumerable<MinMaxGroup>> GetMinMaxConditionsByDay(int startDayOfYear, int endDayOfYear, int offset, int limit)
         {
             _logger.LogDiagnosticDebug("GetYear: {@offset} {@limit}", offset, limit);
-            if (timePeriodModel == null)
-            {
-                throw new ArgumentNullException(nameof(timePeriodModel));
-            }
 
             var statement = "SELECT year, month, day"
+            + " , CAST(strftime('%j', '2016-' || substr('00' || month, -2, 2) || '-' || substr('00' || day, -2, 2)) as INT) as dayOfYear"
             + DataFields
             + @"
 WHERE
-    dateTime>=@startDateTime
-    AND dateTime<=@endDateTime
+    CAST(strftime('%j', '2016-' || substr('00' || month, -2, 2) || '-' || substr('00' || day, -2, 2)) as INT) <= @endDayOfYear 
+    AND 
+    CAST(strftime('%j', '2016-' || substr('00' || month, -2, 2) || '-' || substr('00' || day, -2, 2)) as INT) >= @startDayOfYear 
 GROUP BY year, month, day
 ORDER BY month, day, year
 LIMIT @limit
@@ -213,8 +211,8 @@ OFFSET @offset
                 dbCommand.CommandText = statement;
                 using (dbCommand)
                 {
-                    dbCommand.AddParamWithValue("@startDateTime", timePeriodModel.StartDateTime);
-                    dbCommand.AddParamWithValue("@endDateTime", timePeriodModel.EndDateTime);
+                    dbCommand.AddParamWithValue("@startDayOfYear", startDayOfYear);
+                    dbCommand.AddParamWithValue("@endDayOfYear", endDayOfYear);
                     dbCommand.AddParamWithValue("@offset", offset);
                     dbCommand.AddParamWithValue("@limit", 10000); // TODO temp to dump out some test data
 
@@ -226,9 +224,9 @@ OFFSET @offset
                         {
                             var minMaxCondition = ReadDataFields(rdr);
                             minMaxCondition.Year = System.Convert.ToInt32(rdr["year"], CultureInfo.InvariantCulture);
-                            minMaxCondition.Year = System.Convert.ToInt32(rdr["year"], CultureInfo.InvariantCulture);
                             minMaxCondition.Month = System.Convert.ToInt32(rdr["month"], CultureInfo.InvariantCulture);
                             minMaxCondition.Day = System.Convert.ToInt32(rdr["day"], CultureInfo.InvariantCulture);
+                            minMaxCondition.DayOfYear = System.Convert.ToInt32(rdr["dayOfYear"], CultureInfo.InvariantCulture);
                             var minMaxGroup = minMaxGroups.FirstOrDefault(g =>
                                                                           g.Month == minMaxCondition.Month &&
                                                                           g.Day == minMaxCondition.Day);
@@ -238,7 +236,8 @@ OFFSET @offset
                                 minMaxGroup = new MinMaxGroup
                                 {
                                     Month = minMaxCondition.Month,
-                                    Day = minMaxCondition.Day
+                                    Day = minMaxCondition.Day,
+                                    DayOfYear = minMaxCondition.DayOfYear
                                 };
                                 minMaxGroups.Add(minMaxGroup);
                             }

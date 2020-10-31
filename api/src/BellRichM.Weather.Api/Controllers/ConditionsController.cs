@@ -248,16 +248,16 @@ namespace BellRichM.Weather.Api.Controllers
         /// <summary>
         /// Gets the min/max conditions by day and within a time period.
         /// </summary>
-        /// <param name="startDateTime">The start date time, in epoch format.</param>
-        /// <param name="endDateTime">The end date time, in epoch format.</param>
+        /// <param name="startDayOfYear">The day of year to start at.</param>
+        /// <param name="endDayOfYear">The day of year to end at.</param>
         /// <param name="offset">The starting offset.</param>
         /// <param name="limit">The maximum number of years to return.</param>
         /// <returns>The <see cref="MinMaxConditionPageModel"/>.</returns>
         [ValidateConditionLimit]
         [HttpGet("/api/[controller]/MinMaxByDay", Name="GetMinMaxConditionsByDay")]
-        public async Task<IActionResult> GetMinMaxConditionsByDay([FromQuery] int startDateTime, [FromQuery] int endDateTime, [FromQuery] int offset, [FromQuery] int limit)
+        public async Task<IActionResult> GetMinMaxConditionsByDay([FromQuery] int startDayOfYear, [FromQuery] int endDayOfYear, [FromQuery] int offset, [FromQuery] int limit)
         {
-            _logger.LogEvent(EventId.ConditionsController_GetMinMaxConditionsByDay, "{@startDateTime} {@endDateTime} {@offset} {@limit}", startDateTime, endDateTime, offset, limit);
+            _logger.LogEvent(EventId.ConditionsController_GetMinMaxConditionsByDay, "{@startDayOfYear} {@endDayOfYear} {@offset} {@limit}", startDayOfYear, endDayOfYear, offset, limit);
             if (!ModelState.IsValid)
             {
                 _logger.LogDiagnosticInformation("{@ModelState}", ModelState);
@@ -265,13 +265,7 @@ namespace BellRichM.Weather.Api.Controllers
                 return BadRequest(errorResponseModel);
             }
 
-            var timePeriod = new TimePeriodModel
-            {
-                StartDateTime = startDateTime,
-                EndDateTime = endDateTime
-            };
-
-            var minMaxGroupPage = await _conditionService.GetMinMaxConditionsByDay(offset, limit, timePeriod).ConfigureAwait(true);
+            var minMaxGroupPage = await _conditionService.GetMinMaxConditionsByDay(startDayOfYear, endDayOfYear, offset, limit).ConfigureAwait(true);
 
             var minMaxGroupPageModel = _mapper.Map<MinMaxGroupPageModel>(minMaxGroupPage);
             minMaxGroupPageModel.Links = GetNavigationLinks("GetYearsConditionPage", minMaxGroupPageModel.Paging);
