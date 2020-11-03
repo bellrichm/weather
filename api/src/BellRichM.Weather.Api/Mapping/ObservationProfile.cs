@@ -22,6 +22,8 @@ namespace BellRichM.Weather.Api.Mapping
                 .ForMember(dest => dest.Day, opt => opt.Ignore())
                 .ForMember(dest => dest.Hour, opt => opt.Ignore())
                 .ForMember(dest => dest.Minute, opt => opt.Ignore())
+                .ForMember(dest => dest.DayOfYear, opt => opt.Ignore())
+                .ForMember(dest => dest.Week, opt => opt.Ignore())
                 .AfterMap<ConvertEpochTime>();
         }
     }

@@ -35,12 +35,20 @@ namespace BellRichM.Weather.Api.Models
         public int? Hour { get; set; }
 
         /// <summary>
-        /// Gets or sets the day of the year.
+        /// Gets or sets the day of the  year.
         /// </summary>
         /// <value>
-        /// The dayof the year.
+        /// The day of the year.
         /// </value>
         public int? DayOfYear { get; set; }
+
+         /// <summary>
+        /// Gets or sets the week.
+        /// </summary>
+        /// <value>
+        /// The week.
+        /// </value>
+        public int? Week { get; set; }
 
         /// <summary>
         /// Gets or sets the min/max conditions.
