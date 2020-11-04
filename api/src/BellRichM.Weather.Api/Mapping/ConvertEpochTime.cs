@@ -35,7 +35,7 @@ namespace BellRichM.Weather.Api.Mapping
             destination.Minute = dateTime.Minute;
             var dayOfYearDate = new DateTime(2016, dateTime.Month, dateTime.Day);
             destination.DayOfYear = dayOfYearDate.DayOfYear;
-            destination.Week = (int)((destination.DayOfYear + 6) / 7);
+            destination.Week = (destination.DayOfYear + 6) / 7;
         }
     }
 }

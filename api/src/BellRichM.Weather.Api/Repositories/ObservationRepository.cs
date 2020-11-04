@@ -47,7 +47,8 @@ namespace BellRichM.Weather.Api.Repositories
 
             var statement = @"
 SELECT
-     year, month, day, hour, minute, dateTime, usUnits, interval,
+     year, month, day, hour, minute, dayofYear, week,
+     dateTime, usUnits, interval,
      barometer, pressure, altimeter, outTemp, outHumidity,
      windSpeed, windDir, windGust, windGustDir,
      rainRate, dewpoint, rain, windchill, heatindex,
@@ -102,7 +103,8 @@ WHERE
 
             var statement = @"
 SELECT
-     year, month, day, hour, minute, dateTime, usUnits, interval,
+     year, month, day, hour, minute, dayOfYear, week, 
+     dateTime, usUnits, interval,
      barometer, pressure, altimeter, outTemp, outHumidity,
      windSpeed, windDir, windGust, windGustDir,
      rainRate, dewpoint, rain, windchill, heatindex,
@@ -270,6 +272,8 @@ UPDATE condition
         day  = @day,
         hour = @hour,
         minute = @minute,
+        dayOfYear = @dayOfYear,
+        week = @week,
         dateTime = @dateTime,
         usUnits = @usUnits,
         interval = @interval,
@@ -372,6 +376,8 @@ DELETE FROM condition
                 dbCommand.AddParamWithValue("@day", observation.Day);
                 dbCommand.AddParamWithValue("@hour", observation.Hour);
                 dbCommand.AddParamWithValue("@minute", observation.Minute);
+                dbCommand.AddParamWithValue("@dayOfYear", observation.DayOfYear);
+                dbCommand.AddParamWithValue("@week", observation.Week);
                 dbCommand.AddParamWithValue("@dateTime", observation.DateTime);
                 dbCommand.AddParamWithValue("@usUnits", observation.USUnits);
                 dbCommand.AddParamWithValue("@interval", observation.Interval);
@@ -422,7 +428,8 @@ DELETE FROM condition
             var statement = @"
 INSERT INTO condition
     (
-     year, month, day, hour, minute, dateTime, usUnits, interval,
+     year, month, day, hour, minute, dayOfYear, week,
+     dateTime, usUnits, interval,
      barometer, pressure, altimeter, outTemp, outHumidity,
      windSpeed, windDir, windGust, windGustDir,
      rainRate, dewpoint, rain, windchill, heatindex,
@@ -435,13 +442,13 @@ INSERT INTO condition
     )
     VALUES
     (
-     @year, @month, @day, @hour, @minute, @dateTime, @usUnits, @interval,
+     @year, @month, @day, @hour, @minute, @dayOfYear, @week,
+     @dateTime, @usUnits, @interval,
      @barometer, @pressure, @altimeter, @outTemp, @outHumidity,
      @windSpeed, @windDir, @windGust, @windGustDir,
      @rainRate, @dewpoint, @rain, @windchill, @heatindex,
      @ET, @radiation, @UV,
      @extraTemp1, @extraTemp2, @extraTemp3,
-
      @soilTemp1, @soilTemp2, @soilTemp3, @soilTemp4,
      @leafTemp1, @leafTemp2, @extraHumid1, @extraHumid2,
      @soilMoist1, @soilMoist2, @soilMoist3, @soilMoist4,
@@ -461,6 +468,8 @@ INSERT INTO condition
                 Day = System.Convert.ToInt32(rdr["day"], CultureInfo.InvariantCulture),
                 Hour = System.Convert.ToInt32(rdr["hour"], CultureInfo.InvariantCulture),
                 Minute = System.Convert.ToInt32(rdr["minute"], CultureInfo.InvariantCulture),
+                DayOfYear = System.Convert.ToInt32(rdr["dayOfYear"], CultureInfo.InvariantCulture),
+                Week = System.Convert.ToInt32(rdr["week"], CultureInfo.InvariantCulture),
                 DateTime = System.Convert.ToInt32(rdr["dateTime"], CultureInfo.InvariantCulture),
                 USUnits = System.Convert.ToInt32(rdr["usUnits"], CultureInfo.InvariantCulture),
                 Interval = System.Convert.ToInt32(rdr["interval"], CultureInfo.InvariantCulture),
