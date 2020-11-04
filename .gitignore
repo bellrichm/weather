@@ -24,3 +24,4 @@ opencover.xml
 **/.ropeproject
 util/InitObservations/Data
 util/InitUsers/Data
+util/InsertObservations/Data
