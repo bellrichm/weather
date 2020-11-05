@@ -8,10 +8,11 @@ class UploadDirect(StdService):
     def __init__(self, engine, config_dict):
         super(UploadDirect, self).__init__(engine, config_dict)
 
-        service_dict = config_dict.get('UploadDirect', {})
+        #service_dict = config_dict.get('UploadDirect', {})
+        self.root_path = config_dict['WEEWX_ROOT']
 
-        #self.bind(weewx.NEW_ARCHIVE_RECORD, self.new_archive_record)
-        self.bind(weewx.NEW_LOOP_PACKET, self.new_loop_packet)
+        self.bind(weewx.NEW_ARCHIVE_RECORD, self.new_archive_record)
+        #self.bind(weewx.NEW_LOOP_PACKET, self.new_loop_packet)
 
     def new_archive_record(self, event):
         data = event.record
@@ -25,22 +26,22 @@ class UploadDirect(StdService):
         observation = {}
         observation['DateTime'] = int(data['dateTime'])
         observation['USUnits'] = int(data['usUnits'])
-        # observation['Interval'] = int(data['interval'])
+        observation['Interval'] = int(data['interval'])
         observation['Barometer'] = data['barometer']
-        # observation['Pressure'] = data['pressure']
+        observation['Pressure'] = data['pressure']
         observation['Altimeter'] = data['altimeter']
         observation['OutsideTemperature'] = data['outTemp']
         observation['OutsideHumidity'] = data['outHumidity']
         observation['WindSpeed'] = data['windSpeed']
-        #observation['WindDirection'] = data['windDir']
+        observation['WindDirection'] = data['windDir']
         observation['WindGust'] = data['windGust']
-        #observation['WindGustDirection'] = data['windGustDir']
+        observation['WindGustDirection'] = data['windGustDir']
         observation['RainRate'] = data['rainRate']
         observation['Rain'] = data['rain']
         observation['DewPoint'] = data['dewpoint']
         observation['Windchill'] = data['windchill']
         observation['HeatIndex'] = data['heatindex']
-        # observation['Evapotranspiration'] = data['ET']
+        #observation['Evapotranspiration'] = data['ET']
         observation['Radiation'] = data['radiation']
         observation['Ultraviolet'] = data['UV']
         #observation['ExtraTemperature1'] = data['extraTemp1']
@@ -61,10 +62,25 @@ class UploadDirect(StdService):
         #observation['LeafWetness1'] = data['leafWet1']
         #observation['LeafWetness2'] = data['leafWet2']
         observations = [observation]
-        json_string = json.dumps(observations)
-        out_file = open("temp.json", "w")
 
-        json.dump(observations, out_file, indent=2)
-        out_file.close()
+        try:
+            import os
+            print(os.getcwd())
+            location = self.root_path + "/InsertObservations"
+            json_file = "temp.json"
+            out_file = open(location + "/" + json_file, "w")
+            json.dump(observations, out_file, indent=2)
+            out_file.close()
+            
+            import subprocess
+            p = subprocess.Popen(["dotnet", "run", "--json-file", json_file], cwd=location)
+            p.wait()
+        except Exception as e:
+            print(e)
 
-        print(json_string)
+        print("done")
+        # cd InsertObservations
+        # dotnet run --jsonfile temp.json
+        # cd ..
+
+        
