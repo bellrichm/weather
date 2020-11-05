@@ -1,6 +1,7 @@
 using AutoMapper;
 using BellRichM.Logging;
 using BellRichM.Weather.Api.Data;
+using BellRichM.Weather.Api.Extensions;
 using BellRichM.Weather.Api.Mapping;
 using BellRichM.Weather.Api.Models;
 using BellRichM.Weather.Api.Repositories;
@@ -55,7 +56,7 @@ namespace Insertbservations
 
             var observations = mapper.Map<List<Observation>>(observationModels);
 
-            // var count = await observationRepository.CreateObservations(observations).ConfigureAwait(true);
+            var count = await observationRepository.CreateObservations(observations).ConfigureAwait(true);
         }    
 
         private static IServiceProvider Configure()
@@ -74,6 +75,7 @@ namespace Insertbservations
             var services = new ServiceCollection();
             services.AddLogging();
             services.AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
+            services.AddWeatherServices(configuration);
 
             return services.BuildServiceProvider();
         }
