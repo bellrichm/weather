@@ -188,9 +188,72 @@ GROUP BY year, month, day, hour
         }
 
         /// <inheritdoc/>
-        public Task<IEnumerable<MinMaxGroup>> GetMinMaxConditionsByHour(int startHour, int endHour, int offset, int limit)
+        public async Task<IEnumerable<MinMaxGroup>> GetMinMaxConditionsByHour(int startHour, int endHour, int offset, int limit)
         {
-            throw new NotImplementedException();
+            _logger.LogDiagnosticDebug("GetYear: {@offset} {@limit}", offset, limit);
+
+            // TODO add day of year to where clause
+            var statement = "SELECT year, month, day, dayOfYear, hour"
+            + DataFields
+            + @"
+WHERE
+    hour <= @endHour
+    AND hour >= @startHour 
+GROUP BY year, dayOfYear, hour 
+ORDER BY dayOfYear, year, hour;
+LIMIT @limit
+OFFSET @offset
+;
+            ";
+            _logger.LogDiagnosticDebug("statement:\n {statement}\n", statement);
+            var minMaxGroups = new List<MinMaxGroup>();
+
+            var dbConnection = _conditionDbProviderFactory.CreateConnection();
+            dbConnection.ConnectionString = _connectionString;
+            using (dbConnection)
+            {
+                var dbCommand = dbConnection.CreateCommand();
+                dbCommand.CommandText = statement;
+                using (dbCommand)
+                {
+                    dbCommand.AddParamWithValue("@startHour", startHour);
+                    dbCommand.AddParamWithValue("@endHour", endHour);
+                    dbCommand.AddParamWithValue("@offset", offset);
+                    dbCommand.AddParamWithValue("@limit", 100000); // TODO temp to dump out some test data
+
+                    dbConnection.Open();
+
+                    using (var rdr = dbCommand.ExecuteReader())
+                    {
+                        while (await rdr.ReadAsync().ConfigureAwait(true))
+                        {
+                            var minMaxCondition = ReadDataFields(rdr);
+                            minMaxCondition.Year = System.Convert.ToInt32(rdr["year"], CultureInfo.InvariantCulture);
+                            minMaxCondition.Month = System.Convert.ToInt32(rdr["month"], CultureInfo.InvariantCulture);
+                            minMaxCondition.Day = System.Convert.ToInt32(rdr["day"], CultureInfo.InvariantCulture);
+                            minMaxCondition.DayOfYear = System.Convert.ToInt32(rdr["dayofYear"], CultureInfo.InvariantCulture);
+                            minMaxCondition.Hour = System.Convert.ToInt32(rdr["hour"], CultureInfo.InvariantCulture);
+                            var minMaxGroup = minMaxGroups.FirstOrDefault(g =>
+                                                                          g.DayOfYear == minMaxCondition.DayOfYear &&
+                                                                          g.Hour == minMaxCondition.Hour);
+
+                            if (minMaxGroup is null)
+                            {
+                                minMaxGroup = new MinMaxGroup
+                                {
+                                    DayOfYear = minMaxCondition.DayOfYear,
+                                    Hour = minMaxCondition.Hour
+                                };
+                                minMaxGroups.Add(minMaxGroup);
+                            }
+
+                            minMaxGroup.MinMaxConditions.Add(minMaxCondition);
+                        }
+                    }
+                }
+            }
+
+            return minMaxGroups;
         }
 
         /// <inheritdoc/>
