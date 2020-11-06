@@ -275,16 +275,16 @@ namespace BellRichM.Weather.Api.Controllers
         /// <summary>
         /// Gets the min/max conditions by hour.
         /// </summary>
-        /// <param name="startHour">The hour to start at.</param>
-        /// <param name="endHour">The hour to end at.</param>
+        /// <param name="startDayOfYear">The hour to start at.</param>
+        /// <param name="endDayOfYear">The hour to end at.</param>
         /// <param name="offset">The starting offset.</param>
         /// <param name="limit">The maximum number of hours to return.</param>
         /// <returns>The <see cref="MinMaxConditionPageModel"/>.</returns>
         [ValidateConditionLimit]
         [HttpGet("/api/[controller]/MinMaxByHour", Name="GetMinMaxConditionsByHour")]
-        public async Task<IActionResult> GetMinMaxConditionsByHour([FromQuery] int startHour, [FromQuery] int endHour, [FromQuery] int offset, [FromQuery] int limit)
+        public async Task<IActionResult> GetMinMaxConditionsByHour([FromQuery] int startDayOfYear, [FromQuery] int endDayOfYear, [FromQuery] int offset, [FromQuery] int limit)
         {
-            _logger.LogEvent(EventId.ConditionsController_GetMinMaxConditionsByHour, "{@startHour} {@endHour} {@offset} {@limit}", startHour, endHour, offset, limit);
+            _logger.LogEvent(EventId.ConditionsController_GetMinMaxConditionsByHour, "{@startDayOfYear} {@endDayOfYear} {@offset} {@limit}", startDayOfYear, endDayOfYear, offset, limit);
             if (!ModelState.IsValid)
             {
                 _logger.LogDiagnosticInformation("{@ModelState}", ModelState);
@@ -292,7 +292,7 @@ namespace BellRichM.Weather.Api.Controllers
                 return BadRequest(errorResponseModel);
             }
 
-            var minMaxGroupPage = await _conditionService.GetMinMaxConditionsByHour(startHour, endHour, offset, limit).ConfigureAwait(true);
+            var minMaxGroupPage = await _conditionService.GetMinMaxConditionsByHour(startDayOfYear, endDayOfYear, offset, limit).ConfigureAwait(true);
 
             var minMaxGroupPageModel = _mapper.Map<MinMaxGroupPageModel>(minMaxGroupPage);
             minMaxGroupPageModel.Links = GetNavigationLinks("GetYearsConditionPage", minMaxGroupPageModel.Paging);

@@ -188,17 +188,16 @@ GROUP BY year, month, day, hour
         }
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<MinMaxGroup>> GetMinMaxConditionsByHour(int startHour, int endHour, int offset, int limit)
+        public async Task<IEnumerable<MinMaxGroup>> GetMinMaxConditionsByHour(int startDayOfYear, int endDayOfYear, int offset, int limit)
         {
             _logger.LogDiagnosticDebug("GetYear: {@offset} {@limit}", offset, limit);
 
-            // TODO add day of year to where clause
             var statement = "SELECT year, month, day, dayOfYear, hour"
             + DataFields
             + @"
 WHERE
-    hour <= @endHour
-    AND hour >= @startHour 
+    dayofYear <= @endDayOfYear
+    AND dayofYear >= @startDayOfYear 
 GROUP BY year, dayOfYear, hour 
 ORDER BY dayOfYear, year, hour;
 LIMIT @limit
@@ -216,8 +215,8 @@ OFFSET @offset
                 dbCommand.CommandText = statement;
                 using (dbCommand)
                 {
-                    dbCommand.AddParamWithValue("@startHour", startHour);
-                    dbCommand.AddParamWithValue("@endHour", endHour);
+                    dbCommand.AddParamWithValue("@startDayOfYear", startDayOfYear);
+                    dbCommand.AddParamWithValue("@endDayOfYear", endDayOfYear);
                     dbCommand.AddParamWithValue("@offset", offset);
                     dbCommand.AddParamWithValue("@limit", 100000); // TODO temp to dump out some test data
 
