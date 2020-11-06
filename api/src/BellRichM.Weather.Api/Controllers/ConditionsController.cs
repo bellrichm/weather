@@ -246,12 +246,12 @@ namespace BellRichM.Weather.Api.Controllers
         }
 
         /// <summary>
-        /// Gets the min/max conditions by day and within a time period.
+        /// Gets the min/max conditions by day.
         /// </summary>
-        /// <param name="startDayOfYear">The day of year to start at.</param>
-        /// <param name="endDayOfYear">The day of year to end at.</param>
+        /// <param name="startDayOfYear">The day of the year to start at.</param>
+        /// <param name="endDayOfYear">The day of the year to end at.</param>
         /// <param name="offset">The starting offset.</param>
-        /// <param name="limit">The maximum number of years to return.</param>
+        /// <param name="limit">The maximum number of days to return.</param>
         /// <returns>The <see cref="MinMaxConditionPageModel"/>.</returns>
         [ValidateConditionLimit]
         [HttpGet("/api/[controller]/MinMaxByDay", Name="GetMinMaxConditionsByDay")]
@@ -266,6 +266,33 @@ namespace BellRichM.Weather.Api.Controllers
             }
 
             var minMaxGroupPage = await _conditionService.GetMinMaxConditionsByDay(startDayOfYear, endDayOfYear, offset, limit).ConfigureAwait(true);
+
+            var minMaxGroupPageModel = _mapper.Map<MinMaxGroupPageModel>(minMaxGroupPage);
+            minMaxGroupPageModel.Links = GetNavigationLinks("GetYearsConditionPage", minMaxGroupPageModel.Paging);
+            return Ok(minMaxGroupPageModel);
+        }
+
+        /// <summary>
+        /// Gets the min/max conditions by week.
+        /// </summary>
+        /// <param name="startWeekOfYear">The week of the year to start at.</param>
+        /// <param name="endWeekOfYear">The week of the year to end at.</param>
+        /// <param name="offset">The starting offset.</param>
+        /// <param name="limit">The maximum number of weeks to return.</param>
+        /// <returns>The <see cref="MinMaxConditionPageModel"/>.</returns>
+        [ValidateConditionLimit]
+        [HttpGet("/api/[controller]/MinMaxByWeek", Name="GetMinMaxConditionsByWeek")]
+        public async Task<IActionResult> GetMinMaxConditionsByWeek([FromQuery] int startWeekOfYear, [FromQuery] int endWeekOfYear, [FromQuery] int offset, [FromQuery] int limit)
+        {
+            _logger.LogEvent(EventId.ConditionsController_GetMinMaxConditionsByWeek, "{@startWeekOfYear} {@endWeekOfYear} {@offset} {@limit}", startWeekOfYear, endWeekOfYear, offset, limit);
+            if (!ModelState.IsValid)
+            {
+                _logger.LogDiagnosticInformation("{@ModelState}", ModelState);
+                var errorResponseModel = CreateModel();
+                return BadRequest(errorResponseModel);
+            }
+
+            var minMaxGroupPage = await _conditionService.GetMinMaxConditionsByWeek(startWeekOfYear, endWeekOfYear, offset, limit).ConfigureAwait(true);
 
             var minMaxGroupPageModel = _mapper.Map<MinMaxGroupPageModel>(minMaxGroupPage);
             minMaxGroupPageModel.Links = GetNavigationLinks("GetYearsConditionPage", minMaxGroupPageModel.Paging);

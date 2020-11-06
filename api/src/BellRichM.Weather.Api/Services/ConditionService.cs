@@ -41,7 +41,6 @@ namespace BellRichM.Weather.Api.Services
             return minMaxConditionPage;
         }
 
-
         /// <inheritdoc/>
         public Task<MinMaxGroupPage> GetMinMaxConditionsByMinute(int startMinute, int endMinute, int offset, int limit)
         {

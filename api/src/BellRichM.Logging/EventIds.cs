@@ -147,9 +147,24 @@ namespace BellRichM.Logging
     ConditionsController_GetYearsHourConditionPage,
 
     /// <summary>
-    /// The condition controller get min maxx conditions by day.
+    /// The condition controller get min max conditions by minute.
+    /// </summary>
+    ConditionsController_GetMinMaxConditionsByMinute,
+
+    /// <summary>
+    /// The condition controller get min max conditions by hoyr.
+    /// </summary>
+    ConditionsController_GetMinMaxConditionsByHour,
+
+    /// <summary>
+    /// The condition controller get min max conditions by day.
     /// </summary>
     ConditionsController_GetMinMaxConditionsByDay,
+
+    /// <summary>
+    /// The condition controller get min max conditions by week.
+    /// </summary>
+    ConditionsController_GetMinMaxConditionsByWeek,    
 
     /// <summary>
     /// The condition controller get observations event id.
