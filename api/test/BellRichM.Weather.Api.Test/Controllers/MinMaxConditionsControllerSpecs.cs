@@ -183,6 +183,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
             mapperMock.Setup(x => x.Map<MinMaxGroupPageModel>(minMaxGroupPage)).Returns(minMaxGroupPageModel);
 
             conditionServiceMock.Setup(x => x.GetYearWeatherPage(offset, limit)).ReturnsAsync(minMaxConditionPage);
+            conditionServiceMock.Setup(x => x.GetMinMaxConditionsByMinute(0, 0, offset, limit)).ReturnsAsync(minMaxGroupPage);
             conditionServiceMock.Setup(x => x.GetMinMaxConditionsByHour(0, 0, offset, limit)).ReturnsAsync(minMaxGroupPage);
             conditionServiceMock.Setup(x => x.GetMinMaxConditionsByDay(0, 0, offset, limit)).ReturnsAsync(minMaxGroupPage);
             conditionServiceMock.Setup(x => x.GetMinMaxConditionsByWeek(0, 0, offset, limit)).ReturnsAsync(minMaxGroupPage);
@@ -552,6 +553,94 @@ namespace BellRichM.Weather.Api.Test.Controllers
 
         It should_throw_expected_exception = () =>
             exception.ShouldBeOfExactType<NotImplementedException>();
+    }
+
+    internal class When_GetMinMaxConditionsByMinute_decorating_method : MinMaxConditionsControllerSpecs
+    {
+        private static MethodInfo methodInfo;
+
+        Because of = () =>
+            methodInfo = typeof(ConditionsController).GetMethod("GetMinMaxConditionsByMinute");
+
+        It should_have_ValidateConditionLimitAttribute_attribute = () =>
+          methodInfo.Should().BeDecoratedWith<ValidateConditionLimitAttribute>();
+    }
+
+    internal class When_GetMinMaxConditionsByMinute_model_state_is_not_valid : MinMaxConditionsControllerSpecs
+    {
+        private static ObjectResult result;
+
+        Establish context = () =>
+        {
+            loggingData = new LoggingData
+            {
+                InformationTimes = 1,
+                EventLoggingData = new List<EventLoggingData>
+                {
+                    new EventLoggingData(
+                        EventId.ConditionsController_GetMinMaxConditionsByMinute,
+                        "{@startMinute} {@endMinute} {@offset} {@limit}")
+                },
+                ErrorLoggingMessages = new List<string>()
+            };
+            conditionsController.ModelState.AddModelError(ErrorCode, ErrorMessage);
+        };
+
+        Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging = () => { };
+
+        Cleanup after = () =>
+            conditionsController.ModelState.Clear();
+
+        Because of = () =>
+            result = (ObjectResult)conditionsController.GetMinMaxConditionsByMinute(0, 0, offset, limit).Await();
+
+        It should_return_correct_result_type = () =>
+            result.Should().BeOfType<BadRequestObjectResult>();
+
+        It should_return_correct_status_code = () =>
+            result.StatusCode.ShouldEqual(400);
+
+        It should_return_a_ErrorResponseModel = () =>
+            result.Value.Should().BeOfType<ErrorResponseModel>();
+    }
+
+    internal class When_GetMinMaxConditionsByMinute_is_successful : MinMaxConditionsControllerSpecs
+    {
+        private static ObjectResult result;
+
+        Establish context = () =>
+        {
+            loggingData = new LoggingData
+            {
+                EventLoggingData = new List<EventLoggingData>
+                {
+                    new EventLoggingData(
+                        EventId.ConditionsController_GetMinMaxConditionsByMinute,
+                        "{@startMinute} {@endMinute} {@offset} {@limit}") // todo, use the correct variables, startDateTime, etc
+                },
+                ErrorLoggingMessages = new List<string>()
+            };
+        };
+
+        Because of = () =>
+            result = (ObjectResult)conditionsController.GetMinMaxConditionsByMinute(0, 0, offset, limit).Await();
+
+        Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging = () => { };
+
+        It should_return_success_status_code = () =>
+            result.StatusCode.ShouldEqual(200);
+
+        It should_return_a_minMaxGroupPageModell = () =>
+            result.Value.ShouldNotBeNull();
+
+        It should_return_an_object_of_type_MinMaxGroupPageModel = () =>
+            result.Value.Should().BeOfType<MinMaxGroupPageModel>();
+
+        It should_return_the_minMaxGroupPageModel = () =>
+        {
+            var mmGroupPageModel = (MinMaxGroupPageModel)result.Value;
+            mmGroupPageModel.Should().Equals(minMaxGroupPageModel);
+        };
     }
 
     internal class When_GetMinMaxConditionsByHour_decorating_method : MinMaxConditionsControllerSpecs
