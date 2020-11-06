@@ -264,9 +264,67 @@ OFFSET @offset
         }
 
         /// <inheritdoc/>
-        public Task<IEnumerable<MinMaxGroup>> GetMinMaxConditionsByWeek(int startWeekOfYear, int endWeekOfYear, int offset, int limit)
+        public async Task<IEnumerable<MinMaxGroup>> GetMinMaxConditionsByWeek(int startWeekOfYear, int endWeekOfYear, int offset, int limit)
         {
-            throw new NotImplementedException();
+            _logger.LogDiagnosticDebug("GetYear: {@offset} {@limit}", offset, limit);
+
+            var statement = "SELECT year, week"
+            + DataFields
+            + @"
+WHERE
+    week <= @endWeekOfYear 
+    AND 
+    week >= @startWeekOfYear
+GROUP BY year, week
+ORDER BY week, year
+LIMIT @limit
+OFFSET @offset
+;
+            ";
+            _logger.LogDiagnosticDebug("statement:\n {statement}\n", statement);
+            var minMaxGroups = new List<MinMaxGroup>();
+
+            var dbConnection = _conditionDbProviderFactory.CreateConnection();
+            dbConnection.ConnectionString = _connectionString;
+            using (dbConnection)
+            {
+                var dbCommand = dbConnection.CreateCommand();
+                dbCommand.CommandText = statement;
+                using (dbCommand)
+                {
+                    dbCommand.AddParamWithValue("@startWeekOfYear", startWeekOfYear);
+                    dbCommand.AddParamWithValue("@endWeekOfYear", endWeekOfYear);
+                    dbCommand.AddParamWithValue("@offset", offset);
+                    dbCommand.AddParamWithValue("@limit", 10000); // TODO temp to dump out some test data
+
+                    dbConnection.Open();
+
+                    using (var rdr = dbCommand.ExecuteReader())
+                    {
+                        while (await rdr.ReadAsync().ConfigureAwait(true))
+                        {
+                            var minMaxCondition = ReadDataFields(rdr);
+                            minMaxCondition.Year = System.Convert.ToInt32(rdr["year"], CultureInfo.InvariantCulture);
+                            minMaxCondition.Week = System.Convert.ToInt32(rdr["week"], CultureInfo.InvariantCulture);
+                            var minMaxGroup = minMaxGroups.FirstOrDefault(g =>
+                                                                          g.Week == minMaxCondition.Week);
+
+                            if (minMaxGroup is null)
+                            {
+                                minMaxGroup = new MinMaxGroup
+                                {
+                                    Week = minMaxCondition.Week
+                                };
+                                minMaxGroups.Add(minMaxGroup);
+                            }
+
+                            minMaxGroup.MinMaxConditions.Add(minMaxCondition);
+                        }
+                    }
+                }
+            }
+
+            return minMaxGroups;
         }
 
         /// <inheritdoc/>
