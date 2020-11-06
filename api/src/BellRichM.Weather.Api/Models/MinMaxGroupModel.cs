@@ -35,6 +35,14 @@ namespace BellRichM.Weather.Api.Models
         public int? Hour { get; set; }
 
         /// <summary>
+        /// Gets or sets the minute.
+        /// </summary>
+        /// <value>
+        /// The minute.
+        /// </value>
+        public int? Minute { get; set; }
+
+        /// <summary>
         /// Gets or sets the day of the  year.
         /// </summary>
         /// <value>
