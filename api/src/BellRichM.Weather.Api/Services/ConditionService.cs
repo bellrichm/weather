@@ -41,6 +41,19 @@ namespace BellRichM.Weather.Api.Services
             return minMaxConditionPage;
         }
 
+
+        /// <inheritdoc/>
+        public Task<MinMaxGroupPage> GetMinMaxConditionsByMinute(int startMinute, int endMinute, int offset, int limit)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        /// <inheritdoc/>
+        public Task<MinMaxGroupPage> GetMinMaxConditionsByHour(int startHour, int endHour, int offset, int limit)
+        {
+            throw new System.NotImplementedException();
+        }
+
         /// <inheritdoc/>
         public async Task<MinMaxGroupPage> GetMinMaxConditionsByDay(int startDayOfYear, int endDayOfYear, int offset, int limit)
         {
@@ -60,6 +73,12 @@ namespace BellRichM.Weather.Api.Services
             };
 
             return minMaxGroupPage;
+        }
+
+        /// <inheritdoc/>
+        public Task<MinMaxGroupPage> GetMinMaxConditionsByWeek(int startWeekOfYear, int endWeekOfYear, int offset, int limit)
+        {
+            throw new System.NotImplementedException();
         }
 
         /// <inheritdoc/>

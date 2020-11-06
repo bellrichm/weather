@@ -18,14 +18,44 @@ namespace BellRichM.Weather.Api.Services
         Task<MinMaxConditionPage> GetYearWeatherPage(int offset, int limit);
 
         /// <summary>
-        /// Gets the min/max conditions by day and within a time period.
+        /// Gets the min/max conditions by minute.
         /// </summary>
-        /// <param name="startDayOfYear">The day of year to start at.</param>
-        /// <param name="endDayOfYear">The day of year to end at.</param>
+        /// <param name="startMinute">The minute to start at.</param>
+        /// <param name="endMinute">The minute to end at.</param>
         /// <param name="offset">The starting offset.</param>
-        /// <param name="limit">The maximum number of years to return.</param>
+        /// <param name="limit">The maximum number of minutes to return.</param>
+        /// <returns>The <see cref="MinMaxGroupPage"/>.</returns>
+        Task<MinMaxGroupPage> GetMinMaxConditionsByMinute(int startMinute, int endMinute, int offset, int limit);
+
+        /// <summary>
+        /// Gets the min/max conditions by hour.
+        /// </summary>
+        /// <param name="startHour">The hour to start at.</param>
+        /// <param name="endHour">The hour to end at.</param>
+        /// <param name="offset">The starting offset.</param>
+        /// <param name="limit">The maximum number of hours to return.</param>
+        /// <returns>The <see cref="MinMaxGroupPage"/>.</returns>
+        Task<MinMaxGroupPage> GetMinMaxConditionsByHour(int startHour, int endHour, int offset, int limit);
+
+        /// <summary>
+        /// Gets the min/max conditions by day.
+        /// </summary>
+        /// <param name="startDayOfYear">The day of the year to start at.</param>
+        /// <param name="endDayOfYear">The day of the year to end at.</param>
+        /// <param name="offset">The starting offset.</param>
+        /// <param name="limit">The maximum number of days to return.</param>
         /// <returns>The <see cref="MinMaxGroupPage"/>.</returns>
         Task<MinMaxGroupPage> GetMinMaxConditionsByDay(int startDayOfYear, int endDayOfYear, int offset, int limit);
+
+        /// <summary>
+        /// Gets the min/max conditions by week.
+        /// </summary>
+        /// <param name="startWeekOfYear">The week of the year to start at.</param>
+        /// <param name="endWeekOfYear">The week of the year to end at.</param>
+        /// <param name="offset">The starting offset.</param>
+        /// <param name="limit">The maximum number of weeks to return.</param>
+        /// <returns>The <see cref="MinMaxGroupPage"/>.</returns>
+        Task<MinMaxGroupPage> GetMinMaxConditionsByWeek(int startWeekOfYear, int endWeekOfYear, int offset, int limit);
 
         /// <summary>
         /// Gets the conditions grouped (averaged) by day and within a time period.

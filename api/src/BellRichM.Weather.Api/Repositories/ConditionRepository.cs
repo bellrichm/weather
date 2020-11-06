@@ -182,6 +182,18 @@ GROUP BY year, month, day, hour
         }
 
         /// <inheritdoc/>
+        public Task<MinMaxGroup> GetMinMaxConditionsByMinute(int startMinute, int endMinute, int offset, int limit)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc/>
+        public Task<MinMaxGroup> GetMinMaxConditionsByHour(int startHour, int endHour, int offset, int limit)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc/>
         public async Task<IEnumerable<MinMaxGroup>> GetMinMaxConditionsByDay(int startDayOfYear, int endDayOfYear, int offset, int limit)
         {
             _logger.LogDiagnosticDebug("GetYear: {@offset} {@limit}", offset, limit);
@@ -249,6 +261,12 @@ OFFSET @offset
             }
 
             return minMaxGroups;
+        }
+
+        /// <inheritdoc/>
+        public Task<MinMaxGroup> GetMinMaxConditionsByWeek(int startWeekOfYear, int endWeekOfYear, int offset, int limit)
+        {
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc/>
