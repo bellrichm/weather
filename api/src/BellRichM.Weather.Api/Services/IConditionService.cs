@@ -20,12 +20,13 @@ namespace BellRichM.Weather.Api.Services
         /// <summary>
         /// Gets the min/max conditions by minute.
         /// </summary>
-        /// <param name="startMinute">The minute to start at.</param>
-        /// <param name="endMinute">The minute to end at.</param>
+        /// <param name="dayOfYear">The day of the year to get data for.</param>
+        /// <param name="startHour">The hour to start at.</param>
+        /// <param name="endHour">The hoyr to end at.</param>
         /// <param name="offset">The starting offset.</param>
         /// <param name="limit">The maximum number of minutes to return.</param>
         /// <returns>The <see cref="MinMaxGroupPage"/>.</returns>
-        Task<MinMaxGroupPage> GetMinMaxConditionsByMinute(int startMinute, int endMinute, int offset, int limit);
+        Task<MinMaxGroupPage> GetMinMaxConditionsByMinute(int dayOfYear, int startHour, int endHour, int offset, int limit);
 
         /// <summary>
         /// Gets the min/max conditions by hour.

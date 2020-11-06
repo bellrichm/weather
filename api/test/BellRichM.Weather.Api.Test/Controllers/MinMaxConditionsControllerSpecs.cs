@@ -183,7 +183,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
             mapperMock.Setup(x => x.Map<MinMaxGroupPageModel>(minMaxGroupPage)).Returns(minMaxGroupPageModel);
 
             conditionServiceMock.Setup(x => x.GetYearWeatherPage(offset, limit)).ReturnsAsync(minMaxConditionPage);
-            conditionServiceMock.Setup(x => x.GetMinMaxConditionsByMinute(0, 0, offset, limit)).ReturnsAsync(minMaxGroupPage);
+            conditionServiceMock.Setup(x => x.GetMinMaxConditionsByMinute(1, 0, 0, offset, limit)).ReturnsAsync(minMaxGroupPage);
             conditionServiceMock.Setup(x => x.GetMinMaxConditionsByHour(0, 0, offset, limit)).ReturnsAsync(minMaxGroupPage);
             conditionServiceMock.Setup(x => x.GetMinMaxConditionsByDay(0, 0, offset, limit)).ReturnsAsync(minMaxGroupPage);
             conditionServiceMock.Setup(x => x.GetMinMaxConditionsByWeek(0, 0, offset, limit)).ReturnsAsync(minMaxGroupPage);
@@ -579,7 +579,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
                 {
                     new EventLoggingData(
                         EventId.ConditionsController_GetMinMaxConditionsByMinute,
-                        "{@startMinute} {@endMinute} {@offset} {@limit}")
+                        "{@dayOfYear} {@startHour} {@endHour} {@offset} {@limit}")
                 },
                 ErrorLoggingMessages = new List<string>()
             };
@@ -592,7 +592,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
             conditionsController.ModelState.Clear();
 
         Because of = () =>
-            result = (ObjectResult)conditionsController.GetMinMaxConditionsByMinute(0, 0, offset, limit).Await();
+            result = (ObjectResult)conditionsController.GetMinMaxConditionsByMinute(1, 0, 0, offset, limit).Await();
 
         It should_return_correct_result_type = () =>
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -616,14 +616,14 @@ namespace BellRichM.Weather.Api.Test.Controllers
                 {
                     new EventLoggingData(
                         EventId.ConditionsController_GetMinMaxConditionsByMinute,
-                        "{@startMinute} {@endMinute} {@offset} {@limit}") // todo, use the correct variables, startDateTime, etc
+                        "{@dayOfYear} {@startHour} {@endHour} {@offset} {@limit}") // todo, use the correct variables, startDateTime, etc
                 },
                 ErrorLoggingMessages = new List<string>()
             };
         };
 
         Because of = () =>
-            result = (ObjectResult)conditionsController.GetMinMaxConditionsByMinute(0, 0, offset, limit).Await();
+            result = (ObjectResult)conditionsController.GetMinMaxConditionsByMinute(1, 0, 0, offset, limit).Await();
 
         Behaves_like<LoggingBehaviors<ConditionsController>> correct_logging = () => { };
 
@@ -667,7 +667,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
                 {
                     new EventLoggingData(
                         EventId.ConditionsController_GetMinMaxConditionsByHour,
-                        "{@startHour} {@endHour} {@offset} {@limit}")
+                        "{@startDayOfYear} {@endDayOfYear} {@offset} {@limit}")
                 },
                 ErrorLoggingMessages = new List<string>()
             };
@@ -704,7 +704,7 @@ namespace BellRichM.Weather.Api.Test.Controllers
                 {
                     new EventLoggingData(
                         EventId.ConditionsController_GetMinMaxConditionsByHour,
-                        "{@startHour} {@endHour} {@offset} {@limit}") // todo, use the correct variables, startDateTime, etc
+                        "{@startDayOfYear} {@endDayOfYear} {@offset} {@limit}") // todo, use the correct variables, startDateTime, etc
                 },
                 ErrorLoggingMessages = new List<string>()
             };
