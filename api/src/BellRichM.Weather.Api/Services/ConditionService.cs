@@ -42,15 +42,45 @@ namespace BellRichM.Weather.Api.Services
         }
 
         /// <inheritdoc/>
-        public Task<MinMaxGroupPage> GetMinMaxConditionsByMinute(int startMinute, int endMinute, int offset, int limit)
+        public async Task<MinMaxGroupPage> GetMinMaxConditionsByMinute(int startDayOfYear, int endDayOfYear, int offset, int limit)
         {
-            throw new System.NotImplementedException();
+            var minMaxGroups = await _conditionRepository.GetMinMaxConditionsByMinute(startDayOfYear, endDayOfYear, offset, limit).ConfigureAwait(true);
+
+            var paging = new Paging
+            {
+                TotalCount = 366, // TODO
+                Offset = offset,
+                Limit = limit
+            };
+
+            var minMaxGroupPage = new MinMaxGroupPage
+            {
+                Paging = paging,
+                MinMaxGroups = minMaxGroups
+            };
+
+            return minMaxGroupPage;
         }
 
         /// <inheritdoc/>
-        public Task<MinMaxGroupPage> GetMinMaxConditionsByHour(int startHour, int endHour, int offset, int limit)
+        public async Task<MinMaxGroupPage> GetMinMaxConditionsByHour(int startDayOfYear, int endDayOfYear, int offset, int limit)
         {
-            throw new System.NotImplementedException();
+            var minMaxGroups = await _conditionRepository.GetMinMaxConditionsByHour(startDayOfYear, endDayOfYear, offset, limit).ConfigureAwait(true);
+
+            var paging = new Paging
+            {
+                TotalCount = 366, // TODO
+                Offset = offset,
+                Limit = limit
+            };
+
+            var minMaxGroupPage = new MinMaxGroupPage
+            {
+                Paging = paging,
+                MinMaxGroups = minMaxGroups
+            };
+
+            return minMaxGroupPage;
         }
 
         /// <inheritdoc/>
@@ -75,9 +105,24 @@ namespace BellRichM.Weather.Api.Services
         }
 
         /// <inheritdoc/>
-        public Task<MinMaxGroupPage> GetMinMaxConditionsByWeek(int startWeekOfYear, int endWeekOfYear, int offset, int limit)
+        public async Task<MinMaxGroupPage> GetMinMaxConditionsByWeek(int startDayOfYear, int endDayOfYear, int offset, int limit)
         {
-            throw new System.NotImplementedException();
+            var minMaxGroups = await _conditionRepository.GetMinMaxConditionsByWeek(startDayOfYear, endDayOfYear, offset, limit).ConfigureAwait(true);
+
+            var paging = new Paging
+            {
+                TotalCount = 52,
+                Offset = offset,
+                Limit = limit
+            };
+
+            var minMaxGroupPage = new MinMaxGroupPage
+            {
+                Paging = paging,
+                MinMaxGroups = minMaxGroups
+            };
+
+            return minMaxGroupPage;
         }
 
         /// <inheritdoc/>

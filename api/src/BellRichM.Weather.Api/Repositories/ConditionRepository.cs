@@ -182,13 +182,13 @@ GROUP BY year, month, day, hour
         }
 
         /// <inheritdoc/>
-        public Task<MinMaxGroup> GetMinMaxConditionsByMinute(int startMinute, int endMinute, int offset, int limit)
+        public Task<IEnumerable<MinMaxGroup>> GetMinMaxConditionsByMinute(int startMinute, int endMinute, int offset, int limit)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc/>
-        public Task<MinMaxGroup> GetMinMaxConditionsByHour(int startHour, int endHour, int offset, int limit)
+        public Task<IEnumerable<MinMaxGroup>> GetMinMaxConditionsByHour(int startHour, int endHour, int offset, int limit)
         {
             throw new NotImplementedException();
         }
@@ -264,7 +264,7 @@ OFFSET @offset
         }
 
         /// <inheritdoc/>
-        public Task<MinMaxGroup> GetMinMaxConditionsByWeek(int startWeekOfYear, int endWeekOfYear, int offset, int limit)
+        public Task<IEnumerable<MinMaxGroup>> GetMinMaxConditionsByWeek(int startWeekOfYear, int endWeekOfYear, int offset, int limit)
         {
             throw new NotImplementedException();
         }

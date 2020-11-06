@@ -48,7 +48,7 @@ namespace BellRichM.Weather.Api.Repositories
         /// <param name="offset">The starting offset.</param>
         /// <param name="limit">The maximum number of minutes to return.</param>
         /// <returns>The <see cref="MinMaxGroupPage"/>.</returns>
-        Task<MinMaxGroup> GetMinMaxConditionsByMinute(int startMinute, int endMinute, int offset, int limit);
+        Task<IEnumerable<MinMaxGroup>> GetMinMaxConditionsByMinute(int startMinute, int endMinute, int offset, int limit);
 
         /// <summary>
         /// Gets the min/max conditions by hour.
@@ -58,7 +58,7 @@ namespace BellRichM.Weather.Api.Repositories
         /// <param name="offset">The starting offset.</param>
         /// <param name="limit">The maximum number of hours to return.</param>
         /// <returns>The <see cref="MinMaxGroupPage"/>.</returns>
-        Task<MinMaxGroup> GetMinMaxConditionsByHour(int startHour, int endHour, int offset, int limit);
+        Task<IEnumerable<MinMaxGroup>> GetMinMaxConditionsByHour(int startHour, int endHour, int offset, int limit);
 
         /// <summary>
         /// Gets the min/max conditions by day.
@@ -78,7 +78,7 @@ namespace BellRichM.Weather.Api.Repositories
         /// <param name="offset">The starting offset.</param>
         /// <param name="limit">The maximum number of weeks to return.</param>
         /// <returns>The <see cref="MinMaxGroupPage"/>.</returns>
-        Task<MinMaxGroup> GetMinMaxConditionsByWeek(int startWeekOfYear, int endWeekOfYear, int offset, int limit);
+        Task<IEnumerable<MinMaxGroup>> GetMinMaxConditionsByWeek(int startWeekOfYear, int endWeekOfYear, int offset, int limit);
 
         /// <summary>
         /// Gets the conditions grouped (averaged) by day and within a time period.

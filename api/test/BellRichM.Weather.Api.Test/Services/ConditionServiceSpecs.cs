@@ -155,6 +155,80 @@ namespace BellRichM.Weather.Api.Services.Test
         };
     }
 
+    internal class When_GetMinMaxConditionsByMinute : ConditionServiceSpecs
+    {
+        Establish context = () =>
+        {
+            conditions = CreateCondition().ToList();
+            var minMaxGroup = new MinMaxGroup
+            {
+                Month = conditions.First().Month,
+                Day = conditions.First().Day
+            };
+            var minMaxGroupList = new List<MinMaxGroup>();
+            minMaxGroupList.Add(minMaxGroup);
+            minMaxGroups = minMaxGroupList;
+
+            conditionRepositoryMock.Setup(x => x.GetMinMaxConditionsByMinute(0, 0, Offset, Limit)).Returns(Task.FromResult(minMaxGroups));
+
+            conditionService = new ConditionService(conditionRepositoryMock.Object);
+        };
+
+        Because of = () =>
+            minMaxGroupPage = conditionService.GetMinMaxConditionsByMinute(0, 0, Offset, Limit).Result;
+
+        Behaves_like<LoggingBehaviors<ConditionService>> correct_logging = () => { };
+
+        It should_have_correct_total_count = () =>
+            minMaxGroupPage.Paging.TotalCount.Should().Equals(conditions.Count());
+
+        It should_have_correct_offset = () =>
+            minMaxGroupPage.Paging.Offset.Should().Equals(Offset);
+
+        It should_have_correct_limit = () =>
+            minMaxGroupPage.Paging.Limit.Should().Equals(Limit);
+
+        It should_have_correct_condition_data = () =>
+            minMaxGroupPage.MinMaxGroups.Should().BeEquivalentTo(minMaxGroups);
+    }
+
+    internal class When_GetMinMaxConditionsByHour : ConditionServiceSpecs
+    {
+        Establish context = () =>
+        {
+            conditions = CreateCondition().ToList();
+            var minMaxGroup = new MinMaxGroup
+            {
+                Month = conditions.First().Month,
+                Day = conditions.First().Day
+            };
+            var minMaxGroupList = new List<MinMaxGroup>();
+            minMaxGroupList.Add(minMaxGroup);
+            minMaxGroups = minMaxGroupList;
+
+            conditionRepositoryMock.Setup(x => x.GetMinMaxConditionsByHour(0, 0, Offset, Limit)).Returns(Task.FromResult(minMaxGroups));
+
+            conditionService = new ConditionService(conditionRepositoryMock.Object);
+        };
+
+        Because of = () =>
+            minMaxGroupPage = conditionService.GetMinMaxConditionsByHour(0, 0, Offset, Limit).Result;
+
+        Behaves_like<LoggingBehaviors<ConditionService>> correct_logging = () => { };
+
+        It should_have_correct_total_count = () =>
+            minMaxGroupPage.Paging.TotalCount.Should().Equals(conditions.Count());
+
+        It should_have_correct_offset = () =>
+            minMaxGroupPage.Paging.Offset.Should().Equals(Offset);
+
+        It should_have_correct_limit = () =>
+            minMaxGroupPage.Paging.Limit.Should().Equals(Limit);
+
+        It should_have_correct_condition_data = () =>
+            minMaxGroupPage.MinMaxGroups.Should().BeEquivalentTo(minMaxGroups);
+    }
+
     internal class When_GetMinMaxConditionsByDay : ConditionServiceSpecs
     {
         Establish context = () =>
@@ -176,6 +250,43 @@ namespace BellRichM.Weather.Api.Services.Test
 
         Because of = () =>
             minMaxGroupPage = conditionService.GetMinMaxConditionsByDay(0, 0, Offset, Limit).Result;
+
+        Behaves_like<LoggingBehaviors<ConditionService>> correct_logging = () => { };
+
+        It should_have_correct_total_count = () =>
+            minMaxGroupPage.Paging.TotalCount.Should().Equals(conditions.Count());
+
+        It should_have_correct_offset = () =>
+            minMaxGroupPage.Paging.Offset.Should().Equals(Offset);
+
+        It should_have_correct_limit = () =>
+            minMaxGroupPage.Paging.Limit.Should().Equals(Limit);
+
+        It should_have_correct_condition_data = () =>
+            minMaxGroupPage.MinMaxGroups.Should().BeEquivalentTo(minMaxGroups);
+    }
+
+    internal class When_GetMinMaxConditionsByWeek : ConditionServiceSpecs
+    {
+        Establish context = () =>
+        {
+            conditions = CreateCondition().ToList();
+            var minMaxGroup = new MinMaxGroup
+            {
+                Month = conditions.First().Month,
+                Day = conditions.First().Day
+            };
+            var minMaxGroupList = new List<MinMaxGroup>();
+            minMaxGroupList.Add(minMaxGroup);
+            minMaxGroups = minMaxGroupList;
+
+            conditionRepositoryMock.Setup(x => x.GetMinMaxConditionsByWeek(0, 0, Offset, Limit)).Returns(Task.FromResult(minMaxGroups));
+
+            conditionService = new ConditionService(conditionRepositoryMock.Object);
+        };
+
+        Because of = () =>
+            minMaxGroupPage = conditionService.GetMinMaxConditionsByWeek(0, 0, Offset, Limit).Result;
 
         Behaves_like<LoggingBehaviors<ConditionService>> correct_logging = () => { };
 
