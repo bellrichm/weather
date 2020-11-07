@@ -214,7 +214,7 @@ OFFSET @offset
                     dbCommand.AddParamWithValue("@startHour", startHour);
                     dbCommand.AddParamWithValue("@endHour", endHour);
                     dbCommand.AddParamWithValue("@offset", offset);
-                    dbCommand.AddParamWithValue("@limit", 1000); // TODO temp to dump out some test data
+                    dbCommand.AddParamWithValue("@limit", 10000); // TODO temp to dump out some test data
 
                     dbConnection.Open();
 
