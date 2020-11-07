@@ -194,7 +194,7 @@ WHERE
     AND hour <= @endHour
     AND hour >= @startHour 
 GROUP BY year, dayOfYear, hour, minute
-ORDER BY dayOfYear, year, hour, minute
+ORDER BY dayOfYear, hour, minute
 LIMIT @limit
 OFFSET @offset
 ;
@@ -264,7 +264,7 @@ WHERE
     dayofYear <= @endDayOfYear
     AND dayofYear >= @startDayOfYear 
 GROUP BY year, dayOfYear, hour 
-ORDER BY dayOfYear, year, hour;
+ORDER BY dayOfYear, hour
 LIMIT @limit
 OFFSET @offset
 ;
