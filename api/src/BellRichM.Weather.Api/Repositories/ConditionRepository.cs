@@ -186,7 +186,7 @@ GROUP BY year, month, day, hour
         {
             _logger.LogDiagnosticDebug("GetYear: {@offset} {@limit}", offset, limit);
 
-            var statement = "SELECT year, dayOfYear, hour, minute"
+            var statement = "SELECT year, month, day, dayOfYear, hour, minute"
             + DataFields
             + @"
 WHERE
@@ -224,6 +224,8 @@ OFFSET @offset
                         {
                             var minMaxCondition = ReadDataFields(rdr);
                             minMaxCondition.Year = System.Convert.ToInt32(rdr["year"], CultureInfo.InvariantCulture);
+                            minMaxCondition.Month = System.Convert.ToInt32(rdr["month"], CultureInfo.InvariantCulture);
+                            minMaxCondition.Day = System.Convert.ToInt32(rdr["day"], CultureInfo.InvariantCulture);
                             minMaxCondition.DayOfYear = System.Convert.ToInt32(rdr["dayofYear"], CultureInfo.InvariantCulture);
                             minMaxCondition.Hour = System.Convert.ToInt32(rdr["hour"], CultureInfo.InvariantCulture);
                             minMaxCondition.Minute = System.Convert.ToInt32(rdr["minute"], CultureInfo.InvariantCulture);
@@ -236,6 +238,8 @@ OFFSET @offset
                             {
                                 minMaxGroup = new MinMaxGroup
                                 {
+                                    Month = minMaxCondition.Month,
+                                    Day = minMaxCondition.Day,
                                     DayOfYear = minMaxCondition.DayOfYear,
                                     Hour = minMaxCondition.Hour,
                                     Minute = minMaxCondition.Minute
@@ -305,6 +309,8 @@ OFFSET @offset
                             {
                                 minMaxGroup = new MinMaxGroup
                                 {
+                                    Month = minMaxCondition.Month,
+                                    Day = minMaxCondition.Day,
                                     DayOfYear = minMaxCondition.DayOfYear,
                                     Hour = minMaxCondition.Hour
                                 };
