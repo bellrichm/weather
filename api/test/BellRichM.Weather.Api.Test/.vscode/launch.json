@@ -21,7 +21,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             "program": "${workspaceFolder}/bin/Debug/netcoreapp3.1/BellRichM.Weather.Api.Test.dll",
-            "args": ["--testclass", "ObservationsControllerSpecs"],
+            "args": ["--testclass", "MinMaxConditionsControllerSpecs"],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
             "console": "internalConsole"
@@ -34,8 +34,8 @@
             "program": "${workspaceFolder}/bin/Debug/netcoreapp3.1/BellRichM.Weather.Api.Test.dll",
             "args": 
             [
-                "--testclass", "ObservationsControllerSpecs",
-                "--test", "When_deleting_an_observation_with_an_invalid_modelState"
+                "--testclass", "ConditionServiceSpecs",
+                "--test", "When_GetMinMaxConditionsByDay"
             ],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
