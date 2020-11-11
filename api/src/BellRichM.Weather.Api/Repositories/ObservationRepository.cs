@@ -468,7 +468,7 @@ INSERT INTO condition
                 Day = System.Convert.ToInt32(rdr["day"], CultureInfo.InvariantCulture),
                 Hour = System.Convert.ToInt32(rdr["hour"], CultureInfo.InvariantCulture),
                 Minute = System.Convert.ToInt32(rdr["minute"], CultureInfo.InvariantCulture),
-                DayOfYear = System.Convert.ToInt32(rdr["dayOfYear"], CultureInfo.InvariantCulture),
+                DayOfYear = System.Convert.ToInt32(rdr["dayofYear"], CultureInfo.InvariantCulture),
                 Week = System.Convert.ToInt32(rdr["week"], CultureInfo.InvariantCulture),
                 DateTime = System.Convert.ToInt32(rdr["dateTime"], CultureInfo.InvariantCulture),
                 USUnits = System.Convert.ToInt32(rdr["usUnits"], CultureInfo.InvariantCulture),
