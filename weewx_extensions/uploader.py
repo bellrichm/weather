@@ -144,10 +144,46 @@ class UploaderThread(weewx.restx.RESTThread):
         return _request
 
     def get_post_body(self, record):
-        record['dateTime'] = int(record['dateTime'])
-        record['usUnits'] = int(record['usUnits'])
-        record['interval'] = int(record['interval'])
-        return(json.dumps(record), "application/json")
+        observation = {}
+        observation['DateTime'] = int(record['dateTime'])
+        observation['USUnits'] = int(record['usUnits'])
+        observation['Interval'] = int(record['interval'])
+        observation['Barometer'] = record['barometer']
+        observation['Pressure'] = record['pressure']
+        observation['Altimeter'] = record['altimeter']
+        observation['OutsideTemperature'] = record['outTemp']
+        observation['OutsideHumidity'] = record['outHumidity']
+        observation['WindSpeed'] = record['windSpeed']
+        observation['WindDirection'] = record['windDir']
+        observation['WindGust'] = record['windGust']
+        observation['WindGustDirection'] = record['windGustDir']
+        observation['RainRate'] = record['rainRate']
+        observation['Rain'] = record['rain']
+        observation['DewPoint'] = record['dewpoint']
+        observation['Windchill'] = record['windchill']
+        observation['HeatIndex'] = record['heatindex']
+        #observation['Evapotranspiration'] = record['ET']
+        observation['Radiation'] = record['radiation']
+        observation['Ultraviolet'] = record['UV']
+        #observation['ExtraTemperature1'] = record['extraTemp1']
+        #observation['ExtraTemperature2'] = record['extraTemp2']
+        #observation['ExtraTemperature3'] = record['extraTemp3']
+        #observation['SoilTemperature1'] = record['soilTemp1']
+        #observation['SoilTemperature2'] = record['soilTemp2']
+        #observation['SoilTemperature3'] = record['soilTemp3']
+        #observation['SoilTemperature4'] = record['soilTemp4']
+        #observation['LeafTemperature1'] = record['leafTemp1']
+        #observation['LeafTemperature2'] = record['leafTemp2']
+        #observation['ExtraHumidity1'] = record['extraHumid1']
+        #observation['ExtraHumidity2'] = record['extraHumid2']
+        #observation['SoilMoisture1'] = record['soilMoist1']
+        #observation['SoilMoisture2'] = record['soilMoist2']
+        #observation['SoilMoisture3'] = record['soilMoist3']
+        #observation['SoilMoisture4'] = record['soilMoist4']
+        #observation['LeafWetness1'] = record['leafWet1']
+        #observation['LeafWetness2'] = record['leafWet2']
+
+        return(json.dumps(observation), "application/json")
 
     def handle_exception(self, e, count):
         loginf("%s: Failed upload attempt %d: %s" % (self.protocol_name, count, e))
