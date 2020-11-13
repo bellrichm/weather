@@ -129,6 +129,9 @@ class UploaderThread(weewx.restx.RESTThread):
         if self.jwt['decoded']['exp'] < int(time.time()) + self.interval:
             self.jwt = self.login.process_record(None, None)
 
+        # self.jwt['encoded'] = 'foobar'
+        loginf("%d %d %d " %(self.jwt['decoded']['exp'], self.interval, time.time()))
+
         super().process_record(record, dbmanager)
 
     def format_url(self, _):
@@ -147,11 +150,18 @@ class UploaderThread(weewx.restx.RESTThread):
         return(json.dumps(record), "application/json")
 
     def handle_exception(self, e, count):
-        logdbg("%s: Failed upload attempt %d: %s" % (self.protocol_name, count, e))
+        loginf("%s: Failed upload attempt %d: %s" % (self.protocol_name, count, e))
         if isinstance(e, urllib.error.HTTPError):
             response = e.file
             response_body = response.read()
-            logerr("%s: Failed upload attempt %d: %s" % (self.protocol_name, count, response_body))
+            logerr("%s: Failed upload attempt %d: response: %s" % (self.protocol_name, count, response_body))
+
+    def handle_code(self, e, count):
+        loginf("%s: Failed upload attempt %d: %s" % (self.protocol_name, count, e))
+        if isinstance(e, urllib.error.HTTPError):
+            response = e.file
+            response_body = response.read()
+            logerr("%s: Failed upload attempt %d: response: %s" % (self.protocol_name, count, response_body))
 
 class UploaderLogin(weewx.restx.RESTThread):
     """ The login thread """
@@ -236,6 +246,13 @@ class UploaderLogin(weewx.restx.RESTThread):
             response = e.file
             response_body = response.read()
             logerr("%s: Failed upload attempt %d: %s" % (self.protocol_name, count, response_body))
+
+    def handle_code(self, e, count):
+        loginf("%s: Failed upload attempt %d: %s" % (self.protocol_name, count, e))
+        if isinstance(e, urllib.error.HTTPError):
+            response = e.file
+            response_body = response.read()
+            logerr("%s: bFailed upload attempt %d: response: %s" % (self.protocol_name, count, response_body))
 
 class Observation(weewx.restx.RESTThread):
     """ Manage BellRichM onservations. """
