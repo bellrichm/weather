@@ -190,7 +190,7 @@ GROUP BY year, month, day, hour
             + DataFields
             + @"
 WHERE
-    dayofYear = @dayOfYear
+    dayOfYear = @dayOfYear
     AND hour <= @endHour
     AND hour >= @startHour 
 GROUP BY year, dayOfYear, hour, minute
@@ -226,7 +226,7 @@ OFFSET @offset
                             minMaxCondition.Year = System.Convert.ToInt32(rdr["year"], CultureInfo.InvariantCulture);
                             minMaxCondition.Month = System.Convert.ToInt32(rdr["month"], CultureInfo.InvariantCulture);
                             minMaxCondition.Day = System.Convert.ToInt32(rdr["day"], CultureInfo.InvariantCulture);
-                            minMaxCondition.DayOfYear = System.Convert.ToInt32(rdr["dayofYear"], CultureInfo.InvariantCulture);
+                            minMaxCondition.DayOfYear = System.Convert.ToInt32(rdr["dayOfYear"], CultureInfo.InvariantCulture);
                             minMaxCondition.Hour = System.Convert.ToInt32(rdr["hour"], CultureInfo.InvariantCulture);
                             minMaxCondition.Minute = System.Convert.ToInt32(rdr["minute"], CultureInfo.InvariantCulture);
                             var minMaxGroup = minMaxGroups.FirstOrDefault(g =>
@@ -265,8 +265,8 @@ OFFSET @offset
             + DataFields
             + @"
 WHERE
-    dayofYear <= @endDayOfYear
-    AND dayofYear >= @startDayOfYear 
+    dayOfYear <= @endDayOfYear
+    AND dayOfYear >= @startDayOfYear 
 GROUP BY year, dayOfYear, hour 
 ORDER BY dayOfYear, hour
 LIMIT @limit
@@ -299,7 +299,7 @@ OFFSET @offset
                             minMaxCondition.Year = System.Convert.ToInt32(rdr["year"], CultureInfo.InvariantCulture);
                             minMaxCondition.Month = System.Convert.ToInt32(rdr["month"], CultureInfo.InvariantCulture);
                             minMaxCondition.Day = System.Convert.ToInt32(rdr["day"], CultureInfo.InvariantCulture);
-                            minMaxCondition.DayOfYear = System.Convert.ToInt32(rdr["dayofYear"], CultureInfo.InvariantCulture);
+                            minMaxCondition.DayOfYear = System.Convert.ToInt32(rdr["dayOfYear"], CultureInfo.InvariantCulture);
                             minMaxCondition.Hour = System.Convert.ToInt32(rdr["hour"], CultureInfo.InvariantCulture);
                             var minMaxGroup = minMaxGroups.FirstOrDefault(g =>
                                                                           g.DayOfYear == minMaxCondition.DayOfYear &&
