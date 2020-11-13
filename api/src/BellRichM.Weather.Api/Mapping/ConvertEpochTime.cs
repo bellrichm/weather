@@ -26,14 +26,18 @@ namespace BellRichM.Weather.Api.Mapping
                 throw new ArgumentNullException(nameof(destination));
             }
 
-            var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc); // UTC vs Eastern...???
+            var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             var dateTime = epoch.AddSeconds(destination.DateTime);
-            destination.Year = dateTime.Year;
-            destination.Month = dateTime.Month;
-            destination.Day = dateTime.Day;
-            destination.Hour = dateTime.Hour;
-            destination.Minute = dateTime.Minute;
-            var dayOfYearDate = new DateTime(2016, dateTime.Month, dateTime.Day);
+
+            var easternTimeZone = TimeZoneInfo.FindSystemTimeZoneById("America/New_York"); // platform dependent
+            var easternDateTime = TimeZoneInfo.ConvertTimeFromUtc(dateTime, easternTimeZone);
+
+            destination.Year = easternDateTime.Year;
+            destination.Month = easternDateTime.Month;
+            destination.Day = easternDateTime.Day;
+            destination.Hour = easternDateTime.Hour;
+            destination.Minute = easternDateTime.Minute;
+            var dayOfYearDate = new DateTime(2016, easternDateTime.Month, easternDateTime.Day);
             destination.DayOfYear = dayOfYearDate.DayOfYear;
             destination.Week = (destination.DayOfYear + 6) / 7;
         }
